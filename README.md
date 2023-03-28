@@ -27,7 +27,7 @@
 - Servidor
   - [Vercel](https://vercel.com/)
 
-## [Documento de Especificação de Requisitos](....)
+## [Documento de Especificação de Requisitos](falta o link)
 
 # Informações Gerais para organização da equipe
 
