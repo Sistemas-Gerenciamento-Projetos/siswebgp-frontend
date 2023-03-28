@@ -24,14 +24,18 @@
 
   - VSCode
 
+- Prototipação das Telas
+
+  - Figma
+
 - Servidor
   - [Vercel](https://vercel.com/)
 
-## [Documento de Especificação de Requisitos](falta o link)
+## [Documento de Especificação de Requisitos](https://docs.google.com/document/d/1V3uMMrmTi9sDAn2FGfkLBXe8dH91I22uutLAchmiEmo/edit)
 
 # Informações Gerais para organização da equipe
 
-- As Reuniões serão ralizadas semanalmente de maneira remota no [Meet](meet.google.com/yce-euwi-buy).
+- A s Reuniões serão ralizadas semanalmente de maneira remota no [Meet](https://meet.google.com/yce-euwi-buy).
 - Os dias das reuniõe são:
   - Terças-Feira | 21:00
   - Quintas-Feira | 21:00
