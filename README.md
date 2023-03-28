@@ -1,18 +1,53 @@
-# Getting Started with Create React App
+# Sistema de Gerenciamento de Projetos
 
-## Available Scripts
+## Ferramenta de Gestão
 
-In the project directory, you can run:
+- Jira Software
 
-### `npm start`
+## Processo de Desenvolvimento de Software
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Scrum (Adaptado para equipe)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tecnologias
 
-### `npm test`
+- Front-end
+  - ReactJS
+  - Html
+  - CSS
+  - JavaScript
+  - BootStrap
+- Back-end
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  - Python Flask
+
+- IDE
+
+  - VSCode
+
+- Servidor
+  - [Vercel](https://vercel.com/)
+
+## [Documento de Especificação de Requisitos](....)
+
+# Informações Gerais para organização da equipe
+
+- As Reuniões serão ralizadas semanalmente de maneira remota no [Meet](meet.google.com/yce-euwi-buy).
+- Os dias das reuniõe são:
+  - Terças-Feira | 21:00
+  - Quintas-Feira | 21:00
+
+## Valores da Equipe
+
+- Comprometimento
+- Comunicação
+- Entrega das tarefas no prazo pré-definido
+- Participação efetiva nas reuniões da equipe
+- Colaboração com ideias para o projeto
+- Compreensão da arquitetura do projeto
+- Trabalho em Equipe
+
+# Documentos
+
+- [Link para Drive com arquivos/tutorias e demais materiais.](https://drive.google.com/drive/folders/1B0aWiIltDLUM3jSab6dfJmHU9O0uLQBl)
+
+## [Planilha com Informações da Equipe/Reuniões](https://docs.google.com/spreadsheets/d/1-krF3a3XWaE_qxY1pSuACv7RrJooM_Ib3L6pFZiUhIU/edit#gid=0)
