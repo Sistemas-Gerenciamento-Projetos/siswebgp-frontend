@@ -21,7 +21,7 @@
 - Back-end
 
   - Python Flask
-  - Banco de Dados - Postgres
+  - Banco de Dados - PostgreSQL
 
 - IDE
 
