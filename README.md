@@ -2,7 +2,7 @@
 
 ## Ferramenta de Gestão
 
-- Jira Software
+- [Jira Software](https://topsiweb-045.atlassian.net/jira/software/projects/ISIW/boards/1/roadmap?shared=&atlOrigin=eyJpIjoiOTdhM2NhNjVjZmNkNDk1ZDg3ZWM2MjkzZGI0OWJiMzYiLCJwIjoiaiJ9)
 
 ## Processo de Desenvolvimento de Software
 
@@ -50,6 +50,10 @@
 - [Link para Drive com arquivos/tutorias e demais materiais.](https://drive.google.com/drive/folders/1B0aWiIltDLUM3jSab6dfJmHU9O0uLQBl)
 
 - [Planilha com Informações da Equipe/Reuniões](https://docs.google.com/spreadsheets/d/1-krF3a3XWaE_qxY1pSuACv7RrJooM_Ib3L6pFZiUhIU/edit#gid=0)
+
+# Prototipação das Telas
+
+- [Link para visualizar o protótipo.](https://www.figma.com/file/lsIKGoFR9LjBfZwmqI7M4Q/SGP_UFBA?node-id=1%3A26&t=Ek8wruQihwCGt6dm-1)
 
 ## Valores da Equipe
 
