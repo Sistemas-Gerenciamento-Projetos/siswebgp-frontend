@@ -36,12 +36,20 @@
 
 # [Documento de Especificação de Requisitos](https://docs.google.com/document/d/1SoyGq1B8NpAxJMeiTQRM_trde9UVu3wnskpQNQc-gBQ/edit#)
 
+# [Fluxograma Geral do Software](https://drive.google.com/file/d/1cmANmxPhQ-gQhVlEt5vtKNs35OLR_WoL/view?usp=share_link)
+
 # Informações Gerais para organização da equipe
 
-- A s Reuniões serão ralizadas semanalmente de maneira remota no [Meet](https://meet.google.com/yce-euwi-buy).
+- As Reuniões serão ralizadas semanalmente de maneira remota no [Meet](https://meet.google.com/yce-euwi-buy).
 - Os dias das reuniõe são:
   - Terças-Feiras | 21:00
   - Quintas-Feiras | 21:00
+
+# Documentos Importantes
+
+- [Link para Drive com arquivos/tutorias e demais materiais.](https://drive.google.com/drive/folders/1B0aWiIltDLUM3jSab6dfJmHU9O0uLQBl)
+
+- [Planilha com Informações da Equipe/Reuniões](https://docs.google.com/spreadsheets/d/1-krF3a3XWaE_qxY1pSuACv7RrJooM_Ib3L6pFZiUhIU/edit#gid=0)
 
 ## Valores da Equipe
 
@@ -52,9 +60,3 @@
 - Colaboração com ideias para o projeto
 - Compreensão da arquitetura do projeto
 - Trabalho em Equipe
-
-# Documentos Importantes
-
-- [Link para Drive com arquivos/tutorias e demais materiais.](https://drive.google.com/drive/folders/1B0aWiIltDLUM3jSab6dfJmHU9O0uLQBl)
-
-- [Planilha com Informações da Equipe/Reuniões](https://docs.google.com/spreadsheets/d/1-krF3a3XWaE_qxY1pSuACv7RrJooM_Ib3L6pFZiUhIU/edit#gid=0)
