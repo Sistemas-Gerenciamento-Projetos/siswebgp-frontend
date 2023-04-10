@@ -29,7 +29,7 @@
 
 - Prototipação das Telas
 
-  - Figma
+  - [Figma](https://www.figma.com/file/lsIKGoFR9LjBfZwmqI7M4Q/SGP_UFBA?node-id=1%3A26&t=Ek8wruQihwCGt6dm-1)
 
 - Servidor
   - [Vercel](https://vercel.com/)
