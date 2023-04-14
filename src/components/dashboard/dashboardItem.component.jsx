@@ -1,9 +1,10 @@
 import React from "react";
 import ProgressBar from "./progressBar/progressBar";
 import DatePeriod from "./datePeriod/datePeriod";
+import ManagerPhoto from "./managerPhoto/managerPhoto";
 
 const DashboardItem = (props) => {
-  const { projectProgress, startDate, endDate } = props;
+  const { projectProgress, startDate, endDate, managerName } = props;
 
   return(
     <div style={{display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center'}}>
@@ -13,7 +14,7 @@ const DashboardItem = (props) => {
       <div style={{display: 'flex', flexDirection: 'row', width: '75%', justifyContent: 'space-around'}}>
         <ProgressBar completed={projectProgress} />
         <DatePeriod startDate={startDate} endDate={endDate}/>
-        <p>Foto de perfil dos participantes</p>
+        <ManagerPhoto name={managerName}/>
         <button>Apagar</button>
       </div>
     </div>
