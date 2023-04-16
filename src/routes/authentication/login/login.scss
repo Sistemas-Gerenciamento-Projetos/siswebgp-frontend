@@ -1,0 +1,63 @@
+
+
+.col-left{
+  background-image: url('../../../assets/capa-ciencia-da-computacao.jpeg');
+  overflow: scroll;
+  background-size: contain;
+  // background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.col-center{
+  background-color: rgb(240, 242, 246);
+  height: auto;
+  h1 {
+    margin-top: 150px;
+      color: rgb(34, 131, 255);
+      text-decoration: solid;
+      margin-bottom: 100px;
+      margin-left: auto;
+      margin-right: auto;
+      text-shadow: -1px 0 rgb(22, 56, 196), 0 1px rgb(22, 56, 196), 1px 0 rgb(22, 56, 196), 0 -1px rgb(22, 56, 196);
+      // background-color: red;
+      text-align: center;
+    }
+
+    .row-form-login {
+      margin-left: 70px;
+      
+      .form-login{         
+        
+        .cadastre-esqueci-senha{
+          margin-top: 10%;
+          margin-bottom: 30%;
+          text-align: center;
+          .register{
+            text-decoration: none;
+            margin-right: 15%;
+          }
+          .esqueci{
+            text-decoration: none;
+            margin-left: auto;
+          }
+        }
+
+      }
+
+    }
+} 
+
+
+
+.col-right{
+  margin-right: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  img{
+    margin-left: 33.33%;
+    
+  }
+}
+
+

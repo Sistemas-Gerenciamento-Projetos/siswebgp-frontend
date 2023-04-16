@@ -20,7 +20,7 @@
 
 - Back-end
 
-  - Python Flask
+  - Python Django
   - Banco de Dados - PostgreSQL
 
 - IDE
