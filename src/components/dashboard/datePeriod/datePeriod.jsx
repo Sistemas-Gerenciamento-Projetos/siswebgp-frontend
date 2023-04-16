@@ -15,7 +15,7 @@ const DelayedProject = (props) => {
     const TotalDays = calculateDelayedDays(endDate)
     
     return ( 
-        <div style={styles.daleyedDiv}>
+        <div style={styles.delayedDiv}>
             <WarningFilled style={styles.warningIcon}/>
             <p style={styles.warningText}>{TotalDays} dias de atraso</p>
         </div>
@@ -35,9 +35,9 @@ const DatePeriod = (props) => {
     return(
         <div style={styles.root}>
             <div style={styles.datesDiv}>
-                <p>{startDateParsed}</p>
+                <span>{startDateParsed}</span>
                 <SwapRightOutlined style={styles.dateIcons}/>
-                <p>{endDateParsed}</p>
+                <span>{endDateParsed}</span>
                 <CalendarOutlined style={styles.dateIcons}/>
             </div>
             {scheduleDelay() && <DelayedProject endDate={endDate}/>}

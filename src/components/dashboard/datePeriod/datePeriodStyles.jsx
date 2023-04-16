@@ -19,7 +19,7 @@ const styles = {
         color: '#bfbfbf'
     },
 
-    daleyedDiv: {
+    delayedDiv: {
         display: 'flex',
         flexDirection: 'row',
         width: '100%',

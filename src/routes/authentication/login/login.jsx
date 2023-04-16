@@ -1,8 +1,7 @@
 import React from 'react'
 import { Container, Row, Col,Form, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import CapaCienciaImg from '../../../assets/capa-ciencia-da-computacao.jpeg'
-import CompUfba from '../../../assets/qmgqqq5s.png'
+import CompUfba from '../../../Assets/qmgqqq5s.png'
 import './login.scss'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 
