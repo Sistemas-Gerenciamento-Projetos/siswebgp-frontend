@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ICLogo from '../../Assets/qmgqqq5s.png'
-import { OrderedListOutlined, GroupOutlined } from "@ant-design/icons";
+import { OrderedListOutlined, GroupOutlined, BarChartOutlined, TableOutlined } from "@ant-design/icons";
 import styles from "./sidebarStyles.component";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const Sidebar = (props) => {
@@ -52,7 +52,7 @@ const Sidebar = (props) => {
       
         <div style={menuItemSelected === 2 ? styles.menuItemSelectedDiv : styles.menuItemUnselectedDiv} onClick={() => navigateToPainel()}>
           <div>
-            <GroupOutlined style={{paddingLeft: '20px'}} />
+            <TableOutlined style={{paddingLeft: '20px'}} />
             <span style={menuItemSelected === 2 ? styles.textSelected : styles.textUnselected}>Painel</span>
           </div>
           {menuItemSelected === 2 && <div style={styles.blueDiv}></div>}
@@ -60,7 +60,7 @@ const Sidebar = (props) => {
       
         <div style={menuItemSelected === 3 ? styles.menuItemSelectedDiv : styles.menuItemUnselectedDiv} onClick={() => navigateToRoteiro()}>
           <div>
-            <GroupOutlined style={{paddingLeft: '20px'}} />
+            <BarChartOutlined style={{paddingLeft: '20px'}} />
             <span style={menuItemSelected === 3 ? styles.textSelected : styles.textUnselected}>Roteiro</span>
           </div>
           {menuItemSelected === 3 && <div style={styles.blueDiv}></div>}
