@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import CapaCienciaImg from '../../../assets/capa-ciencia-da-computacao.jpeg'
 import CompUfba from '../../../assets/qmgqqq5s.png'
 import './login.scss'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
+
 
 
 
@@ -12,7 +14,7 @@ function Login() {
   return (
     <Container className='container-login'>
       <Row>
-        <Col className='col-left' sm={3}>
+        <Col className='col-left' sm={3} >
           {/* <img src={CapaCienciaImg} alt='ciencia da computacao' /> */}
         </Col>
 
@@ -22,22 +24,23 @@ function Login() {
             <Col s={6}>
               <h2>Login</h2>
               <Form className='form-login'>
-                <Form.Group controlId='email'>
-                  <Form.Control type='email' placeholder='Email'/>
+                <Form.Group controlId='email' >
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control type='email' placeholder='Email' className='email-placeholder' />  
                 </Form.Group>
 
-                <Form.Group controlId='password'>
+                <Form.Group className='senha' controlId='password' >
                   <Form.Label>Senha</Form.Label>
-                  <Form.Control type='password' placeholder='Senha'/>
+                  <Form.Control type='password' placeholder='Senha' className='place-holder-text'/>
                 </Form.Group>
 
                 <div className="d-grid">
                   <Button className='mt-3' type='submit'  variant='primary' >
-                  Entrar
+                  Entrar  <faBeer/>
                 </Button>  
                 </div>
-
                 <Col className='cadastre-esqueci-senha'>
+                  
                   <Link className='register'to='/register/'>Cadastre-se</Link>  
                   <Link className= 'esqueci' to='#'>Esqueci a Senha</Link>
                 </Col>

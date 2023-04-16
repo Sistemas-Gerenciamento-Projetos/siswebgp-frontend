@@ -12,6 +12,7 @@
 .col-center{
   background-color: rgb(240, 242, 246);
   height: auto;
+  
   h1 {
     margin-top: 150px;
       color: rgb(34, 131, 255);
@@ -25,19 +26,41 @@
     }
 
     .row-form-login {
-      margin-left: 70px;
+      margin-left: 50px;
       
-      .form-login{         
+      .form-login{       
+        margin-top: 50px;  
         
-        .cadastre-esqueci-senha{
+        .senha {
+          margin-top: 20px;          
+        }
+
+        .email-placeholder{
+          text-align: center;
+        }
+
+        .d-grid{
+          margin-top: 30px;
+          
+        }
+
+        .place-holder-text {
+          text-align: center;
+          // background-color: red;
+        }
+
+        .cadastre-esqueci-senha {
+          
           margin-top: 10%;
           margin-bottom: 30%;
           text-align: center;
-          .register{
+
+          .register {
             text-decoration: none;
             margin-right: 15%;
           }
-          .esqueci{
+
+          .esqueci {
             text-decoration: none;
             margin-left: auto;
           }
