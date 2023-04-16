@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap'
 import {Link} from 'react-router-dom'
-// import {checkPasswordComplexity} from '../../utilities/index'
+import './register.scss'
+
+
+import { EnterOutlined} from '@ant-design/icons'
 
 const Registration = () =>{
 
@@ -24,15 +27,14 @@ const Registration = () =>{
 
 
   return (
-    <Container>
+    <Container className='cadastro-container'>
       <Row>
         <Col>
-        <h1>Registre-se</h1>
-        <Form>
-
+        <Form className='form-cadastro'>
+          <h1>Cadastro</h1>
           <Form.Group controlId='name'>
             <Form.Label>Nome Completo</Form.Label>
-            <Form.Control type='name' placeholder= 'Enter Full Name' 
+            <Form.Control type='name' placeholder= 'Nome Completo' className='place-holder-text' 
               value={name}
               onChange={e=> setName(e.target.value)}
             />
@@ -40,7 +42,7 @@ const Registration = () =>{
 
           <Form.Group controlId='email'>
             <Form.Label>Email</Form.Label>
-            <Form.Control type='email' placeholder= 'Enter Email' 
+            <Form.Control type='email' placeholder= 'Email' className='place-holder-text' 
               value={email}
               onChange={e=> setEmail(e.target.value)}
             />
@@ -48,7 +50,7 @@ const Registration = () =>{
 
           <Form.Group controlId='Password'>
             <Form.Label>Senha</Form.Label>
-            <Form.Control type='password' placeholder= 'Enter Password'
+            <Form.Control type='password' placeholder= 'Senha' className='place-holder-text' 
               value={password}
               onChange={e=> setPassword(e.target.value)}
             />
@@ -56,7 +58,7 @@ const Registration = () =>{
 
           <Form.Group controlId='ConfirmPassword'>
             <Form.Label>Confirme a Senha</Form.Label>
-            <Form.Control type='password' placeholder= 'Enter Confirm Password'
+            <Form.Control type='password' placeholder= 'Confirmar Senha' className='place-holder-text' 
               value={confirmPassword}
               onChange={e=> setConfirmPassword(e.target.value)}
             />
@@ -65,19 +67,31 @@ const Registration = () =>{
             {/* { passwordGood ? (<div>Senha forte o suficiente</div>): (
                <Alert variant='danger' style={{backgroundColor: "yellow"}}
               {...checkPasswordComplexity(password,confirmPassword).map( e => {
-                if (e){
+                if (e){ 
                   console.log(e)
                   return <p key={e}>{e}</p>
                 }
                 else <div></div>
                 })}/>)} */}
-          <Button type='submit' variant= 'primary' disabled={!registerButtonEnabled}>Register</Button> 
+
+
+          
+
+          <div className="d-grid">
+           <Button type='submit' variant= 'primary' disabled={false}>Cadastrar</Button> 
+          </div>
+          <Col>
+          <Row className='retornar'>
+            <Col className=''><Button className='btn-retornar btn btn-link'><EnterOutlined className='icon-enter'  /><p>Retornar </p> </Button> </Col>            
+            <Col className='comp-image' /> 
+          </Row>
+      </Col>
         </Form>
+        
+
         </Col>
       </Row>
-      <Col>
-        <Link to= "login"> Faça seu Login</Link> Se você já possue conta
-      </Col>
+      
 
     </Container>
   )
