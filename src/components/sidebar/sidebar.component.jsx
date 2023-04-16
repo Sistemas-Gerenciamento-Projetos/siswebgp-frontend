@@ -10,9 +10,9 @@ const Sidebar = (props) => {
   const [menuItemSelected, setMenuItemSelected] = useState(menuItem)
   const navigate = useNavigate()
 
-  function navigateToDashboard() {
+  function navigateToProjects() {
     setMenuItemSelected(0)
-    navigate('/painel')
+    navigate('/projetos')
   }
 
   function navigateToBacklog() {
@@ -20,8 +20,9 @@ const Sidebar = (props) => {
     navigate('/backlog')
   }
 
-  function navigateToPainel() {
+  function navigateToDashboard() {
     setMenuItemSelected(2)
+    navigate('/painel')
   }
 
   function navigateToRoteiro() {
@@ -30,11 +31,11 @@ const Sidebar = (props) => {
   }
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column', padding: '20px', alignItems: 'center'}}>
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       <img src={ICLogo} alt="ic logo" style={{width: '150px', height: '200px'}} />
       
       <div style={{marginTop: '20px', width: '100%'}}>
-        <div to='/painel' style={menuItemSelected === 0 ? styles.menuItemSelectedDiv : styles.menuItemUnselectedDiv} onClick={() => navigateToDashboard()}>
+        <div to='/painel' style={menuItemSelected === 0 ? styles.menuItemSelectedDiv : styles.menuItemUnselectedDiv} onClick={() => navigateToProjects()}>
           <div>
             <GroupOutlined style={{paddingLeft: '20px'}} />
             <span style={menuItemSelected === 0 ? styles.textSelected : styles.textUnselected}>Projetos</span>
@@ -50,7 +51,7 @@ const Sidebar = (props) => {
           {menuItemSelected === 1 && <div style={styles.blueDiv}></div>}
         </div>
       
-        <div style={menuItemSelected === 2 ? styles.menuItemSelectedDiv : styles.menuItemUnselectedDiv} onClick={() => navigateToPainel()}>
+        <div style={menuItemSelected === 2 ? styles.menuItemSelectedDiv : styles.menuItemUnselectedDiv} onClick={() => navigateToDashboard()}>
           <div>
             <TableOutlined style={{paddingLeft: '20px'}} />
             <span style={menuItemSelected === 2 ? styles.textSelected : styles.textUnselected}>Painel</span>
