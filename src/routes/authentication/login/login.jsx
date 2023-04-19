@@ -1,10 +1,8 @@
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import CapaCienciaImg from "../../../assets/capa-ciencia-da-computacao.jpeg";
 import CompUfba from "../../../assets/qmgqqq5s.png";
 import "./login.scss";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 function Login() {
   return (
@@ -17,7 +15,7 @@ function Login() {
         <Col className="col-center" sm={9}>
           <h1>Sistema de Gestão de Projetos</h1>
           <Row className="row-form-login">
-            <Col s={6}>
+            <Col xl={8} xxl={6}>
               <h2>Login</h2>
               <Form className="form-login">
                 <Form.Group controlId="email">
@@ -53,7 +51,7 @@ function Login() {
                 </Col>
               </Form>
             </Col>
-            <Col className="col-right" sm={6}>
+            <Col className="col-right" sm={4}>
               <img src={CompUfba} alt="Computação Ufba" />
             </Col>
           </Row>
@@ -64,35 +62,3 @@ function Login() {
 }
 
 export default Login;
-
-{
-  /* <h1 >Sistema de Gestão de Projetos</h1>
-      <Row>
-        <Col>
-          <h2>Login</h2>
-        </Col>
-        <Form>
-          <Form.Group controlId='email'>
-            <Form.Control type='email' placeholder='Email'/>
-          </Form.Group>
-
-          <Form.Group controlId='password'>
-            <Form.Label>Senha</Form.Label>
-            <Form.Control type='password' placeholder='Senha'/>
-          </Form.Group>
-
-          <Button class='mt-5' type='submit'  variant='primary'>
-            Entrar
-          </Button>
-
-        </Form>
-        <Row className='reg-senha'>
-          <Col>
-            <Link to='#'>Esqueci a Senha</Link>
-          </Col>
-          <Col>
-            <Link to='/register/'>Cadastre-se</Link>
-          </Col>
-        </Row>
-      </Row> */
-}
