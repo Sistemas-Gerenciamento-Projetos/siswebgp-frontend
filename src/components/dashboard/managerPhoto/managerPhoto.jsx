@@ -9,7 +9,7 @@ const ManagerPhoto = (props) => {
             <div style={styles.iconDiv}>
                 <UserOutlined style={styles.icon} />
             </div>
-            <p style={styles.name}>{name}</p>
+            <span style={styles.name}>{name}</span>
         </div>
     )
 }

@@ -1,8 +1,10 @@
+
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CompUfba from "../../../assets/qmgqqq5s.png";
 import "./login.scss";
+
 
 function Login() {
   return (

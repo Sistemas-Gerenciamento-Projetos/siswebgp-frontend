@@ -1,3 +1,4 @@
+
 .cadastro-container {
   background-image: url("../../../assets/cadastro-usuario-bg.png");
   background-size: cover;
@@ -6,7 +7,7 @@
   width: auto;
 }
 
-.form-cadastro {
+  .form-cadastro {
   margin-top: 180px;
   h1 {
     text-align: center;
@@ -22,9 +23,7 @@
   }
 
   .d-grid {
-    // background-color: red;
     margin-top: 50px;
-    // margin-bottom: 200px;
   }
   .retornar {
     padding-left: 20%;
@@ -40,6 +39,20 @@
       width: auto;
     }
 
+    .retornar{
+      padding-left: 20%;
+      margin-top: 30px;
+      margin-bottom: 100px;
+      .comp-image{
+        background-image: url('../../../Assets/qmgqqq5s.png');
+        background-size: cover;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 120px;
+        width: auto;
+      }
+      
     .btn-retornar {
       margin-top: 30px;
       font-size: 1.5rem;
