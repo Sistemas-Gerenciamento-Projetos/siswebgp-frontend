@@ -3,19 +3,22 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: '30px'
     },
 
     h3Div: {
         width: '35%',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        marginLeft: '10px'
     },
 
     projectDetailsDiv: {
         display: 'flex',
         flexDirection: 'row',
         width: '75%',
-        justifyContent: 'space-around'
+        justifyContent: 'space-between',
+        marginRight: '10px'
     }
 }
 

@@ -5,12 +5,12 @@ import ManagerPhoto from "./managerPhoto/managerPhoto";
 import styles from './dashboardItemStyles'
 
 const DashboardItem = (props) => {
-  const { projectProgress, startDate, endDate, managerName } = props;
+  const { projectName, projectProgress, startDate, endDate, managerName } = props;
 
   return(
     <div style={styles.root}>
       <div style={styles.h3Div}>
-        <h3> Projeto 1 </h3>
+        <h4> {projectName} </h4>
       </div>
       <div style={styles.projectDetailsDiv}>
         <ProgressBar completed={projectProgress} />
