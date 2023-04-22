@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import Backlog from "./routes/backlog/backlog.component";
 import Login from "./routes/authentication/login/login";
 import Register from "./routes/authentication/register/register";
+import Projetos from "./routes/projetos/projetos.component";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Route path="backlog/" element={<Backlog />} />
       <Route path="login/" element={<Login />} />
       <Route path="register/" element={<Register />} />
+      <Route path="projetos/" element={<Projetos />} />
     </Routes>
   );
 };

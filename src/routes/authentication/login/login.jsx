@@ -1,18 +1,14 @@
-
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import CompUfba from "../../../assets/qmgqqq5s.png";
+import CompUfba from "../../../Assets/qmgqqq5s.png";
 import "./login.scss";
-
 
 function Login() {
   return (
     <Container className="container-login">
       <Row>
-        <Col className="col-left" sm={3}>
-          {/* <img src={CapaCienciaImg} alt='ciencia da computacao' /> */}
-        </Col>
+        <Col className="col-left" sm={3} />
 
         <Col className="col-center" sm={9}>
           <h1>Sistema de Gestão de Projetos</h1>
