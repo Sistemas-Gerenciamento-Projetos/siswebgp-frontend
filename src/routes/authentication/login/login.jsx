@@ -1,26 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import CompUfba from "../../../Assets/qmgqqq5s.png";
+import CompUfba from "../../../Assets/comp-ufba.png";
 import "./login.scss";
+import { useUserDetails } from "../../../context/usercontext";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
+
+  const [userDetails, updateUserDetails] = useUserDetails();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setSubmitButtonEnabled(password && email ? true : false);
+  }, [email, password, submitButtonEnabled]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setLoading(true);
+  };
+
   return (
-    <Container className="container-login">
+    <Container fluid className="cont-login">
       <Row>
         <Col className="col-left" sm={3} />
 
         <Col className="col-center" sm={9}>
           <h1>Sistema de Gestão de Projetos</h1>
           <Row className="row-form-login">
-            <Col xl={8} xxl={6}>
+            <Col xl={6}>
               <h2>Login</h2>
-              <Form className="form-login">
+              <Form className="form-login" onSubmit={submitHandler}>
                 <Form.Group controlId="email">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="email-placeholder"
                   />
                 </Form.Group>
@@ -29,21 +49,28 @@ function Login() {
                   <Form.Label>Senha</Form.Label>
                   <Form.Control
                     type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="Senha"
                     className="place-holder-text"
                   />
                 </Form.Group>
 
                 <div className="d-grid">
-                  <Button className="mt-3" type="submit" variant="primary">
-                    Entrar <faBeer />
+                  <Button
+                    className="mt-3"
+                    type="submit"
+                    value={submitButtonEnabled}
+                    disabled={!setSubmitButtonEnabled}
+                    variant="primary">
+                    Entrar
                   </Button>
                 </div>
                 <Col className="cadastre-esqueci-senha">
                   <Link className="register" to="/register/">
                     Cadastre-se
                   </Link>
-                  <Link className="esqueci" to="#">
+                  <Link className="esqueci-senha" to="#">
                     Esqueci a Senha
                   </Link>
                 </Col>
