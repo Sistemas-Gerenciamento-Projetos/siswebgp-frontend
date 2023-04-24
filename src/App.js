@@ -15,11 +15,10 @@ const App = () => {
   return (
     <UserDetailsProvider>
       <Routes>
-        <Route index element={<Home />} />
+        <Route index element={<Login />} />
         <Route path="painel/" element={<Painel />} />
         <Route path="roteiro/" element={<Roteiro />} />
         <Route path="backlog/" element={<Backlog />} />
-        <Route path="login/" element={<Login />} />
         <Route path="register/" element={<Register />} />
         <Route path="projetos/" element={<Projetos />} />
       </Routes>

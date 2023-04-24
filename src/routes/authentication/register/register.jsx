@@ -93,7 +93,7 @@ const Registration = () => {
             <Col>
               <Row className="retornar">
                 <Col className="">
-                  <Link className="register" to="/login/">
+                  <Link className="register" to="/">
                     <Button className="btn-retornar btn btn-link">
                       &#8629;
                       <p>Retornar</p>
