@@ -5,19 +5,16 @@ import ManagerPhoto from "./managerPhoto/managerPhoto";
 import styles from './dashboardItemStyles'
 
 const DashboardItem = (props) => {
-  const { projectName, projectProgress, startDate, endDate, managerName } = props;
+  const { id, projectName, projectProgress, startDate, endDate, managerName } = props;
 
   return(
-    <div style={styles.root}>
-      <div style={styles.h3Div}>
-        <h5> {projectName} </h5>
-      </div>
-      <div style={styles.projectDetailsDiv}>
-        <ProgressBar completed={projectProgress} />
-        <DatePeriod startDate={startDate} endDate={endDate}/>
-        <ManagerPhoto name={managerName}/>
-      </div>
-    </div>
+    <tr>
+      <th scope="row">{id}</th>
+      <td>{projectName}</td> 
+      <td><ProgressBar completed={projectProgress} /></td>
+      <td><DatePeriod startDate={startDate} endDate={endDate} /></td>
+      <td><ManagerPhoto name={managerName}/></td>
+    </tr>
   )
 }
 

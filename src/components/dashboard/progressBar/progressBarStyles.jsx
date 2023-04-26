@@ -2,8 +2,8 @@ const styles = {
     root: {
         display: 'flex',
         flexDirection: 'row', 
-        width: '20%', 
-        height: '45px',
+        width: '200px', 
+        height: '40px',
         borderRadius: '10px',
         border: '1px solid #d9d9d9', 
         alignItems: 'center'
@@ -24,7 +24,7 @@ const styles = {
         padding: '5px',
         color: '#595959',
         fontWeight: 'bold',
-        fontSize: '15px'
+        fontSize: '12px'
     }
 }
 

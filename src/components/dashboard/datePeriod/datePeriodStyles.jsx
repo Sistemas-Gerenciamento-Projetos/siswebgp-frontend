@@ -1,6 +1,6 @@
 const styles = {
     root: {
-        width: '25%',
+        width: '250px',
         display: 'flex', 
         flexDirection: 'column'
     },
@@ -9,7 +9,7 @@ const styles = {
         display: 'flex', 
         flexDirection: 'row', 
         width: '100%', 
-        height: '45px', 
+        height: '40px', 
         borderRadius: '10px', 
         border: '1px solid #d9d9d9', 
         alignItems: 'center', 
@@ -25,18 +25,18 @@ const styles = {
         flexDirection: 'row',
         width: '100%',
         height: '20px',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
+        justifyContent: 'flex-start'
     },
 
     warningIcon: {
-        color: '#ff0000'
+        color: '#ff0000',
+        fontSize: '12px'
     },
 
     warningText: {
         color: '#ff0000', 
         marginLeft: '5px',
-        fontSize: '10px'
+        fontSize: '12px'
     }
 }
 
