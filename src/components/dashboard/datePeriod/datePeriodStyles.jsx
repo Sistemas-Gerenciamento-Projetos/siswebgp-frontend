@@ -1,5 +1,6 @@
 const styles = {
     root: {
+        width: '25%',
         display: 'flex', 
         flexDirection: 'column'
     },
@@ -7,7 +8,7 @@ const styles = {
     datesDiv: {
         display: 'flex', 
         flexDirection: 'row', 
-        width: '250px', 
+        width: '100%', 
         height: '45px', 
         borderRadius: '10px', 
         border: '1px solid #d9d9d9', 
@@ -23,6 +24,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         width: '100%',
+        height: '20px',
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
@@ -32,7 +34,9 @@ const styles = {
     },
 
     warningText: {
-        color: '#ff0000', marginLeft: '5px'
+        color: '#ff0000', 
+        marginLeft: '5px',
+        fontSize: '10px'
     }
 }
 

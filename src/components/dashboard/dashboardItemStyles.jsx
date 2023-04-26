@@ -3,12 +3,13 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         width: '100%',
+        justifyContent: 'center',
         alignItems: 'center',
         marginTop: '30px'
     },
 
     h3Div: {
-        width: '35%',
+        width: '25%',
         alignItems: 'flex-start',
         marginLeft: '10px'
     },
@@ -17,7 +18,8 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         width: '75%',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
+        alignItems: 'center',
         marginRight: '10px'
     }
 }

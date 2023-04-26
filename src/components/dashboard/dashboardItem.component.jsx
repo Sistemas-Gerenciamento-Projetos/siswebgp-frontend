@@ -10,13 +10,12 @@ const DashboardItem = (props) => {
   return(
     <div style={styles.root}>
       <div style={styles.h3Div}>
-        <h4> {projectName} </h4>
+        <h5> {projectName} </h5>
       </div>
       <div style={styles.projectDetailsDiv}>
         <ProgressBar completed={projectProgress} />
         <DatePeriod startDate={startDate} endDate={endDate}/>
         <ManagerPhoto name={managerName}/>
-        <button>Apagar</button>
       </div>
     </div>
   )

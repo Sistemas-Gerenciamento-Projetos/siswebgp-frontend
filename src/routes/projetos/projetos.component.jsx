@@ -14,7 +14,7 @@ const Projetos = () => {
         <Toolbar title={'Meus Projetos'} />
         
         <div style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%', backgroundColor: '#ffffff', marginTop: '20px', marginRight: '20px', marginBottom: '20px'}}>
-          <DashboardItem projectName={'Projeto 1'} projectProgress={75} startDate={new Date(2023, 2, 1)} endDate={new Date(2023, 6, 24)} managerName={"Eduardo Ferreira"} />
+          <DashboardItem projectName={'Projeto 1'} projectProgress={75} startDate={new Date(2023, 2, 1)} endDate={new Date(2023, 2, 24)} managerName={"Eduardo Ferreira"} />
           <DashboardItem projectName={'Projeto 2'} projectProgress={5} startDate={new Date(2023, 2, 1)} endDate={new Date(2023, 6, 24)} managerName={"Alberto Oliveira"} />
           <DashboardItem projectName={'Projeto 3'} projectProgress={75} startDate={new Date(2023, 2, 1)} endDate={new Date(2023, 6, 24)} managerName={"Fred Durão"} />
         </div>
