@@ -1,8 +1,8 @@
 import React from "react"
 import Sidebar from "../../components/sidebar/sidebar.component"
-import Header from "../../components/header/header"
 import Taskitem from "../../components/taskitem/taskitem"
 import { Button } from "reactstrap"
+import Toolbar from "../../components/toolbar/toolbar.component"
 
 const Backlog = () =>{
 
@@ -13,21 +13,15 @@ const Backlog = () =>{
       <div style={{width: '20%', backgroundColor: '#ffffff', margin: '20px'}}>
         <Sidebar menuItem={1}/>
       </div>
-     
-      
 
-      <div style={{display: 'flex', flexDirection: 'column', width: '80%', backgroundColor: '#ffffff', marginTop: '20px', marginRight: '20px', marginBottom: '20px'}}>
-        <Header />
-        <p></p>
-        <div>
-        <Button color="primary" style={{display: 'flex', marginLeft: '15px'}}>Nova Tarefa</Button>
-        </div>
-  
-        <Taskitem />
+      <div style={{display: 'flex', flexDirection: 'column', width: '80%', backgroundColor: '#ebebeb', marginRight: '20px',}}>
+        <Toolbar title={"Projeto 1 - xxx"}/>
 
+        <div style={{height: '100%', backgroundColor: '#ffffff', marginTop: '20px', marginBottom: '20px', padding: '15px'}}>
+          <Button color="primary">Nova Tarefa</Button>
+          <Taskitem />
+        </div>    
       </div>
-
-      
     </div>
   )
 }
