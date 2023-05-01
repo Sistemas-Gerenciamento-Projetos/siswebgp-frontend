@@ -13,7 +13,7 @@ const Projetos = () => {
       </div>
       
       <div style={{display: 'flex', flexDirection: 'column', width: '80%', backgroundColor: '#ebebeb'}}>
-        <Toolbar title={'Meus Projetos'} />
+        <Toolbar title={'Meus projetos'} />
         
         <div style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%', backgroundColor: '#ffffff', marginTop: '20px', marginRight: '20px', marginBottom: '20px', padding: '15px'}}>
           <Table hover>
