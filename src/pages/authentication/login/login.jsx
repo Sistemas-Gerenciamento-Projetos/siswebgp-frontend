@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import CompUfba from "../../../Assets/comp-ufba.png";
+import CompUfba from "../../../assets/comp-ufba.png";
 import "./login.scss";
 import { useUserDetails } from "../../../context/usercontext";
+import { LOGIN_ENDOPOINT } from "../../../constants/urls";
+import axios from "axios";
 
-function Login() {
+function Login({ history }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
@@ -17,6 +19,38 @@ function Login() {
   useEffect(() => {
     setSubmitButtonEnabled(password && email ? true : false);
   }, [email, password, submitButtonEnabled]);
+
+  useEffect(() => {
+    if (loading) {
+      const req_config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userDetails.accessToken}`,
+        },
+      };
+      axios
+        .post(
+          LOGIN_ENDOPOINT,
+          {
+            email: email,
+            password: password,
+          },
+          req_config
+        )
+        .then((response) => {
+          localStorage.setItem("UserDetails", JSON.stringify(response.data));
+          console.log("Login Sucessful");
+          updateUserDetails(response.data.access, response.data.refresh);
+          setLoading(false);
+          setError(false);
+          history.push("/");
+        })
+        .catch((error) => {
+          setLoading(false);
+          setError(true);
+        });
+    }
+  }, [loading, email, password, updateUserDetails]);
 
   const submitHandler = (e) => {
     e.preventDefault();

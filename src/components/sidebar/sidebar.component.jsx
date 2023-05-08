@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ICLogo from "../../Assets/comp-ufba.png";
+import ICLogo from "../../assets/comp-ufba.png";
 import {
   OrderedListOutlined,
   GroupOutlined,

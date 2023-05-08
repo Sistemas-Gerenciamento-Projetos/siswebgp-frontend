@@ -12,10 +12,32 @@ export function useUserDetails(props) {
 }
 
 export function UserDetailsProvider(props) {
+  const userDetailsFromStorage = localStorage.getItem("userDetails")
+    ? JSON.parse(localStorage.getItem("userDetails"))
+    : null;
+
+  var accessTokenFromStorage = false;
+  var refreshTokenFromStorage = false;
+  var nameFromStorage = false;
+
+  if (userDetailsFromStorage) {
+    if (userDetailsFromStorage.access) {
+      accessTokenFromStorage = userDetailsFromStorage.access;
+      const jwt_decoded = jwt_decode(accessTokenFromStorage);
+      nameFromStorage = jwt_decoded.name;
+    } else {
+      accessTokenFromStorage = false;
+      nameFromStorage = false;
+    }
+    refreshTokenFromStorage = userDetailsFromStorage.refresh
+      ? userDetailsFromStorage.refresh
+      : false;
+  }
+
   const [userDetails, setUserDetails] = useState({
-    accessToken: false,
-    refreshToken: false,
-    name: false,
+    accessToken: accessTokenFromStorage,
+    refreshToken: refreshTokenFromStorage,
+    name: nameFromStorage,
   });
 
   const value = useMemo(() => {
@@ -24,8 +46,16 @@ export function UserDetailsProvider(props) {
       newUserDetails.accessToken = accessToken;
       newUserDetails.refreshToken = refreshToken;
 
-      const jwt_decode = jwt_decode(newUserDetails.accessToken);
-      newUserDetails.name = jwt_decode.name;
+      const jwt_decoded = jwt_decode(newUserDetails.accessToken);
+      newUserDetails.name = jwt_decoded.name;
+
+      if (newUserDetails.accessToken) {
+        const jwt_decoded = jwt_decode(newUserDetails.accessToken);
+        newUserDetails.name = jwt_decoded.name;
+      } else {
+        newUserDetails.name = false;
+      }
+
       setUserDetails(newUserDetails);
     }
     return [{ ...userDetails }, updateUserDetails];

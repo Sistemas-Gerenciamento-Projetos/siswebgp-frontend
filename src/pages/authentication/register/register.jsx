@@ -23,7 +23,7 @@ const Registration = () => {
   }, [name, email, password, confirmPassword, passwordGood]);
 
   return (
-    <Container className="cadastro-container">
+    <Container fluid className="cadastro-container">
       <Row>
         <Col>
           <Form className="form-cadastro">
