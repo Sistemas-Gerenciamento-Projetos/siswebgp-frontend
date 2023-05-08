@@ -171,12 +171,4 @@ export const tasks = [
     end: new Date(year, month + 2, 24),
     progress: 0,
   },
-  {
-    id: 22,
-    parentId: 19,
-    title: "Final Paperwork and Documents",
-    start: new Date(year, month + 2, 24),
-    end: new Date(year, month + 2, 28),
-    progress: 0,
-  },
 ];
