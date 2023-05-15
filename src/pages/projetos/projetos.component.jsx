@@ -19,7 +19,6 @@ const Projetos = () => {
           <Table hover>
             <thead>
               <tr>
-                <th>Id</th>
                 <th>Nome do projeto</th>
                 <th>Progresso</th>
                 <th>Prazo</th>
@@ -27,9 +26,9 @@ const Projetos = () => {
               </tr>
             </thead>
             <tbody>
-              <DashboardItem id={1} projectName={'Projeto 1'} projectProgress={75} startDate={new Date(2023, 2, 1)} endDate={new Date(2023, 2, 24)} managerName={"Eduardo Ferreira"} />
-              <DashboardItem id={2} projectName={'Projeto 2'} projectProgress={5} startDate={new Date(2023, 2, 1)} endDate={new Date(2023, 6, 24)} managerName={"Alberto Oliveira"} />
-              <DashboardItem id={3} projectName={'Projeto 3'} projectProgress={75} startDate={new Date(2023, 2, 1)} endDate={new Date(2023, 6, 24)} managerName={"Fred Durão"} />
+              <DashboardItem projectName={'Projeto 1'} projectProgress={75} startDate={new Date(2023, 2, 1)} endDate={new Date(2023, 2, 24)} managerName={"Eduardo Ferreira"} />
+              <DashboardItem  projectName={'Projeto 2'} projectProgress={5} startDate={new Date(2023, 2, 1)} endDate={new Date(2023, 6, 24)} managerName={"Alberto Oliveira"} />
+              <DashboardItem  projectName={'Projeto 3'} projectProgress={75} startDate={new Date(2023, 2, 1)} endDate={new Date(2023, 6, 24)} managerName={"Fred Durão"} />
             </tbody>
           </Table>
         </div>
