@@ -2,8 +2,8 @@ const styles = {
     root: {
         display: 'flex',
         flexDirection: 'row', 
-        width: '250px', 
-        height: '45px',
+        width: '200px', 
+        height: '40px',
         borderRadius: '10px',
         border: '1px solid #d9d9d9', 
         alignItems: 'center'
@@ -23,7 +23,8 @@ const styles = {
     percentageText: {
         padding: '5px',
         color: '#595959',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: '12px'
     }
 }
 
