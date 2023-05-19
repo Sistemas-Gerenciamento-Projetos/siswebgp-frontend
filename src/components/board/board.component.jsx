@@ -8,29 +8,41 @@ const mockedTodoTasks = [
     id: 1,
     title: "Implementação painel de visualização",
     description: "Realizar implementação do painel de visualização das tasks",
-    status: "TODO"
+    status: "TODO",
+    owner: "Alberto Oliveira"
   },
   {
     userId: 2, 
     id: 2,
     title: "Integração do Login com Backend",
     description: "Integrar endpoint de login com backend",
-    status: "INPROGRESS"
+    status: "INPROGRESS",
+    owner: "Bruno Mocitaiba"
   },
   {
     userId: 4, 
     id: 4,
     title: "Testes unitários",
     description: "Cobrir endpoints com testes unitários",
-    status: "PAUSED"
+    status: "PAUSED",
+    owner: "Eduardo Ferreira"
   },
   {
     userId: 3, 
     id: 3,
     title: "Layout do cadastro de novo projeto",
     description: "Implementar layout e estilização da tela de cadastro de novo projeto",
-    status: "DONE"
-  }
+    status: "DONE",
+    owner: "Bruno Bacelar"
+  },
+  {
+    userId: 5, 
+    id: 5,
+    title: "Documentação de testes do frontend",
+    description: "Confeccionar documentação para os testes do frontend",
+    status: "INPROGRESS",
+    owner: "Rebeca Oliveira"
+  },
 ]
 
 export default function Board() {
@@ -45,17 +57,10 @@ export default function Board() {
     setPaused([])
     setDone([])
 
-    mockedTodoTasks.map((task) => {
-      if (task.status === "TODO") {
-        setTodo([...todo, task])
-      } else if (task.status === "INPROGRESS") {
-        setInProgress([...inProgress, task]) 
-      } else if (task.status === "DONE") {
-        setDone([...done, task])
-      } else if (task.status === "PAUSED") {
-        setPaused([...paused, task])
-      }
-    })
+    setTodo(mockedTodoTasks.filter((task) => task.status === "TODO"))
+    setInProgress(mockedTodoTasks.filter((task) => task.status === "INPROGRESS"))
+    setPaused(mockedTodoTasks.filter((task) => task.status === "PAUSED"))
+    setDone(mockedTodoTasks.filter((task) => task.status == "DONE"))
   }, [])
 
   const handleDragEnd = (result) => {

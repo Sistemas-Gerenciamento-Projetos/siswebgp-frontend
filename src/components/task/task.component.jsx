@@ -1,6 +1,7 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
+import { UserOutlined } from "@ant-design/icons";
 
 const Container = styled.div`
   border-radius: 10px;
@@ -11,7 +12,7 @@ const Container = styled.div`
   min-height: 90px;
   margin-left: 10px;
   margin-right: 10px;
-  background-color: ${(props) => bgcolorChange(props)};
+  background-color: white;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -19,12 +20,6 @@ const Container = styled.div`
 `;
 
 const TextContent = styled.div``;
-
-function bgcolorChange(props) {
-  return props.isDragging
-    ? "lightgreen"
-    : "#FFFFFF";
-}
 
 function taskColor(columnId) {
   if (columnId === "1") {
@@ -63,6 +58,15 @@ export default function Task({ task, index, columnId }) {
             style={{ display: "flex", justifyContent: "center", padding: 2 }}
           >
             <TextContent>{task.description}</TextContent>
+          </div>
+
+          <div style={{width: '100%', height: '1px', backgroundColor: '#000'}}/>
+
+          <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center'}}>
+            <div style={{display: 'flex', width: '30px', height: '30px', borderRadius: '60px', backgroundColor: taskBgColor, alignItems: 'center', justifyContent: 'center', marginRight: '5px'}}>
+              <UserOutlined/>
+            </div>
+            {task.owner}
           </div>
           {provided.placeholder}
         </Container>
