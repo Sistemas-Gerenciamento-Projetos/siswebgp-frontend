@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Col, Form, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-// import "./login.scss";
 import { useUserDetails } from "../../context/usercontext";
 import { LOGIN_ENDOPOINT } from "../../constants/urls";
 import axios from "axios";

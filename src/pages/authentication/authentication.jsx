@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import FormLogin from "../../components/form-login/login";
+import CompUfba from "../../assets/comp-ufba.png";
+import { Link } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 import FormRegister from "../../components/form-register/register";
 import "./authentication.scss";
-import CompUfba from "../../assets/comp-ufba.png";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 const Authentication = () => {
   const info = {
@@ -46,7 +46,6 @@ const Authentication = () => {
                 </>
               )}
             </Col>
-
             <Col className="col-right" sm={4}>
               <img src={CompUfba} alt="Computação Ufba" />
             </Col>
