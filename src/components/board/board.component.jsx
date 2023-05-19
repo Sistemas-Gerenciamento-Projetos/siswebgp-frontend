@@ -117,6 +117,7 @@ export default function Board() {
           justifyContent: "space-between",
           alignItems: "center",
           flexDirection: "row",
+          height: '100%'
         }}
       >
         <TaskColumn title={"A fazer"} tasks={todo} id={"1"} />

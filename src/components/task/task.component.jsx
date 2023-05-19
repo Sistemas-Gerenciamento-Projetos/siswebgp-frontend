@@ -24,7 +24,9 @@ const Container = styled.div`
   }
 `;
 
-const TextContent = styled.div``;
+const TextContent = styled.div`
+  font-size: 12px
+`;
 
 function taskColor(columnId) {
   if (columnId === "1") {
@@ -54,7 +56,8 @@ export default function Task({ task, index, columnId }) {
             <div style={{
               width: "100%",
               backgroundColor: taskBgColor,
-              paddingLeft: '5px'
+              paddingLeft: '5px',
+              fontSize: '12px'
             }}>
               {task.title}
             </div>
@@ -67,7 +70,7 @@ export default function Task({ task, index, columnId }) {
 
           <div style={{width: '100%', height: '1px', backgroundColor: '#000'}}/>
 
-          <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center'}}>
+          <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
             <div style={{display: 'flex', width: '30px', height: '30px', borderRadius: '60px', backgroundColor: taskBgColor, alignItems: 'center', justifyContent: 'center', marginRight: '5px'}}>
               <UserOutlined/>
             </div>
