@@ -10,17 +10,10 @@ const DashboardItem = (props) => {
 
   return (
     <tr>
-      <th scope="row">{id}</th>
-      <td>{projectName}</td>
-      <td>
-        <ProgressBar completed={projectProgress} />
-      </td>
-      <td>
-        <DatePeriod startDate={startDate} endDate={endDate} />
-      </td>
-      <td>
-        <ManagerPhoto name={managerName} />
-      </td>
+      <td>{projectName}</td> 
+      <td><ProgressBar completed={projectProgress} /></td>
+      <td><DatePeriod startDate={startDate} endDate={endDate} /></td>
+      <td><ManagerPhoto name={managerName}/></td>
     </tr>
   );
 };
