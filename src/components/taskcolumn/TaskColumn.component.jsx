@@ -33,7 +33,7 @@ export default function TaskColumn({ title, tasks, id }) {
     <Container className="column">
       <Title
         style={{
-          backgroundColor: "lightblue",
+          backgroundColor: "#bae7ff",
           position: "stick",
         }}
       >
@@ -47,7 +47,7 @@ export default function TaskColumn({ title, tasks, id }) {
             isDraggingOver={snapshot.isDraggingOver}
           >
             {tasks.map((task, index) => (
-              <Task key={index} index={index} task={task} />
+              <Task key={index} index={index} task={task} columnId={id} />
             ))}
             {provided.placeholder}
           </TaskList>

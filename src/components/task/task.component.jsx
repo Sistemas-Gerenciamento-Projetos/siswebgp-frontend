@@ -23,16 +23,24 @@ const TextContent = styled.div``;
 function bgcolorChange(props) {
   return props.isDragging
     ? "lightgreen"
-    : props.isDraggable
-    ? props.isBacklog
-      ? "#F2D7D5"
-      : "#DCDCDC"
-    : props.isBacklog
-    ? "#F2D7D5"
-    : "#EAF4FC";
+    : "#FFFFFF";
 }
 
-export default function Task({ task, index }) {
+function taskColor(columnId) {
+  if (columnId === "1") {
+    return "#FFFED9"
+  } else if (columnId === "2") {
+    return "#D9FFFA"
+  } else if (columnId === "3") {
+    return "#FFD9D9"
+  } else {
+    return "#DDFFD9"
+  }
+}
+
+export default function Task({ task, index, columnId }) {
+  var taskBgColor = taskColor(columnId)
+
   return (
     <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
       {(provided, snapshot) => (
@@ -43,17 +51,18 @@ export default function Task({ task, index }) {
           isDragging={snapshot.isDragging}
         >
           <div style={{ display: "flex", justifyContent: "start", padding: 2 }}>
-            <span>
-              <small>
-                #{task.id}
-                {"  "}
-              </small>
-            </span>
+            <div style={{
+              width: "100%",
+              backgroundColor: taskBgColor,
+              paddingLeft: '5px'
+            }}>
+              {task.title}
+            </div>
           </div>
           <div
             style={{ display: "flex", justifyContent: "center", padding: 2 }}
           >
-            <TextContent>{task.title}</TextContent>
+            <TextContent>{task.description}</TextContent>
           </div>
           {provided.placeholder}
         </Container>
