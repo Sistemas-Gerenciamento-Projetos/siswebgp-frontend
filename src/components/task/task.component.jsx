@@ -17,6 +17,11 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+
+  &:hover {
+    background-color: #ECECEC;
+    transition: 0.3s
+  }
 `;
 
 const TextContent = styled.div``;

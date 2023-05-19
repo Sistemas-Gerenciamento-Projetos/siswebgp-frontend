@@ -9,7 +9,8 @@ const mockedTodoTasks = [
     title: "Implementação painel de visualização",
     description: "Realizar implementação do painel de visualização das tasks",
     status: "TODO",
-    owner: "Alberto Oliveira"
+    owner: "Alberto Oliveira",
+    epic: null
   },
   {
     userId: 2, 
@@ -17,7 +18,8 @@ const mockedTodoTasks = [
     title: "Integração do Login com Backend",
     description: "Integrar endpoint de login com backend",
     status: "INPROGRESS",
-    owner: "Bruno Mocitaiba"
+    owner: "Bruno Mocitaiba",
+    epic: null
   },
   {
     userId: 4, 
@@ -25,7 +27,8 @@ const mockedTodoTasks = [
     title: "Testes unitários",
     description: "Cobrir endpoints com testes unitários",
     status: "PAUSED",
-    owner: "Eduardo Ferreira"
+    owner: "Eduardo Ferreira",
+    epic: null
   },
   {
     userId: 3, 
@@ -33,7 +36,8 @@ const mockedTodoTasks = [
     title: "Layout do cadastro de novo projeto",
     description: "Implementar layout e estilização da tela de cadastro de novo projeto",
     status: "DONE",
-    owner: "Bruno Bacelar"
+    owner: "Bruno Bacelar",
+    epic: null
   },
   {
     userId: 5, 
@@ -41,7 +45,8 @@ const mockedTodoTasks = [
     title: "Documentação de testes do frontend",
     description: "Confeccionar documentação para os testes do frontend",
     status: "INPROGRESS",
-    owner: "Rebeca Oliveira"
+    owner: "Rebeca Oliveira",
+    epic: null
   },
 ]
 
