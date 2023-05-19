@@ -3,6 +3,7 @@ import Sidebar from "../../components/sidebar/sidebar.component"
 import Taskitem from "../../components/taskitem/taskitem"
 import { Button } from "reactstrap"
 import Toolbar from "../../components/toolbar/toolbar.component"
+import Newtask from "../../components/task-new/task-new"
 
 const Backlog = () =>{
 
@@ -18,7 +19,7 @@ const Backlog = () =>{
         <Toolbar title={"Projeto 1 - xxx"}/>
 
         <div style={{height: '100%', backgroundColor: '#ffffff', marginTop: '20px', marginBottom: '20px', padding: '15px'}}>
-          <Button color="primary">Nova Tarefa</Button>
+          <div><Newtask /></div>
           <Taskitem />
         </div>    
       </div>
