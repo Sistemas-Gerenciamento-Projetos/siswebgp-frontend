@@ -114,10 +114,10 @@ export default function Board() {
           flexDirection: "row",
         }}
       >
-        <TaskColumn title={"A FAZER"} tasks={todo} id={"1"} />
-        <TaskColumn title={"EM PROGRESSO"} tasks={inProgress} id={"2"} />
-        <TaskColumn title={"PAUSADO"} tasks={paused} id={"3"} />
-        <TaskColumn title={"CONCLUÍDO"} tasks={done} id={"4"} />
+        <TaskColumn title={"A fazer"} tasks={todo} id={"1"} />
+        <TaskColumn title={"Em progresso"} tasks={inProgress} id={"2"} />
+        <TaskColumn title={"Pausado"} tasks={paused} id={"3"} />
+        <TaskColumn title={"Concluido"} tasks={done} id={"4"} />
       </div>
     </DragDropContext>
   );

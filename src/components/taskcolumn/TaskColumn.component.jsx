@@ -4,7 +4,7 @@ import { Droppable } from "react-beautiful-dnd";
 import Task from "../task/task.component";
 
 const Container = styled.div`
-  background-color: #f4f5f7;
+  background-color: #ffffff;
   border-radius: 2.5px;
   width: 300px;
   height: 475px;
@@ -18,12 +18,13 @@ const Title = styled.h3`
   padding: 8px;
   background-color: pink;
   text-align: center;
+  font-size: 15px;
 `;
 
 const TaskList = styled.div`
   padding: 3px;
   transistion: background-color 0.2s ease;
-  background-color: #f4f5f7;
+  background-color: #ffffff;
   flex-grow: 1;
   min-height: 100px;
 `;
