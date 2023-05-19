@@ -18,6 +18,8 @@ export default function Board() {
   const handleDragEnd = (result) => {
     const { destination, source, draggableId } = result;
 
+    if (destination == null) return;
+
     if (source.droppableId == destination.droppableId) return;
 
     //REMOVE FROM SOURCE ARRAY
@@ -58,9 +60,10 @@ export default function Board() {
           flexDirection: "row",
         }}
       >
-        <TaskColumn title={"Em progresso"} tasks={incomplete} id={"1"} />
-        <TaskColumn title={"Pausado"} tasks={completed} id={"2"} />
-        <TaskColumn title={"Concluído"} tasks={[]} id={"3"} />
+        <TaskColumn title={"A FAZER"} tasks={incomplete} id={"1"} />
+        <TaskColumn title={"EM PROGRESSO"} tasks={completed} id={"2"} />
+        <TaskColumn title={"PAUSADO"} tasks={[]} id={"3"} />
+        <TaskColumn title={"CONCLUÍDO"} tasks={[]} id={"3"} />
       </div>
     </DragDropContext>
   );
