@@ -41,7 +41,7 @@ function Login({ history }) {
           updateUserDetails(response.data.access, response.data.refresh);
           setLoading(false);
           setError(false);
-          history.push("/");
+          history.push("/projects");
         })
         .catch((error) => {
           setLoading(false);

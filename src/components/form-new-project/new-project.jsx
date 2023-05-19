@@ -2,14 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Form, Button } from "react-bootstrap";
 import "./new-project.scss";
 
-const Registration = ({ handleCadastro }) => {
+const Registration = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  const handleCadastro = () => {
+    console.log("test");
+  };
+
   return (
-    <Form className="main-novo-projeto">
+    <Form className="main-novo-projeto" onSubmit={handleCadastro}>
       <Form.Label htmlFor="text">Título:</Form.Label>
       <Form.Group controlId="text">
         <Form.Control
@@ -54,9 +58,7 @@ const Registration = ({ handleCadastro }) => {
         />
       </Form.Group>
       <div className="d-grid mt-4">
-        <Button type="submit" onClick={handleCadastro}>
-          Cadastrar
-        </Button>
+        <Button type="submit">Cadastrar</Button>
       </div>
     </Form>
   );

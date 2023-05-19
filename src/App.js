@@ -10,14 +10,20 @@ import { useUserDetails } from "./context/usercontext";
 
 const App = () => {
   const [userDetails] = useUserDetails();
+  // userDetails = true;
+  const test = true;
+
   return (
     <Routes>
-      <Route index element={<Projetos />} />
-      <Route path="projetos/" element={<Projetos />} />
-      <Route path="auth/" element={<Authentication />} />
-      <Route path="painel/" element={<Painel />} />
-      <Route path="roteiro/" element={<Roteiro />} />
-      <Route path="backlog/" element={<Backlog />} />
+      {!userDetails.accessToken && <Route index element={<Authentication />} />}
+      {test && (
+        <>
+          <Route path="projetos/" index element={<Projetos />} />
+          <Route path="painel/" element={<Painel />} />
+          <Route path="roteiro/" element={<Roteiro />} />
+          <Route path="backlog/" element={<Backlog />} />
+        </>
+      )}
     </Routes>
   );
 };
