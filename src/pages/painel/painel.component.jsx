@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "../../components/sidebar/sidebar.component";
 import Toolbar from "../../components/toolbar/toolbar.component";
+import Board from "../../components/board/board.component";
 
 const Painel = () => {
   return (
@@ -32,7 +33,7 @@ const Painel = () => {
             marginBottom: "20px",
             padding: "15px",
           }}>
-          Insert Page content here
+          <Board/>
         </div>
       </div>
     </div>
