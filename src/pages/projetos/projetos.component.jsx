@@ -15,7 +15,6 @@ const Projetos = () => {
 
   const projects = [
     {
-      id: 1,
       projectName: "Projeto 1",
       projectProgress: 3,
       startDate: datestart1,
@@ -23,7 +22,6 @@ const Projetos = () => {
       managerName: "Alberto Oliveira",
     },
     {
-      id: 2,
       projectName: "Projeto 2",
       projectProgress: 5,
       startDate: datestart1,
@@ -31,7 +29,6 @@ const Projetos = () => {
       managerName: "Eduardo Ferreira",
     },
     {
-      id: 3,
       projectName: "Projeto 3",
       projectProgress: 75,
       startDate: datestart1,
@@ -56,8 +53,9 @@ const Projetos = () => {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          marginBottom: " 1rem",
+          flexDirection: "column",
+          width: "80%",
+          backgroundColor: "#ebebeb",
         }}>
         <Toolbar title={"Meus projetos"} novoProjeto={setNovoProjeto} />
         {novoProjeto && (
@@ -65,7 +63,6 @@ const Projetos = () => {
             <Table hover>
               <thead>
                 <tr>
-                  <th>Id</th>
                   <th>Nome do projeto</th>
                   <th>Progresso</th>
                   <th>Prazo</th>
@@ -75,7 +72,6 @@ const Projetos = () => {
               <tbody>
                 {projects.map((project) => (
                   <DashboardItem
-                    id={project.id}
                     projectName={project.projectName}
                     projectProgress={project.projectProgress}
                     startDate={project.startDate}
