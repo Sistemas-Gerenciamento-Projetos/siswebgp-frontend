@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
-import { LOGIN_ENDOPOINT } from "../../constants/urls";
+import { LOGIN_ENDPOINT } from "../../constants/urls";
 import axios from "axios";
 
 function Login({ history }) {
@@ -28,7 +28,7 @@ function Login({ history }) {
       };
       axios
         .post(
-          LOGIN_ENDOPOINT,
+          LOGIN_ENDPOINT,
           {
             email: email,
             password: password,
@@ -36,12 +36,13 @@ function Login({ history }) {
           req_config
         )
         .then((response) => {
-          localStorage.setItem("UserDetails", JSON.stringify(response.data));
-          console.log("Login Sucessful");
+          localStorage.setItem("userDetails", JSON.stringify(response.data));
           updateUserDetails(response.data.access, response.data.refresh);
           setLoading(false);
           setError(false);
-          history.push("/projects");
+          console.log("successful");
+
+          history.push("projetos/");
         })
         .catch((error) => {
           setLoading(false);

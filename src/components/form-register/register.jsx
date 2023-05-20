@@ -1,28 +1,70 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Form, Button } from "react-bootstrap";
 import { checkPasswordComplexity } from "../../utils/index";
+import { REGISTRATION_ENDPOINT } from "../../constants/urls";
+import { useUserDetails } from "../../context/usercontext";
+import axios from "axios";
 
-const Registration = ({ handleCadastro }) => {
+const Registration = ({ history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const registerButtonEnabled = name && email && password && confirmPassword;
+  const [userDetails, updateUserDetails] = useUserDetails();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log(userDetails.accessToken + "register");
+  };
+
+  useEffect(() => {
+    if (loading) {
+      const req_config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      axios
+        .post(
+          REGISTRATION_ENDPOINT,
+          {
+            name: name,
+            email: email,
+            password: password,
+          },
+          req_config
+        )
+        .then((response) => {
+          setLoading(false);
+          setError(false);
+          history.push("/projetos/");
+        })
+        .catch((error) => {
+          setLoading(false);
+          setError(true);
+        });
+    }
+  }, [confirmPassword, name, email, password, loading]);
+
+  // const registerButtonEnabled = name && email && password && confirmPassword;
 
   const [passwordGood, setPasswordGood] = useState(false);
 
-  useEffect(() => {
-    if (checkPasswordComplexity(password, confirmPassword).length === 0) {
-      setPasswordGood(true);
-    } else {
-      setPasswordGood(false);
-    }
-  }, [name, email, password, confirmPassword, passwordGood]);
+  // useEffect(() => {
+  //   if (checkPasswordComplexity(password, confirmPassword).length === 0) {
+  //     setPasswordGood(true);
+  //   } else {
+  //     setPasswordGood(false);
+  //   }
+  // }, [name, email, password, confirmPassword, passwordGood]);
 
   return (
-    <Form className="form-cont">
+    <Form className="form-cont" onSubmit={submitHandler}>
       <Form.Group controlId="name">
         <Form.Control
           type="name"
@@ -63,9 +105,7 @@ const Registration = ({ handleCadastro }) => {
         />
       </Form.Group>
       <div className="d-grid mt-3 ">
-        <Button type="submit" onClick={handleCadastro}>
-          Cadastrar
-        </Button>
+        <Button type="submit">Cadastrar</Button>
       </div>
 
       {/* Falta estilizar corretamente {passwordGood ? (

@@ -7,8 +7,6 @@ import {
   DropdownItem,
 } from "reactstrap";
 
-import "buttonstatus.scss";
-
 export default function Buttonstatus() {
   return (
     <div>

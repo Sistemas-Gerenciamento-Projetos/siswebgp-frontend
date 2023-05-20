@@ -24,6 +24,7 @@ export function UserDetailsProvider(props) {
     if (userDetailsFromStorage.access) {
       accessTokenFromStorage = userDetailsFromStorage.access;
       const jwt_decoded = jwt_decode(accessTokenFromStorage);
+
       nameFromStorage = jwt_decoded.name;
     } else {
       accessTokenFromStorage = false;
@@ -33,6 +34,7 @@ export function UserDetailsProvider(props) {
       ? userDetailsFromStorage.refresh
       : false;
   }
+
   const [userDetails, setUserDetails] = useState({
     accessToken: accessTokenFromStorage,
     refreshToken: refreshTokenFromStorage,
@@ -42,11 +44,9 @@ export function UserDetailsProvider(props) {
   const value = useMemo(() => {
     function updateUserDetails(accessToken, refreshToken) {
       const newUserDetails = { ...userDetails };
+
       newUserDetails.accessToken = accessToken;
       newUserDetails.refreshToken = refreshToken;
-
-      const jwt_decoded = jwt_decode(newUserDetails.accessToken);
-      newUserDetails.name = jwt_decoded.name;
 
       if (newUserDetails.accessToken) {
         const jwt_decoded = jwt_decode(newUserDetails.accessToken);
@@ -59,5 +59,6 @@ export function UserDetailsProvider(props) {
     }
     return [{ ...userDetails }, updateUserDetails];
   }, [userDetails]);
+
   return <UserDetails.Provider value={value} {...props} />;
 }

@@ -6,17 +6,25 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import FormRegister from "../../components/form-register/register";
 import "./authentication.scss";
+import { useUserDetails } from "../../context/usercontext";
 
 const Authentication = () => {
+  const [userDetails] = useUserDetails();
+
   const info = {
     1: "Login",
     2: "Cadastro",
   };
+
   const [isLogged, setIsLogged] = useState(false);
 
   const handleCadastro = () => {
     setIsLogged(!isLogged);
   };
+
+  useEffect(() => {
+    console.log(userDetails.name + "dddd");
+  }, [handleCadastro]);
 
   return (
     <Container fluid className="authentication">
@@ -43,6 +51,10 @@ const Authentication = () => {
                 <>
                   <h2>{info[2]}</h2>
                   <FormRegister handleCadastro={handleCadastro} />
+                  <p className="mt-3">
+                    Já possui cadastro?{" "}
+                    <Link onClick={handleCadastro}>Login</Link>
+                  </p>
                 </>
               )}
             </Col>
