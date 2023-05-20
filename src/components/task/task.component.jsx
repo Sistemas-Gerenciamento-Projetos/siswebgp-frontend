@@ -11,7 +11,7 @@ const Tasks = (props) => {
   return (
     <tr>
       <td>{taskName}</td> 
-      <td><Taskstatus /></td>
+      <td><Taskstatus namestatus={taskstatus}/></td>
       <td><DatePeriod startDate={startDate} endDate={endDate} /></td>
       <td><ManagerPhoto name={managerName}/></td>
     </tr>

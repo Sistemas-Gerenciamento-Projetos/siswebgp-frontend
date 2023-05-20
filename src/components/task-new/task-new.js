@@ -3,8 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Taskstatus from '../task-status/task-status.component';
-import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 
 const Newtask = () => {
 
@@ -18,15 +19,7 @@ const Newtask = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [taskdesc, setTaskdesc] = useState('');
-  const [error, setError] = useState('');
   
-  const handleCreate = () => {
-    if (!taskName | !managerName | !startDate | !endDate | !taskdesc) {
-      setError("Preencha todos os campos");
-      return;
-    } 
-  };
-
   return (
     <div >
       <Button variant="primary" onClick={handleShow}>
@@ -45,14 +38,14 @@ const Newtask = () => {
                 type='name' 
                 placeholder= 'Digite o nome da tarefa' 
                 value={taskName}
-                onChange={(e) => [setTaskName(e.target.value), setError("")]}
+                onChange={(e) => [setTaskName(e.target.value)]}
                 autoFocus
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Responsável</Form.Label>
               <Form.Select aria-label="Default select example"
-              onChange={(e) => [setManagerName(e.target.value), setError("")]}
+              onChange={(e) => [setManagerName(e.target.value)]}
               >
                 <option>Abra o menu de seleção</option>
                 <option value="1">Eduardo</option>
@@ -61,51 +54,49 @@ const Newtask = () => {
                 <option value="4">Rebeca</option>
               </Form.Select>
             </Form.Group>
-            <Row>
-              <Col xs={6} md={4}>
-                <Form.Group controlId="exampleForm.ControlInput1">
-                  <Form.Label>Data início</Form.Label>
-                  <Form.Control 
-                    type="date"
-                    autoFocus
-                    value={startDate}
-                    onChange={(e) => [setStartDate(e.target.value), setError("")]}
-                  />
-                </Form.Group>
-              </Col>
-              <Col xs={6} md={4}>
-                <Form.Group  controlId="exampleForm.ControlInput1">
-                  <Form.Label>Data fim</Form.Label>
-                  <Form.Control
-                    type="date"
-                    autoFocus
-                    value={endDate}
-                    onChange={(e) => [setEndDate(e.target.value), setError("")]}
-                  />
-                </Form.Group>
-              </Col>
-              <Col xs={6} md={4}>
-                <Form.Group>
-                  <Form.Label>Status</Form.Label>
-                  <Taskstatus />
-                </Form.Group>
+              <Row>
+                <Col xs={6} md={4}>
+                  <Form.Group controlId="exampleForm.ControlInput1">
+                    <Form.Label>Data início</Form.Label>
+                    <Form.Control 
+                      type="date"
+                      autoFocus
+                      value={startDate}
+                      onChange={(e) => [setStartDate(e.target.value)]}
+                    />
+                  </Form.Group>
                 </Col>
-            </Row>
-            
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <Col xs={6} md={4}>
+                  <Form.Group  controlId="exampleForm.ControlInput1">
+                    <Form.Label>Data fim</Form.Label>
+                    <Form.Control
+                      type="date"
+                      autoFocus
+                      value={endDate}
+                      onChange={(e) => [setEndDate(e.target.value)]}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xs={6} md={4}>
+                  <Form.Group>
+                    <Form.Label>Status</Form.Label>
+                    <Taskstatus />
+                  </Form.Group>
+                </Col>
+              </Row>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1" style={{ marginTop: "1rem" }}>
               <Form.Label>Descrição</Form.Label>
               <Form.Control 
                 as = "textarea" 
-                rows={3} 
+                rows={2} 
                 value={taskdesc}
-                onChange={(e) => [setTaskdesc(e.target.value), setError("")]}
+                onChange={(e) => [setTaskdesc(e.target.value)]}
               />
-              <Form.Label className='labelError'>{error}</Form.Label>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={ handleCreate }>
+          <Button variant="primary" >
             Criar tarefa
           </Button>
           <Button variant="primary" onClick={ handleClose }>
