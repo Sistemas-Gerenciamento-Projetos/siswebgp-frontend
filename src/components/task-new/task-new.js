@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-//import "./task-new.css";
-
+import Taskstatus from '../task-status/task-status.component';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 const Newtask = () => {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [idtask, setIdtask] = useState('');
+
   const [taskName, setTaskName] = useState('');
   const [managerName, setManagerName] = useState('');
   const [status, setStatus] = useState('');
@@ -18,46 +19,26 @@ const Newtask = () => {
   const [endDate, setEndDate] = useState('');
   const [taskdesc, setTaskdesc] = useState('');
   const [error, setError] = useState('');
+  
   const handleCreate = () => {
-   
-    if (!idtask | !taskName | !managerName | !startDate | !endDate | !taskdesc) {
+    if (!taskName | !managerName | !startDate | !endDate | !taskdesc) {
       setError("Preencha todos os campos");
       return;
     } 
-
-    /*const res = addTask (idtask, nametask, namedev, dataini, datafim, taskdesc);
-      if (res) {
-      setError(res);
-      return;
-    }*/
-
-    alert("Tarefa criada com sucesso!");
-
   };
 
   return (
-    <>
+    <div >
       <Button variant="primary" onClick={handleShow}>
         Nova Tarefa
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
           <Modal.Title>Cadastro de nova tarefa</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Id</Form.Label>
-              <Form.Control
-                type='number' 
-                placeholder= 'Digite o id'   
-                value={idtask}
-                onChange={(e) => [setIdtask(e.target.value), setError("")]} 
-                autoFocus
-              />
-            </Form.Group>
-
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Nome da tarefa</Form.Label>
               <Form.Control
@@ -68,11 +49,9 @@ const Newtask = () => {
                 autoFocus
               />
             </Form.Group>
-            
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Responsável</Form.Label>
               <Form.Select aria-label="Default select example"
-              
               onChange={(e) => [setManagerName(e.target.value), setError("")]}
               >
                 <option>Abra o menu de seleção</option>
@@ -82,17 +61,19 @@ const Newtask = () => {
                 <option value="4">Rebeca</option>
               </Form.Select>
             </Form.Group>
-
-            <div className='prazo'>
-                <Form.Group  controlId="exampleForm.ControlInput1">
+            <Row>
+              <Col xs={6} md={4}>
+                <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Label>Data início</Form.Label>
-                  <Form.Control
+                  <Form.Control 
                     type="date"
                     autoFocus
                     value={startDate}
                     onChange={(e) => [setStartDate(e.target.value), setError("")]}
                   />
                 </Form.Group>
+              </Col>
+              <Col xs={6} md={4}>
                 <Form.Group  controlId="exampleForm.ControlInput1">
                   <Form.Label>Data fim</Form.Label>
                   <Form.Control
@@ -102,7 +83,15 @@ const Newtask = () => {
                     onChange={(e) => [setEndDate(e.target.value), setError("")]}
                   />
                 </Form.Group>
-            </div>
+              </Col>
+              <Col xs={6} md={4}>
+                <Form.Group>
+                  <Form.Label>Status</Form.Label>
+                  <Taskstatus />
+                </Form.Group>
+                </Col>
+            </Row>
+            
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>Descrição</Form.Label>
               <Form.Control 
@@ -120,11 +109,11 @@ const Newtask = () => {
             Criar tarefa
           </Button>
           <Button variant="primary" onClick={ handleClose }>
-            Sair
+            Cancelar
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   )
 }
 

@@ -56,9 +56,8 @@ const Projetos = () => {
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
-          width: "80%",
-          backgroundColor: "#ebebeb",
+          justifyContent: "space-between",
+          marginBottom: " 1rem",
         }}>
         <Toolbar title={"Meus projetos"} novoProjeto={setNovoProjeto} />
         {novoProjeto && (
