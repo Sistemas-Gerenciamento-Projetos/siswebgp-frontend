@@ -12,9 +12,9 @@ function Taskstatus() {
       onChange={(e) => setColor(e.target.value)}
     >
       <option>Selecione o Status</option>
-      <option value="progresso">Em andamento</option>
-      <option value="sucesso">Concluído</option>
-      <option value="pausado">Pausado</option>
+      <option value="progresso" >Em andamento</option>
+      <option value="successo" >Concluído</option>
+      <option value="pausado" >Pausado</option>
     </Form.Select>
   );
 }
