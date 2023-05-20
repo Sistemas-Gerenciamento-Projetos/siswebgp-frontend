@@ -6,12 +6,26 @@ import { Table } from "reactstrap";
 import { useState } from "react";
 import NovoProjeto from "../../components/form-new-project/new-project";
 import "./projetos.component.scss";
+import { useUserDetails } from "../../context/usercontext";
+
 
 const Projetos = () => {
+
+
+  
+  const [userDetails, updateUserDetails] = useUserDetails();
+  if (!userDetails.accessToken) {
+    history.push("/auth")
+  }
+  
+  
+  
   const [novoProjeto, setNovoProjeto] = useState(true);
 
   const datestart1 = new Date(2023, 2, 1);
   const dateend1 = new Date(2023, 2, 24);
+
+
 
   const projects = [
     {

@@ -42,7 +42,7 @@ const Registration = ({ history }) => {
         .then((response) => {
           setLoading(false);
           setError(false);
-          history.push("/projetos/");
+          history.push("projetos/");
         })
         .catch((error) => {
           setLoading(false);
