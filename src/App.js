@@ -6,6 +6,7 @@ import Backlog from "./pages/backlog/backlog.component";
 import Projetos from "./pages/projetos/projetos.component";
 import Authentication from "./pages/authentication/authentication";
 import { UserDetailsProvider } from "./context/usercontext";
+import Home from "./pages/home/home.component";
 
 const App = () => {
   // const [userDetails] = useUserDetails();
@@ -13,8 +14,9 @@ const App = () => {
   return (
     <UserDetailsProvider>
       <Routes>
-        <Route path="auth/" index element={<Authentication />} />
-        <Route path="projetos/" index element={<Projetos />} />
+        <Route path="/" index element={<Home />} />
+        <Route path="projetos/" element={<Projetos />} />
+        <Route path="auth/" element={<Authentication />} />
         <Route path="painel/" element={<Painel />} />
         <Route path="roteiro/" element={<Roteiro />} />
         <Route path="backlog/" element={<Backlog />} />

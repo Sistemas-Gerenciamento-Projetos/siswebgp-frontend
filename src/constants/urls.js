@@ -9,4 +9,5 @@ export const LOGIN_ENDPOINT = BACKEND_URL + "api/auth/login/";
 
 export const PROFILE_UPDATE_ENDPOINT = BACKEND_URL + "api/users/profile/update";
 
-export const PROJECTS_CREATE_ENDPOINT = BACKEND_URL + "api/projects";
+export const PROJECTS_CREATE_ENDPOINT = BACKEND_URL + "api/projects/";
+

@@ -3,6 +3,7 @@ import Sidebar from "../../components/sidebar/sidebar.component";
 import Taskitem from "../../components/taskitem/taskitem";
 import { Button } from "reactstrap";
 import Toolbar from "../../components/toolbar/toolbar.component";
+import "./backlog.styles.scss";
 
 const Backlog = () => {
   return (

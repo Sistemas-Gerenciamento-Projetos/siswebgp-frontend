@@ -16,15 +16,11 @@ const Authentication = () => {
     2: "Cadastro",
   };
 
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
 
   const handleCadastro = () => {
     setIsLogged(!isLogged);
   };
-
-  useEffect(() => {
-    console.log(userDetails.name + "dddd");
-  }, [handleCadastro]);
 
   return (
     <Container fluid className="authentication">

@@ -42,7 +42,7 @@ function Login({ history }) {
           setError(false);
           console.log("successful");
 
-          history.push("projetos/");
+          history.push("/");
         })
         .catch((error) => {
           setLoading(false);
