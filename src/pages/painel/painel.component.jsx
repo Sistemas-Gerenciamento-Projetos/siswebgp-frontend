@@ -2,8 +2,16 @@ import React from "react";
 import Sidebar from "../../components/sidebar/sidebar.component";
 import Toolbar from "../../components/toolbar/toolbar.component";
 import Board from "../../components/board/board.component";
+import { Navigate } from "react-router-dom";
+import { useUserDetails } from "../../context/usercontext";
 
 const Painel = () => {
+  const [userDetails] = useUserDetails();
+
+  if (!userDetails.accessToken) {
+    return <Navigate replace to="/" />;
+  }
+
   return (
     <div
       style={{
@@ -33,7 +41,7 @@ const Painel = () => {
             marginBottom: "20px",
             padding: "15px",
           }}>
-          <Board/>
+          <Board />
         </div>
       </div>
     </div>

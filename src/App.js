@@ -9,14 +9,12 @@ import { UserDetailsProvider } from "./context/usercontext";
 import Home from "./pages/home/home.component";
 
 const App = () => {
-  // const [userDetails] = useUserDetails();
-
   return (
     <UserDetailsProvider>
       <Routes>
         <Route path="/" index element={<Home />} />
-        <Route path="projetos/" element={<Projetos />} />
         <Route path="auth/" element={<Authentication />} />
+        <Route path="projetos/" element={<Projetos />} />
         <Route path="painel/" element={<Painel />} />
         <Route path="roteiro/" element={<Roteiro />} />
         <Route path="backlog/" element={<Backlog />} />

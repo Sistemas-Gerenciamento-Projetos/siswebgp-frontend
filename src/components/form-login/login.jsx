@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
 import { LOGIN_ENDPOINT } from "../../constants/urls";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
-function Login({ history }) {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
@@ -41,8 +42,7 @@ function Login({ history }) {
           setLoading(false);
           setError(false);
           console.log("successful");
-
-          history.push("/");
+          redirectPage();
         })
         .catch((error) => {
           setLoading(false);
@@ -54,6 +54,10 @@ function Login({ history }) {
   const submitHandler = (e) => {
     e.preventDefault();
     setLoading(true);
+  };
+
+  const redirectPage = () => {
+    <Navigate replace to="/" />;
   };
 
   return (

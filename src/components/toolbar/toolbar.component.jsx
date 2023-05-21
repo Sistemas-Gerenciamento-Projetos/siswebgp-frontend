@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "reactstrap";
 import styles from "./toolbarStyles.component";
 import { useUserDetails } from "../../context/usercontext";
+import { useNavigate } from "react-router-dom";
 
 function isProjectsPage(title) {
   return title === "Meus projetos";
@@ -9,10 +10,12 @@ function isProjectsPage(title) {
 
 const Toolbar = ({ title, novoProjeto }) => {
   const [userDetails, updateUserDetails] = useUserDetails();
+  const nav = useNavigate();
 
   const logoutHandler = () => {
     localStorage.removeItem("userDetails");
     updateUserDetails(false, false);
+    nav("/");
   };
 
   return (
