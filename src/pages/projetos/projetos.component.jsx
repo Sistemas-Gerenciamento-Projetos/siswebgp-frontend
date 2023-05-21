@@ -72,7 +72,6 @@ const Projetos = ({ history }) => {
             <Table hover>
               <thead>
                 <tr>
-                  <th>Id</th>
                   <th>Nome do projeto</th>
                   <th>Progresso</th>
                   <th>Prazo</th>
