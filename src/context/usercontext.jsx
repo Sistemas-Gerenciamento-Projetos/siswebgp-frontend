@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 
 const UserDetails = createContext();
 
-export function useUserDetails(props) {
+export function useUserDetails() {
   const context = useContext(UserDetails);
   if (!context) {
     throw new Error("useUserDetails must be used within a UserDetailsProvider");
@@ -12,33 +12,39 @@ export function useUserDetails(props) {
 }
 
 export function UserDetailsProvider(props) {
-  const userDetailsFromStorage = localStorage.getItem("userDetails")
-    ? JSON.parse(localStorage.getItem("userDetails"))
-    : null;
-
-  var accessTokenFromStorage = false;
-  var refreshTokenFromStorage = false;
-  var nameFromStorage = false;
-
-  if (userDetailsFromStorage) {
-    if (userDetailsFromStorage.access) {
-      accessTokenFromStorage = userDetailsFromStorage.access;
-      const jwt_decoded = jwt_decode(accessTokenFromStorage);
-      nameFromStorage = jwt_decoded.name;
-    } else {
-      accessTokenFromStorage = false;
-      nameFromStorage = false;
-    }
-    refreshTokenFromStorage = userDetailsFromStorage.refresh
-      ? userDetailsFromStorage.refresh
-      : false;
-  }
-
   const [userDetails, setUserDetails] = useState({
-    accessToken: accessTokenFromStorage,
-    refreshToken: refreshTokenFromStorage,
-    name: nameFromStorage,
+    accessToken: false,
+    refreshToken: false,
+    name: false,
   });
+
+  // localStorage.getItem("userDetails")
+  //   ? JSON.parse(localStorage.getItem("userDetails"))
+  //   : null;
+
+  // var accessTokenFromStorage = false;
+  // var refreshTokenFromStorage = false;
+  // var nameFromStorage = false;
+
+  // if (userDetailsFromStorage) {
+  //   if (userDetailsFromStorage.access) {
+  //     accessTokenFromStorage = userDetailsFromStorage.access;
+  //     const jwt_decoded = jwt_decode(accessTokenFromStorage);
+  //     nameFromStorage = jwt_decoded.name;
+  //   } else {
+  //     accessTokenFromStorage = false;
+  //     nameFromStorage = false;
+  //   }
+  //   refreshTokenFromStorage = userDetailsFromStorage.refresh
+  //     ? userDetailsFromStorage.refresh
+  //     : false;
+  // }
+
+  // const [userDetails, setUserDetails] = useState({
+  //   accessToken: accessTokenFromStorage,
+  //   refreshToken: refreshTokenFromStorage,
+  //   name: nameFromStorage,
+  // });
 
   const value = useMemo(() => {
     function updateUserDetails(accessToken, refreshToken) {

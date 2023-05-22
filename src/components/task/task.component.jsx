@@ -1,9 +1,23 @@
 import React from "react";
+import DatePeriod from "../dashboard/datePeriod/datePeriod";
+import ManagerPhoto from "../dashboard/managerPhoto/managerPhoto";
+import Taskstatus from "../task-status/task-status.component";
 
 
-const task = () =>{
+const Tasks = (props) => {
+  const { taskName, taskstatus, startDate, endDate, managerName } =
+    props;
 
-  return( <h1>Task Component</h1>)
+  return (
+    <tr>
+      <td>{taskName}</td> 
+      <td><Taskstatus namestatus={taskstatus}/></td>
+      <td><DatePeriod startDate={startDate} endDate={endDate} /></td>
+      <td><ManagerPhoto name={managerName}/></td>
+    </tr>
+  );
+};
 
-  }
+export default Tasks;
+
 

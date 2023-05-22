@@ -2,7 +2,8 @@ const styles = {
     root: {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '160px'
     },
 
     iconDiv: {
