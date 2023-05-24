@@ -4,15 +4,14 @@ import Taskitem from "../../components/taskitem/taskitem";
 import { Button } from "reactstrap";
 import Toolbar from "../../components/toolbar/toolbar.component";
 import "./backlog.styles.scss";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
 
 const Backlog = () => {
-  const nav = useNavigate();
-  const [userDetails, updateUserDetails] = useUserDetails();
+  const [userDetails] = useUserDetails();
+
   if (!userDetails.accessToken) {
-    nav("/");
-    console.log("tests");
+    return <Navigate replace to="/" />;
   }
 
   return (

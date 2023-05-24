@@ -4,7 +4,7 @@ import FormLogin from "../../components/form-login/login";
 import CompUfba from "../../assets/comp-ufba.png";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import FormRegister from "../../components/form-register/register";
+import FormRegister from "../../components/form-register/form-register.component";
 import "./authentication.scss";
 
 const Authentication = () => {

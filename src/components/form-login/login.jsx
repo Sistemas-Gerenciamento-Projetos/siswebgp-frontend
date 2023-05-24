@@ -41,7 +41,6 @@ function Login() {
           updateUserDetails(response.data.access, response.data.refresh);
           setLoading(false);
           setError(false);
-          console.log("successful");
           redirectPage();
         })
         .catch((error) => {
@@ -57,6 +56,7 @@ function Login() {
   };
 
   const redirectPage = () => {
+    console.log(userDetails);
     <Navigate replace to="/" />;
   };
 

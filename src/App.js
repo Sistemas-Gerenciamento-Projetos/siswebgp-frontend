@@ -7,6 +7,7 @@ import Projetos from "./pages/projetos/projetos.component";
 import Authentication from "./pages/authentication/authentication";
 import { UserDetailsProvider } from "./context/usercontext";
 import Home from "./pages/home/home.component";
+import { Navigate } from "react-router-dom";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="painel/" element={<Painel />} />
         <Route path="roteiro/" element={<Roteiro />} />
         <Route path="backlog/" element={<Backlog />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </UserDetailsProvider>
   );

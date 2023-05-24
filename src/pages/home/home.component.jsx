@@ -4,8 +4,7 @@ import Projetos from "../projetos/projetos.component";
 import { useUserDetails } from "../../context/usercontext";
 
 const Home = () => {
-  const [userDetails, updateUserDetails] = useUserDetails();
-  console.log("home");
+  const [userDetails] = useUserDetails();
 
   return (
     <div>{userDetails.accessToken ? <Projetos /> : <Authentication />}</div>

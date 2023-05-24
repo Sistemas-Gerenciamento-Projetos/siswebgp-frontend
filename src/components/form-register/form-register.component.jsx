@@ -4,8 +4,9 @@ import { checkPasswordComplexity } from "../../utils/index";
 import { REGISTRATION_ENDPOINT } from "../../constants/urls";
 import { useUserDetails } from "../../context/usercontext";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
-const Registration = ({ history }) => {
+const Registration = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,10 +17,11 @@ const Registration = ({ history }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const [show, setShow] = useState(false);
+
   const submitHandler = (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(userDetails.accessToken + "register");
   };
 
   useEffect(() => {
@@ -27,6 +29,7 @@ const Registration = ({ history }) => {
       const req_config = {
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${userDetails.accessToken}`,
         },
       };
       axios
@@ -40,13 +43,17 @@ const Registration = ({ history }) => {
           req_config
         )
         .then((response) => {
+          localStorage.setItem("userDetails", JSON.stringify(response.data));
+          updateUserDetails(response.data.access, response.data.refresh);
           setLoading(false);
           setError(false);
-          history.push("/projetos");
+          setShow(true);
+          redirectPage();
         })
         .catch((error) => {
           setLoading(false);
           setError(true);
+          console.log("error register - ");
         });
     }
   }, [confirmPassword, name, email, password, loading]);
@@ -62,6 +69,15 @@ const Registration = ({ history }) => {
   //     setPasswordGood(false);
   //   }
   // }, [name, email, password, confirmPassword, passwordGood]);
+
+  const redirectPage = () => {
+    //chamar a função login para acesso ao sistema
+    <Navigate replace to="/" />;
+  };
+
+  useEffect(() => {
+    console.log("teste show");
+  }, [show, setShow]);
 
   return (
     <Form className="form-cont" onSubmit={submitHandler}>
