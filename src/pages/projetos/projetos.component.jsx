@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import DashboardItem from "../../components/dashboard/dashboardItem.component"
 import Sidebar from "../../components/sidebar/sidebar.component"
 import Toolbar from "../../components/toolbar/toolbar.component"

@@ -1,13 +1,6 @@
 import React, { useState } from "react"
 import { Form, Button, InputGroup, Badge, } from "react-bootstrap"
 import "./new-project.scss"
-import axios from "axios"
-import { Navigate } from "react-router-dom"
-
-
-const redirectPage = () => {
-  <Navigate replace to="/projetos/" />;
-};
 
 const Registration = ({ handleRegisterProject }) => {
   const [title, setTitle] = useState("")
@@ -32,7 +25,7 @@ const Registration = ({ handleRegisterProject }) => {
   return (
     <Form className="main-novo-projeto" noValidate validated={validated} onSubmit={handleSubmit}>
 
-      {/* Tem um bug na validação de string com espaços em branco, o form nega o seguimento mas o feedback visual é de correto */}
+      {/* Tem um bug visual na validação de string com espaços em branco, o form nega o seguimento mas o feedback visual é de correto */}
       <Form.Group controlId="title">
         <Form.Label>Título:</Form.Label>
         <InputGroup hasValidation>
