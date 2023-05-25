@@ -1,86 +1,84 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import { checkPasswordComplexity } from "../../utils/index";
-import { REGISTRATION_ENDPOINT } from "../../constants/urls";
 import { useUserDetails } from "../../context/usercontext";
-import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, useSubmit } from "react-router-dom";
+import { sigin } from "../../utils/login";
+import { registerUser } from "../../utils/register-user";
 
 const Registration = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirm_password, setConfirm_password] = useState("");
 
   const [userDetails, updateUserDetails] = useUserDetails();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
 
-  const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState({});
+  const validateForm = () => {
+    const newErrors = {};
+    if (!name || name === " ") newErrors.name = "Por favor, insira seu nome.";
+    if (
+      !email ||
+      email === " " ||
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
+    )
+      newErrors.email = "Por favor, insira seu email corretamente.";
+    if (!password || password === " ")
+      newErrors.password = "Por favor, insira sua senha.";
+    if (password.length < 8)
+      newErrors.password = "A senha deve conter 8 digitos.";
+    if (password !== confirm_password || confirm_password === " ")
+      newErrors.confirm_password = "Confirme sua senha.";
+
+    return newErrors;
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setLoading(true);
-  };
 
-  useEffect(() => {
-    if (loading) {
-      const req_config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${userDetails.accessToken}`,
-        },
-      };
-      axios
-        .post(
-          REGISTRATION_ENDPOINT,
-          {
-            name: name,
-            email: email,
-            password: password,
-          },
-          req_config
-        )
-        .then((response) => {
-          localStorage.setItem("userDetails", JSON.stringify(response.data));
-          updateUserDetails(response.data.access, response.data.refresh);
-          setLoading(false);
-          setError(false);
-          setShow(true);
-          redirectPage();
-        })
-        .catch((error) => {
-          setLoading(false);
-          setError(true);
-          console.log("error register - ");
-        });
+    const formErrors = validateForm();
+
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+    } else {
+      setLoading(true);
     }
-  }, [confirmPassword, name, email, password, loading]);
-
-  // const registerButtonEnabled = name && email && password && confirmPassword;
-
-  const [passwordGood, setPasswordGood] = useState(false);
-
-  // useEffect(() => {
-  //   if (checkPasswordComplexity(password, confirmPassword).length === 0) {
-  //     setPasswordGood(true);
-  //   } else {
-  //     setPasswordGood(false);
-  //   }
-  // }, [name, email, password, confirmPassword, passwordGood]);
-
-  const redirectPage = () => {
-    //chamar a função login para acesso ao sistema
-    <Navigate replace to="/" />;
   };
 
   useEffect(() => {
-    console.log("teste show");
-  }, [show, setShow]);
+    async function register() {
+      if (loading)
+        setIsLogged(
+          await registerUser(
+            name,
+            email,
+            password,
+            userDetails,
+            updateUserDetails
+          )
+        );
+    }
+    register();
+    setLoading(false);
+  }, [loading]);
+
+  useEffect(() => {
+    if (isLogged) {
+      if (sigin(email, password, userDetails, updateUserDetails)) {
+        <Navigate replace to="/" />;
+      }
+    }
+  }, [isLogged]);
+
+  useEffect(() => {
+    validateForm();
+  }, [errors]);
 
   return (
-    <Form className="form-cont" onSubmit={submitHandler}>
+    <Form className="form-cont">
       <Form.Group controlId="name">
         <Form.Control
           type="name"
@@ -88,7 +86,11 @@ const Registration = () => {
           className="form-item"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          isInvalid={!!errors.name}
         />
+        <Form.Control.Feedback type="invalid">
+          {errors.name}
+        </Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group controlId="email">
@@ -98,44 +100,45 @@ const Registration = () => {
           className="form-item"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          isInvalid={!!errors.email}
         />
+        <Form.Control.Feedback type="invalid">
+          {errors.email}
+        </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="Password">
+      <Form.Group controlId="password">
         <Form.Control
           type="password"
           placeholder="Senha"
           className="form-item"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          isInvalid={!!errors.password}
         />
+        <Form.Control.Feedback type="invalid">
+          {errors.password}
+        </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="ConfirmPassword">
+      <Form.Group controlId="confirm_password">
         <Form.Control
           type="password"
           placeholder="Confirmar senha"
           className="form-item"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={confirm_password}
+          onChange={(e) => setConfirm_password(e.target.value)}
+          isInvalid={!!errors.confirm_password}
         />
+        <Form.Control.Feedback type="invalid">
+          {errors.confirm_password}
+        </Form.Control.Feedback>
       </Form.Group>
       <div className="d-grid mt-3 ">
-        <Button type="submit">Cadastrar</Button>
+        <Button type="submit" onClick={submitHandler}>
+          Cadastrar
+        </Button>
       </div>
-
-      {/* Falta estilizar corretamente {passwordGood ? (
-              <div>Senha forte o suficiente</div>
-            ) : (
-              <Alert>
-                {checkPasswordComplexity(password, confirmPassword).map((e) => {
-                  if (e) {
-                    console.log(e);
-                    return <p key={e}>{e}</p>;
-                  } else <div></div>;
-                })}
-              </Alert>
-            )} */}
     </Form>
   );
 };

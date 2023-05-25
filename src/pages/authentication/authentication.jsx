@@ -10,7 +10,7 @@ import "./authentication.scss";
 const Authentication = () => {
   const info = {
     1: "Login",
-    2: "Cadastro",
+    2: "Registre-se",
   };
 
   const [isRegistered, setIsRegistered] = useState(true);

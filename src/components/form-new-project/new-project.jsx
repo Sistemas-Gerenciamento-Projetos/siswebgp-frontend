@@ -6,7 +6,7 @@ import axios from "axios";
 
 import "./new-project.scss";
 
-const Registration = ({ history }) => {
+const Registration = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [beginDate, setBeginDate] = useState("");
@@ -49,7 +49,6 @@ const Registration = ({ history }) => {
           updateUserDetails(response.data.access, response.data.refresh);
           setLoading(false);
           setError(false);
-          history.push("/projetos/");
         })
         .catch((error) => {
           setLoading(false);

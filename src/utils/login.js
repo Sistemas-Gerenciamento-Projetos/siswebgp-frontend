@@ -1,10 +1,8 @@
-import { Navigate } from "react-router-dom";
-import { useUserDetails } from "../context/usercontext";
+import { LOGIN_ENDPOINT } from "../constants/urls";
+import axios from "axios";
 
-export function login({ email, password }) {
-  const [userDetails, updateUserDetails] = useUserDetails();
-  const [error, setError] = useState(false);
-
+export function sigin(email, password, userDetails, updateUserDetails) {
+  var isValidSigin = false;
   const req_config = {
     headers: {
       "Content-type": "application/json",
@@ -23,13 +21,12 @@ export function login({ email, password }) {
     .then((response) => {
       localStorage.setItem("userDetails", JSON.stringify(response.data));
       updateUserDetails(response.data.access, response.data.refresh);
-      setLoading(false);
-      setError(false);
-      return <Navigate replace to="/" />;
+      isValidSigin = true;
     })
     .catch((error) => {
-      setLoading(false);
-      setError(true);
-      return false;
+      console.log("test");
+      isValidSigin = false;
     });
+
+  return isValidSigin;
 }
