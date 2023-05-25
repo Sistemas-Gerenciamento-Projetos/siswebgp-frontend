@@ -1,15 +1,14 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import Authentication from "../authentication/authentication";
+import Projetos from "../projetos/projetos.component";
+import { useUserDetails } from "../../context/usercontext";
 
-const Home = () =>{
+const Home = () => {
+  const [userDetails] = useUserDetails();
 
-  return( 
-    <div>
-      <Outlet/>  {/*Mantém componente pai na rota */}
-      <h1>Home</h1>      
-      <p>sss</p>
-    </div>
-  )
-}
+  return (
+    <div>{userDetails.accessToken ? <Projetos /> : <Authentication />}</div>
+  );
+};
 
-export default Home
+export default Home;

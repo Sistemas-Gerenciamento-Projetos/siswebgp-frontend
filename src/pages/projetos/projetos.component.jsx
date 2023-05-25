@@ -6,9 +6,16 @@ import { Table } from "reactstrap";
 import { useState } from "react";
 import NovoProjeto from "../../components/form-new-project/new-project";
 import "./projetos.component.scss";
+import { useUserDetails } from "../../context/usercontext";
+import { Navigate } from "react-router-dom";
 
 const Projetos = () => {
+  const [userDetails, updateUserDetails] = useUserDetails();
   const [novoProjeto, setNovoProjeto] = useState(true);
+
+  if (!userDetails.accessToken) {
+    return <Navigate replace to="/" />;
+  }
 
   const datestart1 = new Date(2023, 2, 1);
   const dateend1 = new Date(2023, 2, 24);

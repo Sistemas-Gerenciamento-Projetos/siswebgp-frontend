@@ -1,62 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
-import { LOGIN_ENDOPOINT } from "../../constants/urls";
-import axios from "axios";
+import { sigin } from "../../utils/login";
 
-function Login({ history }) {
+function Login() {
+  const [userDetails, updateUserDetails] = useUserDetails();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
 
-  const [userDetails, updateUserDetails] = useUserDetails();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
 
-  useEffect(() => {
-    setSubmitButtonEnabled(password && email ? true : false);
-  }, [email, password, submitButtonEnabled]);
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (
+      !email ||
+      email === " " ||
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email) ||
+      !password ||
+      password === " " ||
+      password.length < 8
+    )
+      newErrors.email = "Verifique seus dados.";
+    return newErrors;
+  };
 
   useEffect(() => {
     if (loading) {
-      const req_config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${userDetails.accessToken}`,
-        },
-      };
-      axios
-        .post(
-          LOGIN_ENDOPOINT,
-          {
-            email: email,
-            password: password,
-          },
-          req_config
-        )
-        .then((response) => {
-          localStorage.setItem("UserDetails", JSON.stringify(response.data));
-          console.log("Login Sucessful");
-          updateUserDetails(response.data.access, response.data.refresh);
-          setLoading(false);
-          setError(false);
-          history.push("/");
-        })
-        .catch((error) => {
-          setLoading(false);
-          setError(true);
-        });
+      setIsLogged(sigin(email, password, userDetails, updateUserDetails));
     }
-  }, [loading, email, password, updateUserDetails]);
+  }, [loading, email]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setLoading(true);
+
+    const formErrors = validateForm();
+
+    if (
+      Object.keys(formErrors).length > 0 &&
+      !sigin(email, password, userDetails, updateUserDetails)
+    ) {
+      setErrors(formErrors);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
   };
 
+  useEffect(() => {
+    if (isLogged) {
+      <Navigate replace to="/" />;
+    }
+  }, [isLogged, setIsLogged]);
+
   return (
-    <Form className="form-cont" onSubmit={submitHandler}>
+    <Form className="form-cont">
       <Form.Group controlId="email">
         <Form.Control
           type="email"
@@ -64,7 +67,11 @@ function Login({ history }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="form-item"
+          isInvalid={!!errors.email}
         />
+        <Form.Control.Feedback type="invalid">
+          {errors.email}
+        </Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group className="senha" controlId="password">
@@ -74,10 +81,16 @@ function Login({ history }) {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Senha"
           className="form-item"
+          isInvalid={!!errors.email}
         />
       </Form.Group>
+
       <div className="d-grid">
-        <Button type="submit" variant="primary" disabled={false}>
+        <Button
+          type="submit"
+          onClick={submitHandler}
+          variant="primary"
+          disabled={false}>
           Entrar
         </Button>
       </div>
