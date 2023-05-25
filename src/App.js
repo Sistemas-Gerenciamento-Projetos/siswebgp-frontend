@@ -8,6 +8,7 @@ import Authentication from "./pages/authentication/authentication";
 import { UserDetailsProvider } from "./context/usercontext";
 import Home from "./pages/home/home.component";
 import { Navigate } from "react-router-dom";
+import InviteUsers from "./components/invite-users/invite-users.component";
 
 const App = () => {
   return (
@@ -20,6 +21,8 @@ const App = () => {
         <Route path="roteiro/" element={<Roteiro />} />
         <Route path="backlog/" element={<Backlog />} />
         <Route path="*" element={<Navigate to="/" />} />
+        <Route path="invite/" element={<InviteUsers />} />
+        <Route path="aceptproject/" element={<h1>Teste</h1>}></Route>
       </Routes>
     </UserDetailsProvider>
   );

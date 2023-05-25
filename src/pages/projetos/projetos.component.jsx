@@ -1,75 +1,40 @@
-import React, { useEffect } from "react";
-import DashboardItem from "../../components/dashboard/dashboardItem.component";
-import Sidebar from "../../components/sidebar/sidebar.component";
-import Toolbar from "../../components/toolbar/toolbar.component";
-import { Table } from "reactstrap";
-import { useState } from "react";
-import NovoProjeto from "../../components/form-new-project/new-project";
-import "./projetos.component.scss";
+import React, { useEffect } from "react"
+import DashboardItem from "../../components/dashboard/dashboardItem.component"
+import Sidebar from "../../components/sidebar/sidebar.component"
+import Toolbar from "../../components/toolbar/toolbar.component"
+import { Table } from "reactstrap"
+import { useState } from "react"
+import NovoProjeto from "../../components/form-new-project/new-project"
+import "./projetos.component.scss"
 import { useUserDetails } from "../../context/usercontext";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom"
+import { postProject } from "../../services/projects/postProject"
+import { getProjects } from "../../services/projects/getProjects"
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
-  const [novoProjeto, setNovoProjeto] = useState(true);
+  const [novoProjeto, setNovoProjeto] = useState(true)
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    getProjects(userDetails, setProjects)
+  }, [novoProjeto])
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
   }
 
-  const datestart1 = new Date(2023, 2, 1);
-  const dateend1 = new Date(2023, 2, 24);
-
-  const projects = [
-    {
-      id: 1,
-      projectName: "Projeto 1",
-      projectProgress: 3,
-      startDate: datestart1,
-      endDate: dateend1,
-      managerName: "Alberto Oliveira",
-    },
-    {
-      id: 2,
-      projectName: "Projeto 2",
-      projectProgress: 5,
-      startDate: datestart1,
-      endDate: dateend1,
-      managerName: "Eduardo Ferreira",
-    },
-    {
-      id: 3,
-      projectName: "Projeto 3",
-      projectProgress: 75,
-      startDate: datestart1,
-      endDate: dateend1,
-      managerName: "Fred Durão",
-    },
-  ];
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        backgroundColor: "#ebebeb",
-        height: "100vh",
-        paddingRight: "20px",
-      }}>
-      <div style={{ width: "20%", backgroundColor: "#ffffff", margin: "20px" }}>
+    <div className="root">
+      <div className="sidebar-div">
         <Sidebar menuItem={0} />
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "80%",
-          backgroundColor: "#ebebeb",
-        }}>
+      <div className="page-content">
         <Toolbar title={"Meus projetos"} novoProjeto={setNovoProjeto} />
         {novoProjeto && (
-          <div className="main">
+          <div className="projects-content">
             <Table hover>
               <thead>
                 <tr>
@@ -80,24 +45,23 @@ const Projetos = () => {
                 </tr>
               </thead>
               <tbody>
-                {projects.map((project) => (
+                {projects.map((projects) => (
                   <DashboardItem
-                    id={project.id}
-                    projectName={project.projectName}
-                    projectProgress={project.projectProgress}
-                    startDate={project.startDate}
-                    endDate={project.endDate}
-                    managerName={project.managerName}
+                    projectName={projects.project_name}
+                    projectProgress={50}
+                    startDate={new Date(projects.creation_date)}
+                    endDate={new Date(projects.deadline_date)}
+                    managerName={projects.manager_name}
                   />
                 ))}
               </tbody>
             </Table>
           </div>
         )}
-        {!novoProjeto && <NovoProjeto />}
+        {!novoProjeto && <NovoProjeto postProject={postProject} novoProjeto={novoProjeto} setNovoProjeto={setNovoProjeto} userDetails={userDetails}/>}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Projetos;
+export default Projetos
