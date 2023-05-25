@@ -11,3 +11,4 @@ export const PROFILE_UPDATE_ENDPOINT = BACKEND_URL + "api/users/profile/update";
 
 export const PROJECTS_CREATE_ENDPOINT = BACKEND_URL + "api/projects/";
 
+export const TASKS_CREATE_ENDPOINT = BACKEND_URL + "/api/projects/ed643ec3216746409bd0393a30b3c9af/create_new_task/";

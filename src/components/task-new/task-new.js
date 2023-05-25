@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Taskstatus from '../task-status/task-status';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import axios from "axios"
+import { TASKS_CREATE_ENDPOINT } from "../../constants/urls"
+import { useUserDetails } from '../../context/usercontext';
 
 const Newtask = () => {
   const [show, setShow] = useState(false);
@@ -18,7 +21,53 @@ const Newtask = () => {
   const [status, setStatus] = useState('');
   const [project, setProject] = useState('');
   const [user, setUser] = useState('');
-  const [epic, setEpic] = useState('');
+
+
+  const [userDetails, updateUserDetails] = useUserDetails();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setLoading(true);
+  };
+
+  useEffect(() => {
+    if (loading) {
+      const req_config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userDetails.accessToken}`,
+        },
+      };
+      axios
+        .post(
+          TASKS_CREATE_ENDPOINT ,
+          {
+
+            title: title,
+            description: description,
+            creation_date: beginDate,
+            deadline_date: deadlineDate,
+            project: "ed643ec3216746409bd0393a30b3c9af",
+            status: "todo"
+  
+          },
+          req_config
+        )
+        .then((response) => {
+          localStorage.setItem("UserDetails", JSON.stringify(response.data));
+          console.log("Login Sucessful" + userDetails);
+          updateUserDetails(response.data.access, response.data.refresh);
+          setLoading(false);
+          setError(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          setError(true);
+        });
+    }
+  }, [loading, title, description, beginDate, deadlineDate, updateUserDetails]);
 
   return (
     <div >
@@ -31,7 +80,7 @@ const Newtask = () => {
         <Modal.Title>Cadastro de nova tarefa</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form > 
+        <Form onSubmit={submitHandler}> 
           <Form.Group className="mb-3" controlId="title">
             <Form.Label>Nome da tarefa</Form.Label>
             <Form.Control
