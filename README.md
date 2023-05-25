@@ -1,4 +1,4 @@
-# Sistema de Gerenciamento de Projetos
+# [Sistema de Gerenciamento de Projetos](https://siswebgp-frontend.vercel.app/projetos)
 
 ## Ferramenta de Gestão
 
@@ -36,7 +36,7 @@
 
 # [Documento de Especificação de Requisitos](https://docs.google.com/document/d/1SoyGq1B8NpAxJMeiTQRM_trde9UVu3wnskpQNQc-gBQ/edit#)
 
-# [Fluxograma Geral do Software](https://drive.google.com/file/d/1cmANmxPhQ-gQhVlEt5vtKNs35OLR_WoL/view?usp=share_link)
+# [Arquitetura do Sistema](https://www.figma.com/file/XvfKrP0xs4ktvMbgYX3ey6/Arquitetura?node-id=0%3A1&t=Fw9glVveDSTDjONn-1)
 
 # Informações Gerais para organização da equipe
 

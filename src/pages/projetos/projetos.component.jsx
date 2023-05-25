@@ -1,17 +1,18 @@
-import React, { useEffect } from "react";
-import DashboardItem from "../../components/dashboard/dashboardItem.component";
-import Sidebar from "../../components/sidebar/sidebar.component";
-import Toolbar from "../../components/toolbar/toolbar.component";
-import { Table } from "reactstrap";
-import { useState } from "react";
-import NovoProjeto from "../../components/form-new-project/new-project";
-import "./projetos.component.scss";
+import React from "react"
+import DashboardItem from "../../components/dashboard/dashboardItem.component"
+import Sidebar from "../../components/sidebar/sidebar.component"
+import Toolbar from "../../components/toolbar/toolbar.component"
+import { Table } from "reactstrap"
+import { useState } from "react"
+import NovoProjeto from "../../components/form-new-project/new-project"
+import "./projetos.component.scss"
 import { useUserDetails } from "../../context/usercontext";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom"
+import { postProject } from "../../services/projects/postProject"
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
-  const [novoProjeto, setNovoProjeto] = useState(true);
+  const [novoProjeto, setNovoProjeto] = useState(true)
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
@@ -48,28 +49,15 @@ const Projetos = () => {
   ];
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        backgroundColor: "#ebebeb",
-        height: "100vh",
-        paddingRight: "20px",
-      }}>
-      <div style={{ width: "20%", backgroundColor: "#ffffff", margin: "20px" }}>
+    <div className="root">
+      <div className="sidebar-div">
         <Sidebar menuItem={0} />
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "80%",
-          backgroundColor: "#ebebeb",
-        }}>
+      <div className="page-content">
         <Toolbar title={"Meus projetos"} novoProjeto={setNovoProjeto} />
         {novoProjeto && (
-          <div className="main">
+          <div className="projects-content">
             <Table hover>
               <thead>
                 <tr>
@@ -94,10 +82,10 @@ const Projetos = () => {
             </Table>
           </div>
         )}
-        {!novoProjeto && <NovoProjeto />}
+        {!novoProjeto && <NovoProjeto postProject={postProject} novoProjeto={novoProjeto} setNovoProjeto={setNovoProjeto} userDetails={userDetails}/>}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Projetos;
+export default Projetos
