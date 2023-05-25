@@ -32,7 +32,7 @@ const Taskstatus = () => {
       onChange={(e) => setColor(e.target.value)}
     >
       {liststatus.map((item) => (
-          <option value={item.value}>{item.namestatus}</option>
+          <option value={item.value}>{item.namestatus}{namestatus}</option>
         ))}
     </Form.Select>
     */

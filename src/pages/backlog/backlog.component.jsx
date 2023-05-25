@@ -12,6 +12,9 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import "./backlog.component.scss"
 
+
+
+
 const Backlog = () =>{
 
   const [show, setShow] = useState(false);

@@ -8,3 +8,6 @@ export const VERIFY_EMAIL_ENDOPOINT = BACKEND_URL + "api/users/email/verify/";
 export const LOGIN_ENDOPOINT = BACKEND_URL + "api/users/token /";
 
 export const PROFILE_UPDATE_ENDPOINT = BACKEND_URL + "api/users/profile/update";
+
+export const TASKS_CREATE_ENDPOINT = BACKEND_URL + "api/projects/project_id/tasks/";
+
