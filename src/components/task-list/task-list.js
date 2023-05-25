@@ -5,15 +5,15 @@ import Taskstatus from "../task-status/task-status";
 
 
 const Tasks = (props) => {
-  const { taskName, taskstatus, startDate, endDate, managerName } =
+  const { title, status, beginDate, deadlineDate, user } =
     props;
 
   return (
     <tr>
-      <td>{taskName}</td> 
-      <td><Taskstatus namestatus={taskstatus}/></td>
-      <td><DatePeriod startDate={startDate} endDate={endDate} /></td>
-      <td><ManagerPhoto name={managerName}/></td>
+      <td>{title}</td> 
+      <td><Taskstatus status={status}/></td>
+      <td><DatePeriod startDate={beginDate} endDate={deadlineDate} /></td>
+      <td><ManagerPhoto name={user}/></td>
     </tr>
   );
 };

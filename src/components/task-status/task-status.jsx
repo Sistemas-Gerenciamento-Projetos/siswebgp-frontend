@@ -8,10 +8,10 @@ const Taskstatus = () => {
   const [color, setColor] = useState("");
   
   const liststatus = [
-    {value: "none", namestatus: 'Selecione o status'},
-    {value: "progresso", namestatus: 'Em andamento'},
-    {value: "successo", namestatus: 'Concluído'},
-    {value: "pausado", namestatus: 'Pausado'},
+    {value: "none", status: 'Selecione o status'},
+    {value: "progresso", status: 'Em andamento'},
+    {value: "successo", status: 'Concluído'},
+    {value: "pausado", status: 'Pausado'},
   ];
 
 
@@ -32,7 +32,7 @@ const Taskstatus = () => {
       onChange={(e) => setColor(e.target.value)}
     >
       {liststatus.map((item) => (
-          <option value={item.value}>{item.namestatus}{namestatus}</option>
+          <option value={item.value}>{item.status}{status}</option>
         ))}
     </Form.Select>
     */

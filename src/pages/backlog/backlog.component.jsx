@@ -11,7 +11,7 @@ import Taskstatus from "../../components/task-status/task-status"
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import "./backlog.styles.scss"
-
+import axios from "axios"
 
 
 const Backlog = () =>{
@@ -20,30 +20,30 @@ const Backlog = () =>{
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [taskName, setTaskName] = useState('');
-  const [managerName, setManagerName] = useState('');
+  const [title, setTitle] = useState('');
+  const [user, setUser] = useState('');
   const [status, setStatus] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [taskdesc, setTaskdesc] = useState('');
+  const [beginDate, setBeginDate] = useState('');
+  const [deadlineDate, setDeadlineDate] = useState('');
+  const [description, setDescription] = useState('');
 
   const datestart1 = new Date(2023, 2, 1);
   const dateend1 = new Date(2023, 2, 24);
 
   const tasklist = [
     {
-      taskName: "Definição da Arquitetura",
-      taskstatus: "Em andamento",
-      startDate: datestart1,
-      endDate: dateend1,
-      managerName: "Alberto Oliveira",
+      title: "Definição da Arquitetura",
+      status: "Em andamento",
+      beginDate: datestart1,
+      deadlineDate: dateend1,
+      user: "Alberto Oliveira",
     },
     {
-      taskName: "Criação do Banco de Dados",
-      taskstatus: "Concluído",
-      startDate: datestart1,
-      endDate: dateend1,
-      managerName: "Eduardo Ferreira",
+      title: "Criação do Banco de Dados",
+      status: "Concluído",
+      beginDate: datestart1,
+      deadlineDate: dateend1,
+      user: "Eduardo Ferreira",
     },
   ];
 
@@ -87,11 +87,11 @@ const Backlog = () =>{
                 <tbody  onDoubleClick={handleShow}>
                   {tasklist.map((task) => (
                     <Tasks 
-                      taskName={task.taskName}
-                      taskstatus={task.taskstatus}
-                      startDate={task.startDate}
-                      endDate={task.endDate}
-                      managerName={task.managerName}
+                      title={task.title}
+                      status={task.status}
+                      beginDate={task.beginDate}
+                      deadlineDate={task.deadlineDate}
+                      user={task.user}
                     />
                   ))}
                 </tbody>
@@ -108,7 +108,7 @@ const Backlog = () =>{
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label>Responsável</Form.Label>
                 <Form.Select aria-label="Default select example"
-                  onChange={(e) => [setManagerName(e.target.value)]}
+                  onChange={(e) => [setUser(e.target.value)]}
                 >
                   <option>Abra o menu de seleção</option>
                   <option value="1">Eduardo</option>
@@ -124,8 +124,8 @@ const Backlog = () =>{
                     <Form.Control 
                       type="date"
                       autoFocus
-                      value={startDate}
-                      onChange={(e) => [setStartDate(e.target.value)]}
+                      value={beginDate}
+                      onChange={(e) => [setBeginDate(e.target.value)]}
                     />
                   </Form.Group>
                 </Col>
@@ -135,8 +135,8 @@ const Backlog = () =>{
                     <Form.Control
                       type="date"
                       autoFocus
-                      value={endDate}
-                      onChange={(e) => [setEndDate(e.target.value)]}
+                      value={deadlineDate}
+                      onChange={(e) => [setDeadlineDate(e.target.value)]}
                     />
                   </Form.Group>
                 </Col>
@@ -152,8 +152,8 @@ const Backlog = () =>{
                 <Form.Control 
                   as = "textarea" 
                   rows={2} 
-                  value={taskdesc}
-                  onChange={(e) => [setTaskdesc(e.target.value)]}
+                  value={description}
+                  onChange={(e) => [setDescription(e.target.value)]}
                 />
               </Form.Group>
             </Form>
