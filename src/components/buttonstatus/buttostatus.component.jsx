@@ -14,9 +14,9 @@ export default function Buttonstatus() {
         <Button color="primary"> Em Andamento </Button>
         <DropdownToggle caret color="primary" />
         <DropdownMenu>
-          <DropdownItem className="bt-progress"> Em Andamento </DropdownItem>
-          <DropdownItem className="bt-sucess"> Concluído </DropdownItem>
-          <DropdownItem className="bt-paused"> Pausado </DropdownItem>
+          <DropdownItem> Em Andamento </DropdownItem>
+          <DropdownItem> Concluído </DropdownItem>
+          <DropdownItem> Pausado </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
     </div>

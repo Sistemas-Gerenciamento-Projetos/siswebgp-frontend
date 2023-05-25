@@ -94,9 +94,7 @@ const Registration = ({ handleRegisterProject }) => {
         </InputGroup>
       </Form.Group>
       <div className="d-grid mt-4">
-        <Button type="submit">
-          Cadastrar
-        </Button>
+        <Button type="submit">Cadastrar</Button>
       </div>
     </Form>
   );
