@@ -5,7 +5,7 @@ import ManagerPhoto from "./managerPhoto/managerPhoto";
 import styles from "./dashboardItemStyles";
 
 const DashboardItem = (props) => {
-  const { id, projectName, projectProgress, startDate, endDate, managerName } =
+  const { projectName, projectProgress, startDate, endDate, managerName } =
     props;
 
   return (
