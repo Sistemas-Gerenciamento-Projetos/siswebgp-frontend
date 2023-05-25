@@ -22,52 +22,77 @@ const Newtask = () => {
   const [project, setProject] = useState('');
   const [user, setUser] = useState('');
 
-
+  const [validated, setValidated] = useState(false)
   const [userDetails, updateUserDetails] = useUserDetails();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const submitHandler = (event) => {
+    console.log("verificar")
+    event.preventDefault()
+    event.stopPropagation()
+
+    const form = event.currentTarget
+    if (form.checkValidity() === false) {
+      setValidated(true)
+      return
+    }
+    creatNewTask(userDetails, title, description,  deadlineDate)
+
   };
 
-  useEffect(() => {
-    if (loading) {
-      const req_config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${userDetails.accessToken}`,
-        },
-      };
-      axios
-        .post(
-          TASKS_CREATE_ENDPOINT ,
-          {
-
-            title: title,
-            description: description,
-            creation_date: beginDate,
-            deadline_date: deadlineDate,
-            project: "ed643ec3216746409bd0393a30b3c9af",
-            status: "todo"
   
-          },
-          req_config
-        )
-        .then((response) => {
-          localStorage.setItem("UserDetails", JSON.stringify(response.data));
-          console.log("Login Sucessful" + userDetails);
-          updateUserDetails(response.data.access, response.data.refresh);
-          setLoading(false);
-          setError(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          setError(true);
-        });
+
+  function creatNewTask( userDetails, title, description,  deadlineDate) {
+    const parsedTitle = title.trim()
+    console.log("criar")
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userDetails.accessToken}`
+      }
     }
-  }, [loading, title, description, beginDate, deadlineDate, updateUserDetails]);
+
+    axios.post(
+      TASKS_CREATE_ENDPOINT,
+      {
+
+        title: parsedTitle,
+        description: description,
+        deadline_date: deadlineDate,
+        status: "TODO",
+        user: userDetails.id
+
+       },
+      header
+    ).then((response) => {
+      if (response.status === 201) {
+        console.log(response)
+        
+      } else {
+        alert(response.message)
+      }
+    }).catch((error) => {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data)
+        console.log(error.response.status)
+        console.log(error.response.headers)
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log(error.request)
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message)
+      }
+      // retornar alert com mensagem generica de erro
+      alert("Erro inesperado, tente novamente.")
+    })
+  }
+  
 
   return (
     <div >
@@ -80,7 +105,7 @@ const Newtask = () => {
         <Modal.Title>Cadastro de nova tarefa</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={submitHandler}> 
+        <Form noValidate validated={validated} onSubmit={submitHandler}> 
           <Form.Group className="mb-3" controlId="title">
             <Form.Label>Nome da tarefa</Form.Label>
             <Form.Control
