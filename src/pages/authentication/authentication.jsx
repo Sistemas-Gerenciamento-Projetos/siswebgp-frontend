@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import FormLogin from "../../components/form-login/login";
 import CompUfba from "../../Assets/comp-ufba.png"
+
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import FormRegister from "../../components/form-register/form-register.component";
