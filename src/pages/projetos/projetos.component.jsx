@@ -7,6 +7,8 @@ import { useState } from "react"
 import NovoProjeto from "../../components/form-new-project/new-project"
 import "./projetos.component.scss"
 import axios from "axios"
+import { useUserDetails } from "../../context/usercontext";
+import { Navigate } from "react-router-dom"
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
