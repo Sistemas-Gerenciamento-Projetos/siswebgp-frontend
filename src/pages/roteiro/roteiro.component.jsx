@@ -1,6 +1,8 @@
 import React from "react";
 import Sidebar from "../../components/sidebar/sidebar.component";
 import "./roteiro.styles.css";
+import { Navigate } from "react-router-dom";
+import { useUserDetails } from "../../context/usercontext";
 import Gantt, {
   Tasks,
   Dependencies,
@@ -26,6 +28,12 @@ const Roteiro = () => {
   const currentDate = new Date(Date.now());
   // const month = currentDate.getMonth();
   // const year = currentDate.getFullYear;
+
+  const [userDetails] = useUserDetails();
+
+  if (!userDetails.accessToken) {
+    return <Navigate replace to="/" />;
+  }
 
   return (
     <div
