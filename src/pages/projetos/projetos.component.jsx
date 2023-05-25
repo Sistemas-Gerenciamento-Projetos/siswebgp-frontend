@@ -14,9 +14,9 @@ const Projetos = () => {
   const datestart1 = new Date(2023, 2, 1);
   const dateend1 = new Date(2023, 2, 24);
 
-  function handleRegisterProject(managerId, title, description, beginDate, endDate) {
+  function handleRegisterProject(title, description, beginDate, endDate) {
     const parsedTitle = title.trim()
-    const parsedDate = endDate == "" ? null : endDate.toISOString().split('T')[0]
+    const parsedDate = endDate === "" ? null : endDate.toISOString().split('T')[0]
 
     const header = {
       headers: {
@@ -36,7 +36,7 @@ const Projetos = () => {
       },
       header
     ).then((response) => {
-      if (response.status == 201) {
+      if (response.status === 201) {
         console.log(response)
         setNovoProjeto(!novoProjeto)
       } else {
@@ -91,28 +91,15 @@ const Projetos = () => {
   ];
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        backgroundColor: "#ebebeb",
-        height: "100vh",
-        paddingRight: "20px",
-      }}>
-      <div style={{ width: "20%", backgroundColor: "#ffffff", margin: "20px" }}>
+    <div className="root">
+      <div className="sidebar-div">
         <Sidebar menuItem={0} />
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "80%",
-          backgroundColor: "#ebebeb",
-        }}>
+      <div className="page-content">
         <Toolbar title={"Meus projetos"} novoProjeto={setNovoProjeto} />
         {novoProjeto && (
-          <div className="main">
+          <div className="projects-content">
             <Table hover>
               <thead>
                 <tr>
@@ -140,7 +127,7 @@ const Projetos = () => {
         {!novoProjeto && <NovoProjeto handleRegisterProject={handleRegisterProject} />}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Projetos;
+export default Projetos

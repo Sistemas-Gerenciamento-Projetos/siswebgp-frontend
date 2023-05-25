@@ -19,11 +19,11 @@ const Registration = ({ handleRegisterProject }) => {
       return
     }
 
-    handleRegisterProject("", title, description, beginDate, endDate);
+    handleRegisterProject(title, description, beginDate, endDate);
   }
 
   return (
-    <Form className="main-novo-projeto" noValidate validated={validated} onSubmit={handleSubmit}>
+    <Form className="main-form-new-project" noValidate validated={validated} onSubmit={handleSubmit}>
 
       {/* Tem um bug visual na validação de string com espaços em branco, o form nega o seguimento mas o feedback visual é de correto */}
       <Form.Group controlId="title">
