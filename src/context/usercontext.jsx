@@ -19,6 +19,7 @@ export function UserDetailsProvider(props) {
   var accessTokenFromStorage = false;
   var refreshTokenFromStorage = false;
   var nameFromStorage = false;
+  var idFromStorage = false;
 
   if (userDetailsFromStorage) {
     if (userDetailsFromStorage.access) {
@@ -30,8 +31,13 @@ export function UserDetailsProvider(props) {
       accessTokenFromStorage = false;
       nameFromStorage = false;
     }
+    
     refreshTokenFromStorage = userDetailsFromStorage.refresh
       ? userDetailsFromStorage.refresh
+      : false;
+    
+    idFromStorage = userDetailsFromStorage.user.id
+      ? userDetailsFromStorage.user.id
       : false;
   }
 
@@ -39,6 +45,7 @@ export function UserDetailsProvider(props) {
     accessToken: accessTokenFromStorage,
     refreshToken: refreshTokenFromStorage,
     name: nameFromStorage,
+    id: idFromStorage,
   });
 
   const value = useMemo(() => {

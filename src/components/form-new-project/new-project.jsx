@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Form, Button, InputGroup, Badge, } from "react-bootstrap"
 import "./new-project.scss"
 
-const Registration = ({ handleRegisterProject }) => {
+const Registration = ({ postProject, novoProjeto, setNovoProjeto, userDetails }) => {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [beginDate, setBeginDate] = useState("")
@@ -19,7 +19,7 @@ const Registration = ({ handleRegisterProject }) => {
       return
     }
 
-    handleRegisterProject(title, description, beginDate, endDate);
+    postProject(novoProjeto, setNovoProjeto, userDetails, title, description, beginDate, endDate);
   }
 
   return (
@@ -37,9 +37,7 @@ const Registration = ({ handleRegisterProject }) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <Form.Control.Feedback type="invalid">
-            Título inválido.
-          </Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Título inválido.</Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
 
@@ -52,6 +50,7 @@ const Registration = ({ handleRegisterProject }) => {
             type="text"
             className="form-item"
             value={description}
+            required
             onChange={(e) => setDescription(e.target.value)}
           />
           <Badge 
@@ -59,6 +58,7 @@ const Registration = ({ handleRegisterProject }) => {
             bg={`${description.length > 200 ? 'danger' : 'primary'}`}>
               {description.length}/{200}
           </Badge>
+          <Form.Control.Feedback type="invalid">Preencha a descrição.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group>
@@ -70,9 +70,7 @@ const Registration = ({ handleRegisterProject }) => {
           value={beginDate}
           onChange={(e) => setBeginDate(e.target.value)}
         />
-        <Form.Control.Feedback type="invalid">
-            Preencha a data de início.
-        </Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">Preencha a data de início.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group controlId="endDate">
@@ -84,13 +82,12 @@ const Registration = ({ handleRegisterProject }) => {
             isValid={Date.parse(beginDate) < Date.parse(endDate)}
             min={beginDate === "" ? new Date().toISOString().split('T')[0] : beginDate}
             disabled={beginDate === ""}
+            required
             className="form-item"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
-          <Form.Control.Feedback type="invalid">
-            A data de fim não pode ser anterior a data de início.
-          </Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Preencha o campo ou a data de fim não pode ser anterior a data de início.</Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
       <div className="d-grid mt-4">
