@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import Sidebar from "../../components/sidebar/sidebar.component"
 import Toolbar from "../../components/toolbar/toolbar.component"
 import Newtask from "../../components/task-new/task-new"
-import Tasks from "../../components/taskitem/taskitem"
+import Tasks from "../../components/task-list/task-list"
 import { Table } from "reactstrap";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -11,7 +11,6 @@ import Taskstatus from "../../components/task-status/task-status"
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import "./backlog.styles.scss"
-
 
 
 
