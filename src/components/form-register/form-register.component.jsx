@@ -63,6 +63,7 @@ const Registration = () => {
     }
     register();
     setLoading(false);
+    console.log("tresdfa");
   }, [loading]);
 
   useEffect(() => {
