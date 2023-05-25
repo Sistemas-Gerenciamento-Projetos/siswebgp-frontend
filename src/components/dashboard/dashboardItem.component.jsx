@@ -2,11 +2,9 @@ import React from "react";
 import ProgressBar from "./progressBar/progressBar";
 import DatePeriod from "./datePeriod/datePeriod";
 import ManagerPhoto from "./managerPhoto/managerPhoto";
-import styles from "./dashboardItemStyles";
 
 const DashboardItem = (props) => {
-  const { projectName, projectProgress, startDate, endDate, managerName } =
-    props;
+  const { projectName, projectProgress, startDate, endDate, managerName } = props;
 
   return (
     <tr>
