@@ -10,9 +10,11 @@ import { useUserDetails } from "../../context/usercontext";
 import { Navigate } from "react-router-dom"
 import { postProject } from "../../services/projects/postProject"
 import { getProjects } from "../../services/projects/getProjects"
+import { useProjectDetails } from "../../context/projectContext"
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
+  const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [novoProjeto, setNovoProjeto] = useState(true)
   const [projects, setProjects] = useState([]);
 
@@ -24,6 +26,10 @@ const Projetos = () => {
     return <Navigate replace to="/" />;
   }
 
+  function onClickProject(projectId) {
+    console.log(projectId)
+    updateProjectDetails(projectId);
+  }
 
   return (
     <div className="root">
@@ -47,11 +53,13 @@ const Projetos = () => {
               <tbody>
                 {projects.map((projects) => (
                   <DashboardItem
+                    onPress={onClickProject}
                     projectName={projects.project_name}
                     projectProgress={50}
                     startDate={new Date(projects.creation_date)}
                     endDate={new Date(projects.deadline_date)}
                     managerName={projects.manager_name}
+                    projectId={projects.id}
                   />
                 ))}
               </tbody>
