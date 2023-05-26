@@ -1,55 +1,77 @@
-import React from "react";
-import Sidebar from "../../components/sidebar/sidebar.component";
-import Taskitem from "../../components/taskitem/taskitem";
-import { Button } from "reactstrap";
-import Toolbar from "../../components/toolbar/toolbar.component";
-import "./backlog.styles.scss";
+import React, { useState } from "react"
+import Sidebar from "../../components/sidebar/sidebar.component"
+import Toolbar from "../../components/toolbar/toolbar.component"
+import Newtask from "../../components/task-new/task-new"
+import Tasks from "../../components/task-list/task-list"
+import { Table } from "reactstrap";
+import "./backlog.styles.scss"
+import { useUserDetails } from "../../context/usercontext"
 import { Navigate } from "react-router-dom";
-import { useUserDetails } from "../../context/usercontext";
 
-const Backlog = () => {
-  const [userDetails] = useUserDetails();
+const Backlog = () =>{
+
+  const [userDetails, updateUserDetails] = useUserDetails ();
+  const [novaTarefa, setNovaTarefa] = useState (true)
 
   if (!userDetails.accessToken) {
-    return <Navigate replace to="/" />;
+    return <Navigate replace to="/" />
   }
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        backgroundColor: "#ebebeb",
-        height: "100vh",
-      }}>
-      <div style={{ width: "20%", backgroundColor: "#ffffff", margin: "20px" }}>
-        <Sidebar menuItem={1} />
+  const datestart1 = new Date(2023, 2, 1);
+  const dateend1 = new Date(2023, 2, 24);
+
+  const tasklist = [
+    {
+      title: "Definição da Arquitetura",
+      status: "Em andamento",
+      beginDate: datestart1,
+      deadlineDate: dateend1,
+      user: "Alberto Oliveira",
+    },
+    {
+      title: "Criação do Banco de Dados",
+      status: "Concluído",
+      beginDate: datestart1,
+      deadlineDate: dateend1,
+      user: "Eduardo Ferreira",
+    },
+  ];
+
+  return(
+    <div className="root">
+      <div className="sidebar-div">
+        <Sidebar menuItem={1}/>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "80%",
-          backgroundColor: "#ebebeb",
-          marginRight: "20px",
-        }}>
+      <div className="page-content">
         <Toolbar title={"Projeto 1 - xxx"} />
-
-        <div
-          style={{
-            height: "100%",
-            backgroundColor: "#ffffff",
-            marginTop: "20px",
-            marginBottom: "20px",
-            padding: "15px",
-          }}>
-          <Button color="primary">Nova Tarefa</Button>
-          <Taskitem />
-        </div>
+          <div className="projects-content">
+            <div> <Newtask /> </div>
+            <Table hover >
+                <thead>
+                  <tr>
+                    <th>Nome da Tarefa</th>
+                    <th>Status</th>
+                    <th>Prazo</th>
+                    <th>Responsável</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tasklist.map((task) => (
+                    <Tasks 
+                      title={task.title}
+                      status={task.status}
+                      beginDate={task.beginDate}
+                      deadlineDate={task.deadlineDate}
+                      user={task.user}
+                    />
+                  ))}
+                </tbody>
+            </Table>
+          </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Backlog;
+export default Backlog
