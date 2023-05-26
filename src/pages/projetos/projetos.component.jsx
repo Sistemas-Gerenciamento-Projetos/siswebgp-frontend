@@ -10,6 +10,7 @@ import { useUserDetails } from "../../context/usercontext";
 import { Navigate } from "react-router-dom"
 import { postProject } from "../../services/projects/postProject"
 import { getProjects } from "../../services/projects/getProjects"
+import { parseDateWithoutTimezone } from "../../utils/dateParse"
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -49,8 +50,8 @@ const Projetos = () => {
                   <DashboardItem
                     projectName={projects.project_name}
                     projectProgress={50}
-                    startDate={new Date(projects.creation_date)}
-                    endDate={new Date(projects.deadline_date)}
+                    startDate={parseDateWithoutTimezone(projects.creation_date)}
+                    endDate={parseDateWithoutTimezone(projects.deadline_date)}
                     managerName={projects.manager_name}
                   />
                 ))}
