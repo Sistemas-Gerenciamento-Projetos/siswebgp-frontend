@@ -11,9 +11,11 @@ import { Navigate } from "react-router-dom"
 import { postProject } from "../../services/projects/postProject"
 import { getProjects } from "../../services/projects/getProjects"
 import { parseDateWithoutTimezone } from "../../utils/dateParse"
+import { useProjectDetails } from "../../context/projectContext"
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
+  const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [novoProjeto, setNovoProjeto] = useState(true)
   const [projects, setProjects] = useState([]);
 
@@ -25,11 +27,14 @@ const Projetos = () => {
     return <Navigate replace to="/" />;
   }
 
+  function onClickProject(projectId) {
+    updateProjectDetails(projectId);
+  }
 
   return (
     <div className="root">
       <div className="sidebar-div">
-        <Sidebar menuItem={0} />
+        <Sidebar menuItem={0} projectDetails={projectDetails} />
       </div>
 
       <div className="page-content">
@@ -48,11 +53,14 @@ const Projetos = () => {
               <tbody>
                 {projects.map((projects) => (
                   <DashboardItem
+                    key={projects.id}
+                    onPress={onClickProject}
                     projectName={projects.project_name}
                     projectProgress={50}
                     startDate={parseDateWithoutTimezone(projects.creation_date)}
                     endDate={parseDateWithoutTimezone(projects.deadline_date)}
                     managerName={projects.manager_name}
+                    projectId={projects.id}
                   />
                 ))}
               </tbody>

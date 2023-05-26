@@ -8,12 +8,13 @@ import {
 } from "@ant-design/icons";
 import styles from "./sidebarStyles.component";
 import { useNavigate } from "react-router-dom";
+import { useProjectDetails } from "../../context/projectContext";
 
 const Sidebar = (props) => {
-  var projectId = ""
+  const navigate = useNavigate();
   const { menuItem } = props;
   const [menuItemSelected, setMenuItemSelected] = useState(menuItem);
-  const navigate = useNavigate();
+  const [projectDetails, updateProjectDetails] = useProjectDetails();
 
   function navigateToProjects() {
     setMenuItemSelected(0);
@@ -71,7 +72,7 @@ const Sidebar = (props) => {
           {menuItemSelected === 0 && <div style={styles.blueDiv}></div>}
         </div>
 
-        {projectId !== "" && 
+        {projectDetails.projectId !== "" && 
          <div>
             <div
               style={menuItemSelected === 1 ? styles.menuItemSelectedDiv : styles.menuItemUnselectedDiv}
