@@ -167,12 +167,10 @@ const Newtask = () => {
               onChange={(e) => [setDescription(e.target.value)]}
             />
           </Form.Group>
+          <Button variant="primary" type="submit">Criar tarefa</Button>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" type="submit" >
-          Criar tarefa
-        </Button>
         <Button variant="primary" onClick={ handleClose }>
           Cancelar
         </Button>
