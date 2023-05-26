@@ -5,7 +5,7 @@ import ManagerPhoto from "./managerPhoto/managerPhoto";
 
 const DashboardItem = ({ projectName, projectProgress, startDate, endDate, managerName, projectId, onPress }) => {
   return (
-    <tr onClick={() => onPress(projectId)}>
+    <tr onClick={() => {onPress(projectId)}}>
       <td>{projectName}</td> 
       <td><ProgressBar completed={projectProgress} /></td>
       <td><DatePeriod startDate={startDate} endDate={endDate} /></td>

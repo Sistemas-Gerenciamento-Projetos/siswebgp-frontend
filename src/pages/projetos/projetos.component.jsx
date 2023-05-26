@@ -27,14 +27,13 @@ const Projetos = () => {
   }
 
   function onClickProject(projectId) {
-    console.log(projectId)
     updateProjectDetails(projectId);
   }
 
   return (
     <div className="root">
       <div className="sidebar-div">
-        <Sidebar menuItem={0} />
+        <Sidebar menuItem={0} projectDetails={projectDetails} />
       </div>
 
       <div className="page-content">
@@ -53,6 +52,7 @@ const Projetos = () => {
               <tbody>
                 {projects.map((projects) => (
                   <DashboardItem
+                    key={projects.id}
                     onPress={onClickProject}
                     projectName={projects.project_name}
                     projectProgress={50}
