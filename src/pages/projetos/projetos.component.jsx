@@ -41,7 +41,7 @@ const Projetos = () => {
                   <th>Nome do projeto</th>
                   <th>Progresso</th>
                   <th>Prazo</th>
-                  <th>Responsável</th>
+                  <th>Gerente</th>
                 </tr>
               </thead>
               <tbody>
