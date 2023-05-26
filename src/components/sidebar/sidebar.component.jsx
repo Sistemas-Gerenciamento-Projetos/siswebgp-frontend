@@ -10,6 +10,7 @@ import styles from "./sidebarStyles.component";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = (props) => {
+  var projectId = ""
   const { menuItem } = props;
   const [menuItemSelected, setMenuItemSelected] = useState(menuItem);
   const navigate = useNavigate();
@@ -70,69 +71,69 @@ const Sidebar = (props) => {
           {menuItemSelected === 0 && <div style={styles.blueDiv}></div>}
         </div>
 
-        <div
-          style={
-            menuItemSelected === 1
-              ? styles.menuItemSelectedDiv
-              : styles.menuItemUnselectedDiv
-          }
-          onClick={() => navigateToBacklog()}>
-          <div>
-            <OrderedListOutlined style={{ paddingLeft: "20px" }} />
-            <span
-              style={
-                menuItemSelected === 1
-                  ? styles.textSelected
-                  : styles.textUnselected
-              }>
-              Backlog
-            </span>
-          </div>
-          {menuItemSelected === 1 && <div style={styles.blueDiv}></div>}
-        </div>
+        {projectId !== "" && 
+         <div>
+            <div
+              style={menuItemSelected === 1 ? styles.menuItemSelectedDiv : styles.menuItemUnselectedDiv}
+              onClick={() => navigateToBacklog()}>
+              <div>
+                <OrderedListOutlined style={{ paddingLeft: "20px" }} />
+                <span
+                  style={
+                    menuItemSelected === 1
+                      ? styles.textSelected
+                      : styles.textUnselected
+                  }>
+                  Backlog
+                </span>
+              </div>
+              {menuItemSelected === 1 && <div style={styles.blueDiv}></div>}
+            </div>
 
-        <div
-          style={
-            menuItemSelected === 2
-              ? styles.menuItemSelectedDiv
-              : styles.menuItemUnselectedDiv
-          }
-          onClick={() => navigateToDashboard()}>
-          <div>
-            <TableOutlined style={{ paddingLeft: "20px" }} />
-            <span
+            <div
               style={
                 menuItemSelected === 2
-                  ? styles.textSelected
-                  : styles.textUnselected
-              }>
-              Painel
-            </span>
-          </div>
-          {menuItemSelected === 2 && <div style={styles.blueDiv}></div>}
-        </div>
+                  ? styles.menuItemSelectedDiv
+                  : styles.menuItemUnselectedDiv
+              }
+              onClick={() => navigateToDashboard()}>
+              <div>
+                <TableOutlined style={{ paddingLeft: "20px" }} />
+                <span
+                  style={
+                    menuItemSelected === 2
+                      ? styles.textSelected
+                      : styles.textUnselected
+                  }>
+                  Painel
+                </span>
+              </div>
+              {menuItemSelected === 2 && <div style={styles.blueDiv}></div>}
+            </div>
 
-        <div
-          style={
-            menuItemSelected === 3
-              ? styles.menuItemSelectedDiv
-              : styles.menuItemUnselectedDiv
-          }
-          onClick={() => navigateToRoteiro()}>
-          <div>
-            <BarChartOutlined style={{ paddingLeft: "20px" }} />
-            <span
+            <div
               style={
                 menuItemSelected === 3
-                  ? styles.textSelected
-                  : styles.textUnselected
-              }>
-              Roteiro
-            </span>
+                  ? styles.menuItemSelectedDiv
+                  : styles.menuItemUnselectedDiv
+              }
+              onClick={() => navigateToRoteiro()}>
+              <div>
+                <BarChartOutlined style={{ paddingLeft: "20px" }} />
+                <span
+                  style={
+                    menuItemSelected === 3
+                      ? styles.textSelected
+                      : styles.textUnselected
+                  }>
+                  Roteiro
+                </span>
+              </div>
+              {menuItemSelected === 3 && <div style={styles.blueDiv}></div>}
+            </div>
           </div>
-          {menuItemSelected === 3 && <div style={styles.blueDiv}></div>}
-        </div>
-      </div>
+        }
+      </div> 
     </div>
   );
 };
