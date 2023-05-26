@@ -10,6 +10,7 @@ import styles from "./sidebarStyles.component";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = (props) => {
+   var projectId= ""
   const { menuItem } = props;
   const [menuItemSelected, setMenuItemSelected] = useState(menuItem);
   const navigate = useNavigate();
@@ -70,9 +71,11 @@ const Sidebar = (props) => {
           {menuItemSelected === 0 && <div style={styles.blueDiv}></div>}
         </div>
 
-        <div
-          style={
-            menuItemSelected === 1
+        {projectId!=="" && 
+         <div>
+            <div
+             style={
+             menuItemSelected === 1
               ? styles.menuItemSelectedDiv
               : styles.menuItemUnselectedDiv
           }
@@ -133,6 +136,8 @@ const Sidebar = (props) => {
           {menuItemSelected === 3 && <div style={styles.blueDiv}></div>}
         </div>
       </div>
+                }
+      </div> 
     </div>
   );
 };
