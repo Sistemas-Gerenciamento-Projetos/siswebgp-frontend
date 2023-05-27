@@ -15,7 +15,7 @@ export function postProject(
   const header = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${JSON.stringify(userDetails.accessToken)}`,
+      Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
 
