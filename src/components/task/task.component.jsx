@@ -76,7 +76,7 @@ export default function Task({ task, index, columnId }) {
             </div>
             {task.owner}
           </div>
-          {provided.placeholder}
+          {provided.placeholder }
         </Container>
       )}
     </Draggable>
