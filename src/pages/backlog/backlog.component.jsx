@@ -74,6 +74,7 @@ const Backlog = () => {
         </div>
       </div>
     </div>
+    </div>
   )
 }
 
