@@ -13,3 +13,4 @@ export const PROJECTS_CREATE_ENDPOINT = BACKEND_URL + "api/projects/";
 
 export const PROJECTS_GET_ENDPOINT = BACKEND_URL + "api/projects/projects_by_user";
 
+export const TASKS_CREATE_ENDPOINT = BACKEND_URL; // Alteração temporaria para nao quebrar develop
