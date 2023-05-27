@@ -1,21 +1,19 @@
-import { createContext, useContext, useState, useMemo } from "react";
+import { createContext, useContext, useState, useMemo } from "react"
 
-const ProjectDetails = createContext();
+const ProjectDetails = createContext()
 
 export function useProjectDetails() {
-  const context = useContext(ProjectDetails);
+  const context = useContext(ProjectDetails)
   if (!context) {
-    throw new Error(
-      "useProjectDetails must be used within a ProjectDetailsProvider"
-    );
+    throw new Error("useProjectDetails must be used within a ProjectDetailsProvider")
   }
-  return context;
+  return context
 }
 
 export function ProjectDetailsProvider(props) {
-  const projectDetailsFromStorage = localStorage.getItem("projectId")
-    ? localStorage.getItem("projectId")
-    : "";
+  const projectDetailsFromStorage = localStorage.getItem("projectId") 
+  ? localStorage.getItem("projectId")
+  : ""
 
   const [projectDetails, setProjectDetails] = useState({
     projectId: projectDetailsFromStorage,
@@ -23,15 +21,15 @@ export function ProjectDetailsProvider(props) {
 
   const value = useMemo(() => {
     function updateProjectDetails(projectId) {
-      const newProjectDetails = { ...projectDetails };
+      const newProjectDetails = { ...projectDetails }
 
-      newProjectDetails.projectId = projectId;
+      newProjectDetails.projectId = projectId
 
-      localStorage.setItem("projectId", projectId);
-      setProjectDetails(newProjectDetails);
+      localStorage.setItem("projectId", projectId)
+      setProjectDetails(newProjectDetails)
     }
     return [{ ...projectDetails }, updateProjectDetails];
-  }, [projectDetails]);
+  }, [projectDetails])
 
   return <ProjectDetails.Provider value={value} {...props} />;
 }
