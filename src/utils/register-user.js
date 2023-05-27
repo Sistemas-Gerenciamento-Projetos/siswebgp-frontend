@@ -1,13 +1,7 @@
 import { REGISTRATION_ENDPOINT } from "../constants/urls";
 import axios from "axios";
 
-export async function registerUser(
-  name,
-  email,
-  password,
-  userDetails,
-  updateUserDetails
-) {
+export async function registerUser(name, email, password, updateUserDetails) {
   var isRegistered = false;
 
   const req_config = {
@@ -27,7 +21,7 @@ export async function registerUser(
     )
     .then((response) => {
       isRegistered = true;
-      // localStorage.setItem("userDetails", JSON.stringify(response.data));
+      localStorage.setItem("userDetails", JSON.parse(response.data));
       updateUserDetails(response.data.access, response.data.refresh);
     })
     .catch((error) => {

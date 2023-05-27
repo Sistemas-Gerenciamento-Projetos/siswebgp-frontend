@@ -52,13 +52,7 @@ const Registration = () => {
     async function register() {
       if (loading)
         setIsLogged(
-          await registerUser(
-            name,
-            email,
-            password,
-            userDetails,
-            updateUserDetails
-          )
+          await registerUser(name, email, password, updateUserDetails)
         );
     }
     register();
