@@ -13,7 +13,7 @@ const Backlog = () => {
   const [novaTarefa, setNovaTarefa] = useState(true);
 
   if (!userDetails.accessToken) {
-    return <Navigate replace to="/" />;
+    return <Navigate replace to="/" />
   }
 
   const datestart1 = new Date(2023, 2, 1);
@@ -42,6 +42,7 @@ const Backlog = () => {
         <Sidebar menuItem={1} />
       </div>
 
+      <div className="page-content">
       <div className="page-content">
         <Toolbar title={"Projeto 1 - xxx"} />
         <div className="projects-content">
@@ -73,7 +74,8 @@ const Backlog = () => {
         </div>
       </div>
     </div>
-  );
-};
+    </div>
+  )
+}
 
-export default Backlog;
+export default Backlog
