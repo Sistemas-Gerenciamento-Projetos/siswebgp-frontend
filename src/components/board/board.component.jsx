@@ -10,7 +10,9 @@ const mockedTodoTasks = [
     description: "Realizar implementação do painel de visualização das tasks",
     status: "TODO",
     owner: "Alberto Oliveira",
-    epic: null
+    epic: null,
+    creation_date: new Date().toISOString(),
+    deadline_date: new Date().toISOString()
   },
   {
     userId: 2, 
@@ -19,7 +21,9 @@ const mockedTodoTasks = [
     description: "Integrar endpoint de login com backend",
     status: "INPROGRESS",
     owner: "Bruno Mocitaiba",
-    epic: null
+    epic: null,
+    creation_date: new Date().toISOString(),
+    deadline_date: new Date().toISOString()
   },
   {
     userId: 4, 
@@ -28,7 +32,9 @@ const mockedTodoTasks = [
     description: "Cobrir endpoints com testes unitários",
     status: "PAUSED",
     owner: "Eduardo Ferreira",
-    epic: null
+    epic: null,
+    creation_date: new Date().toISOString(),
+    deadline_date: new Date().toISOString()
   },
   {
     userId: 3, 
@@ -37,7 +43,9 @@ const mockedTodoTasks = [
     description: "Implementar layout e estilização da tela de cadastro de novo projeto",
     status: "DONE",
     owner: "Bruno Bacelar",
-    epic: null
+    epic: null,
+    creation_date: new Date().toISOString(),
+    deadline_date: new Date().toISOString()
   },
   {
     userId: 5, 
@@ -46,7 +54,9 @@ const mockedTodoTasks = [
     description: "Confeccionar documentação para os testes do frontend",
     status: "INPROGRESS",
     owner: "Rebeca Oliveira",
-    epic: null
+    epic: null,
+    creation_date: new Date().toISOString(),
+    deadline_date: new Date().toISOString()
   },
 ]
 

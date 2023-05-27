@@ -2,6 +2,8 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { UserOutlined } from "@ant-design/icons";
+import { CalendarOutlined } from '@ant-design/icons'
+import { parseDateWithoutTimezone } from "../../utils/dateParse";
 
 const Container = styled.div`
   border-radius: 10px;
@@ -75,6 +77,11 @@ export default function Task({ task, index, columnId }) {
               <UserOutlined/>
             </div>
             {task.owner}
+          </div>
+
+          <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
+            <CalendarOutlined />
+            {new Date(task.creation_date).toISOString().split('T')[0]}
           </div>
           {provided.placeholder}
         </Container>
