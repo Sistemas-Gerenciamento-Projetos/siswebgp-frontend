@@ -7,7 +7,7 @@ export function postProject(
   userDetails,
   title,
   description,
-  creationDate,
+  startDate,
   endDate
 ) {
   const parsedTitle = title.trim();
@@ -26,7 +26,7 @@ export function postProject(
         manager: userDetails.id,
         project_name: parsedTitle,
         description: description,
-        creation_date: creationDate,
+        start_date: startDate,
         deadline_date: endDate,
         users: [userDetails.id],
       },
