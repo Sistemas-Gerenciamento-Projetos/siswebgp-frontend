@@ -68,7 +68,7 @@ export default function Board() {
       mockedTodoTasks.filter((task) => task.status === "INPROGRESS")
     );
     setPaused(mockedTodoTasks.filter((task) => task.status === "PAUSED"));
-    setDone(mockedTodoTasks.filter((task) => task.status == "DONE"));
+    setDone(mockedTodoTasks.filter((task) => task.status === "DONE"));
   }, []);
 
   const handleDragEnd = (result) => {
@@ -76,16 +76,16 @@ export default function Board() {
 
     if (destination == null) return;
 
-    if (source.droppableId == destination.droppableId) return;
+    if (source.droppableId === destination.droppableId) return;
 
     // REMOVE FROM SOURCE ARRAY
-    if (source.droppableId == 1) {
+    if (source.droppableId === 1) {
       setTodo(removeItemById(draggableId, todo));
-    } else if (source.droppableId == 2) {
+    } else if (source.droppableId === 2) {
       setInProgress(removeItemById(draggableId, inProgress));
-    } else if (source.droppableId == 3) {
+    } else if (source.droppableId === 3) {
       setPaused(removeItemById(draggableId, paused));
-    } else if (source.droppableId == 4) {
+    } else if (source.droppableId === 4) {
       setDone(removeItemById(draggableId, done));
     }
 
@@ -98,23 +98,23 @@ export default function Board() {
     ]);
 
     // ADD ITEM
-    if (destination.droppableId == 1) {
+    if (destination.droppableId === 1) {
       setTodo([...todo, task]);
-    } else if (destination.droppableId == 2) {
+    } else if (destination.droppableId === 2) {
       setInProgress([...inProgress, task]);
-    } else if (destination.droppableId == 3) {
+    } else if (destination.droppableId === 3) {
       setPaused([...paused, task]);
-    } else if (destination.droppableId == 4) {
+    } else if (destination.droppableId === 4) {
       setDone([...done, task]);
     }
   };
 
   function findItemById(id, array) {
-    return array.find((item) => item.id == id);
+    return array.find((item) => item.id === id);
   }
 
   function removeItemById(id, array) {
-    return array.filter((item) => item.id != id);
+    return array.filter((item) => item.id !== id);
   }
 
   return (

@@ -21,11 +21,12 @@ export async function registerUser(name, email, password, updateUserDetails) {
     )
     .then((response) => {
       isRegistered = true;
-      localStorage.setItem("userDetails", JSON.parse(response.data));
-      updateUserDetails(response.data.access, response.data.refresh);
+
+      console.log(response.data);
     })
     .catch((error) => {
       console.log(error);
+      console.log("error");
       isRegistered = false;
     });
   return isRegistered;
