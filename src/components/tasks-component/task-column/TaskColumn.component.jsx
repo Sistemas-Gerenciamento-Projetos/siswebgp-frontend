@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Droppable } from "react-beautiful-dnd";
-import Task from "../task/task.component";
+import Task from "../../tasks-component/task/task.component";
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -36,8 +36,7 @@ export default function TaskColumn({ title, tasks, id }) {
         style={{
           backgroundColor: "#bae7ff",
           position: "stick",
-        }}
-      >
+        }}>
         {title}
       </Title>
       <Droppable droppableId={id}>
@@ -45,8 +44,7 @@ export default function TaskColumn({ title, tasks, id }) {
           <TaskList
             ref={provided.innerRef}
             {...provided.droppableProps}
-            isDraggingOver={snapshot.isDraggingOver}
-          >
+            isDraggingOver={snapshot.isDraggingOver}>
             {tasks.map((task, index) => (
               <Task key={index} index={index} task={task} columnId={id} />
             ))}

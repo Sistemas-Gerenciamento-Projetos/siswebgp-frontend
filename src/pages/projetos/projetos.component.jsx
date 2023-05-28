@@ -8,93 +8,73 @@ import NovoProjeto from "../../components/form-new-project/new-project";
 import "./projetos.component.scss";
 import { useUserDetails } from "../../context/usercontext";
 import { Navigate } from "react-router-dom";
+import { postProject } from "../../services/projects/postProject";
+import { getProjects } from "../../services/projects/getProjects";
+import { parseDateWithoutTimezone } from "../../utils/dateParse";
+import { useProjectDetails } from "../../context/projectContext";
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
+  const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [novoProjeto, setNovoProjeto] = useState(true);
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    getProjects(userDetails, setProjects);
+  }, [novoProjeto]);
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
   }
 
-  const datestart1 = new Date(2023, 2, 1);
-  const dateend1 = new Date(2023, 2, 24);
-
-  const projects = [
-    {
-      id: 1,
-      projectName: "Projeto 1",
-      projectProgress: 3,
-      startDate: datestart1,
-      endDate: dateend1,
-      managerName: "Alberto Oliveira",
-    },
-    {
-      id: 2,
-      projectName: "Projeto 2",
-      projectProgress: 5,
-      startDate: datestart1,
-      endDate: dateend1,
-      managerName: "Eduardo Ferreira",
-    },
-    {
-      id: 3,
-      projectName: "Projeto 3",
-      projectProgress: 75,
-      startDate: datestart1,
-      endDate: dateend1,
-      managerName: "Fred Durão",
-    },
-  ];
+  function onClickProject(projectId) {
+    updateProjectDetails(projectId);
+  }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        backgroundColor: "#ebebeb",
-        height: "100vh",
-        paddingRight: "20px",
-      }}>
-      <div style={{ width: "20%", backgroundColor: "#ffffff", margin: "20px" }}>
-        <Sidebar menuItem={0} />
+    <div className="root">
+      <div className="sidebar-div">
+        <Sidebar menuItem={0} projectDetails={projectDetails} />
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "80%",
-          backgroundColor: "#ebebeb",
-        }}>
+      <div className="page-content">
         <Toolbar title={"Meus projetos"} novoProjeto={setNovoProjeto} />
         {novoProjeto && (
-          <div className="main">
+          <div className="projects-content">
             <Table hover>
               <thead>
                 <tr>
                   <th>Nome do projeto</th>
                   <th>Progresso</th>
                   <th>Prazo</th>
-                  <th>Responsável</th>
+                  <th>Gerente</th>
                 </tr>
               </thead>
               <tbody>
-                {projects.map((project) => (
+                {projects.map((projects) => (
                   <DashboardItem
-                    id={project.id}
-                    projectName={project.projectName}
-                    projectProgress={project.projectProgress}
-                    startDate={project.startDate}
-                    endDate={project.endDate}
-                    managerName={project.managerName}
+                    key={projects.id}
+                    onPress={onClickProject}
+                    projectName={projects.project_name}
+                    projectProgress={50}
+                    startDate={parseDateWithoutTimezone(projects.creation_date)}
+                    endDate={parseDateWithoutTimezone(projects.deadline_date)}
+                    managerName={projects.manager_name}
+                    projectId={projects.id}
                   />
                 ))}
               </tbody>
             </Table>
           </div>
         )}
-        {!novoProjeto && <NovoProjeto />}
+        {!novoProjeto && (
+          <NovoProjeto
+            postProject={postProject}
+            novoProjeto={novoProjeto}
+            setNovoProjeto={setNovoProjeto}
+            userDetails={userDetails}
+          />
+        )}
       </div>
     </div>
   );

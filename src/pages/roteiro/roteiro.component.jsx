@@ -3,6 +3,7 @@ import Sidebar from "../../components/sidebar/sidebar.component";
 import "./roteiro.styles.css";
 import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
+
 import Gantt, {
   Tasks,
   Dependencies,
@@ -17,17 +18,10 @@ import Gantt, {
   StripLine,
 } from "devextreme-react/gantt";
 
-import {
-  tasks,
-  dependencies,
-  resources,
-  resourceAssignments,
-} from "../../data";
+import { tasks } from "../../data";
 
 const Roteiro = () => {
   const currentDate = new Date(Date.now());
-  // const month = currentDate.getMonth();
-  // const year = currentDate.getFullYear;
 
   const [userDetails] = useUserDetails();
 
@@ -51,18 +45,25 @@ const Roteiro = () => {
           display: "flex",
           flexDirection: "column",
           width: "80%",
+          marginTop: "20px",
         }}>
-        <Gantt taskListWidth={500} scaleType="weeks" height={700}>
-          <FilterRow visible={true} />
-          <Tasks dataSource={tasks} />
-          {/* <Dependencies dataSource={dependencies} /> */}
-          {/* <Resources dataSource={resources} /> */}
-          {/* <ResourceAssignments dataSource={resourceAssignments} /> */}
+        <Gantt taskListWidth={430} scaleType="weeks" height={800}>
+          {/* <FilterRow visible={true} /> */}
+          <Tasks
+            dataSource={tasks}
+            keyExpr="id"
+            parentIdExpr="parentId"
+            titleExpr="title"
+            progressExpr="progress"
+            startExpr="start"
+            endExpr="end"
+            colorExpr="taskColor"
+          />
           <StripLine start={tasks[0].start} title="Start" />
           <StripLine
             start={tasks[tasks.length - 3].start}
             end={tasks[tasks.length - 1].end}
-            title="Final Phase"
+            title="Fase Final"
           />
           <StripLine
             start={currentDate}
@@ -71,9 +72,6 @@ const Roteiro = () => {
           />
 
           <Toolbar>
-            <Item name="undo" />
-            <Item name="redo" />
-            <Item name="separator" />
             <Item name="collapseAll" />
             <Item name="expandAll" />
             <Item name="separator" />
@@ -84,9 +82,9 @@ const Roteiro = () => {
             <Item name="zoomOut" />
           </Toolbar>
 
-          <Column dataField="title" caption="Tarefa" width={300} />
-          <Column dataField="start" caption="Data de Início" />
-          <Column dataField="end" caption="Data de Fim" />
+          <Column dataField="title" caption="Tarefa" width={250} />
+          <Column dataField="start" caption="Início" width={75} />
+          <Column dataField="end" caption="Fim" width={75} />
 
           <Validation autoUpdateParentTasks />
           <Editing enabled={true} />

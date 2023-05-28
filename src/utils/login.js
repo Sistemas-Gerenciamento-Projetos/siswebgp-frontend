@@ -6,7 +6,7 @@ export function sigin(email, password, userDetails, updateUserDetails) {
   const req_config = {
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${userDetails.accessToken}`,
+      Authorization: `Bearer ${JSON.parse(userDetails.accessToken)}`,
     },
   };
   axios
@@ -20,11 +20,10 @@ export function sigin(email, password, userDetails, updateUserDetails) {
     )
     .then((response) => {
       localStorage.setItem("userDetails", JSON.stringify(response.data));
-      updateUserDetails(response.data.access, response.data.refresh);
+      updateUserDetails(response.data.access, response.data.refresh, response.data.user.id);
       isValidSigin = true;
     })
     .catch((error) => {
-      console.log("test");
       isValidSigin = false;
     });
 

@@ -2,6 +2,7 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { UserOutlined } from "@ant-design/icons";
+import { CalendarOutlined, ScheduleOutlined } from '@ant-design/icons'
 
 const Container = styled.div`
   border-radius: 10px;
@@ -71,11 +72,26 @@ export default function Task({ task, index, columnId }) {
           <div style={{width: '100%', height: '1px', backgroundColor: '#000'}}/>
 
           <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
+            <div style={{marginRight: '5px'}}>
+              <CalendarOutlined />
+            </div>
+            {new Date(task.start_date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric'})}
+          </div>
+
+          <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
+            <div style={{marginRight: '5px'}}>
+            <ScheduleOutlined />
+            </div>
+            {new Date(task.deadline_date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric'})}
+          </div>
+
+          <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
             <div style={{display: 'flex', width: '30px', height: '30px', borderRadius: '60px', backgroundColor: taskBgColor, alignItems: 'center', justifyContent: 'center', marginRight: '5px'}}>
               <UserOutlined/>
             </div>
-            {task.owner}
+            {task.user_name}
           </div>
+
           {provided.placeholder}
         </Container>
       )}

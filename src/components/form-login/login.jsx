@@ -21,12 +21,17 @@ function Login() {
     if (
       !email ||
       email === " " ||
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email) ||
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
+    )
+      newErrors.password = "Verifique seu email.";
+    if (
       !password ||
       password === " " ||
-      password.length < 8
+      password.length < 8 ||
+      !sigin(email, password, userDetails, updateUserDetails)
     )
       newErrors.email = "Verifique seus dados.";
+
     return newErrors;
   };
 
@@ -34,17 +39,13 @@ function Login() {
     if (loading) {
       setIsLogged(sigin(email, password, userDetails, updateUserDetails));
     }
-  }, [loading, email]);
+  }, [loading]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-
     const formErrors = validateForm();
 
-    if (
-      Object.keys(formErrors).length > 0 &&
-      !sigin(email, password, userDetails, updateUserDetails)
-    ) {
+    if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       setLoading(false);
     } else {
@@ -59,7 +60,7 @@ function Login() {
   }, [isLogged, setIsLogged]);
 
   return (
-    <Form className="form-cont">
+    <Form className="form-cont" autoComplete="off">
       <Form.Group controlId="email">
         <Form.Control
           type="email"
@@ -81,9 +82,12 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Senha"
           className="form-item"
-          isInvalid={!!errors.email}
+          isInvalid={!!errors.password}
         />
       </Form.Group>
+      <Form.Control.Feedback type="invalid">
+        {errors.password}
+      </Form.Control.Feedback>
 
       <div className="d-grid">
         <Button
