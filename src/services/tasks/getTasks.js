@@ -1,43 +1,19 @@
-import { PROJECTS_CREATE_ENDPOINT } from "../../constants/urls";
 import axios from "axios";
+import { TASKS_GET_ENDPOINT } from "../../constants/urls";
 
-export function postProject(
-  novoProjeto,
-  setNovoProjeto,
-  userDetails,
-  title,
-  description,
-  startDate,
-  endDate
-) {
-  const parsedTitle = title.trim();
-
+export function getTasks(userDetails, setTasks) {
   const header = {
     headers: {
-      "Content-Type": "application/json",
+      "Content-type": "application/json",
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
 
   axios
-    .post(
-      PROJECTS_CREATE_ENDPOINT,
-      {
-        manager: userDetails.id,
-        project_name: parsedTitle,
-        description: description,
-        start_date: startDate,
-        deadline_date: endDate,
-        users: [userDetails.id],
-      },
-      header
-    )
+    .get(TASKS_GET_ENDPOINT, header)
     .then((response) => {
-      if (response.status === 201) {
-        console.log(response);
-        setNovoProjeto(!novoProjeto);
-      } else {
-        alert(response.message);
+      if (response.status === 200) {
+        console.log("test");
       }
     })
     .catch((error) => {
@@ -57,6 +33,6 @@ export function postProject(
         console.log("Error", error.message);
       }
       // retornar alert com mensagem generica de erro
-      alert("Erro inesperado, tente novamente.");
+      alert("Erro inesperado, tente novamente");
     });
 }

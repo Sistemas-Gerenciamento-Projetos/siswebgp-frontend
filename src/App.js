@@ -24,7 +24,6 @@ const App = () => {
           <Route path="backlog/" element={<Backlog />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="invite/" element={<InviteUsers />} />
-          <Route path="aceptproject/" element={<h1>Teste</h1>}></Route>
         </Routes>
       </ProjectDetailsProvider>
     </UserDetailsProvider>

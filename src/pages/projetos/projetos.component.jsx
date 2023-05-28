@@ -1,27 +1,27 @@
-import React, { useEffect } from "react"
-import DashboardItem from "../../components/dashboard/dashboardItem.component"
-import Sidebar from "../../components/sidebar/sidebar.component"
-import Toolbar from "../../components/toolbar/toolbar.component"
-import { Table } from "reactstrap"
-import { useState } from "react"
-import NovoProjeto from "../../components/form-new-project/new-project"
-import "./projetos.component.scss"
+import React, { useEffect } from "react";
+import DashboardItem from "../../components/dashboard/dashboardItem.component";
+import Sidebar from "../../components/sidebar/sidebar.component";
+import Toolbar from "../../components/toolbar/toolbar.component";
+import { Table } from "reactstrap";
+import { useState } from "react";
+import NovoProjeto from "../../components/form-new-project/new-project";
+import "./projetos.component.scss";
 import { useUserDetails } from "../../context/usercontext";
-import { Navigate } from "react-router-dom"
-import { postProject } from "../../services/projects/postProject"
-import { getProjects } from "../../services/projects/getProjects"
-import { parseDateWithoutTimezone } from "../../utils/dateParse"
-import { useProjectDetails } from "../../context/projectContext"
+import { Navigate } from "react-router-dom";
+import { postProject } from "../../services/projects/postProject";
+import { getProjects } from "../../services/projects/getProjects";
+import { parseDateWithoutTimezone } from "../../utils/dateParse";
+import { useProjectDetails } from "../../context/projectContext";
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
   const [projectDetails, updateProjectDetails] = useProjectDetails();
-  const [novoProjeto, setNovoProjeto] = useState(true)
+  const [novoProjeto, setNovoProjeto] = useState(true);
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    getProjects(userDetails, setProjects)
-  }, [novoProjeto])
+    getProjects(userDetails, setProjects);
+  }, [novoProjeto]);
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
@@ -67,10 +67,17 @@ const Projetos = () => {
             </Table>
           </div>
         )}
-        {!novoProjeto && <NovoProjeto postProject={postProject} novoProjeto={novoProjeto} setNovoProjeto={setNovoProjeto} userDetails={userDetails}/>}
+        {!novoProjeto && (
+          <NovoProjeto
+            postProject={postProject}
+            novoProjeto={novoProjeto}
+            setNovoProjeto={setNovoProjeto}
+            userDetails={userDetails}
+          />
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Projetos
+export default Projetos;
