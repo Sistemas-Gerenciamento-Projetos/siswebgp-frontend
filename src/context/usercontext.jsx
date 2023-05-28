@@ -19,8 +19,9 @@ export function UserDetailsProvider(props) {
   var accessTokenFromStorage = false;
   var refreshTokenFromStorage = false;
   var nameFromStorage = false;
+  var idFromStorage = false;
 
-  if (userDetailsFromStorage) {
+  if (userDetailsFromStorage != null) {
     if (userDetailsFromStorage.access) {
       accessTokenFromStorage = userDetailsFromStorage.access;
       const jwt_decoded = jwt_decode(accessTokenFromStorage);
@@ -30,8 +31,13 @@ export function UserDetailsProvider(props) {
       accessTokenFromStorage = false;
       nameFromStorage = false;
     }
+
     refreshTokenFromStorage = userDetailsFromStorage.refresh
       ? userDetailsFromStorage.refresh
+      : false;
+
+    idFromStorage = userDetailsFromStorage.user.id
+      ? userDetailsFromStorage.user.id
       : false;
   }
 
@@ -39,14 +45,16 @@ export function UserDetailsProvider(props) {
     accessToken: accessTokenFromStorage,
     refreshToken: refreshTokenFromStorage,
     name: nameFromStorage,
+    id: idFromStorage,
   });
 
   const value = useMemo(() => {
-    function updateUserDetails(accessToken, refreshToken) {
+    function updateUserDetails(accessToken, refreshToken, userId) {
       const newUserDetails = { ...userDetails };
 
       newUserDetails.accessToken = accessToken;
       newUserDetails.refreshToken = refreshToken;
+      newUserDetails.id = userId
 
       if (newUserDetails.accessToken) {
         const jwt_decoded = jwt_decode(newUserDetails.accessToken);

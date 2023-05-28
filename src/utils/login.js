@@ -20,11 +20,10 @@ export function sigin(email, password, userDetails, updateUserDetails) {
     )
     .then((response) => {
       localStorage.setItem("userDetails", JSON.stringify(response.data));
-      updateUserDetails(response.data.access, response.data.refresh);
+      updateUserDetails(response.data.access, response.data.refresh, response.data.user.id);
       isValidSigin = true;
     })
     .catch((error) => {
-      console.log("test");
       isValidSigin = false;
     });
 

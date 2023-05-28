@@ -19,6 +19,7 @@ const Painel = () => {
         flexDirection: "row",
         backgroundColor: "#ebebeb",
         height: "100vh",
+        // paddingRight: "20px",
       }}>
       <div style={{ width: "20%", backgroundColor: "#ffffff", margin: "20px" }}>
         <Sidebar menuItem={2} />

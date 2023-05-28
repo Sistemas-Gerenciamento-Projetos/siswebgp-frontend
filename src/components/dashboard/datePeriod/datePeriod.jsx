@@ -2,22 +2,28 @@ import React from 'react'
 import { SwapRightOutlined, CalendarOutlined, WarningFilled } from '@ant-design/icons'
 import styles from './datePeriodStyles'
 
+const options = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+}
+
 function calculateDelayedDays(endDate) {
     const difference = new Date().getTime() - endDate.getTime()
-    const TotalDays = Math.ceil(difference / (1000 * 3600 * 24))
+    const totalDays = Math.ceil(difference / (1000 * 3600 * 24))
 
-    return TotalDays
+    return totalDays
 }
 
 const DelayedProject = (props) => {
     const { endDate } = props
 
-    const TotalDays = calculateDelayedDays(endDate)
+    const totalDays = calculateDelayedDays(endDate)
     
     return ( 
         <div style={styles.delayedDiv}>
             <WarningFilled style={styles.warningIcon}/>
-            <p style={styles.warningText}>{TotalDays} dias de atraso</p>
+            <p style={styles.warningText}>{totalDays} dias de atraso</p>
         </div>
     );
 }
@@ -25,8 +31,8 @@ const DelayedProject = (props) => {
 const DatePeriod = (props) => {
     const { startDate, endDate } = props;
 
-    const startDateParsed = `${startDate.getDate()}/${startDate.getMonth()+1}/${startDate.getFullYear()}`
-    const endDateParsed = `${endDate.getDate()}/${endDate.getMonth()+1}/${endDate.getFullYear()}`
+    const startDateParsed = startDate.toLocaleDateString('pt-BR', options);
+    const endDateParsed = endDate.toLocaleDateString('pt-BR', options);
 
     const scheduleDelay = () => {
         return calculateDelayedDays(endDate) > 0;

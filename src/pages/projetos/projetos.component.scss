@@ -1,4 +1,19 @@
-.main {
+.root {
+  display: flex;
+  flex-direction: row;
+  background-color: #ebebeb;
+  height: 100vh;
+  padding-right: 20px;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  background-color: #ebebeb;
+}
+
+.projects-content {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -8,4 +23,11 @@
   margin-right: 20px;
   margin-bottom: 20px;
   padding: 15px;
+  overflow-y: scroll;
+}
+
+.sidebar-div {
+  width: 20%;
+  background-color: #ffffff;
+  margin: 20px;
 }

@@ -1,106 +1,94 @@
-import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
-import { useUserDetails } from "../../context/usercontext";
-import { PROJECTS_CREATE_ENDPOINT } from "../../constants/urls";
-import axios from "axios";
+import React, { useState } from "react"
+import { Form, Button, InputGroup, Badge, } from "react-bootstrap"
+import "./new-project.scss"
 
-import "./new-project.scss";
+const Registration = ({ postProject, novoProjeto, setNovoProjeto, userDetails }) => {
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [beginDate, setBeginDate] = useState("")
+  const [endDate, setEndDate] = useState("")
+  const [validated, setValidated] = useState(false)
 
-const Registration = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [beginDate, setBeginDate] = useState("");
-  const [deadlineDate, setDeadlineDate] = useState("");
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
 
-  const [userDetails, updateUserDetails] = useUserDetails();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    setLoading(true);
-  };
-
-  // const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
-
-  useEffect(() => {
-    if (loading) {
-      const req_config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${userDetails.accessToken}`,
-        },
-      };
-      axios
-        .post(
-          PROJECTS_CREATE_ENDPOINT,
-          {
-            manager: userDetails.name,
-            project_name: title,
-            description: description,
-            creation_date: beginDate,
-            deadline_date: deadlineDate,
-          },
-          req_config
-        )
-        .then((response) => {
-          localStorage.setItem("UserDetails", JSON.stringify(response.data));
-          console.log("Login Sucessful" + userDetails);
-          updateUserDetails(response.data.access, response.data.refresh);
-          setLoading(false);
-          setError(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          setError(true);
-        });
+    const form = event.currentTarget
+    if (form.checkValidity() === false) {
+      setValidated(true)
+      return
     }
-  }, [loading, title, description, beginDate, deadlineDate, updateUserDetails]);
+
+    postProject(novoProjeto, setNovoProjeto, userDetails, title, description, beginDate, endDate);
+  }
 
   return (
-    <Form className="main-novo-projeto" onSubmit={submitHandler}>
-      <Form.Label htmlFor="text">Título:</Form.Label>
-      <Form.Group controlId="text">
-        <Form.Control
-          type="text"
-          className="form-item"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+    <Form className="main-form-new-project" noValidate validated={validated} onSubmit={handleSubmit}>
+
+      {/* Tem um bug visual na validação de string com espaços em branco, o form nega o seguimento mas o feedback visual é de correto */}
+      <Form.Group controlId="title">
+        <Form.Label>Título:</Form.Label>
+        <InputGroup hasValidation>
+          <Form.Control
+            type="text"
+            className="form-item"
+            required
+            isInvalid={title.trim() === ""}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Form.Control.Feedback type="invalid">Título inválido.</Form.Control.Feedback>
+        </InputGroup>
       </Form.Group>
 
       <Form.Group controlId="description">
-        <Form.Label htmlFor="text">Descrição:</Form.Label>
-        <Form.Control
-          as="textarea"
-          rows={3}
-          type="text"
-          className="form-item"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+        <Form.Label>Descrição:</Form.Label>
+          <Form.Control
+            as="textarea"
+            maxLength={200}
+            rows={3}
+            type="text"
+            className="form-item"
+            value={description}
+            required
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <Badge 
+            className='form-item' 
+            bg={`${description.length > 200 ? 'danger' : 'primary'}`}>
+              {description.length}/{200}
+          </Badge>
+          <Form.Control.Feedback type="invalid">Preencha a descrição.</Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="text">
-        <Form.Label htmlFor="text">Data de Início:</Form.Label>
-
+      <Form.Group>
+        <Form.Label>Data de Início:</Form.Label>
         <Form.Control
           type="date"
+          required
           className="form-item"
           value={beginDate}
           onChange={(e) => setBeginDate(e.target.value)}
         />
+        <Form.Control.Feedback type="invalid">Preencha a data de início.</Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="ConfirmPassword">
-        <Form.Label htmlFor="text">Data de Fim:</Form.Label>
+      <Form.Group controlId="endDate">
+        <Form.Label>Data de Fim:</Form.Label>
 
-        <Form.Control
-          type="date"
-          className="form-item"
-          value={deadlineDate}
-          onChange={(e) => setDeadlineDate(e.target.value)}
-        />
+        <InputGroup hasValidation>
+          <Form.Control
+            type="date"
+            isValid={Date.parse(beginDate) < Date.parse(endDate)}
+            min={beginDate === "" ? new Date().toISOString().split('T')[0] : beginDate}
+            disabled={beginDate === ""}
+            required
+            className="form-item"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+          <Form.Control.Feedback type="invalid">Preencha o campo ou a data de fim não pode ser anterior a data de início.</Form.Control.Feedback>
+        </InputGroup>
       </Form.Group>
       <div className="d-grid mt-4">
         <Button type="submit">Cadastrar</Button>
@@ -109,4 +97,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default Registration
