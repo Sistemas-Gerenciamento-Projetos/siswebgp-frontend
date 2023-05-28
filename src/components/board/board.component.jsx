@@ -11,8 +11,8 @@ export default function Board() {
   const [projectDetails, updateProjectDetails] = useProjectDetails()
   const [todo, setTodo] = useState([]);
   const [inProgress, setInProgress] = useState([]);
-  const [paused, setPaused] = useState([])
-  const [done, setDone] = useState([])
+  const [paused, setPaused] = useState([]);
+  const [done, setDone] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -32,40 +32,45 @@ export default function Board() {
 
     if (destination == null) return;
 
-    if (source.droppableId == destination.droppableId) return;
+    if (source.droppableId === destination.droppableId) return;
 
     // REMOVE FROM SOURCE ARRAY
-    if (source.droppableId == 1) {
+    if (source.droppableId === 1) {
       setTodo(removeItemById(draggableId, todo));
-    } else if (source.droppableId == 2) {
+    } else if (source.droppableId === 2) {
       setInProgress(removeItemById(draggableId, inProgress));
-    } else if (source.droppableId == 3) {
-      setPaused(removeItemById(draggableId, paused))
-    } else if (source.droppableId == 4) {
-      setDone(removeItemById(draggableId, done))
+    } else if (source.droppableId === 3) {
+      setPaused(removeItemById(draggableId, paused));
+    } else if (source.droppableId === 4) {
+      setDone(removeItemById(draggableId, done));
     }
 
     // GET ITEM
-    const task = findItemById(draggableId, [...todo, ...inProgress, ...paused, ...done]);
+    const task = findItemById(draggableId, [
+      ...todo,
+      ...inProgress,
+      ...paused,
+      ...done,
+    ]);
 
     // ADD ITEM
-    if (destination.droppableId == 1) {
-      setTodo([...todo, task])
-    } else if (destination.droppableId == 2) {
-      setInProgress([...inProgress, task]) 
-    } else if (destination.droppableId == 3) {
-      setPaused([...paused, task])
-    } else if (destination.droppableId == 4) {
-      setDone([...done, task])
+    if (destination.droppableId === 1) {
+      setTodo([...todo, task]);
+    } else if (destination.droppableId === 2) {
+      setInProgress([...inProgress, task]);
+    } else if (destination.droppableId === 3) {
+      setPaused([...paused, task]);
+    } else if (destination.droppableId === 4) {
+      setDone([...done, task]);
     }
   };
 
   function findItemById(id, array) {
-    return array.find((item) => item.id == id);
+    return array.find((item) => item.id === id);
   }
 
   function removeItemById(id, array) {
-    return array.filter((item) => item.id != id);
+    return array.filter((item) => item.id !== id);
   }
 
   return (
@@ -76,9 +81,8 @@ export default function Board() {
           justifyContent: "space-between",
           alignItems: "center",
           flexDirection: "row",
-          height: '100%'
-        }}
-      >
+          height: "100%",
+        }}>
         <TaskColumn title={"A fazer"} tasks={todo} id={"1"} />
         <TaskColumn title={"Em progresso"} tasks={inProgress} id={"2"} />
         <TaskColumn title={"Pausado"} tasks={paused} id={"3"} />

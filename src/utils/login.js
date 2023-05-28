@@ -6,7 +6,7 @@ export function sigin(email, password, userDetails, updateUserDetails) {
   const req_config = {
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${userDetails.accessToken}`,
+      Authorization: `Bearer ${JSON.parse(userDetails.accessToken)}`,
     },
   };
   axios
@@ -24,7 +24,6 @@ export function sigin(email, password, userDetails, updateUserDetails) {
       isValidSigin = true;
     })
     .catch((error) => {
-      console.log("test");
       isValidSigin = false;
     });
 

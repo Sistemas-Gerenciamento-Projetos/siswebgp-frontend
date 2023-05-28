@@ -31,11 +31,11 @@ export function UserDetailsProvider(props) {
       accessTokenFromStorage = false;
       nameFromStorage = false;
     }
-    
+
     refreshTokenFromStorage = userDetailsFromStorage.refresh
       ? userDetailsFromStorage.refresh
       : false;
-    
+
     idFromStorage = userDetailsFromStorage.user.id
       ? userDetailsFromStorage.user.id
       : false;

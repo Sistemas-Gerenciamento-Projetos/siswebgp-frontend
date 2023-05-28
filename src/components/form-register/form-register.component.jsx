@@ -52,18 +52,11 @@ const Registration = () => {
     async function register() {
       if (loading)
         setIsLogged(
-          await registerUser(
-            name,
-            email,
-            password,
-            userDetails,
-            updateUserDetails
-          )
+          await registerUser(name, email, password, updateUserDetails)
         );
     }
     register();
     setLoading(false);
-    console.log("tresdfa");
   }, [loading]);
 
   useEffect(() => {
@@ -79,7 +72,7 @@ const Registration = () => {
   }, [errors]);
 
   return (
-    <Form className="form-cont">
+    <Form className="form-cont" autoComplete="off">
       <Form.Group controlId="name">
         <Form.Control
           type="name"

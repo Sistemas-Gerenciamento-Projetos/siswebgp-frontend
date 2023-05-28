@@ -1,13 +1,7 @@
 import { REGISTRATION_ENDPOINT } from "../constants/urls";
 import axios from "axios";
 
-export async function registerUser(
-  name,
-  email,
-  password,
-  userDetails,
-  updateUserDetails
-) {
+export async function registerUser(name, email, password, updateUserDetails) {
   var isRegistered = false;
 
   const req_config = {
@@ -32,6 +26,7 @@ export async function registerUser(
     })
     .catch((error) => {
       console.log(error);
+      console.log("error");
       isRegistered = false;
     });
   return isRegistered;

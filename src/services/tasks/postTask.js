@@ -1,17 +1,16 @@
-import { PROJECTS_CREATE_ENDPOINT } from "../../constants/urls";
+import { TASK_CREATE_ENDPOINT } from "../../constants/urls";
 import axios from "axios";
 
-export function postProject(
-  novoProjeto,
-  setNovoProjeto,
+export function postTask(
   userDetails,
+  projectDetails,
   title,
   description,
   startDate,
-  endDate
+  endDate,
+  status
 ) {
-  const parsedTitle = title.trim();
-
+  // const parsedTitle = title.trim();
   const header = {
     headers: {
       "Content-Type": "application/json",
@@ -19,23 +18,28 @@ export function postProject(
     },
   };
 
+  const CREATE_TASK =
+    TASK_CREATE_ENDPOINT + projectDetails.projectId + "/create_new_task/";
+
+  console.log(CREATE_TASK);
+  console.log(title, description, startDate, status, endDate, userDetails.id);
+
   axios
     .post(
-      PROJECTS_CREATE_ENDPOINT,
+      CREATE_TASK,
       {
-        manager: userDetails.id,
-        project_name: parsedTitle,
+        title: title,
         description: description,
         start_date: startDate,
         deadline_date: endDate,
-        users: [userDetails.id],
+        status: status,
+        user: userDetails.id,
       },
       header
     )
     .then((response) => {
       if (response.status === 201) {
         console.log(response);
-        setNovoProjeto(!novoProjeto);
       } else {
         alert(response.message);
       }

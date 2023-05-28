@@ -9,7 +9,7 @@ export const tasks = [
     title: "Johnson Residence Construction Project",
     start: new Date(year, month - 1, 1),
     end: new Date(year, month - 1, 1),
-    progress: 0,
+    progress: 20,
   },
   {
     id: 2,

@@ -43,11 +43,7 @@ const Sidebar = (props) => {
         flexDirection: "column",
         alignItems: "center",
       }}>
-      <img
-        src={ICLogo}
-        alt="ic logo"
-        style={{ width: "150px", height: "200px" }}
-      />
+      <img src={ICLogo} alt="ic logo" style={{ width: "40%" }} />
 
       <div style={{ marginTop: "20px", width: "100%" }}>
         <div
@@ -72,10 +68,14 @@ const Sidebar = (props) => {
           {menuItemSelected === 0 && <div style={styles.blueDiv}></div>}
         </div>
 
-        {projectDetails.projectId !== "" && 
-         <div>
+        {projectDetails.projectId !== "" && (
+          <div>
             <div
-              style={menuItemSelected === 1 ? styles.menuItemSelectedDiv : styles.menuItemUnselectedDiv}
+              style={
+                menuItemSelected === 1
+                  ? styles.menuItemSelectedDiv
+                  : styles.menuItemUnselectedDiv
+              }
               onClick={() => navigateToBacklog()}>
               <div>
                 <OrderedListOutlined style={{ paddingLeft: "20px" }} />
@@ -133,8 +133,8 @@ const Sidebar = (props) => {
               {menuItemSelected === 3 && <div style={styles.blueDiv}></div>}
             </div>
           </div>
-        }
-      </div> 
+        )}
+      </div>
     </div>
   );
 };
