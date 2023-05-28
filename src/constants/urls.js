@@ -17,3 +17,4 @@ export const PROJECTS_GET_ENDPOINT =
 export const TASKS_GET_ENDPOINT = BACKEND_URL + "api/tasks/list";
 
 export const TASK_CREATE_ENDPOINT = BACKEND_URL + "api/projects/";
+
