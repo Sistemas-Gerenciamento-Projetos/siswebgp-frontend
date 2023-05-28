@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import TaskColumn from "../taskcolumn/TaskColumn.component";
 import { getTasks } from "../../services/tasks/getTasks";
 import { STATUS_TODO, STATUS_INPROGRESS, STATUS_PAUSED, STATUS_DONE } from "../../constants/taskStatus";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
+import TaskColumn from "../tasks-component/task-column/TaskColumn.component";
 
 export default function Board() {
   const [userDetails, updateUserDetails] = useUserDetails()
