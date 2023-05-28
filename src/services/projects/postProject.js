@@ -1,7 +1,7 @@
 import { PROJECTS_CREATE_ENDPOINT } from "../../constants/urls";
 import axios from "axios";
 
-export function postProject(novoProjeto, setNovoProjeto, userDetails, title, description, creationDate, endDate) {
+export function postProject(novoProjeto, setNovoProjeto, userDetails, title, description, startDate, endDate) {
     const parsedTitle = title.trim()
 
     const header = {
@@ -17,7 +17,7 @@ export function postProject(novoProjeto, setNovoProjeto, userDetails, title, des
         manager: userDetails.id,
         project_name: parsedTitle,
         description: description,
-        creation_date: creationDate,
+        start_date: startDate,
         deadline_date: endDate,
         users: [userDetails.id]
       },

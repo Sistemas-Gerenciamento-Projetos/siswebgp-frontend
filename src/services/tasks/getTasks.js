@@ -1,22 +1,33 @@
 import axios from "axios"
 import { TASKS_GET_ENDPOINT } from "../../constants/urls"
 
-export function getTasks(userDetails, setTasks) {
+export async function getTasks(accessToken, projectId) {
   const header = {
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${userDetails.accessToken}`
+      Authorization: `Bearer ${accessToken}`
     }
   }
 
-  axios.get(
-    TASKS_GET_ENDPOINT,
-    header
-  ).then((response) => {
+  try {
+    const response  = await axios.get(
+      TASKS_GET_ENDPOINT + `${projectId}/tasks`,
+      header
+    )
+
     if (response.status === 200) {
-      setTasks(response.data)
+      const data = response.data
+      if (data.message !== null && data.message === "Não foi possível recuperar tarefas pois não há tarefas cadastradas.") {
+        return []
+      } else {
+        return data
+      }
+    } else {
+      // Adicionar tratamento de erro
+      alert("Erro inesperado, tente novamente.")
     }
-  }).catch((error) => {
+
+  } catch(error) {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
@@ -34,5 +45,7 @@ export function getTasks(userDetails, setTasks) {
     }
     // retornar alert com mensagem generica de erro
     alert("Erro inesperado, tente novamente.")
-  })
+  }
+
+  return []
 }

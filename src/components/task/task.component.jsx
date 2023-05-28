@@ -2,7 +2,7 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { UserOutlined } from "@ant-design/icons";
-import { CalendarOutlined } from '@ant-design/icons'
+import { CalendarOutlined, ScheduleOutlined } from '@ant-design/icons'
 import { parseDateWithoutTimezone } from "../../utils/dateParse";
 
 const Container = styled.div`
@@ -73,16 +73,26 @@ export default function Task({ task, index, columnId }) {
           <div style={{width: '100%', height: '1px', backgroundColor: '#000'}}/>
 
           <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
-            <div style={{display: 'flex', width: '30px', height: '30px', borderRadius: '60px', backgroundColor: taskBgColor, alignItems: 'center', justifyContent: 'center', marginRight: '5px'}}>
-              <UserOutlined/>
+            <div style={{marginRight: '5px'}}>
+              <CalendarOutlined />
             </div>
-            {task.owner}
+            {new Date(task.start_date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric'})}
           </div>
 
           <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
-            <CalendarOutlined />
-            {new Date(task.creation_date).toISOString().split('T')[0]}
+            <div style={{marginRight: '5px'}}>
+            <ScheduleOutlined />
+            </div>
+            {new Date(task.deadline_date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric'})}
           </div>
+
+          <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
+            <div style={{display: 'flex', width: '30px', height: '30px', borderRadius: '60px', backgroundColor: taskBgColor, alignItems: 'center', justifyContent: 'center', marginRight: '5px'}}>
+              <UserOutlined/>
+            </div>
+            {task.user}
+          </div>
+
           {provided.placeholder}
         </Container>
       )}
