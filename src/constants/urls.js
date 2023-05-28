@@ -1,5 +1,7 @@
 export const BACKEND_URL =
-  "env" in window ? window.__env__.BACKEND_URL : "http://localhost:8000/";
+  "env" in window
+    ? window.__env__.BACKEND_URL
+    : "https://web-production-8b12.up.railway.app/";
 
 export const REGISTRATION_ENDPOINT = BACKEND_URL + "api/auth/register/";
 
@@ -10,4 +12,3 @@ export const LOGIN_ENDPOINT = BACKEND_URL + "api/auth/login/";
 export const PROFILE_UPDATE_ENDPOINT = BACKEND_URL + "api/users/profile/update";
 
 export const PROJECTS_CREATE_ENDPOINT = BACKEND_URL + "api/projects/";
-
