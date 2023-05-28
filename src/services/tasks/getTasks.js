@@ -1,7 +1,7 @@
 import axios from "axios";
 import { TASKS_GET_ENDPOINT } from "../../constants/urls";
 
-export function getTasks(userDetails, setProjects) {
+export function getTasks(userDetails, setTasks) {
   const header = {
     headers: {
       "Content-type": "application/json",
@@ -13,7 +13,6 @@ export function getTasks(userDetails, setProjects) {
     .get(TASKS_GET_ENDPOINT, header)
     .then((response) => {
       if (response.status === 200) {
-        setProjects(response.data);
         console.log("test");
       }
     })
@@ -34,6 +33,6 @@ export function getTasks(userDetails, setProjects) {
         console.log("Error", error.message);
       }
       // retornar alert com mensagem generica de erro
-      alert("Erro inesperado, tente novamente.qqqq");
+      alert("Erro inesperado, tente novamente");
     });
 }

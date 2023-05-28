@@ -7,8 +7,8 @@ const Taskstatus = () => {
 
   const liststatus = [
     { value: "none", status: "Selecione o status" },
-    { value: "progress", status: "Em andamento" },
-    { value: "success", status: "Concluído" },
+    { value: "progresso", status: "Em andamento" },
+    { value: "successo", status: "Concluído" },
     { value: "pausado", status: "Pausado" },
   ];
 

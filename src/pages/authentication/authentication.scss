@@ -1,13 +1,12 @@
 .main {
   // background-color: green;
-  width: 100vh;
-  height: 100vh;
+  // width: 100vh;
+  // height: 100vh;
   margin-top: 5%;
 }
 .col-left {
   background-color: rgb(118, 182, 246);
   height: 500px;
-  margin-left: 150px;
   text-align: center;
 
   .logo {
@@ -27,9 +26,9 @@
 
 .col-right {
   background-color: rgb(240, 242, 246);
-  height: 500px;
+  // height: 500px;
   text-align: center;
-  margin-right: 150px;
+  // margin-right: 150px;
 
   h2 {
     padding-top: 7%;
@@ -48,8 +47,8 @@
 
   .form-cont {
     margin-top: 20%;
-    padding-left: 15%;
-    padding-right: 15%;
+    padding-left: 10%;
+    padding-right: 10%;
     .form-item {
       margin-top: 20px;
       text-align: center;

@@ -25,15 +25,17 @@ const Newtask = () => {
   const [validated, setValidated] = useState(false);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
+  const status = "TODO";
 
   const handleSubmit = () => {
     postTask(
+      userDetails,
+      projectDetails,
       title,
       description,
       beginDate,
       deadlineDate,
-      userDetails,
-      projectDetails
+      status
     );
   };
 

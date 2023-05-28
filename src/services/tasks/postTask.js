@@ -19,9 +19,11 @@ export function postTask(
   };
 
   const CREATE_TASK =
-    TASK_CREATE_ENDPOINT +
-    "c414129f-9420-48c3-b7d0-ea3b50759471/create_new_task/";
+    TASK_CREATE_ENDPOINT + projectDetails.projectId + "/create_new_task/";
+
   console.log(CREATE_TASK);
+  console.log(title, description, startDate, status, endDate, userDetails.id);
+
   axios
     .post(
       CREATE_TASK,
@@ -31,7 +33,7 @@ export function postTask(
         start_date: startDate,
         deadline_date: endDate,
         status: status,
-        user: [userDetails.id],
+        user: userDetails.id,
       },
       header
     )

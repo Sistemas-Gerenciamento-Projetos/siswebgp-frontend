@@ -22,12 +22,12 @@ const Authentication = () => {
 
   return (
     <Container className="main">
-      <Row>
-        <Col className="col-left">
+      <Row className="justify-content-md-center">
+        <Col className="col-left" sm={6} xl={5}>
           <img className="logo" src={CompUfba} alt="Computação Ufba" />{" "}
           {/* <h2>Sistema de Gestão de Projetos</h2> */}
         </Col>
-        <Col className="col-right">
+        <Col className="col-right pl-2" sm={6} xl={5}>
           {isRegistered && (
             <>
               <h2>{info[1]}</h2>
