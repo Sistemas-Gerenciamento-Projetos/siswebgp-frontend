@@ -89,7 +89,7 @@ export default function Task({ task, index, columnId }) {
             <div style={{display: 'flex', width: '30px', height: '30px', borderRadius: '60px', backgroundColor: taskBgColor, alignItems: 'center', justifyContent: 'center', marginRight: '5px'}}>
               <UserOutlined/>
             </div>
-            {task.user}
+            {task.user_name}
           </div>
 
           {provided.placeholder}
