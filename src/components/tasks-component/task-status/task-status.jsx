@@ -7,13 +7,15 @@ const Taskstatus = () => {
 
   const liststatus = [
     { value: "none", status: "Selecione o status" },
-    { value: "progresso", status: "Em andamento" },
-    { value: "successo", status: "Concluído" },
+    { value: "progress", status: "Em andamento" },
+    { value: "success", status: "Concluído" },
     { value: "pausado", status: "Pausado" },
   ];
 
   return (
-    <Form.Select className={color} onChange={(e) => setColor(e.target.value)}>
+    <Form.Select
+      className={color}
+      onChange={(e) => (setColor(e.target.value), console.log(color))}>
       <option>Selecione </option>
       <option value="progresso">Em andamento</option>
       <option value="successo">Concluído</option>

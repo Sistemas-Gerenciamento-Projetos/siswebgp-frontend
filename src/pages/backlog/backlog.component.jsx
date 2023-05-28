@@ -48,35 +48,33 @@ const Backlog = () => {
       </div>
 
       <div className="page-content">
-        <div className="page-content">
-          <Toolbar title={"Projeto 1 - xxx"} />
-          <div className="projects-content">
-            <div>
-              {" "}
-              <Newtask />{" "}
-            </div>
-            <Table hover>
-              <thead>
-                <tr>
-                  <th>Nome da Tarefa</th>
-                  <th>Status</th>
-                  <th>Prazo</th>
-                  <th>Responsável</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tasklist.map((task) => (
-                  <Tasks
-                    title={task.title}
-                    status={task.status}
-                    beginDate={task.beginDate}
-                    deadlineDate={task.deadlineDate}
-                    user={task.user}
-                  />
-                ))}
-              </tbody>
-            </Table>
+        <Toolbar title={"Projeto 1 - xxx"} />
+        <div className="projects-content">
+          <div>
+            {" "}
+            <Newtask />{" "}
           </div>
+          <Table hover>
+            <thead>
+              <tr>
+                <th>Nome da Tarefa</th>
+                <th>Status</th>
+                <th>Prazo</th>
+                <th>Responsável</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tasklist.map((task) => (
+                <Tasks
+                  title={task.title}
+                  status={task.status}
+                  beginDate={task.beginDate}
+                  deadlineDate={task.deadlineDate}
+                  user={task.user}
+                />
+              ))}
+            </tbody>
+          </Table>
         </div>
       </div>
       {/* <button onClick={getTasks(projectDetails)}> teste get Tasks</button> */}
