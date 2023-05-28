@@ -6,7 +6,7 @@ export function sigin(email, password, userDetails, updateUserDetails) {
   const req_config = {
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${JSON.parse(userDetails.accessToken)}`,
+      Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
   axios
