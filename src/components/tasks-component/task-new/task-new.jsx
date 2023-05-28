@@ -146,7 +146,7 @@ const Newtask = () => {
             </Form.Group>
 
             <div className="d-grid mt-4">
-              <Button variant="primary" onClick={handleSubmit}>
+              <Button variant="primary" type="submit" onClick={handleClose} >
                 Criar tarefa
               </Button>
             </div>
