@@ -9,7 +9,7 @@ function Header({ history }) {
   const logoutHandler = () => {
     console.log("it is working");
     localStorage.removeItem("userDetails");
-    updateUserDetails(false, false);
+    updateUserDetails(false, false, false);
   };
 
   return (
