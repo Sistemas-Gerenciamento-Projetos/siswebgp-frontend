@@ -72,7 +72,7 @@ const Registration = () => {
   }, [errors]);
 
   return (
-    <Form className="form-cont">
+    <Form className="form-cont" autoComplete="off">
       <Form.Group controlId="name">
         <Form.Control
           type="name"

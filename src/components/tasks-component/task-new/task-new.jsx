@@ -10,6 +10,7 @@ import axios from "axios";
 import { TASKS_CREATE_ENDPOINT } from "../../../constants/urls";
 import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
+import { postTask } from "../../../services/tasks/postTask";
 
 const Newtask = () => {
   const [show, setShow] = useState(false);
@@ -20,84 +21,21 @@ const Newtask = () => {
   const [description, setDescription] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
-  const [status, setStatus] = useState("");
 
   const [validated, setValidated] = useState(false);
   const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-  // const [projectDetails] = useProjectDetails();
-
-  // const submitHandler = (event) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-
-  //   const form = event.currentTarget;
-  //   if (form.checkValidity() === false) {
-  //     setValidated(true);
-  //     return;
-  //   }
-
-  //   creatNewTask(userDetails, title, description, deadlineDate);
-  // };
-
-  // function creatNewTask(userDetails, title, description, deadlineDate) {
-  //   const parsedTitle = title.trim();
-  //   //console.log("teste2")
-
-  //   const header = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${userDetails.accessToken}`,
-  //     },
-  //   };
-
-  //   console.log(projectDetails.projectId);
-  //   console.log(userDetails.id);
-  //   console.log(userDetails.accessToken);
-
-  //   axios
-  //     .post(
-  //       `http://localhost:8000/api/projects/${projectDetails.projectId}/create_new_task/`,
-  //       //TASKS_CREATE_ENDPOINT,
-  //       {
-  //         title: parsedTitle,
-  //         description: description,
-  //         deadline_date: deadlineDate,
-  //         status: "TODO",
-  //         user: userDetails.id,
-  //       },
-  //       header
-  //     )
-  //     .then((response) => {
-  //       if (response.status === 201) {
-  //         console.log(response);
-  //       } else {
-  //         alert(response.message);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       if (error.response) {
-  //         // The request was made and the server responded with a status code
-  //         // that falls out of the range of 2xx
-  //         console.log(error.response.data);
-  //         console.log(error.response.status);
-  //         console.log(error.response.headers);
-  //       } else if (error.request) {
-  //         // The request was made but no response was received
-  //         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-  //         // http.ClientRequest in node.js
-  //         console.log(error.request);
-  //       } else {
-  //         // Something happened in setting up the request that triggered an Error
-  //         console.log("Error", error.message);
-  //       }
-  //       // retornar alert com mensagem generica de erro
-  //       alert("Erro inesperado, tente novamente.");
-  //     });
-  // }
+  const handleSubmit = () => {
+    postTask(
+      title,
+      description,
+      beginDate,
+      deadlineDate,
+      userDetails,
+      projectDetails
+    );
+  };
 
   return (
     <div>
@@ -110,7 +48,7 @@ const Newtask = () => {
           <Modal.Title>Cadastro de nova tarefa</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form noValidate validated={validated} onSubmit={""}>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="title">
               <Form.Label>Título:</Form.Label>
               <InputGroup hasValidation>
@@ -206,7 +144,7 @@ const Newtask = () => {
             </Form.Group>
 
             <div className="d-grid mt-4">
-              <Button variant="primary" type="submit" onClick={handleClose}>
+              <Button variant="primary" onClick={handleSubmit}>
                 Criar tarefa
               </Button>
             </div>

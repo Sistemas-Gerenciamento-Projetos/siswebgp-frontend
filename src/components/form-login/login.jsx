@@ -59,7 +59,7 @@ function Login() {
   }, [isLogged, setIsLogged]);
 
   return (
-    <Form className="form-cont">
+    <Form className="form-cont" autoComplete="off">
       <Form.Group controlId="email">
         <Form.Control
           type="email"
