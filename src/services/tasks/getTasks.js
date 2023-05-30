@@ -10,7 +10,7 @@ export async function getTasks(accessToken, projectId) {
   }
 
   try {
-    const response  = await axios.get(
+    const response = await axios.get(
       TASKS_GET_ENDPOINT + `${projectId}/tasks`,
       header
     )
@@ -26,7 +26,6 @@ export async function getTasks(accessToken, projectId) {
       // Adicionar tratamento de erro
       alert("Erro inesperado, tente novamente.")
     }
-
   } catch(error) {
     if (error.response) {
       // The request was made and the server responded with a status code
