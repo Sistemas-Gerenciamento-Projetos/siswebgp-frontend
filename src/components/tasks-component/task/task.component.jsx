@@ -64,7 +64,7 @@ export default function Task({ task, index, columnId }) {
             </div>
           </div>
           <div
-            style={{ display: "flex", justifyContent: "center", padding: 2 }}
+            style={{ display: "flex", padding: 2 }}
           >
             <TextContent>{task.description}</TextContent>
           </div>
