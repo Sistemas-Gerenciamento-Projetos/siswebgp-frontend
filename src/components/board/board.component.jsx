@@ -5,6 +5,7 @@ import { STATUS_TODO, STATUS_INPROGRESS, STATUS_PAUSED, STATUS_DONE } from "../.
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
 import TaskColumn from "../tasks-component/task-column/TaskColumn.component";
+import { patchTask } from "../../services/tasks/patchTask";
 
 export default function Board() {
   const [userDetails, updateUserDetails] = useUserDetails()
@@ -13,19 +14,19 @@ export default function Board() {
   const [inProgress, setInProgress] = useState([]);
   const [paused, setPaused] = useState([]);
   const [done, setDone] = useState([]);
+  const [updateTasks, setUpdateTasks] = useState(false)
 
   useEffect(() => {
     (async () => {
       const tasks = await getTasks(userDetails.accessToken, projectDetails.projectId);
 
-      console.log(tasks)
-
       setTodo(tasks.filter((task) => task.status === STATUS_TODO))
       setInProgress(tasks.filter((task) => task.status === STATUS_INPROGRESS))
       setPaused(tasks.filter((task) => task.status === STATUS_PAUSED))
       setDone(tasks.filter((task) => task.status == STATUS_DONE))
+      setUpdateTasks(false);
     })()
-  }, [])
+  }, [updateTasks])
 
   const handleDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -54,19 +55,25 @@ export default function Board() {
     ]);
 
     // ADD ITEM
-    if (destination.droppableId === 1) {
+    if (destination.droppableId == 1) {
+      task.status = STATUS_TODO;
       setTodo([...todo, task]);
-    } else if (destination.droppableId === 2) {
+    } else if (destination.droppableId == 2) {
+      task.status = STATUS_INPROGRESS;
       setInProgress([...inProgress, task]);
-    } else if (destination.droppableId === 3) {
+    } else if (destination.droppableId == 3) {
+      task.status = STATUS_PAUSED;
       setPaused([...paused, task]);
-    } else if (destination.droppableId === 4) {
+    } else if (destination.droppableId == 4) {
+      task.status = STATUS_DONE;
       setDone([...done, task]);
     }
+
+    patchTask(userDetails, projectDetails, task, setUpdateTasks);
   };
 
   function findItemById(id, array) {
-    return array.find((item) => item.id === id);
+    return array.find((item) => item.id == id);
   }
 
   function removeItemById(id, array) {
