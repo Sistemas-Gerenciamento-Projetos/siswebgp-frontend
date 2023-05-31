@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
@@ -10,6 +10,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isError, setIsError] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
@@ -35,8 +36,14 @@ function Login() {
     } else {
       if (sigin(email, password, userDetails, updateUserDetails))
         <Navigate replace to="/" />;
+      else {
+        console.log("error");
+        formErrors.error = "Verifique seus dados.";
+      }
     }
   };
+
+  useEffect(() => {}, isError);
 
   return (
     <Form className="form-cont" autoComplete="off">
@@ -47,7 +54,7 @@ function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="form-item"
-          isInvalid={!!errors.email}
+          isInvalid={!!isError}
         />
         <Form.Control.Feedback type="invalid">
           {errors.email}
@@ -61,7 +68,7 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Senha"
           className="form-item"
-          isInvalid={!!errors.password}
+          isInvalid={!!isError}
         />
       </Form.Group>
       <Form.Control.Feedback type="invalid">
