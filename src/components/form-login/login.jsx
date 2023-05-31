@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
@@ -9,10 +9,6 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const [loading, setLoading] = useState(false);
-  const [isLogged, setIsLogged] = useState(false);
-
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -24,22 +20,11 @@ function Login() {
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
     )
       newErrors.password = "Verifique seu email.";
-    if (
-      !password ||
-      password === " " ||
-      password.length < 8 ||
-      !sigin(email, password, userDetails, updateUserDetails)
-    )
-      newErrors.email = "Verifique seus dados.";
+    if (!password || password === " " || password.length < 8)
+      newErrors.error = "Verifique seus dados.";
 
     return newErrors;
   };
-
-  useEffect(() => {
-    if (loading) {
-      setIsLogged(sigin(email, password, userDetails, updateUserDetails));
-    }
-  }, [loading]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -47,17 +32,11 @@ function Login() {
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
-      setLoading(false);
     } else {
-      setLoading(true);
+      if (sigin(email, password, userDetails, updateUserDetails))
+        <Navigate replace to="/" />;
     }
   };
-
-  useEffect(() => {
-    if (isLogged) {
-      <Navigate replace to="/" />;
-    }
-  }, [isLogged, setIsLogged]);
 
   return (
     <Form className="form-cont" autoComplete="off">
