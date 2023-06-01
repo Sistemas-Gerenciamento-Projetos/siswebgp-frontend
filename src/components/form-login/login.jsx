@@ -9,8 +9,10 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [isLogged, setIsLogged] = useState(false);
+
   const [errors, setErrors] = useState({});
-  const [isError, setIsError] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
@@ -19,11 +21,12 @@ function Login() {
       !email ||
       email === " " ||
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
-    )
-      newErrors.password = "Verifique seu email.";
-    if (!password || password === " " || password.length < 8)
-      newErrors.error = "Verifique seus dados.";
-
+    ) {
+      newErrors.email = "Verifique seu email.";
+    }
+    if (!password || password === " " || password.length < 8) {
+      newErrors.password = "Verifique seus dados.";
+    }
     return newErrors;
   };
 
@@ -33,20 +36,19 @@ function Login() {
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
-    } else {
-      if (sigin(email, password, userDetails, updateUserDetails))
-        <Navigate replace to="/" />;
-      else {
-        console.log("error");
-        formErrors.error = "Verifique seus dados.";
-      }
+    } else if (sigin(email, password, userDetails, updateUserDetails)) {
+      setErrors("");
     }
   };
 
-  useEffect(() => {}, isError);
+  useEffect(() => {
+    if (isLogged) {
+      <Navigate replace to="/" />;
+    }
+  }, [isLogged, setIsLogged]);
 
   return (
-    <Form className="form-cont" autoComplete="off">
+    <Form className="form-cont" autoComplete="off" onSubmit={submitHandler}>
       <Form.Group controlId="email">
         <Form.Control
           type="email"
@@ -54,7 +56,7 @@ function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="form-item"
-          isInvalid={!!isError}
+          isInvalid={!!errors.email}
         />
         <Form.Control.Feedback type="invalid">
           {errors.email}
@@ -68,12 +70,9 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Senha"
           className="form-item"
-          isInvalid={!!isError}
+          isInvalid={!!errors.password}
         />
       </Form.Group>
-      <Form.Control.Feedback type="invalid">
-        {errors.password}
-      </Form.Control.Feedback>
 
       <div className="d-grid">
         <Button
