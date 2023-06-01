@@ -27,7 +27,7 @@ const Registration = ({ postProject, novoProjeto, setNovoProjeto, userDetails })
 
       {/* Tem um bug visual na validação de string com espaços em branco, o form nega o seguimento mas o feedback visual é de correto */}
       <Form.Group controlId="title">
-        <Form.Label>Título:</Form.Label>
+        <Form.Label className="label">Título:</Form.Label>
         <InputGroup hasValidation>
           <Form.Control
             type="text"
@@ -42,7 +42,7 @@ const Registration = ({ postProject, novoProjeto, setNovoProjeto, userDetails })
       </Form.Group>
 
       <Form.Group controlId="description">
-        <Form.Label>Descrição:</Form.Label>
+        <Form.Label className="label">Descrição:</Form.Label>
           <Form.Control
             as="textarea"
             maxLength={200}
@@ -55,14 +55,16 @@ const Registration = ({ postProject, novoProjeto, setNovoProjeto, userDetails })
           />
           <Badge 
             className='form-item' 
-            bg={`${description.length > 200 ? 'danger' : 'primary'}`}>
+            text="primary"
+            bg={`${description.length > 200 ? 'danger' : 'light'}`}>
               {description.length}/{200}
+            
           </Badge>
           <Form.Control.Feedback type="invalid">Preencha a descrição.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group>
-        <Form.Label>Data de Início:</Form.Label>
+        <Form.Label className="label">Data de Início:</Form.Label>
         <Form.Control
           type="date"
           required
@@ -74,7 +76,7 @@ const Registration = ({ postProject, novoProjeto, setNovoProjeto, userDetails })
       </Form.Group>
 
       <Form.Group controlId="endDate">
-        <Form.Label>Data de Fim:</Form.Label>
+        <Form.Label className="label">Data de Fim:</Form.Label>
 
         <InputGroup hasValidation>
           <Form.Control

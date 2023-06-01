@@ -7,7 +7,6 @@ import { Table } from "reactstrap";
 import "./backlog.styles.scss";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
-
 import { Navigate } from "react-router-dom";
 import { getTasks } from "../../services/tasks/getTasks";
 
@@ -26,6 +25,7 @@ const Backlog = () => {
 
   const tasklist = [
     {
+      id:1,
       title: "Definição da Arquitetura",
       status: "Em andamento",
       beginDate: datestart1,
@@ -33,6 +33,7 @@ const Backlog = () => {
       user: "Alberto Oliveira",
     },
     {
+      id:2,
       title: "Criação do Banco de Dados",
       status: "Concluído",
       beginDate: datestart1,
@@ -48,7 +49,7 @@ const Backlog = () => {
       </div>
 
       <div className="page-content">
-        <Toolbar title={"Projeto 1 - xxx"} />
+        <Toolbar title="Projeto xxx - Alterar" />
         <div className="projects-content">
           <div>
             {" "}
@@ -70,7 +71,7 @@ const Backlog = () => {
                   status={task.status}
                   beginDate={task.beginDate}
                   deadlineDate={task.deadlineDate}
-                  user={task.user}
+                  user={task.user} 
                 />
               ))}
             </tbody>
