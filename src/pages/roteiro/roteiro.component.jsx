@@ -8,15 +8,10 @@ import { getTasks } from "../../services/tasks/getTasks";
 
 import Gantt, {
   Tasks,
-  Dependencies,
-  Resources,
-  ResourceAssignments,
   Column,
   Editing,
   Toolbar,
   Item,
-  Validation,
-  FilterRow,
   StripLine,
 } from "devextreme-react/gantt";
 
@@ -91,7 +86,7 @@ const Roteiro = () => {
           <Column dataField="title" caption="Tarefa" width={100} />
           {/* <Column dataField="start" caption="Início" width={75} />
           <Column dataField="end" caption="Fim" width={75} /> */}
-          <Validation autoUpdateParentTasks />
+          {/* <Validation autoUpdateParentTasks /> */}
           <Editing enabled={false} />
         </Gantt>
       </div>
