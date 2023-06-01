@@ -15,7 +15,15 @@ const DashboardItem = ({ projectName, projectProgress, startDate, endDate, manag
   //console.log(projectId)
     
   return (
-    <tr onClick={() => {onPress(projectId)}}>
+    <tr 
+        style={{backgroundColor: projectId === activeIndex ? "#b0ecff" : ""}}
+        onClick={() => {
+          onPress(projectId); 
+          handleColorChange(projectId); 
+          console.log(projectId);
+        }}
+        
+    >
       <td>{projectName}</td> 
       <td><ProgressBar completed={projectProgress} /></td>
       <td><DatePeriod startDate={startDate} endDate={endDate} /></td>
