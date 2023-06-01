@@ -4,9 +4,11 @@ import Toolbar from "../../components/toolbar/toolbar.component";
 import Board from "../../components/board/board.component";
 import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
+import { useProjectDetails } from "../../context/projectContext";
 
 const Painel = () => {
   const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
@@ -19,7 +21,6 @@ const Painel = () => {
         flexDirection: "row",
         backgroundColor: "#ebebeb",
         height: "100vh",
-        // paddingRight: "20px",
       }}>
       <div style={{ width: "20%", backgroundColor: "#ffffff", margin: "20px" }}>
         <Sidebar menuItem={2} />
@@ -32,7 +33,7 @@ const Painel = () => {
           backgroundColor: "#ebebeb",
           marginRight: "20px",
         }}>
-        <Toolbar title={"Projeto 1 - xxx"} />
+        <Toolbar title={projectDetails.projectName} />
 
         <div
           style={{

@@ -26,8 +26,8 @@ const Projetos = () => {
     return <Navigate replace to="/" />;
   }
 
-  function onClickProject(projectId) {
-    updateProjectDetails(projectId);
+  function onClickProject(projectId, projectName) {
+    updateProjectDetails(projectId, projectName);
   }
 
   return (
