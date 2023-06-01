@@ -14,7 +14,7 @@ const DashboardItem = ({ project, onPress }) => {
   }
 
   return (
-    <tr onClick={() => {onPress(project.id)}}>
+    <tr onClick={() => {onPress(project.id, project.project_name)}}>
       <td>{project.project_name}</td> 
       <td><ProgressBar completed={progress} /></td>
       <td><DatePeriod startDate={parsedStartDate} endDate={parsedEndDate} /></td>
