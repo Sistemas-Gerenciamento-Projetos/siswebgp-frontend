@@ -2,27 +2,16 @@ import React, { useState }  from "react";
 import ProgressBar from "./progressBar/progressBar";
 import DatePeriod from "./datePeriod/datePeriod";
 import ManagerPhoto from "./managerPhoto/managerPhoto";
+import { useProjectDetails } from "../../context/projectContext";
 
 
 const DashboardItem = ({ projectName, projectProgress, startDate, endDate, managerName, projectId, onPress }) => {
-  
-
-  const [activeIndex, setIsActiveIndex] = useState("");
-  
-  const handleColorChange = (projectId) => {
-    setIsActiveIndex(projectId);
-  };
-  //console.log(projectId)
+  const [projectDetails] = useProjectDetails()
     
   return (
     <tr 
-        style={{backgroundColor: projectId === activeIndex ? "#b0ecff" : ""}}
-        onClick={() => {
-          onPress(projectId); 
-          handleColorChange(projectId); 
-          console.log(projectId);
-        }}
-        
+        style={{backgroundColor: projectId === projectDetails.projectId ? "#b0ecff" : ""}}
+        onClick={() => {onPress(projectId)}}
     >
       <td>{projectName}</td> 
       <td><ProgressBar completed={projectProgress} /></td>
