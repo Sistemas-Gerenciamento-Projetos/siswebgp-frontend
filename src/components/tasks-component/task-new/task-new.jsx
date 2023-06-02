@@ -94,6 +94,7 @@ const Newtask = () => {
             onSubmit={submitHandler}>
             <Form.Group className="mb-3" controlId="title">
               <Form.Label className="label">Título:</Form.Label>
+
               <Form.Control
                 type="text"
                 placeholder="Digite o título da tarefa"
