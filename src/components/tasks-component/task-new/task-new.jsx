@@ -59,7 +59,7 @@ const Newtask = () => {
                   type="text"
                   placeholder="Digite o título da tarefa"
                   required
-                  isInvalid={title.trim() === ""}
+                  isInvalid={!!title.trim() === ""}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />

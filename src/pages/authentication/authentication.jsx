@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import FormLogin from "../../components/form-login/login";
 import CompUfba from "../../Assets/comp-ufba.png";
+import LogoSGP from "../../Assets/logo.jpeg";
 
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
@@ -24,8 +25,8 @@ const Authentication = () => {
     <Container className="main">
       <Row className="justify-content-md-center">
         <Col className="col-left" sm={6} xl={5}>
-          <img className="logo" src={CompUfba} alt="Computação Ufba" />{" "}
-          {/* <h2>Sistema de Gestão de Projetos</h2> */}
+          <img className="logo" src={LogoSGP} alt="Computação Ufba" />{" "}
+          <img className="logo-ufba" src={CompUfba} alt="Computação Ufba" />{" "}
         </Col>
         <Col className="col-right pl-2" sm={6} xl={5}>
           {isRegistered && (

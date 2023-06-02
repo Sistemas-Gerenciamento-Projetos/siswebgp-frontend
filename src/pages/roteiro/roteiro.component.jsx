@@ -1,20 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/sidebar.component";
 import "./roteiro.styles.css";
 import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
+import { useProjectDetails } from "../../context/projectContext";
+import { getTasks } from "../../services/tasks/getTasks";
+import { parseDateWithoutTimezone } from "../../utils/dateParse";
 
 import Gantt, {
   Tasks,
-  Dependencies,
-  Resources,
-  ResourceAssignments,
   Column,
   Editing,
   Toolbar,
   Item,
-  Validation,
-  FilterRow,
   StripLine,
 } from "devextreme-react/gantt";
 
@@ -24,6 +22,19 @@ const Roteiro = () => {
   const currentDate = new Date(Date.now());
 
   const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
+
+  const [tasks1, setTasks1] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const tasksfromdb = await getTasks(
+        userDetails.accessToken,
+        projectDetails.projectId
+      );
+      setTasks1(tasksfromdb);
+    })();
+  }, []);
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
@@ -47,30 +58,22 @@ const Roteiro = () => {
           width: "80%",
           marginTop: "20px",
         }}>
-        <Gantt taskListWidth={430} scaleType="weeks" height={800}>
-          {/* <FilterRow visible={true} /> */}
-          <Tasks
-            dataSource={tasks}
-            keyExpr="id"
-            parentIdExpr="parentId"
-            titleExpr="title"
-            progressExpr="progress"
-            startExpr="start"
-            endExpr="end"
-            colorExpr="taskColor"
-          />
-          <StripLine start={tasks[0].start} title="Start" />
-          <StripLine
-            start={tasks[tasks.length - 3].start}
-            end={tasks[tasks.length - 1].end}
-            title="Fase Final"
-          />
+        <Gantt taskListWidth={220} scaleType="weeks" height={800}>
           <StripLine
             start={currentDate}
             title="Current Time"
             cssClass="current-time"
           />
-
+          <Tasks
+            dataSource={tasks1}
+            keyExpr="id"
+            parentIdExpr="parentId"
+            titleExpr="title"
+            progressExpr="progress"
+            startExpr="start_date"
+            endExpr="deadline_date"
+            colorExpr="taskColor"
+          />
           <Toolbar>
             <Item name="collapseAll" />
             <Item name="expandAll" />
@@ -81,13 +84,11 @@ const Roteiro = () => {
             <Item name="zoomIn" />
             <Item name="zoomOut" />
           </Toolbar>
-
-          <Column dataField="title" caption="Tarefa" width={250} />
-          <Column dataField="start" caption="Início" width={75} />
-          <Column dataField="end" caption="Fim" width={75} />
-
-          <Validation autoUpdateParentTasks />
-          <Editing enabled={true} />
+          <Column dataField="title" caption="Tarefa" width={100} />
+          {/* <Column dataField="start" caption="Início" width={75} />
+          <Column dataField="end" caption="Fim" width={75} /> */}
+          {/* <Validation autoUpdateParentTasks /> */}
+          <Editing enabled={false} />
         </Gantt>
       </div>
     </div>

@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  /* font-family: "Oswald", sans-serif; */
+  font-family: "Roboto Slab", serif;
 }
 
 .container-app {
