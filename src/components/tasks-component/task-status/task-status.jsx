@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import "./task-status.scss";
 
-const Taskstatus = () => {
+const Taskstatus = ({ status }) => {
   const [color, setColor] = useState("");
 
   const liststatus = [
@@ -12,14 +12,17 @@ const Taskstatus = () => {
     { value: "pausado", status: "Pausado" },
   ];
 
+  console.log(status);
+
   return (
     <Form.Select
+      defaultValue={status}
       className={color}
       onChange={(e) => (setColor(e.target.value), console.log(color))}>
-      <option>Selecione </option>
-      <option value="progresso">Em andamento</option>
-      <option value="successo">Concluído</option>
-      <option value="pausado">Pausado</option>
+      <option> A fazer </option>
+      <option value="INPROGRESS">Em andamento</option>
+      <option value="DONE">Concluído</option>
+      <option value="PAUSED">Pausado</option>
     </Form.Select>
 
     /*
