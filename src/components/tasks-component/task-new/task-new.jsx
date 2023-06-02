@@ -11,6 +11,7 @@ import { TASKS_CREATE_ENDPOINT } from "../../../constants/urls";
 import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
 import { postTask } from "../../../services/tasks/postTask";
+import "./task-new.css"
 
 const Newtask = () => {
   const [show, setShow] = useState(false);
@@ -52,7 +53,7 @@ const Newtask = () => {
         <Modal.Body>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="title">
-              <Form.Label>Título:</Form.Label>
+              <Form.Label className="label">Título:</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control
                   type="text"
@@ -69,7 +70,7 @@ const Newtask = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="users">
-              <Form.Label>Responsável:</Form.Label>
+              <Form.Label className="label">Responsável:</Form.Label>
               <Form.Select>
                 <option>Abra o menu de seleção</option>
                 <option value="1">Eduardo</option>
@@ -82,7 +83,7 @@ const Newtask = () => {
             <Row>
               <Col>
                 <Form.Group controlId="starDate">
-                  <Form.Label>Data de início:</Form.Label>
+                  <Form.Label className="label">Data de início:</Form.Label>
                   <Form.Control
                     type="date"
                     required
@@ -97,7 +98,7 @@ const Newtask = () => {
 
               <Col>
                 <Form.Group controlId="endDate">
-                  <Form.Label>Data de fim</Form.Label>
+                  <Form.Label className="label">Data de fim</Form.Label>
                   <InputGroup hasValidation>
                     <Form.Control
                       type="date"
@@ -125,7 +126,7 @@ const Newtask = () => {
               className="mb-3"
               controlId="description"
               style={{ marginTop: "1rem" }}>
-              <Form.Label>Descrição:</Form.Label>
+              <Form.Label className="label">Descrição:</Form.Label>
               <Form.Control
                 as="textarea"
                 maxLength={200}
@@ -137,7 +138,8 @@ const Newtask = () => {
               />
               <Badge
                 className="form-item"
-                bg={`${description.length > 200 ? "danger" : "primary"}`}>
+                text="primary"
+                bg={`${description.length > 200 ? 'danger' : 'light'}`}>
                 {description.length}/{200}
               </Badge>
               <Form.Control.Feedback type="invalid">
@@ -146,7 +148,7 @@ const Newtask = () => {
             </Form.Group>
 
             <div className="d-grid mt-4">
-              <Button variant="primary" onClick={handleSubmit}>
+              <Button variant="primary" type="submit" onClick={handleClose} >
                 Criar tarefa
               </Button>
             </div>

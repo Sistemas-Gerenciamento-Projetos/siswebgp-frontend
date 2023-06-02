@@ -31,6 +31,7 @@ const Backlog = () => {
     return <Navigate replace to="/" />;
   }
 
+
   return (
     <div className="root">
       <div className="sidebar-div">
@@ -38,7 +39,7 @@ const Backlog = () => {
       </div>
 
       <div className="page-content">
-        <Toolbar title={"Projeto 1 - xxx"} />
+        <Toolbar title={projectDetails.projectName} />
         <div className="projects-content">
           <div>
             {" "}

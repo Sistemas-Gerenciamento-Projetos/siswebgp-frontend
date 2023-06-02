@@ -6,8 +6,8 @@ import Taskstatus from "../task-status/task-status";
 const Tasks = (props) => {
   const { title, status, beginDate, deadlineDate, user } = props;
 
-  return (
-    <tr>
+   return (
+    <tr> 
       <td>{title}</td>
       <td>
         <Taskstatus status={status} />
