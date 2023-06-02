@@ -15,7 +15,8 @@ const Toolbar = ({ title, novoProjeto }) => {
   const logoutHandler = () => {
     localStorage.removeItem("userDetails");
     localStorage.removeItem("projectId")
-    updateUserDetails(false, false);
+    localStorage.removeItem("projectName")
+    updateUserDetails(false, false, false);
     nav("/");
   };
 

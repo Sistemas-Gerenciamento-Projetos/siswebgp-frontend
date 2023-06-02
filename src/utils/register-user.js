@@ -21,8 +21,8 @@ export async function registerUser(name, email, password, updateUserDetails) {
     )
     .then((response) => {
       isRegistered = true;
-
-      console.log(response.data);
+      // localStorage.setItem("userDetails", JSON.stringify(response.data));
+      updateUserDetails(response.data.access, response.data.refresh, response.data.user.id);
     })
     .catch((error) => {
       console.log(error);

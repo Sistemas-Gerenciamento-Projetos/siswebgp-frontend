@@ -49,7 +49,7 @@ const Backlog = () => {
       </div>
 
       <div className="page-content">
-        <Toolbar title="Projeto xxx - Alterar" />
+        <Toolbar title={projectDetails.projectName} />
         <div className="projects-content">
           <div>
             {" "}

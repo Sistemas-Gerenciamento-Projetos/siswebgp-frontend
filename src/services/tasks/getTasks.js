@@ -1,38 +1,50 @@
-import axios from "axios";
-import { TASKS_GET_ENDPOINT } from "../../constants/urls";
+import axios from "axios"
+import { TASKS_GET_ENDPOINT } from "../../constants/urls"
 
-export function getTasks(userDetails, setTasks) {
+export async function getTasks(accessToken, projectId) {
   const header = {
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${userDetails.accessToken}`,
-    },
-  };
+      Authorization: `Bearer ${accessToken}`
+    }
+  }
 
-  axios
-    .get(TASKS_GET_ENDPOINT, header)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log("test");
-      }
-    })
-    .catch((error) => {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log(error.request);
+  try {
+    const response = await axios.get(
+      TASKS_GET_ENDPOINT + `${projectId}/tasks`,
+      header
+    )
+
+    if (response.status === 200) {
+      const data = response.data
+      if (data.message !== null && data.message === "Não foi possível recuperar tarefas pois não há tarefas cadastradas.") {
+        return []
       } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
+        return data
       }
-      // retornar alert com mensagem generica de erro
-      alert("Erro inesperado, tente novamente");
-    });
+    } else {
+      // Adicionar tratamento de erro
+      alert("Erro inesperado, tente novamente.")
+    }
+  } catch(error) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log(error.response.data)
+      console.log(error.response.status)
+      console.log(error.response.headers)
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log(error.request)
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log('Error', error.message)
+    }
+    // retornar alert com mensagem generica de erro
+    alert("Erro inesperado, tente novamente.")
+  }
+
+  return []
 }

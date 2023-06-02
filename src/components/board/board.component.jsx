@@ -1,75 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import TaskColumn from "../tasks-component/taskcolumn/TaskColumn.component";
-
-const mockedTodoTasks = [
-  {
-    userId: 1,
-    id: 1,
-    title: "Implementação painel de visualização",
-    description: "Realizar implementação do painel de visualização das tasks",
-    status: "TODO",
-    owner: "Alberto Oliveira",
-    epic: null,
-  },
-  {
-    userId: 2,
-    id: 2,
-    title: "Integração do Login com Backend",
-    description: "Integrar endpoint de login com backend",
-    status: "INPROGRESS",
-    owner: "Bruno Mocitaiba",
-    epic: null,
-  },
-  {
-    userId: 4,
-    id: 4,
-    title: "Testes unitários",
-    description: "Cobrir endpoints com testes unitários",
-    status: "PAUSED",
-    owner: "Eduardo Ferreira",
-    epic: null,
-  },
-  {
-    userId: 3,
-    id: 3,
-    title: "Layout do cadastro de novo projeto",
-    description:
-      "Implementar layout e estilização da tela de cadastro de novo projeto",
-    status: "DONE",
-    owner: "Bruno Bacelar",
-    epic: null,
-  },
-  {
-    userId: 5,
-    id: 5,
-    title: "Documentação de testes do frontend",
-    description: "Confeccionar documentação para os testes do frontend",
-    status: "INPROGRESS",
-    owner: "Rebeca Oliveira",
-    epic: null,
-  },
-];
+import { getTasks } from "../../services/tasks/getTasks";
+import { STATUS_TODO, STATUS_INPROGRESS, STATUS_PAUSED, STATUS_DONE } from "../../constants/taskStatus";
+import { useUserDetails } from "../../context/usercontext";
+import { useProjectDetails } from "../../context/projectContext";
+import TaskColumn from "../tasks-component/task-column/TaskColumn.component";
+import { patchTask } from "../../services/tasks/patchTask";
 
 export default function Board() {
+  const [userDetails, updateUserDetails] = useUserDetails()
+  const [projectDetails, updateProjectDetails] = useProjectDetails()
   const [todo, setTodo] = useState([]);
   const [inProgress, setInProgress] = useState([]);
   const [paused, setPaused] = useState([]);
   const [done, setDone] = useState([]);
+  const [updateTasks, setUpdateTasks] = useState(false)
 
   useEffect(() => {
-    setTodo([]);
-    setInProgress([]);
-    setPaused([]);
-    setDone([]);
+    (async () => {
+      const tasks = await getTasks(userDetails.accessToken, projectDetails.projectId);
 
-    setTodo(mockedTodoTasks.filter((task) => task.status === "TODO"));
-    setInProgress(
-      mockedTodoTasks.filter((task) => task.status === "INPROGRESS")
-    );
-    setPaused(mockedTodoTasks.filter((task) => task.status === "PAUSED"));
-    setDone(mockedTodoTasks.filter((task) => task.status === "DONE"));
-  }, []);
+      setTodo(tasks.filter((task) => task.status === STATUS_TODO))
+      setInProgress(tasks.filter((task) => task.status === STATUS_INPROGRESS))
+      setPaused(tasks.filter((task) => task.status === STATUS_PAUSED))
+      setDone(tasks.filter((task) => task.status == STATUS_DONE))
+      setUpdateTasks(false);
+    })()
+  }, [updateTasks])
 
   const handleDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -98,19 +55,25 @@ export default function Board() {
     ]);
 
     // ADD ITEM
-    if (destination.droppableId === 1) {
+    if (destination.droppableId == 1) {
+      task.status = STATUS_TODO;
       setTodo([...todo, task]);
-    } else if (destination.droppableId === 2) {
+    } else if (destination.droppableId == 2) {
+      task.status = STATUS_INPROGRESS;
       setInProgress([...inProgress, task]);
-    } else if (destination.droppableId === 3) {
+    } else if (destination.droppableId == 3) {
+      task.status = STATUS_PAUSED;
       setPaused([...paused, task]);
-    } else if (destination.droppableId === 4) {
+    } else if (destination.droppableId == 4) {
+      task.status = STATUS_DONE;
       setDone([...done, task]);
     }
+
+    patchTask(userDetails, projectDetails, task, setUpdateTasks);
   };
 
   function findItemById(id, array) {
-    return array.find((item) => item.id === id);
+    return array.find((item) => item.id == id);
   }
 
   function removeItemById(id, array) {
