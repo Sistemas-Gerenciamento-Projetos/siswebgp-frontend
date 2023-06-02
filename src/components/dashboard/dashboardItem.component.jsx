@@ -17,8 +17,13 @@ const DashboardItem = ({ project, onPress }) => {
     
   return (
     <tr 
+<<<<<<< Updated upstream
         style={{backgroundColor: project.Id === projectDetails.projectId ? "#b0ecff" : ""}}
         onClick={() => {onPress(project.id, project.project_name)}}
+=======
+        style={{backgroundColor: projectId === projectDetails.projectId ? "#bae7ff" : ""}}
+        onClick={() => {onPress(projectId)}}
+>>>>>>> Stashed changes
     >
       <td>{project.project_name}</td> 
       <td><ProgressBar completed={progress} /></td>
