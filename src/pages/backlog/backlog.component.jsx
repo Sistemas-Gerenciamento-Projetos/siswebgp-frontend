@@ -1,46 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/sidebar/sidebar.component";
 import Toolbar from "../../components/toolbar/toolbar.component";
 import Newtask from "../../components/tasks-component/task-new/task-new";
 import Tasks from "../../components/tasks-component/task-list/task-list";
 import { Table } from "reactstrap";
-import "./backlog.styles.scss";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
 import { Navigate } from "react-router-dom";
 import { getTasks } from "../../services/tasks/getTasks";
+import { parseDateWithoutTimezone } from "../../utils/dateParse";
+import "./backlog.styles.scss";
 
 const Backlog = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
+  const [tasks, setTasks] = useState([]);
 
   const [novaTarefa, setNovaTarefa] = useState(true);
+  useEffect(() => {
+    (async () => {
+      const tasksfromdb = await getTasks(
+        userDetails.accessToken,
+        projectDetails.projectId
+      );
+      setTasks(tasksfromdb);
+    })();
+  }, []);
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
   }
 
-  const datestart1 = new Date(2023, 2, 1);
-  const dateend1 = new Date(2023, 2, 24);
-
-  const tasklist = [
-    {
-      id:1,
-      title: "Definição da Arquitetura",
-      status: "Em andamento",
-      beginDate: datestart1,
-      deadlineDate: dateend1,
-      user: "Alberto Oliveira",
-    },
-    {
-      id:2,
-      title: "Criação do Banco de Dados",
-      status: "Concluído",
-      beginDate: datestart1,
-      deadlineDate: dateend1,
-      user: "Eduardo Ferreira",
-    },
-  ];
 
   return (
     <div className="root">
@@ -65,20 +55,19 @@ const Backlog = () => {
               </tr>
             </thead>
             <tbody>
-              {tasklist.map((task) => (
+              {tasks.map((task) => (
                 <Tasks
                   title={task.title}
                   status={task.status}
-                  beginDate={task.beginDate}
-                  deadlineDate={task.deadlineDate}
-                  user={task.user} 
+                  beginDate={parseDateWithoutTimezone(task.start_date)}
+                  deadlineDate={parseDateWithoutTimezone(task.deadline_date)}
+                  user={task.user_name}
                 />
               ))}
             </tbody>
           </Table>
         </div>
       </div>
-      {/* <button onClick={getTasks(projectDetails)}> teste get Tasks</button> */}
     </div>
   );
 };

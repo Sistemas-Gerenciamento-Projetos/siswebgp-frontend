@@ -3,15 +3,24 @@
   // width: 100vh;
   // height: 100vh;
   margin-top: 5%;
+  border-radius: 15px;
 }
 .col-left {
-  background-color: rgb(118, 182, 246);
+  background-color: rgb(20, 149, 255);
   height: 500px;
   text-align: center;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 
   .logo {
-    margin-top: 30%;
-    width: 30%;
+    width: 100%;
+    border-radius: 12px;
+  }
+  .logo-ufba {
+    // margin-top: 1%;
+    width: 15%;
+    // margin-bottom: 10%;
+    // position: absolute;
   }
   h2 {
     margin-top: 60px;
@@ -26,9 +35,9 @@
 
 .col-right {
   background-color: rgb(240, 242, 246);
-  // height: 500px;
   text-align: center;
-  // margin-right: 150px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
 
   h2 {
     padding-top: 7%;
