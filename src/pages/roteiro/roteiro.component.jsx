@@ -5,7 +5,6 @@ import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
 import { getTasks } from "../../services/tasks/getTasks";
-import { parseDateWithoutTimezone } from "../../utils/dateParse";
 
 import Gantt, {
   Tasks,
@@ -13,9 +12,6 @@ import Gantt, {
   Editing,
   Toolbar,
   Validation,
-  Dependencies,
-  Resources,
-  ResourceAssignments,
   Item,
   StripLine,
 } from "devextreme-react/gantt";
@@ -30,14 +26,18 @@ const Roteiro = () => {
 
   const [tasks1, setTasks1] = useState([]);
 
+  async function handleData() {
+    console.log("calling");
+    const result = await getTasks(
+      userDetails.accessToken,
+      projectDetails.projectId
+    );
+    console.log("resolved");
+    setTasks1(result);
+  }
+
   useEffect(() => {
-    (async () => {
-      const tasksfromdb = await getTasks(
-        userDetails.accessToken,
-        projectDetails.projectId
-      );
-      setTasks1(tasksfromdb);
-    })();
+    handleData();
   }, []);
 
   if (!userDetails.accessToken) {
@@ -63,6 +63,7 @@ const Roteiro = () => {
           marginTop: "20px",
         }}>
         <Gantt taskListWidth={220} scaleType="weeks" height={800}>
+          {/* StripLine doens't work when the datas are called with a async function */}
           <StripLine
             start={currentDate}
             title="Current Time"
@@ -79,12 +80,6 @@ const Roteiro = () => {
             colorExpr="taskColor"
           />
           <Toolbar>
-            {/* <Item name="collapseAll" />
-            <Item name="expandAll" /> */}
-            {/* <Item name="separator" /> */}
-            {/* <Item name="addTask" />
-            <Item name="deleteTask" /> */}
-            {/* <Item name="separator" /> */}
             <Item name="zoomIn" />
             <Item name="zoomOut" />
           </Toolbar>
