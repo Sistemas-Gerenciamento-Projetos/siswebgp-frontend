@@ -17,7 +17,7 @@ const DashboardItem = ({ project, onPress }) => {
     
   return (
     <tr 
-        style={{backgroundColor: project.Id === projectDetails.projectId ? "#b0ecff" : ""}}
+        style={{backgroundColor: project.id === projectDetails.projectId ? "#b0ecff" : ""}}
         onClick={() => {onPress(project.id, project.project_name)}}
     >
       <td>{project.project_name}</td> 
