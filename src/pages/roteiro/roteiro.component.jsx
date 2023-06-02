@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
 import { getTasks } from "../../services/tasks/getTasks";
+import { parseDateWithoutTimezone } from "../../utils/dateParse";
 
 import Gantt, {
   Tasks,
