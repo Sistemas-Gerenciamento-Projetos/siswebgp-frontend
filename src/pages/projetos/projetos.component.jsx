@@ -10,7 +10,6 @@ import { useUserDetails } from "../../context/usercontext";
 import { Navigate } from "react-router-dom";
 import { postProject } from "../../services/projects/postProject";
 import { getProjects } from "../../services/projects/getProjects";
-import { parseDateWithoutTimezone } from "../../utils/dateParse";
 import { useProjectDetails } from "../../context/projectContext";
 
 const Projetos = () => {
@@ -27,8 +26,8 @@ const Projetos = () => {
     return <Navigate replace to="/" />;
   }
 
-  function onClickProject(projectId) {
-    updateProjectDetails(projectId);
+  function onClickProject(projectId, projectName) {
+    updateProjectDetails(projectId, projectName);
   }
 
   return (
@@ -51,16 +50,11 @@ const Projetos = () => {
                 </tr>
               </thead>
               <tbody>
-                {projects.map((projects) => (
+                {projects.map((project) => (
                   <DashboardItem
-                    key={projects.id}
+                    key={project.id}
                     onPress={onClickProject}
-                    projectName={projects.project_name}
-                    projectProgress={50}
-                    startDate={parseDateWithoutTimezone(projects.creation_date)}
-                    endDate={parseDateWithoutTimezone(projects.deadline_date)}
-                    managerName={projects.manager_name}
-                    projectId={projects.id}
+                    project={project}
                   />
                 ))}
               </tbody>

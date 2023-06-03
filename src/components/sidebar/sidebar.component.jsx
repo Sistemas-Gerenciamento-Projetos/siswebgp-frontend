@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import ICLogo from "../../Assets/comp-ufba.png";
+import sgpLogo from "../../Assets/logo sgp (jpg).jpg"
+
 import {
   OrderedListOutlined,
   GroupOutlined,
@@ -43,7 +45,7 @@ const Sidebar = (props) => {
         flexDirection: "column",
         alignItems: "center",
       }}>
-      <img src={ICLogo} alt="ic logo" style={{ width: "40%" }} />
+      <img src={sgpLogo} alt="ic logo" style={{ width: "100%" }} />
 
       <div style={{ marginTop: "20px", width: "100%" }}>
         <div

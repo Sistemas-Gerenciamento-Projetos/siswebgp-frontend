@@ -10,7 +10,6 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [loading, setLoading] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
 
   const [errors, setErrors] = useState({});
@@ -22,24 +21,14 @@ function Login() {
       !email ||
       email === " " ||
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
-    )
-      newErrors.password = "Verifique seu email.";
-    if (
-      !password ||
-      password === " " ||
-      password.length < 8 ||
-      !sigin(email, password, userDetails, updateUserDetails)
-    )
-      newErrors.email = "Verifique seus dados.";
-
+    ) {
+      newErrors.email = "Verifique seu email.";
+    }
+    if (!password || password === " " || password.length < 8) {
+      newErrors.password = "Verifique seus dados.";
+    }
     return newErrors;
   };
-
-  useEffect(() => {
-    if (loading) {
-      setIsLogged(sigin(email, password, userDetails, updateUserDetails));
-    }
-  }, [loading]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -47,9 +36,8 @@ function Login() {
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
-      setLoading(false);
-    } else {
-      setLoading(true);
+    } else if (sigin(email, password, userDetails, updateUserDetails)) {
+      setErrors("");
     }
   };
 
@@ -60,7 +48,7 @@ function Login() {
   }, [isLogged, setIsLogged]);
 
   return (
-    <Form className="form-cont" autoComplete="off">
+    <Form className="form-cont" autoComplete="off" onSubmit={submitHandler}>
       <Form.Group controlId="email">
         <Form.Control
           type="email"
@@ -85,9 +73,6 @@ function Login() {
           isInvalid={!!errors.password}
         />
       </Form.Group>
-      <Form.Control.Feedback type="invalid">
-        {errors.password}
-      </Form.Control.Feedback>
 
       <div className="d-grid">
         <Button

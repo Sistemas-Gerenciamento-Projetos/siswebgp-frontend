@@ -1,37 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
+import {
+  STATUS_TODO,
+  STATUS_PAUSED,
+  STATUS_INPROGRESS,
+  STATUS_DONE,
+} from "../../../constants/taskStatus";
+
+import { patchTask } from "../../../services/tasks/patchTask";
+import { getTasks } from "../../../services/tasks/getTasks";
+import { useProjectDetails } from "../../../context/projectContext";
+import { useUserDetails } from "../../../context/usercontext";
+
 import "./task-status.scss";
 
-const Taskstatus = () => {
-  const [color, setColor] = useState("");
-
-  const liststatus = [
-    { value: "none", status: "Selecione o status" },
-    { value: "progresso", status: "Em andamento" },
-    { value: "successo", status: "Concluído" },
-    { value: "pausado", status: "Pausado" },
-  ];
+const Taskstatus = ({ status }) => {
+  const [color, setColor] = useState(status);
+  console.log(status);
 
   return (
     <Form.Select
-      className={color}
-      onChange={(e) => (setColor(e.target.value), console.log(color))}>
-      <option>Selecione </option>
-      <option value="progresso">Em andamento</option>
-      <option value="successo">Concluído</option>
-      <option value="pausado">Pausado</option>
+      defaultValue={status}
+      className={status}
+      onChange={(e) => setColor(e.target.value)}>
+      <option value={STATUS_TODO}>A fazer</option>
+      <option value={STATUS_INPROGRESS}>Em andamento</option>
+      <option value={STATUS_DONE}>Concluído</option>
+      <option value={STATUS_PAUSED}>Pausado</option>
     </Form.Select>
-
-    /*
-    <Form.Select 
-      className={color}
-      onChange={(e) => setColor(e.target.value)}
-    >
-      {liststatus.map((item) => (
-          <option value={item.value}>{item.status}{status}</option>
-        ))}
-    </Form.Select>
-    */
   );
 };
 

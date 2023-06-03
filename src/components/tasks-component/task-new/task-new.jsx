@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -11,6 +11,7 @@ import { TASKS_CREATE_ENDPOINT } from "../../../constants/urls";
 import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
 import { postTask } from "../../../services/tasks/postTask";
+import "./task-new.scss";
 
 const Newtask = () => {
   const [show, setShow] = useState(false);
@@ -22,21 +23,57 @@ const Newtask = () => {
   const [beginDate, setBeginDate] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
 
-  const [validated, setValidated] = useState(false);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
+  const [errors, setErrors] = useState({});
+  const [validated, setvalidated] = useState(false);
   const status = "TODO";
 
-  const handleSubmit = () => {
-    postTask(
-      userDetails,
-      projectDetails,
-      title,
-      description,
-      beginDate,
-      deadlineDate,
-      status
-    );
+  const formRef = useRef(null);
+
+  const handleReset = () => {
+    formRef.current.reset();
+    setvalidated(false);
+    console.log(formRef);
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!title || title === "") newErrors.title = "Preencha o título.";
+    if (!description || description === " ")
+      newErrors.description = "Preencha descrição.";
+    if (!beginDate || beginDate == "") newErrors.beginDate = "Data de início.";
+    if (
+      !deadlineDate ||
+      deadlineDate == "" ||
+      Date.parse(beginDate) > Date.parse(deadlineDate)
+    )
+      newErrors.deadlineDate = "Data de fim.";
+
+    return newErrors;
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const formErrors = validateForm();
+
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+    } else {
+      postTask(
+        userDetails,
+        projectDetails,
+        title,
+        description,
+        beginDate,
+        deadlineDate,
+        status
+      );
+      setvalidated(true);
+      handleReset();
+      handleClose();
+    }
   };
 
   return (
@@ -50,27 +87,30 @@ const Newtask = () => {
           <Modal.Title>Cadastro de nova tarefa</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form
+            ref={formRef}
+            noValidate
+            validated={validated}
+            onSubmit={submitHandler}>
             <Form.Group className="mb-3" controlId="title">
-              <Form.Label>Título:</Form.Label>
-              <InputGroup hasValidation>
-                <Form.Control
-                  type="text"
-                  placeholder="Digite o título da tarefa"
-                  required
-                  isInvalid={title.trim() === ""}
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Título inválido.
-                </Form.Control.Feedback>
-              </InputGroup>
+              <Form.Label className="label">Título:</Form.Label>
+
+              <Form.Control
+                type="text"
+                placeholder="Digite o título da tarefa"
+                required
+                isInvalid={!!errors.title}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.title}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="users">
-              <Form.Label>Responsável:</Form.Label>
-              <Form.Select>
+              <Form.Label className="label">Responsável:</Form.Label>
+              <Form.Select required>
                 <option>Abra o menu de seleção</option>
                 <option value="1">Eduardo</option>
                 <option value="2">Bruno</option>
@@ -82,26 +122,27 @@ const Newtask = () => {
             <Row>
               <Col>
                 <Form.Group controlId="starDate">
-                  <Form.Label>Data de início:</Form.Label>
+                  <Form.Label className="label">Data de início:</Form.Label>
                   <Form.Control
                     type="date"
                     required
+                    isInvalid={!!errors.beginDate}
                     value={beginDate}
                     onChange={(e) => [setBeginDate(e.target.value)]}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Preencha a data de início.
+                    {errors.beginDate}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
 
               <Col>
                 <Form.Group controlId="endDate">
-                  <Form.Label>Data de fim</Form.Label>
+                  <Form.Label className="label">Data de fim</Form.Label>
                   <InputGroup hasValidation>
                     <Form.Control
                       type="date"
-                      isValid={Date.parse(beginDate) < Date.parse(deadlineDate)}
+                      isInvalid={!!errors.deadlineDate}
                       min={
                         beginDate === ""
                           ? new Date().toISOString().split("T")[0]
@@ -113,8 +154,7 @@ const Newtask = () => {
                       onChange={(e) => [setDeadlineDate(e.target.value)]}
                     />
                     <Form.Control.Feedback type="invalid">
-                      Preencha o campo ou a data de fim não pode ser anterior a
-                      data de início.
+                      {errors.deadlineDate}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
@@ -125,28 +165,30 @@ const Newtask = () => {
               className="mb-3"
               controlId="description"
               style={{ marginTop: "1rem" }}>
-              <Form.Label>Descrição:</Form.Label>
+              <Form.Label className="label">Descrição:</Form.Label>
               <Form.Control
                 as="textarea"
                 maxLength={200}
                 type="text"
                 rows={3}
                 value={description}
+                isInvalid={!!errors.description}
                 required
                 onChange={(e) => [setDescription(e.target.value)]}
               />
               <Badge
                 className="form-item"
-                bg={`${description.length > 200 ? "danger" : "primary"}`}>
+                text="primary"
+                bg={`${description.length > 200 ? "danger" : "light"}`}>
                 {description.length}/{200}
               </Badge>
               <Form.Control.Feedback type="invalid">
-                Preencha a descrição.
+                {errors.description}
               </Form.Control.Feedback>
             </Form.Group>
 
             <div className="d-grid mt-4">
-              <Button variant="primary" onClick={handleSubmit}>
+              <Button variant="primary" type="submit">
                 Criar tarefa
               </Button>
             </div>
