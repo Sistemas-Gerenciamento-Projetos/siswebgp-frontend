@@ -5,12 +5,12 @@ import Taskstatus from "../task-status/task-status";
 
 const Tasks = (props) => {
   const { title, status, beginDate, deadlineDate, user } = props;
-
-   return (
-    <tr> 
+  console.log(typeof props);
+  return (
+    <tr>
       <td>{title}</td>
       <td>
-        <Taskstatus status={status} />
+        <Taskstatus status={props} />
       </td>
       <td>
         <DatePeriod startDate={beginDate} endDate={deadlineDate} />
