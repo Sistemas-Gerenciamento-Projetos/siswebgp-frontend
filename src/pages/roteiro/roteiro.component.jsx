@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/sidebar.component";
-import "./roteiro.styles.css";
 import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
 import { getTasks } from "../../services/tasks/getTasks";
+import "./roteiro.styles.css";
 
 import Gantt, {
   Tasks,
@@ -16,24 +16,23 @@ import Gantt, {
   StripLine,
 } from "devextreme-react/gantt";
 
-import { tasks } from "../../data";
-
 const Roteiro = () => {
   const currentDate = new Date(Date.now());
 
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
+  const [striped, setStriped] = useState(false);
 
-  const [tasks1, setTasks1] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   async function handleData() {
-    console.log("calling");
     const result = await getTasks(
       userDetails.accessToken,
       projectDetails.projectId
     );
-    console.log("resolved");
-    setTasks1(result);
+    setStriped(true);
+
+    setTasks(result);
   }
 
   useEffect(() => {
@@ -63,14 +62,15 @@ const Roteiro = () => {
           marginTop: "20px",
         }}>
         <Gantt taskListWidth={220} scaleType="weeks" height={800}>
-          {/* StripLine doens't work when the datas are called with a async function */}
-          <StripLine
-            start={currentDate}
-            title="Current Time"
-            cssClass="current-time"
-          />
+          {striped && (
+            <StripLine
+              start={currentDate}
+              title="Current Time"
+              cssClass="current-time"
+            />
+          )}
           <Tasks
-            dataSource={tasks1}
+            dataSource={tasks}
             keyExpr="id"
             parentIdExpr="parentId"
             titleExpr="title"
