@@ -14,16 +14,19 @@ import { useUserDetails } from "../../../context/usercontext";
 
 import "./task-status.scss";
 
-const Taskstatus = (status) => {
+const Taskstatus = ({ status }) => {
+  const [color, setColor] = useState(status);
+  console.log(status);
+
   return (
     <Form.Select
       defaultValue={status}
       className={status}
-      onChange={(status_component) => setTest(status_component)}>
-      <option value="TODO">A fazer</option>
-      <option value="INPROGRESS">Em andamento</option>
-      <option value="DONE">Concluído</option>
-      <option value="PAUSED">Pausado</option>
+      onChange={(e) => setColor(e.target.value)}>
+      <option value={STATUS_TODO}>A fazer</option>
+      <option value={STATUS_INPROGRESS}>Em andamento</option>
+      <option value={STATUS_DONE}>Concluído</option>
+      <option value={STATUS_PAUSED}>Pausado</option>
     </Form.Select>
   );
 };
