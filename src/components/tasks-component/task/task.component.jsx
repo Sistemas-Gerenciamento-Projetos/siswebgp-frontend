@@ -2,7 +2,7 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { UserOutlined } from "@ant-design/icons";
-import { CalendarOutlined, ScheduleOutlined } from '@ant-design/icons'
+import { CalendarOutlined, ScheduleOutlined } from "@ant-design/icons";
 
 const Container = styled.div`
   border-radius: 10px;
@@ -20,29 +20,29 @@ const Container = styled.div`
   flex-direction: column;
 
   &:hover {
-    background-color: #ECECEC;
-    transition: 0.3s
+    background-color: #ececec;
+    transition: 0.3s;
   }
 `;
 
 const TextContent = styled.div`
-  font-size: 12px
+  font-size: 12px;
 `;
 
 function taskColor(columnId) {
   if (columnId === "1") {
-    return "#FFFED9"
+    return "#FFFED9";
   } else if (columnId === "2") {
-    return "#D9FFFA"
+    return "#D9FFFA";
   } else if (columnId === "3") {
-    return "#FFD9D9"
+    return "#FFD9D9";
   } else {
-    return "#DDFFD9"
+    return "#DDFFD9";
   }
 }
 
 export default function Task({ task, index, columnId }) {
-  var taskBgColor = taskColor(columnId)
+  var taskBgColor = taskColor(columnId);
 
   return (
     <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
@@ -51,43 +51,85 @@ export default function Task({ task, index, columnId }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          isDragging={snapshot.isDragging}
-        >
+          isDragging={snapshot.isDragging}>
           <div style={{ display: "flex", justifyContent: "start", padding: 2 }}>
-            <div style={{
-              width: "100%",
-              backgroundColor: taskBgColor,
-              paddingLeft: '5px',
-              fontSize: '12px'
-            }}>
+            <div
+              style={{
+                width: "100%",
+                backgroundColor: taskBgColor,
+                paddingLeft: "5px",
+                fontSize: "12px",
+              }}>
               {task.title}
             </div>
           </div>
-          <div
-            style={{ display: "flex", padding: 2 }}
-          >
+          <div style={{ display: "flex", padding: 2 }}>
             <TextContent>{task.description}</TextContent>
           </div>
 
-          <div style={{width: '100%', height: '1px', backgroundColor: '#000'}}/>
+          <div
+            style={{ width: "100%", height: "1px", backgroundColor: "#000" }}
+          />
 
-          <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
-            <div style={{marginRight: '5px'}}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              padding: 2,
+              marginTop: "5px",
+              alignItems: "center",
+              fontSize: "12px",
+            }}>
+            <div style={{ marginRight: "5px" }}>
               <CalendarOutlined />
             </div>
-            {new Date(task.start_date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric'})}
+            {new Date(task.start_date).toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })}
           </div>
 
-          <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
-            <div style={{marginRight: '5px'}}>
-            <ScheduleOutlined />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              padding: 2,
+              marginTop: "5px",
+              alignItems: "center",
+              fontSize: "12px",
+            }}>
+            <div style={{ marginRight: "5px" }}>
+              <ScheduleOutlined />
             </div>
-            {new Date(task.deadline_date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric'})}
+            {new Date(task.deadline_date).toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })}
           </div>
 
-          <div style={{display: 'flex', flexDirection: 'row', padding: 2, marginTop: '5px', alignItems: 'center', fontSize: '12px'}}>
-            <div style={{display: 'flex', width: '30px', height: '30px', borderRadius: '60px', backgroundColor: taskBgColor, alignItems: 'center', justifyContent: 'center', marginRight: '5px'}}>
-              <UserOutlined/>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              padding: 2,
+              marginTop: "5px",
+              alignItems: "center",
+              fontSize: "12px",
+            }}>
+            <div
+              style={{
+                display: "flex",
+                width: "30px",
+                height: "30px",
+                borderRadius: "60px",
+                backgroundColor: taskBgColor,
+                alignItems: "center",
+                justifyContent: "center",
+                marginRight: "5px",
+              }}>
+              <UserOutlined />
             </div>
             {task.user_name}
           </div>
