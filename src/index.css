@@ -11,5 +11,6 @@ code {
     monospace;
 }
 
-/* font-family: 'Oswald', sans-serif;
-font-family: 'Roboto Slab', serif; */
+* {
+  font-family: "Roboto Slab";
+}
