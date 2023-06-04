@@ -12,11 +12,10 @@ import { parseDateWithoutTimezone } from "../../utils/dateParse";
 import "./backlog.styles.scss";
 
 const Backlog = () => {
-  const [userDetails, updateUserDetails] = useUserDetails();
+  const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [tasks, setTasks] = useState([]);
 
-  const [novaTarefa, setNovaTarefa] = useState(true);
   useEffect(() => {
     (async () => {
       const tasksfromdb = await getTasks(
@@ -31,7 +30,6 @@ const Backlog = () => {
     return <Navigate replace to="/" />;
   }
 
-
   return (
     <div className="root">
       <div className="sidebar-div">
@@ -43,7 +41,7 @@ const Backlog = () => {
         <div className="projects-content">
           <div>
             {" "}
-            <Newtask />{" "}
+            <Newtask />
           </div>
           <Table hover>
             <thead>
@@ -62,6 +60,7 @@ const Backlog = () => {
                   beginDate={parseDateWithoutTimezone(task.start_date)}
                   deadlineDate={parseDateWithoutTimezone(task.deadline_date)}
                   user={task.user_name}
+                  taskItem={task}
                 />
               ))}
             </tbody>

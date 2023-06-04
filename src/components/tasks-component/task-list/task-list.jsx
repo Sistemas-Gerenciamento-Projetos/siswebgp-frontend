@@ -1,14 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DatePeriod from "../../dashboard/datePeriod/datePeriod";
 import ManagerPhoto from "../../dashboard/managerPhoto/managerPhoto";
-import Taskstatus from "../task-status/task-status";
+import {
+  STATUS_TODO,
+  STATUS_INPROGRESS,
+  STATUS_DONE,
+  STATUS_PAUSED,
+} from "../../../constants/taskStatus";
+import { useUserDetails } from "../../../context/usercontext";
+import { useProjectDetails } from "../../../context/projectContext";
+import { patchTask } from "../../../services/tasks/patchTask";
+import { Form } from "react-bootstrap";
 
-const Tasks = ({ title, status, beginDate, deadlineDate, user }) => {
+const Tasks = (props) => {
+  const { title, status, beginDate, deadlineDate, user, taskItem } = props;
+
+  const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
+  const [updateTasks, setUpdateTasks] = useState(false);
+
+  const [actualStatus, setActualStatus] = useState(status);
+  const newstatusfromtask = { ...taskItem };
+
+  const handleChange = () => {
+    if (taskItem.status !== actualStatus) {
+      newstatusfromtask.status = actualStatus;
+      patchTask(userDetails, projectDetails, newstatusfromtask, setUpdateTasks);
+      if (updateTasks) {
+        console.log("updated");
+        setUpdateTasks(false);
+      }
+    } else console.error("patch");
+  };
+
+  useEffect(() => {
+    handleChange();
+  }, [actualStatus]);
+
   return (
     <tr>
       <td>{title}</td>
       <td>
-        <Taskstatus status={status} />
+        <Form.Select
+          defaultValue={status}
+          onChange={(e) => setActualStatus(e.target.value)}>
+          <option value={STATUS_TODO}>A fazer</option>
+          <option value={STATUS_INPROGRESS}>Em andamento</option>
+          <option value={STATUS_DONE}>Concluído</option>
+          <option value={STATUS_PAUSED}>Pausado</option>
+        </Form.Select>
       </td>
       <td>
         <DatePeriod startDate={beginDate} endDate={deadlineDate} />

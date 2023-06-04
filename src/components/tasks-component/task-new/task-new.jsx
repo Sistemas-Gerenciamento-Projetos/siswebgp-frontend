@@ -2,12 +2,9 @@ import React, { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import Taskstatus from "../task-status/task-status";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { InputGroup, Badge } from "react-bootstrap";
-import axios from "axios";
-import { TASKS_CREATE_ENDPOINT } from "../../../constants/urls";
 import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
 import { postTask } from "../../../services/tasks/postTask";
@@ -43,10 +40,10 @@ const Newtask = () => {
     if (!title || title === "") newErrors.title = "Preencha o título.";
     if (!description || description === " ")
       newErrors.description = "Preencha descrição.";
-    if (!beginDate || beginDate == "") newErrors.beginDate = "Data de início.";
+    if (!beginDate || beginDate === "") newErrors.beginDate = "Data de início.";
     if (
       !deadlineDate ||
-      deadlineDate == "" ||
+      deadlineDate === "" ||
       Date.parse(beginDate) > Date.parse(deadlineDate)
     )
       newErrors.deadlineDate = "Data de fim.";
