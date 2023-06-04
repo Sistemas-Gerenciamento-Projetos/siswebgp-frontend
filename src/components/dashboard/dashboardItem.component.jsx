@@ -17,6 +17,7 @@ const DashboardItem = ({ project, onPress }) => {
   }
 
   return (
+
     <tr
       style={{
         backgroundColor:
