@@ -78,6 +78,7 @@ export default function Board() {
     }
 
     patchTask(userDetails, projectDetails, task, setUpdateTasks);
+    console.log(task);
   };
 
   function findItemById(id, array) {

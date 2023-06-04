@@ -1,6 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&family=Oswald:wght@200;300&family=Roboto+Slab:wght@100;200;300&family=Roboto:wght@300&family=Source+Code+Pro&display=swap");
+
 body {
   margin: 0;
-  font-family: "Roboto Slab", "Oswald", "Open Sans", sans-serif;
+  font-family: "DM Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: larger;
@@ -12,5 +14,6 @@ code {
 }
 
 * {
-  font-family: "Roboto Slab";
+  font-family: "DM Sans", sans-serif;
+  font-weight: 100;
 }
