@@ -11,12 +11,14 @@ import { Navigate } from "react-router-dom";
 import { postProject } from "../../services/projects/postProject";
 import { getProjects } from "../../services/projects/getProjects";
 import { useProjectDetails } from "../../context/projectContext";
+import OptionsProject from "../../components/options-project/home-options/home-options";
 
 const Projetos = () => {
-  const [userDetails, updateUserDetails] = useUserDetails();
+  const [userDetails] = useUserDetails();
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [novoProjeto, setNovoProjeto] = useState(true);
   const [projects, setProjects] = useState([]);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     getProjects(userDetails, setProjects);
@@ -37,8 +39,8 @@ const Projetos = () => {
       </div>
 
       <div className="page-content">
-        <Toolbar title={"Meus projetos"} novoProjeto={setNovoProjeto} />
-        {novoProjeto && (
+        <Toolbar title={"Meus projetos"} setIndex={setIndex} />
+        {index === 0 && (
           <div className="projects-content">
             <Table hover>
               <thead>
@@ -49,7 +51,7 @@ const Projetos = () => {
                   <th>Gerente</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody onDoubleClick={() => setIndex(2)}>
                 {projects.map((project) => (
                   <DashboardItem
                     key={project.id}
@@ -61,7 +63,7 @@ const Projetos = () => {
             </Table>
           </div>
         )}
-        {!novoProjeto && (
+        {index === 1 && (
           <NovoProjeto
             postProject={postProject}
             novoProjeto={novoProjeto}
@@ -69,6 +71,8 @@ const Projetos = () => {
             userDetails={userDetails}
           />
         )}
+
+        {index === 2 && <OptionsProject />}
       </div>
     </div>
   );

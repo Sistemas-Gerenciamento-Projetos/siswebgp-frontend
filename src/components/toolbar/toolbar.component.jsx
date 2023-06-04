@@ -8,7 +8,7 @@ function isProjectsPage(title) {
   return title === "Meus projetos";
 }
 
-const Toolbar = ({ title, novoProjeto }) => {
+const Toolbar = ({ title, setIndex }) => {
   const [userDetails, updateUserDetails] = useUserDetails();
   const nav = useNavigate();
 
@@ -25,7 +25,7 @@ const Toolbar = ({ title, novoProjeto }) => {
       <div style={styles.titleDiv}>
         <h3 style={styles.title}>{title}</h3>
         {isProjectsPage(title) && (
-          <Button color="primary" onClick={() => novoProjeto(false)}>
+          <Button color="primary" onClick={() => setIndex(1)}>
             Novo projeto
           </Button>
         )}
