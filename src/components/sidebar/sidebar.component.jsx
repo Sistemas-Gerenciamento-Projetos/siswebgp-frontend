@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import ICLogo from "../../Assets/comp-ufba.png";
-import sgpLogo from "../../Assets/logo sgp (jpg).jpg"
+import sgpLogo from "../../Assets/logo sgp (jpg).jpg";
 
 import {
   OrderedListOutlined,
@@ -9,34 +8,13 @@ import {
   TableOutlined,
 } from "@ant-design/icons";
 import styles from "./sidebarStyles.component";
-import { useNavigate } from "react-router-dom";
 import { useProjectDetails } from "../../context/projectContext";
 
 const Sidebar = (props) => {
-  const navigate = useNavigate();
-  const { menuItem } = props;
-  const [menuItemSelected, setMenuItemSelected] = useState(menuItem);
-  const [projectDetails, updateProjectDetails] = useProjectDetails();
+  const { menuItem, setMenuItem } = props;
 
-  function navigateToProjects() {
-    setMenuItemSelected(0);
-    navigate("/projetos");
-  }
-
-  function navigateToBacklog() {
-    setMenuItemSelected(1);
-    navigate("/backlog");
-  }
-
-  function navigateToDashboard() {
-    setMenuItemSelected(2);
-    navigate("/painel");
-  }
-
-  function navigateToRoteiro() {
-    setMenuItemSelected(3);
-    navigate("/roteiro");
-  }
+  // const [menuItemSelected, setMenuItemSelected] = useState(menuItem);
+  const [projectDetails] = useProjectDetails();
 
   return (
     <div
@@ -51,88 +29,80 @@ const Sidebar = (props) => {
         <div
           to="/painel"
           style={
-            menuItemSelected === 0
+            menuItem === 0
               ? styles.menuItemSelectedDiv
               : styles.menuItemUnselectedDiv
           }
-          onClick={() => navigateToProjects()}>
+          onClick={() => setMenuItem(0)}>
           <div>
             <GroupOutlined style={{ paddingLeft: "20px" }} />
             <span
               style={
-                menuItemSelected === 0
-                  ? styles.textSelected
-                  : styles.textUnselected
+                menuItem === 0 ? styles.textSelected : styles.textUnselected
               }>
               Projetos
             </span>
           </div>
-          {menuItemSelected === 0 && <div style={styles.blueDiv}></div>}
+          {menuItem === 0 && <div style={styles.blueDiv}></div>}
         </div>
 
         {projectDetails.projectId !== "" && (
           <div>
             <div
               style={
-                menuItemSelected === 1
+                menuItem === 1
                   ? styles.menuItemSelectedDiv
                   : styles.menuItemUnselectedDiv
               }
-              onClick={() => navigateToBacklog()}>
+              onClick={() => setMenuItem(1)}>
               <div>
                 <OrderedListOutlined style={{ paddingLeft: "20px" }} />
                 <span
                   style={
-                    menuItemSelected === 1
-                      ? styles.textSelected
-                      : styles.textUnselected
+                    menuItem === 1 ? styles.textSelected : styles.textUnselected
                   }>
                   Backlog
                 </span>
               </div>
-              {menuItemSelected === 1 && <div style={styles.blueDiv}></div>}
+              {menuItem === 1 && <div style={styles.blueDiv}></div>}
             </div>
 
             <div
               style={
-                menuItemSelected === 2
+                menuItem === 2
                   ? styles.menuItemSelectedDiv
                   : styles.menuItemUnselectedDiv
               }
-              onClick={() => navigateToDashboard()}>
+              onClick={() => setMenuItem(2)}>
               <div>
                 <TableOutlined style={{ paddingLeft: "20px" }} />
                 <span
                   style={
-                    menuItemSelected === 2
-                      ? styles.textSelected
-                      : styles.textUnselected
+                    menuItem === 2 ? styles.textSelected : styles.textUnselected
                   }>
                   Painel
                 </span>
               </div>
-              {menuItemSelected === 2 && <div style={styles.blueDiv}></div>}
+              {menuItem === 2 && <div style={styles.blueDiv}></div>}
             </div>
 
             <div
               style={
-                menuItemSelected === 3
+                menuItem === 3
                   ? styles.menuItemSelectedDiv
                   : styles.menuItemUnselectedDiv
               }
-              onClick={() => navigateToRoteiro()}>
+              onClick={() => setMenuItem(3)}>
               <div>
                 <BarChartOutlined style={{ paddingLeft: "20px" }} />
                 <span
                   style={
-                    menuItemSelected === 3
-                      ? styles.textSelected
-                      : styles.textUnselected
+                    menuItem === 3 ? styles.textSelected : styles.textUnselected
                   }>
                   Roteiro
                 </span>
               </div>
-              {menuItemSelected === 3 && <div style={styles.blueDiv}></div>}
+              {menuItem === 3 && <div style={styles.blueDiv}></div>}
             </div>
           </div>
         )}

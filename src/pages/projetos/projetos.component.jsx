@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import DashboardItem from "../../components/dashboard/dashboardItem.component";
-import Sidebar from "../../components/sidebar/sidebar.component";
 import Toolbar from "../../components/toolbar/toolbar.component";
 import { Table } from "reactstrap";
 import { useState } from "react";
@@ -15,7 +14,7 @@ import OptionsProject from "../../components/options-project/home-options/home-o
 
 const Projetos = () => {
   const [userDetails] = useUserDetails();
-  const [projectDetails, updateProjectDetails] = useProjectDetails();
+  const [updateProjectDetails] = useProjectDetails();
   const [novoProjeto, setNovoProjeto] = useState(true);
   const [projects, setProjects] = useState([]);
   const [index, setIndex] = useState(0);
@@ -33,48 +32,42 @@ const Projetos = () => {
   }
 
   return (
-    <div className="root">
-      <div className="sidebar-div">
-        <Sidebar menuItem={0} projectDetails={projectDetails} />
-      </div>
+    <>
+      <Toolbar title={"Meus projetos"} setIndex={setIndex} />
+      {index === 0 && (
+        <div className="projects-content1">
+          <Table>
+            <thead>
+              <tr>
+                <th>Nome do projeto</th>
+                <th>Progresso</th>
+                <th>Prazo</th>
+                <th>Gerente</th>
+              </tr>
+            </thead>
+            <tbody onDoubleClick={() => setIndex(2)}>
+              {projects.map((project) => (
+                <DashboardItem
+                  key={project.id}
+                  onPress={onClickProject}
+                  project={project}
+                />
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      )}
+      {index === 1 && (
+        <NovoProjeto
+          postProject={postProject}
+          novoProjeto={novoProjeto}
+          setNovoProjeto={setNovoProjeto}
+          userDetails={userDetails}
+        />
+      )}
 
-      <div className="page-content">
-        <Toolbar title={"Meus projetos"} setIndex={setIndex} />
-        {index === 0 && (
-          <div className="projects-content">
-            <Table hover>
-              <thead>
-                <tr>
-                  <th>Nome do projeto</th>
-                  <th>Progresso</th>
-                  <th>Prazo</th>
-                  <th>Gerente</th>
-                </tr>
-              </thead>
-              <tbody onDoubleClick={() => setIndex(2)}>
-                {projects.map((project) => (
-                  <DashboardItem
-                    key={project.id}
-                    onPress={onClickProject}
-                    project={project}
-                  />
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        )}
-        {index === 1 && (
-          <NovoProjeto
-            postProject={postProject}
-            novoProjeto={novoProjeto}
-            setNovoProjeto={setNovoProjeto}
-            userDetails={userDetails}
-          />
-        )}
-
-        {index === 2 && <OptionsProject />}
-      </div>
-    </div>
+      {index === 2 && <OptionsProject />}
+    </>
   );
 };
 

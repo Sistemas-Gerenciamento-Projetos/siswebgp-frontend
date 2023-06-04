@@ -7,14 +7,14 @@ const AddNewUser = () => {
     <Form className="main-add">
       <Form.Label>Pesquisar usuário:</Form.Label>
 
-      <Form.Select className="">
+      <Form.Select className="mt-2">
         <option>Mustard</option>
         <option>Ketchup</option>
         <option>Relish</option>
       </Form.Select>
 
       <Button
-        className="btn-submit mt-2"
+        className="btn-submit mt-4"
         type="submit"
         onClick={""}
         variant="primary">
