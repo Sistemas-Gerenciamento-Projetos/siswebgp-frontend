@@ -1,5 +1,5 @@
 import "./invite-users.styles.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Form, Button } from "react-bootstrap";
 
@@ -17,10 +17,6 @@ const InviteUsers = () => {
     }
   };
 
-  useEffect(() => {
-    setErrors(validateForm());
-  }, [email]);
-
   const validateForm = () => {
     const newErrors = {};
     if (
@@ -37,7 +33,7 @@ const InviteUsers = () => {
       <Form.Label htmlFor="text">
         Enviar convite para novo membro para equipe.
       </Form.Label>
-      <Form.Group controlId="email" className="email">
+      <Form.Group controlId="email" className="email mt-2">
         <Form.Control
           type="email"
           placeholder="Email"

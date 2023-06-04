@@ -19,12 +19,12 @@ const Tasks = (props) => {
   const [projectDetails] = useProjectDetails();
   const [updateTasks, setUpdateTasks] = useState(false);
 
-  const [actualStatus, setActualStatus] = useState(status);
+  const [atualStatus, setAtualStatus] = useState(status);
   const newstatusfromtask = { ...taskItem };
 
   const handleChange = () => {
-    if (taskItem.status !== actualStatus) {
-      newstatusfromtask.status = actualStatus;
+    if (taskItem.status !== atualStatus) {
+      newstatusfromtask.status = atualStatus;
       patchTask(userDetails, projectDetails, newstatusfromtask, setUpdateTasks);
       if (updateTasks) {
         console.log("updated");
@@ -34,8 +34,8 @@ const Tasks = (props) => {
   };
 
   useEffect(() => {
-    handleChange();
-  }, [actualStatus]);
+    if (atualStatus !== status) handleChange();
+  }, [atualStatus]);
 
   return (
     <tr>
@@ -43,7 +43,7 @@ const Tasks = (props) => {
       <td>
         <Form.Select
           defaultValue={status}
-          onChange={(e) => setActualStatus(e.target.value)}>
+          onChange={(e) => setAtualStatus(e.target.value)}>
           <option value={STATUS_TODO}>A fazer</option>
           <option value={STATUS_INPROGRESS}>Em andamento</option>
           <option value={STATUS_DONE}>Concluído</option>
