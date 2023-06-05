@@ -21,13 +21,13 @@ const Authentication = () => {
   };
 
   return (
-    <Container className="auth-main">
+    <Container className="main-auth">
       <Row className="justify-content-md-center">
         <Col className="col-left" sm={6} xl={5}>
           <img className="logo" src={LogoSGP} alt="Computação Ufba" />{" "}
           <img className="logo-ufba" src={CompUfba} alt="Computação Ufba" />{" "}
         </Col>
-        <Col className="col-right pl-2" sm={6} xl={5}>
+        <Col className="col-right " sm={6} xl={5}>
           {isRegistered && (
             <>
               <h2>{info[1]}</h2>
