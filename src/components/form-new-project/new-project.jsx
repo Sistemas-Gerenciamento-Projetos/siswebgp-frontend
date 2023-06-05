@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button, InputGroup, Badge } from "react-bootstrap";
+import { Navigate } from "react-router-dom";
 import "./new-project.scss";
 
 const Registration = ({
@@ -7,6 +8,7 @@ const Registration = ({
   novoProjeto,
   setNovoProjeto,
   userDetails,
+  setIndex,
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -32,8 +34,11 @@ const Registration = ({
       description,
       beginDate,
       endDate
-    );
+    )
+    setIndex(0)
   };
+
+
 
   return (
     <Form
