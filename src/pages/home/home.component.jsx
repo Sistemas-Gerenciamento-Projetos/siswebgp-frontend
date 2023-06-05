@@ -17,21 +17,21 @@ const Home = () => {
   const [menuItem, setMenuItem] = useState(0);
 
   return (
-    <div>
+    <div className="home">
       {userDetails.accessToken ? (
-        <Container className="container-home">
+        <div className="container-home">
           <Row>
             <Col className="sidebar" sm={2}>
               <Sidebar menuItem={menuItem} setMenuItem={setMenuItem} />
             </Col>
-            <Col className="body-home" sm={10}>
+            <Col className="body-home">
               {menuItem === 0 && <Projetos />}
               {menuItem === 1 && <Backlog />}
               {menuItem === 2 && <Painel />}
               {menuItem === 3 && <Roteiro />}
             </Col>
           </Row>
-        </Container>
+        </div>
       ) : (
         <Authentication />
       )}

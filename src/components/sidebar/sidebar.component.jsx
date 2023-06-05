@@ -23,7 +23,11 @@ const Sidebar = (props) => {
         flexDirection: "column",
         alignItems: "center",
       }}>
-      <img src={sgpLogo} alt="ic logo" style={{ width: "100%" }} />
+      <img
+        src={sgpLogo}
+        alt="ic logo"
+        style={{ width: "100%", marginTop: "10px" }}
+      />
 
       <div style={{ marginTop: "20px", width: "100%" }}>
         <div

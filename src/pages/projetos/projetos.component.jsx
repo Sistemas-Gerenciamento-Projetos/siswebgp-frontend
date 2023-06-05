@@ -4,7 +4,6 @@ import Toolbar from "../../components/toolbar/toolbar.component";
 import { Table } from "reactstrap";
 import { useState } from "react";
 import NovoProjeto from "../../components/form-new-project/new-project";
-import "./projetos.component.scss";
 import { useUserDetails } from "../../context/usercontext";
 import { Navigate } from "react-router-dom";
 import { postProject } from "../../services/projects/postProject";
@@ -14,7 +13,7 @@ import OptionsProject from "../../components/options-project/home-options/home-o
 
 const Projetos = () => {
   const [userDetails] = useUserDetails();
-  const [updateProjectDetails] = useProjectDetails();
+  const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [novoProjeto, setNovoProjeto] = useState(true);
   const [projects, setProjects] = useState([]);
   const [index, setIndex] = useState(0);
@@ -35,7 +34,7 @@ const Projetos = () => {
     <>
       <Toolbar title={"Meus projetos"} setIndex={setIndex} />
       {index === 0 && (
-        <div className="projects-content1">
+        <div>
           <Table>
             <thead>
               <tr>

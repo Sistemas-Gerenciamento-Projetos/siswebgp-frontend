@@ -4,10 +4,11 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    height: "70px",
+    height: "80px",
     justifyContent: "space-between",
     paddingRight: "10px",
     marginBottom: "20px",
+    marginTop: "10px",
   },
 
   titleDiv: {

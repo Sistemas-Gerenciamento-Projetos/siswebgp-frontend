@@ -29,9 +29,9 @@ const Backlog = () => {
   }
 
   return (
-    <div>
+    <>
       <Toolbar title={projectDetails.projectName} />
-      <div className="projects-content1">
+      <div>
         <Newtask />
         <Table>
           <thead>
@@ -56,7 +56,7 @@ const Backlog = () => {
           </tbody>
         </Table>
       </div>
-    </div>
+    </>
   );
 };
 
