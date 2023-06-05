@@ -1,10 +1,8 @@
-.auth-main {
+.main-auth {
   padding-top: 5%;
   border-radius: 15px;
-  background-color: white;
-  width: 100vh;
+  width: auto;
   height: 100vh;
-  padding-bottom: 5%;
 }
 .col-left {
   background-color: rgb(20, 149, 255);
@@ -18,7 +16,7 @@
     border-radius: 12px;
   }
   .logo-ufba {
-    width: 15%;
+    width: 17%;
   }
   h2 {
     margin-top: 60px;
@@ -32,11 +30,10 @@
 }
 
 .col-right {
-  background-color: rgb(240, 242, 246);
+  background-color: rgb(255, 255, 255);
   text-align: center;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-  height: 500px;
 
   h2 {
     padding-top: 7%;
