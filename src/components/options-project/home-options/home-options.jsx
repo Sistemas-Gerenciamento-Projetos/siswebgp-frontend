@@ -10,12 +10,12 @@ function OptionsProject() {
       <Tabs
         defaultActiveKey="profile"
         id="uncontrolled-tab-example"
-        className="mb-3">
+        className="mb-6">
+        <Tab eventKey="profile" title="Adicionar novo membro" className="mb-4">
+          <AddNewUser />
+        </Tab>
         <Tab eventKey="home" title="Convidar novo membro">
           <InviteUsers />
-        </Tab>
-        <Tab eventKey="profile" title="Adicionar novo membro">
-          <AddNewUser />
         </Tab>
       </Tabs>
     </div>
