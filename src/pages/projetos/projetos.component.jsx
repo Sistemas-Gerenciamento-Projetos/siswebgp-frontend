@@ -62,6 +62,7 @@ const Projetos = () => {
           novoProjeto={novoProjeto}
           setNovoProjeto={setNovoProjeto}
           userDetails={userDetails}
+          setIndex={setIndex}
         />
       )}
 
