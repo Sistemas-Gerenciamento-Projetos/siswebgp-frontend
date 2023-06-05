@@ -21,7 +21,7 @@ const Authentication = () => {
   };
 
   return (
-    <Container className="main">
+    <Container className="auth-main">
       <Row className="justify-content-md-center">
         <Col className="col-left" sm={6} xl={5}>
           <img className="logo" src={LogoSGP} alt="Computação Ufba" />{" "}

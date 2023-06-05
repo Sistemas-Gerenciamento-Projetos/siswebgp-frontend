@@ -33,7 +33,7 @@ const InviteUsers = () => {
       <Form.Label htmlFor="text">
         Enviar convite para novo membro para equipe.
       </Form.Label>
-      <Form.Group controlId="email" className="email mt-2">
+      <Form.Group controlId="email" className="email mb-4 mt-2">
         <Form.Control
           type="email"
           placeholder="Email"

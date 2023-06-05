@@ -1,6 +1,10 @@
-.main {
-  margin-top: 5%;
+.auth-main {
+  padding-top: 5%;
   border-radius: 15px;
+  background-color: white;
+  width: 100vh;
+  height: 100vh;
+  padding-bottom: 5%;
 }
 .col-left {
   background-color: rgb(20, 149, 255);
@@ -32,6 +36,7 @@
   text-align: center;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+  height: 500px;
 
   h2 {
     padding-top: 7%;

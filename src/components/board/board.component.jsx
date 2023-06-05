@@ -13,8 +13,8 @@ import TaskColumn from "../tasks-component/task-column/TaskColumn.component";
 import { patchTask } from "../../services/tasks/patchTask";
 
 export default function Board() {
-  const [userDetails, updateUserDetails] = useUserDetails();
-  const [projectDetails, updateProjectDetails] = useProjectDetails();
+  const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
   const [todo, setTodo] = useState([]);
   const [inProgress, setInProgress] = useState([]);
   const [paused, setPaused] = useState([]);
@@ -97,10 +97,10 @@ export default function Board() {
           justifyContent: "space-between",
           alignItems: "center",
           flexDirection: "row",
-          height: "100%",
+          height: "87%",
         }}>
         <TaskColumn title={"A fazer"} tasks={todo} id={"1"} />
-        <TaskColumn title={"Em progresso"} tasks={inProgress} id={"2"} />
+        <TaskColumn title={"Em andamento"} tasks={inProgress} id={"2"} />
         <TaskColumn title={"Pausado"} tasks={paused} id={"3"} />
         <TaskColumn title={"Concluído"} tasks={done} id={"4"} />
       </div>
