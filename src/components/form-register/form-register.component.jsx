@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useUserDetails } from "../../context/usercontext";
 import { Navigate, useSubmit } from "react-router-dom";
-import { sigin } from "../../utils/login";
+import { sigin } from "../../services/authorization/login";
 import { registerUser } from "../../utils/register-user";
 
 const Registration = () => {
