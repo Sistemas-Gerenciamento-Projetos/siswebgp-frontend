@@ -42,6 +42,7 @@ const Projetos = () => {
                 <th>Progresso</th>
                 <th>Prazo</th>
                 <th>Gerente</th>
+                <th></th>
               </tr>
             </thead>
             <tbody onDoubleClick={() => setIndex(2)}>
