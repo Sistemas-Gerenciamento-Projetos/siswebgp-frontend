@@ -12,7 +12,7 @@ import AddIcon from "../../Assets/person-add.svg";
 import { Border } from "devextreme-react/bar-gauge";
 
 
-const DashboardItem = ({ project, onPress }) => {
+const DashboardItem = ({ project, onPress, setIndex }) => {
   const [projectDetails] = useProjectDetails();
   const parsedStartDate = parseDateWithoutTimezone(project.creation_date);
   const parsedEndDate = parseDateWithoutTimezone(project.deadline_date);
@@ -43,12 +43,14 @@ const DashboardItem = ({ project, onPress }) => {
         <ManagerPhoto name={project.manager_name} />
       </td>
       <td>
-        <Button variant="outline-light" style={{border:0}}  >
-          <img
-            src={AddIcon}
-          />
+        <Button 
+          variant="outline-light" 
+          style={{border:0}} 
+          onClick={() => setIndex(2)} 
+        >
+            <img src={AddIcon}/>
         </Button>
-        <Button variant="outline-light" style={{border:0}}  >
+        <Button variant="outline-light" style={{border:0}} onClick={() => setIndex(3)} >
           <img
             src={EditIcon}
           />
