@@ -50,6 +50,8 @@
 - [Link para Drive com arquivos/tutorias e demais materiais.](https://drive.google.com/drive/folders/1B0aWiIltDLUM3jSab6dfJmHU9O0uLQBl)
 
 - [Planilha com Informações da Equipe/Reuniões](https://docs.google.com/spreadsheets/d/1-krF3a3XWaE_qxY1pSuACv7RrJooM_Ib3L6pFZiUhIU/edit#gid=0)
+  
+- [Documento de Implementação](https://docs.google.com/document/d/1mMqNbaAKncGDh7Ph7fB37MhdozIYHW9NAJPQpM3kDDs/edit)
 
 # Prototipação das Telas
 
