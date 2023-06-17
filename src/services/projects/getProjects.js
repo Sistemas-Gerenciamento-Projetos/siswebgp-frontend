@@ -1,5 +1,7 @@
 import axios from "axios"
 import { PROJECTS_GET_ENDPOINT } from "../../constants/urls"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function getProjects(userDetails, setProjects) {
   const header = {
@@ -32,7 +34,16 @@ export function getProjects(userDetails, setProjects) {
       // Something happened in setting up the request that triggered an Error
       console.log('Error', error.message)
     }
-    // retornar alert com mensagem generica de erro
-    alert("Erro inesperado, tente novamente.")
+    
+    toast.error('Erro ao buscar projetos', {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   })
 }

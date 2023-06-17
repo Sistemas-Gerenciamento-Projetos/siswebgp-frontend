@@ -11,6 +11,8 @@ import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
 import { patchTask } from "../../../services/tasks/patchTask";
 import { Form } from "react-bootstrap";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Tasks = (props) => {
   const { title, status, beginDate, deadlineDate, user, taskItem } = props;
@@ -27,10 +29,11 @@ const Tasks = (props) => {
       newstatusfromtask.status = atualStatus;
       patchTask(userDetails, projectDetails, newstatusfromtask, setUpdateTasks);
       if (updateTasks) {
-        console.log("updated");
         setUpdateTasks(false);
       }
-    } else console.error("patch");
+    } else {
+      console.error("patch");
+    }
   };
 
   useEffect(() => {
