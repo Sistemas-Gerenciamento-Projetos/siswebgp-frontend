@@ -10,6 +10,7 @@ import { postProject } from "../../services/projects/postProject";
 import { getProjects } from "../../services/projects/getProjects";
 import { useProjectDetails } from "../../context/projectContext";
 import OptionsProject from "../../components/options-project/home-options/home-options";
+import { ToastContainer } from "react-toastify";
 
 const Projetos = () => {
   const [userDetails] = useUserDetails();
@@ -67,6 +68,19 @@ const Projetos = () => {
       )}
 
       {index === 2 && <OptionsProject />}
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+      />
     </>
   );
 };

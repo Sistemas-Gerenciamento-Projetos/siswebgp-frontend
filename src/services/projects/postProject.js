@@ -1,5 +1,7 @@
 import { PROJECTS_CREATE_ENDPOINT } from "../../constants/urls";
 import axios from "axios";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function postProject(
   novoProjeto,
@@ -36,8 +38,28 @@ export function postProject(
       if (response.status === 201) {
         console.log(response);
         setNovoProjeto(!novoProjeto);
+        toast.success('Projeto criado', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       } else {
-        alert(response.message);
+        console.log(response.message);
+        toast.error('Erro ao criar projeto', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     })
     .catch((error) => {
@@ -56,7 +78,16 @@ export function postProject(
         // Something happened in setting up the request that triggered an Error
         console.log("Error", error.message);
       }
-      // retornar alert com mensagem generica de erro
-      alert("Erro inesperado, tente novamente.");
+
+      toast.error('Erro ao criar projeto', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     });
 }
