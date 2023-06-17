@@ -1,5 +1,7 @@
 import axios from "axios";
 import { TASK_PATCH_ENDPOINT } from "../../constants/urls";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export async function patchTask(
   userDetails,
@@ -42,7 +44,16 @@ export async function patchTask(
           return setUpdateTasks(true);
         }
       } else {
-        alert(response.message);
+        toast.error('Erro ao atualizar tarefa', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     })
     .catch((error) => {
@@ -61,8 +72,17 @@ export async function patchTask(
         // Something happened in setting up the request that triggered an Error
         console.log("Error", error.message);
       }
-      // retornar alert com mensagem generica de erro
-      // alert("Erro inesperado, tente novamente.")
+      
+      toast.error('Erro ao atualizar tarefa', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     });
 
   return setUpdateTasks(false);

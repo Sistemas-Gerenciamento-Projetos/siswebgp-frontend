@@ -1,5 +1,7 @@
 import axios from "axios";
 import { TASKS_GET_ENDPOINT } from "../../constants/urls";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export async function getTasks(accessToken, projectId) {
   const header = {
@@ -27,8 +29,16 @@ export async function getTasks(accessToken, projectId) {
         return data;
       }
     } else {
-      // Adicionar tratamento de erro
-      alert("Erro inesperado, tente novamente.");
+      toast.error('Erro ao criar projeto', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   } catch (error) {
     if (error.response) {
@@ -46,8 +56,17 @@ export async function getTasks(accessToken, projectId) {
       // Something happened in setting up the request that triggered an Error
       console.log("Error", error.message);
     }
-    // retornar alert com mensagem generica de erro
-    // alert("Erro inesperado, tente novamente.")
+    
+    toast.error('Erro ao criar projeto', {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 
   return [];

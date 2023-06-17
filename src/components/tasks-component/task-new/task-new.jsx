@@ -10,7 +10,7 @@ import { useProjectDetails } from "../../../context/projectContext";
 import { postTask } from "../../../services/tasks/postTask";
 import "./task-new.scss";
 
-const Newtask = ( ) => {
+const NewTask = ( ) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -197,4 +197,4 @@ const Newtask = ( ) => {
   );
 };
 
-export default Newtask;
+export default NewTask;

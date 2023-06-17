@@ -11,6 +11,7 @@ import { getProjects } from "../../services/projects/getProjects";
 import { useProjectDetails } from "../../context/projectContext";
 import OptionsProject from "../../components/options-project/home-options/home-options";
 import EditProject from "../../components/form-edit-project/edit-project"
+import { ToastContainer } from "react-toastify";
 
 const Projetos = () => {
   const [userDetails] = useUserDetails();
@@ -71,6 +72,7 @@ const Projetos = () => {
 
       {index === 2 && <OptionsProject />}
 
+
       {index === 3 && (
         <EditProject
           postProject={postProject}
@@ -80,6 +82,19 @@ const Projetos = () => {
           setIndex={setIndex}
         />
       )}
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+      />
     </>
   );
 };
