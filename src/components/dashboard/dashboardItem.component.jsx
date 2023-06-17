@@ -5,8 +5,14 @@ import ManagerPhoto from "./managerPhoto/managerPhoto";
 import { useProjectDetails } from "../../context/projectContext";
 import { parseDateWithoutTimezone } from "../../utils/dateParse";
 import { hover } from "@testing-library/user-event/dist/hover";
+import Button from "react-bootstrap/Button";
+import TrashIcon from "../../Assets/trash.svg";
+import EditIcon from "../../Assets/edit.svg"; 
+import AddIcon from "../../Assets/person-add.svg";
+import { Border } from "devextreme-react/bar-gauge";
 
-const DashboardItem = ({ project, onPress }) => {
+
+const DashboardItem = ({ project, onPress, setIndex }) => {
   const [projectDetails] = useProjectDetails();
   const parsedStartDate = parseDateWithoutTimezone(project.creation_date);
   const parsedEndDate = parseDateWithoutTimezone(project.deadline_date);
@@ -35,6 +41,26 @@ const DashboardItem = ({ project, onPress }) => {
       </td>
       <td>
         <ManagerPhoto name={project.manager_name} />
+      </td>
+      <td>
+        <Button 
+          variant="outline-light" 
+          style={{border:0}} 
+          onClick={() => setIndex(2)} 
+        >
+            <img src={AddIcon}/>
+        </Button>
+        <Button variant="outline-light" style={{border:0}} onClick={() => setIndex(3)} >
+          <img
+            src={EditIcon}
+          />
+        </Button> 
+        <Button  variant="outline-light"  style={{border:0}} >
+          <img
+            src={TrashIcon}
+          />
+        </Button> 
+
       </td>
     </tr>
   );

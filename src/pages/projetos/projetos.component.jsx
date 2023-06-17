@@ -10,6 +10,7 @@ import { postProject } from "../../services/projects/postProject";
 import { getProjects } from "../../services/projects/getProjects";
 import { useProjectDetails } from "../../context/projectContext";
 import OptionsProject from "../../components/options-project/home-options/home-options";
+import EditProject from "../../components/form-edit-project/edit-project"
 import { ToastContainer } from "react-toastify";
 
 const Projetos = () => {
@@ -43,14 +44,16 @@ const Projetos = () => {
                 <th>Progresso</th>
                 <th>Prazo</th>
                 <th>Gerente</th>
+                <th></th>
               </tr>
             </thead>
-            <tbody onDoubleClick={() => setIndex(2)}>
+            <tbody >
               {projects.map((project) => (
                 <DashboardItem
                   key={project.id}
                   onPress={onClickProject}
                   project={project}
+                  setIndex={setIndex}
                 />
               ))}
             </tbody>
@@ -68,6 +71,17 @@ const Projetos = () => {
       )}
 
       {index === 2 && <OptionsProject />}
+
+
+      {index === 3 && (
+        <EditProject
+          postProject={postProject}
+          novoProjeto={novoProjeto}
+          setNovoProjeto={setNovoProjeto}
+          userDetails={userDetails}
+          setIndex={setIndex}
+        />
+      )}
 
       <ToastContainer
         position="bottom-right"
