@@ -49,7 +49,6 @@ export function postProject(
           theme: "colored",
         });
       } else {
-        console.log(response.message);
         toast.error('Erro ao criar projeto', {
           position: "bottom-right",
           autoClose: 5000,

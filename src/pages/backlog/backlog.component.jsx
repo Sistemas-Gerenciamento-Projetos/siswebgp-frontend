@@ -8,6 +8,7 @@ import { useProjectDetails } from "../../context/projectContext";
 import { Navigate } from "react-router-dom";
 import { getTasks } from "../../services/tasks/getTasks";
 import { parseDateWithoutTimezone } from "../../utils/dateParse";
+import { ToastContainer } from "react-toastify";
 
 const Backlog = () => {
   const [userDetails] = useUserDetails();
@@ -56,6 +57,19 @@ const Backlog = () => {
           </tbody>
         </Table>
       </div>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+      />
     </>
   );
 };
