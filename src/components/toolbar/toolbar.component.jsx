@@ -3,6 +3,7 @@ import { Button } from "reactstrap";
 import styles from "./toolbarStyles.component";
 import { useUserDetails } from "../../context/usercontext";
 import { useNavigate } from "react-router-dom";
+import { useProjectDetails } from "../../context/projectContext";
 
 function isProjectsPage(title) {
   return title === "Meus projetos";
@@ -10,6 +11,7 @@ function isProjectsPage(title) {
 
 const Toolbar = ({ title, setIndex }) => {
   const [userDetails, updateUserDetails] = useUserDetails();
+  const [projectDetails, updateProjectDetails] = useProjectDetails();
   const nav = useNavigate();
 
   const logoutHandler = () => {
@@ -17,6 +19,7 @@ const Toolbar = ({ title, setIndex }) => {
     localStorage.removeItem("projectId");
     localStorage.removeItem("projectName");
     updateUserDetails(false, false, false);
+    updateProjectDetails("", "")
     nav("/");
   };
 
