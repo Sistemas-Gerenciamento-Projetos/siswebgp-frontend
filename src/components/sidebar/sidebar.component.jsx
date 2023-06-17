@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import sgpLogo from "../../Assets/logo sgp (jpg).jpg";
 
 import {
@@ -13,7 +13,6 @@ import { useProjectDetails } from "../../context/projectContext";
 const Sidebar = (props) => {
   const { menuItem, setMenuItem } = props;
 
-  // const [menuItemSelected, setMenuItemSelected] = useState(menuItem);
   const [projectDetails] = useProjectDetails();
 
   return (

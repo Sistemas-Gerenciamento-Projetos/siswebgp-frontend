@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useUserDetails } from "../../context/usercontext";
 import { Navigate, useSubmit } from "react-router-dom";
 import { sigin } from "../../services/authorization/login";
-import { registerUser } from "../../utils/register-user";
+import { registerUser } from "../../services/authorization/register-user";
 
 const Registration = () => {
   const [name, setName] = useState("");
