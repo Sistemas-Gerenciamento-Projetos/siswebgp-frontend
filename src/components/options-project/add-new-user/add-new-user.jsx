@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import "./add-new-user.styles.scss";
+import { getUsers } from "../../../services/users/getUsers";
+import { useUserDetails } from "../../../context/usercontext";
 
 const AddNewUser = () => {
+  const [users, setUsers] = useState([])
+  const [userDetails] = useUserDetails()
+
+  useEffect(() => {
+    (async () => {
+      console.log("chamando")
+      setUsers(getUsers(userDetails.accessToken))
+    })();
+  }, []);
+
+
   return (
     <Form className="main-add">
       <Form.Label>Pesquisar usuário:</Form.Label>
@@ -16,7 +29,7 @@ const AddNewUser = () => {
       <Button
         className="btn-submit mt-4"
         type="submit"
-        onClick={""}
+        onClick={() => {}}
         variant="primary">
         Adicionar
       </Button>
@@ -25,21 +38,3 @@ const AddNewUser = () => {
 };
 
 export default AddNewUser;
-
-{
-  /* <Form clasName="main-add mb-2">
-  <Form.Select class="selectpicker" data-live-search="true">
-    <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-    <option data-tokens="mustard">Burger, Shake and a Smile</option>
-    <option data-tokens="frosting">Sugar, Spice and all things nice</option>
-  </Form.Select>
-  <Button
-    className="btn-submit"
-    type="submit"
-    onClick={""}
-    variant="primary"
-    disabled={false}>
-    Enviar
-  </Button>
-</Form>; */
-}
