@@ -8,8 +8,16 @@ import { InputGroup, Badge } from "react-bootstrap";
 import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
 import { postTask } from "../../../services/tasks/postTask";
+import { patchTask } from "../../../services/tasks/patchTask";
+import { getUsers } from "../../../services/projects/getUsers";
+
 import "./task-new.scss";
-import { Tasks } from "devextreme-react/gantt";
+
+const options = {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+};
 
 const NewTask = ({
   titleTask,
@@ -18,19 +26,27 @@ const NewTask = ({
   show,
   setShow,
   task,
+  setTaskSelected,
 }) => {
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setTaskSelected(false);
+  };
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
+  const [usersName, setUsersName] = useState([]);
 
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [errors, setErrors] = useState({});
   const [validated, setvalidated] = useState(false);
   const [status, setStatus] = useState("TODO");
+  const newEditedTask = { ...task };
+
+  const [updateTasks, setUpdateTasks] = useState(false);
 
   const formRef = useRef(null);
 
@@ -56,10 +72,9 @@ const NewTask = ({
     return newErrors;
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     const formErrors = validateForm();
-    console.log(task);
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
@@ -68,7 +83,9 @@ const NewTask = ({
         createTask();
       }
       if (actionTask === 1) {
-        editTask();
+        console.log(task);
+        console.log(actionTask);
+        await editTask();
       }
 
       setvalidated(true);
@@ -89,18 +106,30 @@ const NewTask = ({
     );
   };
 
-  const editTask = () => {};
+  const editTask = async () => {
+    newEditedTask.title = title;
+    newEditedTask.description = description;
+    newEditedTask.beginDate = beginDate;
+    newEditedTask.deadlineDate = deadlineDate;
+    await patchTask(userDetails, projectDetails, newEditedTask, setUpdateTasks);
+    setShow(true);
+  };
 
-  useEffect((task) => {
-    console.log("init");
+  useEffect(() => {
+    getUsers(userDetails, projectDetails, setUsersName);
     if (task) {
       setTitle(task.title);
+      setBeginDate(task.start_date.substring(0, 10));
+      setDeadlineDate(task.deadline_date.substring(0, 10));
       setDescription(task.description);
-      setBeginDate(task.start_date);
-      setStatus(task.status);
-      setDeadlineDate(task.deadline_date);
+    } else {
+      setTitle("");
+      setBeginDate("");
+      setDeadlineDate("");
+      setDescription("");
+      // setUsersName([]);°
     }
-  }, []);
+  }, [show]);
 
   return (
     <div>
@@ -133,11 +162,9 @@ const NewTask = ({
             <Form.Group className="mb-3" controlId="users">
               <Form.Label className="label">Responsável:</Form.Label>
               <Form.Select required>
-                <option>Abra o menu de seleção</option>
-                <option value="1">Eduardo</option>
-                <option value="2">Bruno</option>
-                <option value="3">Alberto</option>
-                <option value="4">Rebeca</option>
+                {usersName.map(({ id, name }) => (
+                  <option key={id}>{name}</option>
+                ))}
               </Form.Select>
             </Form.Group>
 

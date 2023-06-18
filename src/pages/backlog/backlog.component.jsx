@@ -21,6 +21,7 @@ const Backlog = () => {
   const [index, setIndex] = useState(0);
   const [show, setShow] = useState(false);
   const [taskSelected, setTaskSelected] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const newedittasktitle = {
     0: "Nova tarefa",
@@ -40,7 +41,7 @@ const Backlog = () => {
       );
       setTasks(tasksfromdb);
     })();
-  }, [tasks]);
+  }, [show, refresh]);
 
   useEffect(() => {
     if (!show) setIndex(0);
@@ -60,15 +61,16 @@ const Backlog = () => {
         <Newtask
           titleTask={newedittasktitle[index]}
           textButton={buttontask[index]}
-          actionTask={0}
+          actionTask={index}
           setShow={setShow}
           show={show}
           task={taskSelected}
+          setTaskSelected={setTaskSelected}
         />
 
-        <Table>
+        <Table className="mt-4 ">
           <thead>
-            <tr>
+            <tr className="text">
               <th>Nome da Tarefa</th>
               <th>Status</th>
               <th>Prazo</th>
@@ -90,8 +92,17 @@ const Backlog = () => {
                 <td>
                   <ManagerPhoto name={task.user_name} />
                 </td>
-                <td onClick={() => setTaskSelected(task)}>
-                  <ActionButtons setShow={setShow} setIndex={setIndex} />
+                <td>
+                  <ActionButtons
+                    setRefresh={setRefresh}
+                    refresh={refresh}
+                    setIndex={setIndex}
+                    setShow={setShow}
+                    setTaskSelected={setTaskSelected}
+                    task={task}
+                    userDetails={userDetails}
+                    projectDetails={projectDetails}
+                  />
                 </td>
               </tr>
             </tbody>
