@@ -9,11 +9,17 @@ import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
 import { postTask } from "../../../services/tasks/postTask";
 import "./task-new.scss";
+import { Tasks } from "devextreme-react/gantt";
 
-const NewTask = ( ) => {
-  const [show, setShow] = useState(false);
+const NewTask = ({
+  titleTask,
+  textButton,
+  actionTask,
+  show,
+  setShow,
+  task,
+}) => {
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -24,14 +30,13 @@ const NewTask = ( ) => {
   const [projectDetails] = useProjectDetails();
   const [errors, setErrors] = useState({});
   const [validated, setvalidated] = useState(false);
-  const status = "TODO";
+  const [status, setStatus] = useState("TODO");
 
   const formRef = useRef(null);
 
   const handleReset = () => {
     formRef.current.reset();
     setvalidated(false);
-    console.log(formRef);
   };
 
   const validateForm = () => {
@@ -54,35 +59,54 @@ const NewTask = ( ) => {
   const submitHandler = (e) => {
     e.preventDefault();
     const formErrors = validateForm();
+    console.log(task);
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
-      postTask(
-        userDetails,
-        projectDetails,
-        title,
-        description,
-        beginDate,
-        deadlineDate,
-        status
-      );
+      if (actionTask === 0) {
+        createTask();
+      }
+      if (actionTask === 1) {
+        editTask();
+      }
+
       setvalidated(true);
       handleReset();
       handleClose();
     }
   };
 
+  const createTask = () => {
+    postTask(
+      userDetails,
+      projectDetails,
+      title,
+      description,
+      beginDate,
+      deadlineDate,
+      status
+    );
+  };
+
+  const editTask = () => {};
+
+  useEffect((task) => {
+    console.log("init");
+    if (task) {
+      setTitle(task.title);
+      setDescription(task.description);
+      setBeginDate(task.start_date);
+      setStatus(task.status);
+      setDeadlineDate(task.deadline_date);
+    }
+  }, []);
 
   return (
     <div>
-      <Button variant="primary" onClick={handleShow}>
-        Nova Tarefa
-      </Button>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Cadastro de nova tarefa</Modal.Title>
+          <Modal.Title>{titleTask}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form
@@ -187,7 +211,7 @@ const NewTask = ( ) => {
 
             <div className="d-grid mt-4">
               <Button variant="primary" type="submit">
-                Criar tarefa
+                {textButton}
               </Button>
             </div>
           </Form>
