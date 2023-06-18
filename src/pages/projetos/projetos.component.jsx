@@ -10,7 +10,7 @@ import { postProject } from "../../services/projects/postProject";
 import { getProjects } from "../../services/projects/getProjects";
 import { useProjectDetails } from "../../context/projectContext";
 import OptionsProject from "../../components/options-project/home-options/home-options";
-import EditProject from "../../components/form-edit-project/edit-project"
+import EditProject from "../../components/form-edit-project/edit-project";
 import { ToastContainer } from "react-toastify";
 
 const Projetos = () => {
@@ -47,7 +47,7 @@ const Projetos = () => {
                 <th></th>
               </tr>
             </thead>
-            <tbody >
+            <tbody>
               {projects.map((project) => (
                 <DashboardItem
                   key={project.id}
@@ -71,7 +71,6 @@ const Projetos = () => {
       )}
 
       {index === 2 && <OptionsProject />}
-
 
       {index === 3 && (
         <EditProject
