@@ -9,7 +9,7 @@ import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
 import { postTask } from "../../../services/tasks/postTask";
 import { patchTask } from "../../../services/tasks/patchTask";
-import { getUsers } from "../../../services/projects/getUsers";
+import { getUsersByProject } from "../../../services/users/getUsersByProject";
 
 import "./task-new.scss";
 
@@ -116,7 +116,7 @@ const NewTask = ({
   };
 
   useEffect(() => {
-    getUsers(userDetails, projectDetails, setUsersName);
+    getUsersByProject(userDetails, projectDetails, setUsersName);
     if (task) {
       setTitle(task.title);
       setBeginDate(task.start_date.substring(0, 10));

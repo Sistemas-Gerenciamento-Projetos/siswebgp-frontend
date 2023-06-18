@@ -1,8 +1,9 @@
 import axios from "axios";
 import { PROJECTS_ENDPOINT } from "../../constants/urls";
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
-export function getUsers(userDetails, projectDetails, setUsersName) {
+export function getUsersByProject(userDetails, projectDetails, setUsersName) {
   const header = {
     headers: {
       "Content-type": "application/json",
@@ -34,5 +35,16 @@ export function getUsers(userDetails, projectDetails, setUsersName) {
         // Something happened in setting up the request that triggered an Error
         console.log("Error", error.message);
       }
+
+      toast.error('Erro ao recuperar os usuários do projeto', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     });
 }
