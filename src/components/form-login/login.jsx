@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
-import { sigin } from "../../utils/login";
+import { sigin } from "../../services/authorization/login";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -30,14 +32,29 @@ function Login() {
     return newErrors;
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
-    } else if (sigin(email, password, userDetails, updateUserDetails)) {
+      return
+    }
+    
+    const logged = await sigin(email, password, userDetails, updateUserDetails)
+    if (logged) {
       setErrors("");
+    } else {
+      toast.error('Credenciais inválidas', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 

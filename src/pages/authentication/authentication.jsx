@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import FormRegister from "../../components/form-register/form-register.component";
 import "./authentication.scss";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Authentication = () => {
   const info = {
@@ -51,6 +53,18 @@ const Authentication = () => {
           )}
         </Col>
       </Row>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+      />
     </Container>
   );
 };

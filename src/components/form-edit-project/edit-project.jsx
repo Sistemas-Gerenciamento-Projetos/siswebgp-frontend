@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button, InputGroup, Badge } from "react-bootstrap";
-import "./new-project.scss";
+import { Navigate } from "react-router-dom";
+import "./edit-project.scss";
 
-const Registration = ({
+const EditProject = ({
   postProject,
   novoProjeto,
   setNovoProjeto,
@@ -125,10 +126,10 @@ const Registration = ({
         </InputGroup>
       </Form.Group>
       <div className="d-grid mt-4">
-        <Button type="submit">Cadastrar</Button>
+        <Button type="submit">Salvar alterações</Button>
       </div>
     </Form>
   );
 };
 
-export default Registration;
+export default EditProject;

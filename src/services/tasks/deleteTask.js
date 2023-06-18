@@ -1,48 +1,25 @@
 import axios from "axios";
-import { TASK_PATCH_ENDPOINT } from "../../constants/urls";
+import { PROJECTS_ENDPOINT } from "../../constants/urls";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export async function patchTask(
-  userDetails,
-  projectDetails,
-  task,
-  setUpdateTasks
-) {
+export async function deleteTask(userDetails, projectDetails, task) {
   const header = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
-
-  const PATCH_TASK = `${TASK_PATCH_ENDPOINT}${projectDetails.projectId}/tasks/${task.id}/`;
+  console.log(projectDetails);
+  const DELETE_TASK = `${PROJECTS_ENDPOINT}${projectDetails.projectId}/tasks/${task.id}/`;
+  console.log(DELETE_TASK);
 
   axios
-    .patch(
-      PATCH_TASK,
-      {
-        title: task.title,
-        description: task.description,
-        start_date: task.start_date,
-        deadline_date: task.deadline_date,
-        status: task.status,
-        user: task.user_id,
-      },
-      header
-    )
+    .delete(DELETE_TASK, header)
     .then((response) => {
       if (response.status === 200) {
         const data = response.data;
-        if (
-          data.message !== null &&
-          data.message ===
-            "Não foi possível recuperar tarefas pois não há tarefas cadastradas."
-        ) {
-          return setUpdateTasks(false);
-        } else {
-          return setUpdateTasks(true);
-        }
+        return true;
       }
     })
     .catch((error) => {
@@ -62,7 +39,7 @@ export async function patchTask(
         console.log("Error", error.message);
       }
 
-      toast.error("Erro ao atualizar tarefa", {
+      toast.error("Erro ao excluir tarefa", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -72,7 +49,6 @@ export async function patchTask(
         progress: undefined,
         theme: "colored",
       });
+      return false;
     });
-
-  return setUpdateTasks(false);
 }

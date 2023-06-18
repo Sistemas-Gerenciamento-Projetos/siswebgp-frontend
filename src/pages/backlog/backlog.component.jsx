@@ -1,18 +1,37 @@
 import React, { useEffect, useState } from "react";
 import Toolbar from "../../components/toolbar/toolbar.component";
 import Newtask from "../../components/tasks-component/task-new/task-new";
-import Tasks from "../../components/tasks-component/task-list/task-list";
+import StatusTask from "../../components/tasks-component/status-task/status-task";
 import { Table } from "reactstrap";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
 import { Navigate } from "react-router-dom";
 import { getTasks } from "../../services/tasks/getTasks";
 import { parseDateWithoutTimezone } from "../../utils/dateParse";
+import { ToastContainer } from "react-toastify";
+import DatePeriod from "../../components/dashboard/datePeriod/datePeriod";
+import ManagerPhoto from "../../components/dashboard/managerPhoto/managerPhoto";
+import { Button } from "react-bootstrap";
+import ActionButtons from "../../components/action-buttons/action-buttons";
 
 const Backlog = () => {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [tasks, setTasks] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [show, setShow] = useState(false);
+  const [taskSelected, setTaskSelected] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+
+  const newedittasktitle = {
+    0: "Nova tarefa",
+    1: "Editar tarefa",
+  };
+
+  const buttontask = {
+    0: "Criar tarefa",
+    1: "Editar tarefa",
+  };
 
   useEffect(() => {
     (async () => {
@@ -22,7 +41,11 @@ const Backlog = () => {
       );
       setTasks(tasksfromdb);
     })();
-  }, []);
+  }, [show, refresh]);
+
+  useEffect(() => {
+    if (!show) setIndex(0);
+  }, [show]);
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
@@ -32,30 +55,73 @@ const Backlog = () => {
     <>
       <Toolbar title={projectDetails.projectName} />
       <div>
-        <Newtask />
-        <Table>
+        <Button variant="primary" onClick={() => setShow(true)}>
+          {newedittasktitle[index]}
+        </Button>
+        <Newtask
+          titleTask={newedittasktitle[index]}
+          textButton={buttontask[index]}
+          actionTask={index}
+          setShow={setShow}
+          show={show}
+          task={taskSelected}
+          setTaskSelected={setTaskSelected}
+        />
+
+        <Table className="mt-4 ">
           <thead>
-            <tr>
+            <tr className="text">
               <th>Nome da Tarefa</th>
               <th>Status</th>
               <th>Prazo</th>
               <th>Responsável</th>
+              <th></th>
             </tr>
           </thead>
-          <tbody>
-            {tasks.map((task) => (
-              <Tasks
-                title={task.title}
-                status={task.status}
-                beginDate={parseDateWithoutTimezone(task.start_date)}
-                deadlineDate={parseDateWithoutTimezone(task.deadline_date)}
-                user={task.user_name}
-                taskItem={task}
-              />
-            ))}
-          </tbody>
+          {tasks.map((task) => (
+            <tbody>
+              <tr>
+                <td>{task.title}</td>
+                <td>
+                  <StatusTask status={task.status} taskItem={task} />
+                </td>
+                <DatePeriod
+                  startDate={parseDateWithoutTimezone(task.start_date)}
+                  endDate={parseDateWithoutTimezone(task.deadline_date)}
+                />
+                <td>
+                  <ManagerPhoto name={task.user_name} />
+                </td>
+                <td>
+                  <ActionButtons
+                    setRefresh={setRefresh}
+                    refresh={refresh}
+                    setIndex={setIndex}
+                    setShow={setShow}
+                    setTaskSelected={setTaskSelected}
+                    task={task}
+                    userDetails={userDetails}
+                    projectDetails={projectDetails}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          ))}
         </Table>
       </div>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+      />
     </>
   );
 };

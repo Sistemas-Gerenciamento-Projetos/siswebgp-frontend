@@ -1,5 +1,7 @@
 import { TASK_CREATE_ENDPOINT } from "../../constants/urls";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export function postTask(
   userDetails,
@@ -22,7 +24,6 @@ export function postTask(
     TASK_CREATE_ENDPOINT + projectDetails.projectId + "/create_new_task/";
 
   console.log(CREATE_TASK);
-  console.log(title, description, startDate, status, endDate, userDetails.id);
 
   axios
     .post(
@@ -39,9 +40,27 @@ export function postTask(
     )
     .then((response) => {
       if (response.status === 201) {
-        console.log(response);
+        toast.success("Tarefa criada", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       } else {
-        alert(response.message);
+        toast.error("Erro ao criar tarefa", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     })
     .catch((error) => {
@@ -60,7 +79,16 @@ export function postTask(
         // Something happened in setting up the request that triggered an Error
         console.log("Error", error.message);
       }
-      // retornar alert com mensagem generica de erro
-      alert("Erro inesperado, tente novamente.");
+
+      toast.error("Erro ao criar tarefa", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     });
 }
