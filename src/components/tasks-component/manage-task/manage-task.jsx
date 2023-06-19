@@ -11,18 +11,17 @@ import { postTask } from "../../../services/tasks/postTask";
 import { patchTask } from "../../../services/tasks/patchTask";
 import { getUsersByProject } from "../../../services/users/getUsersByProject";
 
-import "./task-new.scss";
-
 const options = {
   day: "2-digit",
   month: "2-digit",
   year: "numeric",
 };
 
-const NewTask = ({
+const ManageTask = ({
   titleTask,
   textButton,
-  actionTask,
+  index,
+  setIndex,
   show,
   setShow,
   task,
@@ -31,6 +30,7 @@ const NewTask = ({
   const handleClose = () => {
     setShow(false);
     setTaskSelected(false);
+    setIndex(0);
   };
 
   const [title, setTitle] = useState("");
@@ -79,12 +79,10 @@ const NewTask = ({
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
-      if (actionTask === 0) {
+      if (index === 0) {
         createTask();
       }
-      if (actionTask === 1) {
-        console.log(task);
-        console.log(actionTask);
+      if (index === 1) {
         await editTask();
       }
 
@@ -111,8 +109,8 @@ const NewTask = ({
     newEditedTask.description = description;
     newEditedTask.beginDate = beginDate;
     newEditedTask.deadlineDate = deadlineDate;
+    console.log(newEditedTask.beginDate);
     await patchTask(userDetails, projectDetails, newEditedTask, setUpdateTasks);
-    setShow(true);
   };
 
   useEffect(() => {
@@ -127,9 +125,8 @@ const NewTask = ({
       setBeginDate("");
       setDeadlineDate("");
       setDescription("");
-      // setUsersName([]);°
     }
-  }, [show]);
+  }, [task]);
 
   return (
     <div>
@@ -248,4 +245,4 @@ const NewTask = ({
   );
 };
 
-export default NewTask;
+export default ManageTask;

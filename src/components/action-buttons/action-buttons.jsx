@@ -7,8 +7,6 @@ import { deleteTask } from "../../services/tasks/deleteTask";
 import { toast } from "react-toastify";
 
 function ActionButtons({
-  setRefresh,
-  refresh,
   setShow,
   setIndex,
   setTaskSelected,
@@ -16,16 +14,17 @@ function ActionButtons({
   userDetails,
   projectDetails,
 }) {
-  const handleClick = () => {
+  const handleEdit = () => {
     setShow(true);
     setIndex(1);
     setTaskSelected(task);
+    console.log(task.description);
   };
 
   const handleDelete = () => {
     if (deleteTask(userDetails, projectDetails, task)) {
       setIndex(0);
-      setRefresh(!refresh);
+      setShow(false);
       toast.success("Tarefa excluída", {
         position: "bottom-right",
         autoClose: 5000,
@@ -44,7 +43,7 @@ function ActionButtons({
       <Button
         variant="outline-light"
         style={{ border: 0 }}
-        onClick={handleClick}>
+        onClick={handleEdit}>
         <img src={EditIcon} />
       </Button>
       <Button

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { TASKS_GET_ENDPOINT } from "../../constants/urls";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export async function getTasks(accessToken, projectId) {
   const header = {
@@ -13,7 +13,7 @@ export async function getTasks(accessToken, projectId) {
 
   try {
     const response = await axios.get(
-      TASKS_GET_ENDPOINT + `${projectId}/tasks`,
+      TASKS_GET_ENDPOINT + `${projectId}/tasks/`,
       header
     );
 
@@ -29,7 +29,11 @@ export async function getTasks(accessToken, projectId) {
         return data;
       }
     } else {
+<<<<<<< HEAD
+      toast.error("Erro ao criar projeto", {
+=======
       toast.error('Erro ao recuperar as tarefas', {
+>>>>>>> develop
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -56,8 +60,13 @@ export async function getTasks(accessToken, projectId) {
       // Something happened in setting up the request that triggered an Error
       console.log("Error", error.message);
     }
+<<<<<<< HEAD
+
+    toast.error("Erro ao criar projeto", {
+=======
     
     toast.error('Erro ao recuperar as tarefas', {
+>>>>>>> develop
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
