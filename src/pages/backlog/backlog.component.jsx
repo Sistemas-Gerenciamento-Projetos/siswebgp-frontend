@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Toolbar from "../../components/toolbar/toolbar.component";
-import Newtask from "../../components/tasks-component/task-new/task-new";
-import StatusTask from "../../components/tasks-component/status-task/status-task";
-import { Table } from "reactstrap";
+import ManageTask from "../../components/tasks-component/manage-task/manage-task";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
 import { Navigate } from "react-router-dom";
-import { getTasks } from "../../services/tasks/getTasks";
-import { parseDateWithoutTimezone } from "../../utils/dateParse";
-import { ToastContainer } from "react-toastify";
-import DatePeriod from "../../components/dashboard/datePeriod/datePeriod";
-import ManagerPhoto from "../../components/dashboard/managerPhoto/managerPhoto";
 import { Button } from "react-bootstrap";
-import ActionButtons from "../../components/action-buttons/action-buttons";
+import { getTasks } from "../../services/tasks/getTasks";
+import { ToastContainer } from "react-toastify";
+import TaskTable from "../../components/tasks-component/task-table/task-table";
 
 const Backlog = () => {
   const [userDetails] = useUserDetails();
@@ -21,7 +16,6 @@ const Backlog = () => {
   const [index, setIndex] = useState(0);
   const [show, setShow] = useState(false);
   const [taskSelected, setTaskSelected] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
   const newedittasktitle = {
     0: "Nova tarefa",
@@ -41,7 +35,7 @@ const Backlog = () => {
       );
       setTasks(tasksfromdb);
     })();
-  }, [show, refresh]);
+  }, [show, tasks, taskSelected]);
 
   useEffect(() => {
     if (!show) setIndex(0);
@@ -54,65 +48,32 @@ const Backlog = () => {
   return (
     <>
       <Toolbar title={projectDetails.projectName} />
-      <div>
-        <Button variant="primary" onClick={() => setShow(true)}>
-          {newedittasktitle[index]}
-        </Button>
-        <Newtask
-          titleTask={newedittasktitle[index]}
-          textButton={buttontask[index]}
-          actionTask={index}
-          setShow={setShow}
-          show={show}
-          task={taskSelected}
-          setTaskSelected={setTaskSelected}
-        />
-
-        <Table className="mt-4 ">
-          <thead>
-            <tr className="text">
-              <th>Nome da Tarefa</th>
-              <th>Status</th>
-              <th>Prazo</th>
-              <th>Responsável</th>
-              <th></th>
-            </tr>
-          </thead>
-          {tasks.map((task) => (
-            <tbody>
-              <tr>
-                <td>{task.title}</td>
-                <td>
-                  <StatusTask status={task.status} taskItem={task} />
-                </td>
-                <DatePeriod
-                  startDate={parseDateWithoutTimezone(task.start_date)}
-                  endDate={parseDateWithoutTimezone(task.deadline_date)}
-                />
-                <td>
-                  <ManagerPhoto name={task.user_name} />
-                </td>
-                <td>
-                  <ActionButtons
-                    setRefresh={setRefresh}
-                    refresh={refresh}
-                    setIndex={setIndex}
-                    setShow={setShow}
-                    setTaskSelected={setTaskSelected}
-                    task={task}
-                    userDetails={userDetails}
-                    projectDetails={projectDetails}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          ))}
-        </Table>
-      </div>
+      <Button variant="primary" onClick={() => setShow(true)}>
+        {newedittasktitle[index]}
+      </Button>
+      <ManageTask
+        titleTask={newedittasktitle[index]}
+        textButton={buttontask[index]}
+        index={index}
+        setShow={setShow}
+        setIndex={setIndex}
+        show={show}
+        task={taskSelected}
+        setTaskSelected={setTaskSelected}
+      />
+      <TaskTable
+        index={index}
+        setIndex={setIndex}
+        setShow={setShow}
+        show={show}
+        task={taskSelected}
+        tasks={tasks}
+        setTaskSelected={setTaskSelected}
+      />
 
       <ToastContainer
         position="bottom-right"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
