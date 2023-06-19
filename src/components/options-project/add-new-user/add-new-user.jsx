@@ -1,45 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import "./add-new-user.styles.scss";
+import { useUserDetails } from "../../../context/usercontext";
+import { getUsers } from "../../../services/users/getUsers";
+import { postAddUserInProject } from "../../../services/projects/postAddUserInProject";
+import { useProjectDetails } from "../../../context/projectContext";
+import { toast } from "react-toastify";
 
-const AddNewUser = () => {
+const AddNewUser = ({setIndex}) => {
+  const [users, setUsers] = useState([])
+  const [userDetails] = useUserDetails()
+  const [projectDetails] = useProjectDetails();
+  var selectedUserId = "";
+
+  function fetchUsersList() {
+    getUsers(userDetails.accessToken, projectDetails.projectId, setUsers);
+  }
+
+  useEffect(() => {
+    fetchUsersList();
+  }, []);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (selectedUserId !== "") {
+      postAddUserInProject(userDetails.accessToken, projectDetails.projectId, fetchUsersList, selectedUserId)
+    } else {
+      toast.error('Selecione um membro', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  }
+
   return (
-    <Form className="main-add">
+    <Form className="main-add"
+      noValidate
+      onSubmit={handleSubmit}>
       <Form.Label>Pesquisar usuário:</Form.Label>
 
-      <Form.Select className="mt-2">
-        <option>Mustard</option>
-        <option>Ketchup</option>
-        <option>Relish</option>
-      </Form.Select>
+      <Form.Control
+        as="select"
+        onChange={(e) => selectedUserId = e.target.value}>
+          <option key={0} value={""}>Selecione um usuário...</option>
+          {users.map((user, index) => (
+            <option key={index + 1} value={user.id}>{user.name} | {user.email}</option>
+          ))}
+      </Form.Control>
 
-      <Button
-        className="btn-submit mt-4"
-        type="submit"
-        onClick={""}
-        variant="primary">
-        Adicionar
-      </Button>
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center"}}>
+        <Button
+          className="btn-submit mt-4"
+          variant="primary"
+          onClick={() => setIndex(0)}>
+          Voltar
+        </Button>
+        
+        <Button
+          className="btn-submit mt-4"
+          type="submit"
+          variant="primary">
+          Adicionar
+        </Button>
+      </div>
     </Form>
   );
 };
 
 export default AddNewUser;
-
-{
-  /* <Form clasName="main-add mb-2">
-  <Form.Select class="selectpicker" data-live-search="true">
-    <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-    <option data-tokens="mustard">Burger, Shake and a Smile</option>
-    <option data-tokens="frosting">Sugar, Spice and all things nice</option>
-  </Form.Select>
-  <Button
-    className="btn-submit"
-    type="submit"
-    onClick={""}
-    variant="primary"
-    disabled={false}>
-    Enviar
-  </Button>
-</Form>; */
-}
