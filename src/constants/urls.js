@@ -1,5 +1,4 @@
-export const BACKEND_URL =
-  "env" in window ? window.__env__.BACKEND_URL : "http://localhost:8000/";
+export const BACKEND_URL = "http://localhost:8000/";
 
 export const REGISTRATION_ENDPOINT = BACKEND_URL + "api/auth/register/";
 
@@ -22,3 +21,9 @@ export const TASK_CREATE_ENDPOINT = BACKEND_URL + "api/projects/";
 export const TASK_PATCH_ENDPOINT = BACKEND_URL + "api/projects/";
 
 export const PROJECTS_ENDPOINT = BACKEND_URL + "api/projects/";
+
+export const USERS_GET_ENDPOINT = BACKEND_URL + "api/projects/";
+
+export const ADD_USER_IN_PROJECT_ENDPOINT = "/include_users/";
+
+export const GET_EXTERNAL_USERS_ENDPOINT = "/external_users/";

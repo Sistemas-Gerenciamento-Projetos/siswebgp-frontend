@@ -29,7 +29,11 @@ export async function getTasks(accessToken, projectId) {
         return data;
       }
     } else {
+<<<<<<< HEAD
       toast.error("Erro ao criar projeto", {
+=======
+      toast.error('Erro ao recuperar as tarefas', {
+>>>>>>> develop
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -56,8 +60,13 @@ export async function getTasks(accessToken, projectId) {
       // Something happened in setting up the request that triggered an Error
       console.log("Error", error.message);
     }
+<<<<<<< HEAD
 
     toast.error("Erro ao criar projeto", {
+=======
+    
+    toast.error('Erro ao recuperar as tarefas', {
+>>>>>>> develop
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
