@@ -5,22 +5,40 @@ import { useUserDetails } from "../../../context/usercontext";
 import { getUsers } from "../../../services/users/getUsers";
 import { postAddUserInProject } from "../../../services/projects/postAddUserInProject";
 import { useProjectDetails } from "../../../context/projectContext";
+import { toast } from "react-toastify";
 
-const AddNewUser = () => {
+const AddNewUser = ({setIndex}) => {
   const [users, setUsers] = useState([])
   const [userDetails] = useUserDetails()
   const [projectDetails] = useProjectDetails();
   var selectedUserId = "";
 
+  function fetchUsersList() {
+    getUsers(userDetails.accessToken, projectDetails.projectId, setUsers);
+  }
+
   useEffect(() => {
-    getUsers(userDetails.accessToken, setUsers)
+    fetchUsersList();
   }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    postAddUserInProject(userDetails.accessToken, projectDetails.projectId, selectedUserId)
+    if (selectedUserId !== "") {
+      postAddUserInProject(userDetails.accessToken, projectDetails.projectId, fetchUsersList, selectedUserId)
+    } else {
+      toast.error('Selecione um membro', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   }
 
   return (
@@ -32,17 +50,27 @@ const AddNewUser = () => {
       <Form.Control
         as="select"
         onChange={(e) => selectedUserId = e.target.value}>
-        {users.map((user, index) => (
-          <option key={index} value={user.id}>{user.name} | {user.email}</option>
-        ))}
+          <option key={0} value={""}>Selecione um usuário...</option>
+          {users.map((user, index) => (
+            <option key={index + 1} value={user.id}>{user.name} | {user.email}</option>
+          ))}
       </Form.Control>
 
-      <Button
-        className="btn-submit mt-4"
-        type="submit"
-        variant="primary">
-        Adicionar
-      </Button>
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center"}}>
+        <Button
+          className="btn-submit mt-4"
+          variant="primary"
+          onClick={() => setIndex(0)}>
+          Voltar
+        </Button>
+        
+        <Button
+          className="btn-submit mt-4"
+          type="submit"
+          variant="primary">
+          Adicionar
+        </Button>
+      </div>
     </Form>
   );
 };

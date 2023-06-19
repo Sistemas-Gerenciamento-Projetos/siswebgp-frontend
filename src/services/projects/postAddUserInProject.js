@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export function postAddUserInProject(accessToken, projectId, userToAdd) {
+export function postAddUserInProject(accessToken, projectId, fetchUsersList, userToAdd) {
   const header = {
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +21,6 @@ export function postAddUserInProject(accessToken, projectId, userToAdd) {
     )
     .then((response) => {
       if (response.status === 200) {
-        console.log(response);
         toast.success('Membro adicionado', {
           position: "bottom-right",
           autoClose: 5000,
@@ -32,6 +31,7 @@ export function postAddUserInProject(accessToken, projectId, userToAdd) {
           progress: undefined,
           theme: "colored",
         });
+        fetchUsersList()
       }
     })
     .catch((error) => {

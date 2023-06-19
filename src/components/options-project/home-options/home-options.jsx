@@ -4,7 +4,7 @@ import InviteUsers from "../form-invite-user/invite-users.component";
 import AddNewUser from "../add-new-user/add-new-user";
 import "./home-options-styles.scss";
 
-function OptionsProject() {
+function OptionsProject({setIndex}) {
   return (
     <div className="main-home-project">
       <Tabs
@@ -12,7 +12,7 @@ function OptionsProject() {
         id="uncontrolled-tab-example"
         className="mb-6">
         <Tab eventKey="profile" title="Adicionar novo membro" className="mb-4">
-          <AddNewUser />
+          <AddNewUser setIndex={setIndex} />
         </Tab>
         <Tab eventKey="home" title="Convidar novo membro">
           <InviteUsers />

@@ -70,7 +70,7 @@ const Projetos = () => {
         />
       )}
 
-      {index === 2 && <OptionsProject />}
+      {index === 2 && <OptionsProject setIndex={setIndex} />}
 
       {index === 3 && (
         <EditProject

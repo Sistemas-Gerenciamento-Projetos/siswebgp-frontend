@@ -1,9 +1,9 @@
 import axios from "axios";
-import { USERS_GET_ENDPOINT } from "../../constants/urls";
+import { USERS_GET_ENDPOINT, GET_EXTERNAL_USERS_ENDPOINT } from "../../constants/urls";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
-export function getUsers(accessToken, setUsers) {
+export function getUsers(accessToken, projectId, setUsers) {
   const header = {
     headers: {
       "Content-type": "application/json",
@@ -11,7 +11,7 @@ export function getUsers(accessToken, setUsers) {
     },
   };
 
-  const GET_USERS = USERS_GET_ENDPOINT;
+  const GET_USERS = USERS_GET_ENDPOINT + projectId + GET_EXTERNAL_USERS_ENDPOINT;
   axios
     .get(GET_USERS, header)
     .then((response) => {
