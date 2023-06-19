@@ -10,7 +10,6 @@ import { postProject } from "../../services/projects/postProject";
 import { getProjects } from "../../services/projects/getProjects";
 import { useProjectDetails } from "../../context/projectContext";
 import OptionsProject from "../../components/options-project/home-options/home-options";
-import EditProject from "../../components/form-edit-project/edit-project";
 import { ToastContainer } from "react-toastify";
 
 const Projetos = () => {
@@ -19,10 +18,35 @@ const Projetos = () => {
   const [novoProjeto, setNovoProjeto] = useState(true);
   const [projects, setProjects] = useState([]);
   const [index, setIndex] = useState(0);
+  const [show, setShow] = useState(false);
+  const [projectSelected, setProjectSelected] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
+  const buttontask = {
+    0: "Cadastrar",
+    1: "Salvar alterações",
+  };
+
+  
   useEffect(() => {
     getProjects(userDetails, setProjects);
   }, [novoProjeto]);
+ 
+  /*
+  useEffect(() => {
+    (async () => {
+      const projectsfromdb = await getProjects(
+        userDetails.accessToken,
+        projectDetails.projectId
+      );
+      setProjects(projectsfromdb);
+    })();
+  }, [show, refresh]);
+ */
+
+  useEffect(() => {
+    if (!show) setIndex(0);
+  }, [show]);
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
@@ -54,6 +78,10 @@ const Projetos = () => {
                   onPress={onClickProject}
                   project={project}
                   setIndex={setIndex}
+                  setRefresh={setRefresh}
+                  refresh={refresh}
+                  setShow={setShow}
+                  setProjectSelected={setProjectSelected}
                 />
               ))}
             </tbody>
@@ -67,18 +95,30 @@ const Projetos = () => {
           setNovoProjeto={setNovoProjeto}
           userDetails={userDetails}
           setIndex={setIndex}
+          textButton={buttontask[index]}
+          actionProject={index}
+          setShow={setShow}
+          show={show}
+          project={projectSelected}
+          setProjectSelected={setProjectSelected}
         />
       )}
 
       {index === 2 && <OptionsProject />}
 
       {index === 3 && (
-        <EditProject
-          postProject={postProject}
-          novoProjeto={novoProjeto}
-          setNovoProjeto={setNovoProjeto}
-          userDetails={userDetails}
-          setIndex={setIndex}
+        <NovoProjeto
+        postProject={postProject}
+        novoProjeto={novoProjeto}
+        setNovoProjeto={setNovoProjeto}
+        userDetails={userDetails}
+        setIndex={setIndex}
+        textButton={buttontask[index]}
+        actionProject={index}
+        setShow={setShow}
+        show={show}
+        project={projectSelected}
+        setProjectSelected={setProjectSelected}
         />
       )}
 

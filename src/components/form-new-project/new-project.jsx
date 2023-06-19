@@ -1,43 +1,134 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Form, Button, InputGroup, Badge } from "react-bootstrap";
 import "./new-project.scss";
+import { useUserDetails } from "../../context/usercontext";
+import { useProjectDetails } from "../../context/projectContext";
+import { patchProject } from "../../services/projects/patchProject";
 
 const Registration = ({
   postProject,
   novoProjeto,
   setNovoProjeto,
-  userDetails,
+  //userDetails,
   setIndex,
+  textButton,
+  actionProject,
+  show,
+  setShow,
+  project,
+  setProjectSelected
+
 }) => {
+  const handleClose = () => {
+    setShow(false);
+    setProjectSelected(false);
+  };
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
+  const [errors, setErrors] = useState({});
+  //const [usersName, setUsersName] = useState([]);
+  const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
+  const newEditedProject = { ...project };
+  const [updateProject, setUpdateProject] = useState(false);
 
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      setValidated(true);
-      return;
-    }
+  const formRef = useRef(null);
 
-    postProject(
-      novoProjeto,
-      setNovoProjeto,
-      userDetails,
-      title,
-      description,
-      beginDate,
-      endDate
-    )
-    setIndex(0)
+  const handleReset = () => {
+    formRef.current.reset();
+    setValidated(false);
   };
 
+  const validateForm = () => {
+    const newErrors = {};
 
+    if (!title || title === "") newErrors.title = "Preencha o título.";
+    if (!description || description === " ")
+      newErrors.description = "Preencha descrição.";
+    if (!beginDate || beginDate === "") newErrors.beginDate = "Data de início.";
+    if (
+      !endDate ||
+      endDate === "" ||
+      Date.parse(beginDate) > Date.parse(endDate)
+    )
+      newErrors.endDate = "Data de fim.";
+
+    return newErrors;
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const formErrors = validateForm();
+
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+    } else {
+      if (actionProject === 0) {
+        createProject();
+      }
+      if (actionProject === 1) {
+        console.log(project);
+        console.log(actionProject);
+        await editProject();
+      }
+
+      setValidated(true);
+      handleReset();
+      handleClose();
+    }
+  
+  };
+    //const form = event.currentTarget;
+    //if (form.checkValidity() === false) {
+    //  setValidated(true);
+    //  return;
+    //}
+
+    const createProject = () => {
+      postProject(
+        novoProjeto,
+        setNovoProjeto,
+        userDetails,
+        title,
+        description,
+        beginDate,
+        endDate
+      )
+      setIndex(0)
+    };
+    
+    const editProject = async () => {
+      newEditedProject.title = title;
+      newEditedProject.description = description;
+      newEditedProject.beginDate = beginDate;
+      newEditedProject.endDate = endDate;
+      await patchProject(userDetails, projectDetails, newEditedProject, setUpdateProject);
+      setShow(true);
+    };
+  
+    /*useEffect(() => {
+      getUsers(userDetails, projectDetails, setUsersName);
+      if (project) {
+        setTitle(project.title);
+        setBeginDate(project.start_date.substring(0, 10));
+        setDeadlineDate(project.deadline_date.substring(0, 10));
+        setDescription(project.description);
+      } else {
+        setTitle("");
+        setBeginDate("");
+        setDeadlineDate("");
+        setDescription("");
+        // setUsersName([]);°
+      }
+    }, [show]);
+    */
 
   return (
     <Form
@@ -45,6 +136,7 @@ const Registration = ({
       noValidate
       validated={validated}
       onSubmit={handleSubmit}>
+      ref={formRef}
       {/* Tem um bug visual na validação de string com espaços em branco, o form nega o seguimento mas o feedback visual é de correto */}
       <Form.Group controlId="title">
         <Form.Label className="label">Título:</Form.Label>
@@ -53,12 +145,12 @@ const Registration = ({
             type="text"
             className="form-item"
             required
-            isInvalid={!!title.trim() === ""}
+            isInvalid={!!errors.title}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <Form.Control.Feedback type="invalid">
-            Título inválido.
+            {errors.title}
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
@@ -73,6 +165,7 @@ const Registration = ({
           className="form-item"
           value={description}
           required
+          isInvalid={!!errors.description}
           onChange={(e) => setDescription(e.target.value)}
         />
         <Badge
@@ -82,7 +175,7 @@ const Registration = ({
           {description.length}/{200}
         </Badge>
         <Form.Control.Feedback type="invalid">
-          Preencha a descrição.
+          {errors.description}
         </Form.Control.Feedback>
       </Form.Group>
 
@@ -91,12 +184,13 @@ const Registration = ({
         <Form.Control
           type="date"
           required
+          isInvalid={!!errors.beginDate}
           className="form-item"
           value={beginDate}
           onChange={(e) => setBeginDate(e.target.value)}
         />
         <Form.Control.Feedback type="invalid">
-          Preencha a data de início.
+          {errors.beginDate}
         </Form.Control.Feedback>
       </Form.Group>
 
@@ -106,6 +200,7 @@ const Registration = ({
         <InputGroup hasValidation>
           <Form.Control
             type="date"
+            isInvalid={!!errors.endDate}
             isValid={Date.parse(beginDate) < Date.parse(endDate)}
             min={
               beginDate === ""
@@ -119,13 +214,14 @@ const Registration = ({
             onChange={(e) => setEndDate(e.target.value)}
           />
           <Form.Control.Feedback type="invalid">
-            Preencha o campo ou a data de fim não pode ser anterior a data de
-            início.
+            {errors.endDate}
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
       <div className="d-grid mt-4">
-        <Button type="submit">Cadastrar</Button>
+        <Button type="submit">
+          {textButton}
+        </Button>
       </div>
     </Form>
   );
