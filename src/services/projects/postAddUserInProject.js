@@ -1,22 +1,37 @@
+import { PROJECTS_ENDPOINT, ADD_USER_IN_PROJECT_ENDPOINT } from "../../constants/urls";
 import axios from "axios";
-import { USERS_GET_ENDPOINT } from "../../constants/urls";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export function getUsers(accessToken, setUsers) {
+export function postAddUserInProject(accessToken, projectId, userToAdd) {
   const header = {
     headers: {
-      "Content-type": "application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
   };
 
-  const GET_USERS = USERS_GET_ENDPOINT;
   axios
-    .get(GET_USERS, header)
+    .post(
+      PROJECTS_ENDPOINT + projectId + ADD_USER_IN_PROJECT_ENDPOINT,
+      {
+        users: [userToAdd],
+      },
+      header
+    )
     .then((response) => {
       if (response.status === 200) {
-        setUsers(response.data);
+        console.log(response);
+        toast.success('Membro adicionado', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     })
     .catch((error) => {
@@ -36,7 +51,7 @@ export function getUsers(accessToken, setUsers) {
         console.log("Error", error.message);
       }
 
-      toast.error('Erro ao recuperar os usuários do projeto', {
+      toast.error('Erro ao adicionar membro', {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,

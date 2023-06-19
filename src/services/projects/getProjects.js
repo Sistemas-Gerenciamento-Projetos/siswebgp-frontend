@@ -16,6 +16,7 @@ export function getProjects(userDetails, setProjects) {
     header
   ).then((response) => {
     if (response.status === 200) {
+      console.log(response.data)
       setProjects(response.data)
     }
   }).catch((error) => {
