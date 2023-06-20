@@ -28,16 +28,6 @@ const Backlog = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      const tasksfromdb = await getTasks(
-        userDetails.accessToken,
-        projectDetails.projectId
-      );
-      setTasks(tasksfromdb);
-    })();
-  }, [show, tasks, taskSelected]);
-
-  useEffect(() => {
     if (!show) setIndex(0);
   }, [show]);
 
@@ -66,8 +56,6 @@ const Backlog = () => {
         setIndex={setIndex}
         setShow={setShow}
         show={show}
-        task={taskSelected}
-        tasks={tasks}
         setTaskSelected={setTaskSelected}
       />
 

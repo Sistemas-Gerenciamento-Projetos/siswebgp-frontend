@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import StatusTask from "../status-task/status-task";
 import { Table } from "reactstrap";
 import DatePeriod from "../../dashboard/datePeriod/datePeriod";
@@ -7,12 +7,27 @@ import ManagerPhoto from "../../dashboard/managerPhoto/managerPhoto";
 import ActionButtons from "../../action-buttons/action-buttons";
 import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
+import { getTasks } from "../../../services/tasks/getTasks";
 
 function TaskTable(props) {
-  const { tasks, setIndex, setShow, setTaskSelected } = props;
+  const { setIndex, setShow, setTaskSelected } = props;
 
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
+  const [tasks, setTasks] = useState([]);
+
+  async function handleData() {
+    const result = await getTasks(
+      userDetails.accessToken,
+      projectDetails.projectId
+    );
+
+    setTasks(result);
+  }
+
+  useEffect(() => {
+    handleData();
+  }, []);
 
   return (
     <>
