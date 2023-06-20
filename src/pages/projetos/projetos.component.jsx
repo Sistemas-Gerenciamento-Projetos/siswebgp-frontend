@@ -12,6 +12,7 @@ import { useProjectDetails } from "../../context/projectContext";
 import OptionsProject from "../../components/options-project/home-options/home-options";
 import EditProject from "../../components/form-edit-project/edit-project";
 import { ToastContainer } from "react-toastify";
+import TableProject from "../../components/project-components/table-project/table-projects";
 
 const Projetos = () => {
   const [userDetails] = useUserDetails();
@@ -36,29 +37,12 @@ const Projetos = () => {
     <>
       <Toolbar title={"Meus projetos"} setIndex={setIndex} />
       {index === 0 && (
-        <div>
-          <Table>
-            <thead>
-              <tr>
-                <th>Nome do projeto</th>
-                <th>Progresso</th>
-                <th>Prazo</th>
-                <th>Gerente</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {projects.map((project) => (
-                <DashboardItem
-                  key={project.id}
-                  onPress={onClickProject}
-                  project={project}
-                  setIndex={setIndex}
-                />
-              ))}
-            </tbody>
-          </Table>
-        </div>
+        <TableProject
+          projects={projects}
+          projectDetails={projectDetails}
+          onClickProject={onClickProject}
+          userDetails={userDetails}
+        />
       )}
       {index === 1 && (
         <NovoProjeto
