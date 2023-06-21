@@ -13,7 +13,7 @@ import { deleteProject } from "../../services/projects/deleteProject";
 
 
 const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects }) => {
-  const [projectDetails] = useProjectDetails();
+  const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [userDetails] = useUserDetails();
   const parsedStartDate = parseDateWithoutTimezone(project.start_date);
   const parsedEndDate = parseDateWithoutTimezone(project.deadline_date);
@@ -22,6 +22,7 @@ const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects }) => {
   const handleDelete = (project) => {
     if (window.confirm(`Você tem certeza que deseja deletar ${project.project_name}?`)) {
       deleteProject(userDetails, project.id, onRefreshProjects)
+      updateProjectDetails("", "")
     }
   };
 
