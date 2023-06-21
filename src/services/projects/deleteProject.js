@@ -3,14 +3,14 @@ import { PROJECTS_ENDPOINT } from "../../constants/urls";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export function deleteProject(userDetails, projectDetails) {
+export function deleteProject(userDetails, projectId) {
   const header = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
-  const DELETE_PROJECT = `${PROJECTS_ENDPOINT}${projectDetails.projectId}`;
+  const DELETE_PROJECT = `${PROJECTS_ENDPOINT}${projectId}`;
 
   axios
     .delete(DELETE_PROJECT, header)

@@ -10,7 +10,6 @@ import EditIcon from "../../Assets/edit.svg";
 import AddIcon from "../../Assets/person-add.svg";
 import { useUserDetails } from "../../context/usercontext";
 import { deleteProject } from "../../services/projects/deleteProject";
-import { toast } from "react-toastify";
 
 
 const DashboardItem = ({ project, onPress, setIndex }) => {
@@ -20,9 +19,9 @@ const DashboardItem = ({ project, onPress, setIndex }) => {
   const parsedEndDate = parseDateWithoutTimezone(project.deadline_date);
   var progress = 0;
 
-  const handleDelete = (projectName) => {
-    if (window.confirm(`Você tem certeza que deseja deletar ${projectName}?`)) {
-      deleteProject(userDetails, projectDetails)
+  const handleDelete = (project) => {
+    if (window.confirm(`Você tem certeza que deseja deletar ${project.project_name}?`)) {
+      deleteProject(userDetails, project.id)
     }
   };
 
@@ -56,7 +55,7 @@ const DashboardItem = ({ project, onPress, setIndex }) => {
           <img src={EditIcon} />
         </Button> 
         
-        <Button variant="outline-light"  style={{border:0}} onClick={() => {handleDelete(project.project_name)}}>
+        <Button variant="outline-light"  style={{border:0}} onClick={() => {handleDelete(project)}}>
           <img src={TrashIcon}/>
         </Button> 
       </td>
