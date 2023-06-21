@@ -51,6 +51,8 @@
 
 - [Planilha com Informações da Equipe/Reuniões](https://docs.google.com/spreadsheets/d/1-krF3a3XWaE_qxY1pSuACv7RrJooM_Ib3L6pFZiUhIU/edit#gid=0)
 
+-[Documentod de Implementação](https://docs.google.com/document/d/1mMqNbaAKncGDh7Ph7fB37MhdozIYHW9NAJPQpM3kDDs/edit)
+
 # Prototipação das Telas
 
 - [Link para visualizar o protótipo.](https://www.figma.com/file/lsIKGoFR9LjBfZwmqI7M4Q/SGP_UFBA?node-id=1%3A26&t=Ek8wruQihwCGt6dm-1)
