@@ -1,9 +1,17 @@
-import { PROJECTS_ENDPOINT, ADD_USER_IN_PROJECT_ENDPOINT } from "../../constants/urls";
+import {
+  PROJECTS_ENDPOINT,
+  ADD_USER_IN_PROJECT_ENDPOINT,
+} from "../../constants/urls";
 import axios from "axios";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export function postAddUserInProject(accessToken, projectId, fetchUsersList, userToAdd) {
+export function postAddUserInProject(
+  accessToken,
+  projectId,
+  fetchUsersList,
+  userToAdd
+) {
   const header = {
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +29,7 @@ export function postAddUserInProject(accessToken, projectId, fetchUsersList, use
     )
     .then((response) => {
       if (response.status === 200) {
-        toast.success('Membro adicionado', {
+        toast.success("Membro adicionado", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -31,7 +39,7 @@ export function postAddUserInProject(accessToken, projectId, fetchUsersList, use
           progress: undefined,
           theme: "colored",
         });
-        fetchUsersList()
+        fetchUsersList();
       }
     })
     .catch((error) => {
@@ -51,7 +59,7 @@ export function postAddUserInProject(accessToken, projectId, fetchUsersList, use
         console.log("Error", error.message);
       }
 
-      toast.error('Erro ao adicionar membro', {
+      toast.error("Erro ao adicionar membro", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,

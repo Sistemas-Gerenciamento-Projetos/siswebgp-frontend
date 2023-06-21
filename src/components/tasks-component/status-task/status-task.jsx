@@ -12,7 +12,7 @@ import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Tasks = ({ status, taskItem }) => {
+const StatusTask = ({ status, taskItem }) => {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [updateTasks, setUpdateTasks] = useState(false);
@@ -48,4 +48,4 @@ const Tasks = ({ status, taskItem }) => {
   );
 };
 
-export default Tasks;
+export default StatusTask;

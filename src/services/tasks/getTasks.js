@@ -29,7 +29,7 @@ export async function getTasks(accessToken, projectId) {
         return data;
       }
     } else {
-      toast.error('Erro ao recuperar as tarefas', {
+      toast.error("Erro ao recuperar as tarefas", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -56,8 +56,8 @@ export async function getTasks(accessToken, projectId) {
       // Something happened in setting up the request that triggered an Error
       console.log("Error", error.message);
     }
-    
-    toast.error('Erro ao recuperar as tarefas', {
+
+    toast.error("Erro ao recuperar as tarefas", {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
