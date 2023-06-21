@@ -20,7 +20,7 @@ const Projetos = () => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    getProjects(userDetails, setProjects);
+    onRefreshProjects();
   }, [novoProjeto]);
 
   if (!userDetails.accessToken) {
@@ -31,16 +31,38 @@ const Projetos = () => {
     updateProjectDetails(projectId, projectName);
   }
 
+  function onRefreshProjects() {
+    getProjects(userDetails, setProjects);
+  }
+
   return (
     <>
       <Toolbar title={"Meus projetos"} setIndex={setIndex} />
       {index === 0 && (
-        <TableProject
-          projects={projects}
-          projectDetails={projectDetails}
-          onClickProject={onClickProject}
-          userDetails={userDetails}
-        />
+        <div>
+          <Table>
+            <thead>
+              <tr>
+                <th>Nome do projeto</th>
+                <th>Progresso</th>
+                <th>Prazo</th>
+                <th>Gerente</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {projects.map((project) => (
+                <DashboardItem
+                  key={project.id}
+                  onPress={onClickProject}
+                  project={project}
+                  setIndex={setIndex}
+                  onRefreshProjects={onRefreshProjects}
+                />
+              ))}
+            </tbody>
+          </Table>
+        </div>
       )}
       {index === 1 && (
         <NovoProjeto
