@@ -15,7 +15,7 @@ import { deleteProject } from "../../services/projects/deleteProject";
 const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects }) => {
   const [projectDetails] = useProjectDetails();
   const [userDetails] = useUserDetails();
-  const parsedStartDate = parseDateWithoutTimezone(project.creation_date);
+  const parsedStartDate = parseDateWithoutTimezone(project.start_date);
   const parsedEndDate = parseDateWithoutTimezone(project.deadline_date);
   var progress = 0;
 

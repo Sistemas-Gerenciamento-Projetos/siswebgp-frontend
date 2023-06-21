@@ -79,10 +79,9 @@ const Projetos = () => {
 
       {index === 3 && (
         <EditProject
-          postProject={postProject}
+          project={projects.filter(project => project.id == projectDetails.projectId)[0]}
           novoProjeto={novoProjeto}
           setNovoProjeto={setNovoProjeto}
-          userDetails={userDetails}
           setIndex={setIndex}
         />
       )}

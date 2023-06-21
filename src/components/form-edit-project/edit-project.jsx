@@ -3,18 +3,19 @@ import { Form, Button, InputGroup, Badge } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import "./edit-project.scss";
 
-const EditProject = ({
-  postProject,
-  novoProjeto,
-  setNovoProjeto,
-  userDetails,
-  setIndex,
-}) => {
+const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [validated, setValidated] = useState(false);
+
+  useEffect(() => {
+    setTitle(project.project_name)
+    setDescription(project.description)
+    setBeginDate(project.start_date.split("T")[0])
+    setEndDate(project.deadline_date.split("T")[0])
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,19 +27,17 @@ const EditProject = ({
       return;
     }
 
-    postProject(
-      novoProjeto,
-      setNovoProjeto,
-      userDetails,
-      title,
-      description,
-      beginDate,
-      endDate
-    )
+    //postProject(
+    //  novoProjeto,
+    //  setNovoProjeto,
+    //  userDetails,
+    //  title,
+    //  description,
+    //  beginDate,
+    //  endDate
+    //)
     setIndex(0)
   };
-
-
 
   return (
     <Form
