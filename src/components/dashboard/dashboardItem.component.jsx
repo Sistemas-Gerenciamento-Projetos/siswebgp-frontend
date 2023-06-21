@@ -49,17 +49,21 @@ const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects }) => {
         <ManagerPhoto name={project.manager_name} />
       </td>
       <td>
-        <Button variant="outline-light" style={{border:0}} onClick={() => setIndex(2)}>
-          <img src={AddIcon}/>
-        </Button>
-        
-        <Button variant="outline-light" style={{border:0}} onClick={() => setIndex(3)}>
-          <img src={EditIcon} />
-        </Button> 
-        
-        <Button variant="outline-light"  style={{border:0}} onClick={() => {handleDelete(project)}}>
-          <img src={TrashIcon}/>
-        </Button> 
+        {project.manager === userDetails.id && (
+          <>
+            <Button variant="outline-light" style={{border:0}} onClick={() => setIndex(2)}>
+              <img src={AddIcon}/>
+            </Button>
+            
+            <Button variant="outline-light" style={{border:0}} onClick={() => setIndex(3)}>
+              <img src={EditIcon} />
+            </Button> 
+            
+            <Button variant="outline-light"  style={{border:0}} onClick={() => {handleDelete(project)}}>
+              <img src={TrashIcon}/>
+            </Button>
+          </>
+        )}
       </td>
     </tr>
   );
