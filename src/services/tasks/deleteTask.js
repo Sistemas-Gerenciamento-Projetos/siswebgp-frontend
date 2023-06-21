@@ -3,7 +3,7 @@ import { PROJECTS_ENDPOINT } from "../../constants/urls";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export async function deleteTask(userDetails, projectDetails, task) {
+export async function deleteTask(userDetails, projectDetails, id) {
   const header = {
     headers: {
       "Content-Type": "application/json",
@@ -11,7 +11,7 @@ export async function deleteTask(userDetails, projectDetails, task) {
     },
   };
   console.log(projectDetails);
-  const DELETE_TASK = `${PROJECTS_ENDPOINT}${projectDetails.projectId}/tasks/${task.id}/`;
+  const DELETE_TASK = `${PROJECTS_ENDPOINT}${projectDetails.projectId}/tasks/${id}/`;
   console.log(DELETE_TASK);
 
   axios

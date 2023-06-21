@@ -71,7 +71,7 @@ function TableProject({
               <ActionButtons
                 addButton={addButton}
                 editButton={editButton}
-                deleteButton={deleteButton}
+                deleteAction={deleteButton}
               />
             </td>
           </tr>

@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import DashboardItem from "../../components/dashboard/dashboardItem.component";
 import Toolbar from "../../components/toolbar/toolbar.component";
-import { Table } from "reactstrap";
 import { useState } from "react";
 import NovoProjeto from "../../components/form-new-project/new-project";
 import { useUserDetails } from "../../context/usercontext";

@@ -17,7 +17,6 @@ export async function patchTask(
   };
 
   const PATCH_TASK = `${TASK_PATCH_ENDPOINT}${projectDetails.projectId}/tasks/${taskEdited.id}/`;
-  console.log(taskEdited.start_date);
   axios
     .patch(
       PATCH_TASK,
