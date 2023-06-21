@@ -8,6 +8,7 @@ import { getTasks } from "../../services/tasks/getTasks";
 import Taskitem from "../../components/tasks-component/taskitem/taskitem";
 import ModalFormTask from "../../components/tasks-component/modal-form-task.component/modal-form-task.component";
 import "./backlog.styles.scss";
+import { Empty } from "antd";
 
 const Backlog = () => {
   const [userDetails] = useUserDetails();
@@ -56,33 +57,43 @@ const Backlog = () => {
         update={update}
       />
 
-      <Row className="mt-4">
-        <Col sm={3} xl={3}>
-          <h4>Nome da Tarefa</h4>
-        </Col>
-        <Col sm={2} xl={2}>
-          <h4>Status</h4>
-        </Col>
-        <Col sm={3} xl={3}>
-          <h4>Prazo</h4>
-        </Col>
-        <Col sm={2} xl={2}>
-          <h4>Responsável</h4>
-        </Col>
-        <Col sm={2} xl={2}>
-          <h4>Ações</h4>
-        </Col>
-        <hr class="hr hr-blurry" />
-      </Row>
-      {tasks.map((task) => (
-        <Taskitem
-          setUpdate={setUpdate}
-          update={update}
-          task={task}
-          userDetails={userDetails}
-          projectDetails={projectDetails}
-        />
-      ))}
+      {tasks.length !== 0 && (
+        <>
+          <Row className="mt-4">
+            <Col sm={3} xl={3}>
+              <h4>Nome da Tarefa</h4>
+            </Col>
+            <Col sm={2} xl={2}>
+              <h4>Status</h4>
+            </Col>
+            <Col sm={3} xl={3}>
+              <h4>Prazo</h4>
+            </Col>
+            <Col sm={2} xl={2}>
+              <h4>Responsável</h4>
+            </Col>
+            <Col sm={2} xl={2}>
+              <h4>Ações</h4>
+            </Col>
+            <hr class="hr hr-blurry" />
+          </Row>
+          {tasks.map((task) => (
+            <Taskitem
+              setUpdate={setUpdate}
+              update={update}
+              task={task}
+              userDetails={userDetails}
+              projectDetails={projectDetails}
+            />
+          ))}
+        </>
+      )}
+
+      {tasks.length === 0 && (
+        <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <Empty description="Sem tarefas existentes" />
+        </div>
+      )}
     </Container>
   );
 };
