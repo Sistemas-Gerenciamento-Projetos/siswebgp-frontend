@@ -11,6 +11,8 @@ import OptionsProject from "../../components/options-project/home-options/home-o
 import EditProject from "../../components/form-edit-project/edit-project";
 import { ToastContainer } from "react-toastify";
 import { Empty } from 'antd'
+import DashboardItem from "../../components/dashboard/dashboardItem.component";
+import { Table } from "reactstrap";
 
 const Projetos = () => {
   const [userDetails] = useUserDetails();

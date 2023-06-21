@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import ProgressBar from "./progressBar/progressBar";
-import DatePeriod from "./datePeriod/datePeriod";
-import ManagerPhoto from "./managerPhoto/managerPhoto";
+import ProgressBar from "../../components/project-components/progressBar/progressBar";
+import DatePeriod from "../../components/datePeriod/datePeriod";
+import ManagerPhoto from "../../components/managerPhoto/managerPhoto";
 import { useProjectDetails } from "../../context/projectContext";
 import { parseDateWithoutTimezone } from "../../utils/dateParse";
 import Button from "react-bootstrap/Button";
