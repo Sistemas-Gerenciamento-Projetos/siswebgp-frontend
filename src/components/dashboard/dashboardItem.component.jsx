@@ -22,6 +22,8 @@ const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects }) => {
   const handleDelete = (project) => {
     if (window.confirm(`Você tem certeza que deseja deletar ${project.project_name}?`)) {
       deleteProject(userDetails, project.id, onRefreshProjects)
+      project.id = ""
+      project.project_name = ""
       updateProjectDetails("", "")
     }
   };
