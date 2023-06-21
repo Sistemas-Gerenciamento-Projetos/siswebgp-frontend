@@ -10,7 +10,9 @@ import { useProjectDetails } from "../../context/projectContext";
 import OptionsProject from "../../components/options-project/home-options/home-options";
 import EditProject from "../../components/form-edit-project/edit-project";
 import { ToastContainer } from "react-toastify";
-import TableProject from "../../components/project-components/table-project/table-projects";
+import { Empty } from 'antd'
+import DashboardItem from "../../components/dashboard/dashboardItem.component";
+import { Table } from "reactstrap";
 
 const Projetos = () => {
   const [userDetails] = useUserDetails();
@@ -38,7 +40,7 @@ const Projetos = () => {
   return (
     <>
       <Toolbar title={"Meus projetos"} setIndex={setIndex} />
-      {index === 0 && (
+      {index === 0 && projects.length !== 0 && (
         <div>
           <Table>
             <thead>
@@ -64,6 +66,13 @@ const Projetos = () => {
           </Table>
         </div>
       )}
+
+      {index === 0 && projects.length === 0 && (
+        <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <Empty description="Sem projetos existentes" />
+        </div>
+      )}
+
       {index === 1 && (
         <NovoProjeto
           postProject={postProject}
@@ -78,10 +87,9 @@ const Projetos = () => {
 
       {index === 3 && (
         <EditProject
-          postProject={postProject}
+          project={projects.filter(project => project.id == projectDetails.projectId)[0]}
           novoProjeto={novoProjeto}
           setNovoProjeto={setNovoProjeto}
-          userDetails={userDetails}
           setIndex={setIndex}
         />
       )}

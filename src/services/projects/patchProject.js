@@ -1,12 +1,14 @@
-import { PROJECTS_CREATE_ENDPOINT } from "../../constants/urls";
+import { PROJECTS_ENDPOINT } from "../../constants/urls";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export function postProject(
+export function patchProject(
   novoProjeto,
   setNovoProjeto,
+  setIndex,
   userDetails,
+  projectId,
   title,
   description,
   startDate,
@@ -22,33 +24,22 @@ export function postProject(
   };
 
   axios
-    .post(
-      PROJECTS_CREATE_ENDPOINT,
+    .patch(
+      `${PROJECTS_ENDPOINT + projectId}/`,
       {
         manager: userDetails.id,
         project_name: parsedTitle,
         description: description,
         start_date: startDate,
-        deadline_date: endDate,
-        users: [userDetails.id],
+        deadline_date: endDate
       },
       header
     )
     .then((response) => {
-      if (response.status === 201) {
+      if (response.status === 200) {
         setNovoProjeto(!novoProjeto);
-        toast.success('Projeto criado', {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      } else {
-        toast.error('Erro ao criar projeto', {
+        setIndex(0);
+        toast.success('Projeto atualizado', {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -77,7 +68,7 @@ export function postProject(
         console.log("Error", error.message);
       }
 
-      toast.error('Erro ao criar projeto', {
+      toast.error('Erro ao atualizar projeto', {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
