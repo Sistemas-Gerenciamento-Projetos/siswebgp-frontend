@@ -5,7 +5,7 @@ import { patchProject } from "../../services/projects/patchProject";
 import { useUserDetails } from "../../context/usercontext";
 
 const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
-  const [userDetails] = useUserDetails()
+  const [userDetails] = useUserDetails();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [beginDate, setBeginDate] = useState("");
@@ -13,10 +13,10 @@ const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
   const [validated, setValidated] = useState(false);
 
   useEffect(() => {
-    setTitle(project.project_name)
-    setDescription(project.description)
-    setBeginDate(project.start_date.split("T")[0])
-    setEndDate(project.deadline_date.split("T")[0])
+    setTitle(project.project_name);
+    setDescription(project.description);
+    setBeginDate(project.start_date.split("T")[0]);
+    setEndDate(project.deadline_date.split("T")[0]);
   }, []);
 
   const handleSubmit = (event) => {
@@ -39,7 +39,7 @@ const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
       description,
       beginDate,
       endDate
-    )
+    );
   };
 
   return (
@@ -127,18 +127,23 @@ const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
-      <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center", paddingTop: "15px"}}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+          alignItems: "center",
+          paddingTop: "15px",
+        }}>
         <Button
           className="button"
           variant="primary"
           onClick={() => setIndex(0)}>
-            Voltar
+          Voltar
         </Button>
 
-        <Button 
-          className="button"
-          type="submit">
-            Salvar alterações
+        <Button className="button" type="submit">
+          Salvar alterações
         </Button>
       </div>
     </Form>

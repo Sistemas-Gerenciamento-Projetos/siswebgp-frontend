@@ -19,30 +19,29 @@ function ModalFormTask({
   setUpdate,
   update,
 }) {
+  const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
   const [listUsers, setListUsers] = useState([]);
-  const [nameUser, setNameUser] = useState("");
+  const [userName, setUserName] = useState("");
   const [idUser, setIdUser] = useState("");
   const [validated, setvalidated] = useState(false);
   const [errors, setErrors] = useState({});
+
   const formRef = useRef(null);
   const [status] = useState("TODO");
 
-  const [userDetails] = useUserDetails();
-  const [projectDetails] = useProjectDetails();
-
-  const handleClose = () => {
-    setShow(false);
-  };
   const handleReset = () => {
     formRef.current.reset();
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
+    setUserName(listUsers.find((x) => x.id == idUser).name); // atualiza o nome do usuário
 
     if (titleAction === "Editar tarefa") {
       editTask();
@@ -51,19 +50,28 @@ function ModalFormTask({
     }
     setUpdate(!update);
     handleReset();
-    handleClose();
+    setShow(!show);
   };
 
+  // const handleUser = () => {
+  //   // console.log(idUser);
+
+  //   const name = listUsers.find((x) => x.id == idUser).name;
+
+  //   console.log(name);
+  // };
+
   const editTask = async () => {
-    console.log("edit");
     const newEditedTask = { ...task };
     newEditedTask.title = title;
     newEditedTask.description = description;
     newEditedTask.start_date = beginDate;
     newEditedTask.deadline_date = deadlineDate;
+    newEditedTask.user = idUser;
+    newEditedTask.user_name = userName;
     await patchTask(userDetails, projectDetails, newEditedTask, setUpdate);
     setUpdate(!update);
-    console.log(newEditedTask);
+    setShow(!show);
   };
 
   const createTask = () => {
@@ -74,35 +82,35 @@ function ModalFormTask({
       description,
       beginDate,
       deadlineDate,
-      status
+      status,
+      idUser
     );
     setUpdate(!update);
   };
 
-  const handleUser = (id, name) => {
-    setNameUser(name);
-    setIdUser(id);
-  };
-
   useEffect(() => {
     getUsersByProject(userDetails, projectDetails, setListUsers);
-
+    console.log("useffect");
     if (titleAction === "Editar tarefa") {
       setTitle(task.title);
       setBeginDate(task.start_date.substring(0, 10));
       setDeadlineDate(task.deadline_date.substring(0, 10));
       setDescription(task.description);
+      setUserName(task.user_name);
+      console.log(userName);
+      setIdUser(task.user);
     } else {
       setTitle("");
       setBeginDate("");
       setDeadlineDate("");
       setDescription("");
+      setIdUser(userDetails.id);
     }
   }, []);
 
   return (
     <div>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{titleAction}</Modal.Title>
         </Modal.Header>
@@ -130,10 +138,13 @@ function ModalFormTask({
 
             <Form.Group className="mb-3" controlId="users">
               <Form.Label className="label">Responsável:</Form.Label>
-              <Form.Select required>
-                {listUsers.map(({ id, name }) => (
-                  <option onChange={() => handleUser(id, name)} key={id}>
-                    {name}
+              <Form.Select
+                defaultValue={idUser}
+                required
+                onChange={(e) => setIdUser(e.target.value)}>
+                {listUsers.map((user) => (
+                  <option value={user.id} key={user.id}>
+                    {user.name}
                   </option>
                 ))}
               </Form.Select>

@@ -46,6 +46,8 @@ const Registration = () => {
     } else {
       setLoading(true);
     }
+
+    console.log(formErrors);
   };
 
   useEffect(() => {
@@ -82,9 +84,9 @@ const Registration = () => {
           onChange={(e) => setName(e.target.value)}
           isInvalid={!!errors.name}
         />
-        <Form.Control.Feedback type="invalid">
+        {/* <Form.Control.Feedback type="invalid">
           {errors.name}
-        </Form.Control.Feedback>
+        </Form.Control.Feedback> */}
       </Form.Group>
 
       <Form.Group controlId="email">
@@ -96,9 +98,9 @@ const Registration = () => {
           onChange={(e) => setEmail(e.target.value)}
           isInvalid={!!errors.email}
         />
-        <Form.Control.Feedback type="invalid">
+        {/* <Form.Control.Feedback type="invalid">
           {errors.email}
-        </Form.Control.Feedback>
+        </Form.Control.Feedback> */}
       </Form.Group>
 
       <Form.Group controlId="password">
@@ -110,12 +112,12 @@ const Registration = () => {
           onChange={(e) => setPassword(e.target.value)}
           isInvalid={!!errors.password}
         />
-        <Form.Control.Feedback type="invalid">
+        {/* <Form.Control.Feedback type="invalid">
           {errors.password}
-        </Form.Control.Feedback>
+        </Form.Control.Feedback> */}
       </Form.Group>
 
-      <Form.Group controlId="confirm_password">
+      <Form.Group controlId="password">
         <Form.Control
           type="password"
           placeholder="Confirmar senha"
@@ -124,9 +126,9 @@ const Registration = () => {
           onChange={(e) => setConfirm_password(e.target.value)}
           isInvalid={!!errors.confirm_password}
         />
-        <Form.Control.Feedback type="invalid">
+        {/* <Form.Control.Feedback type="invalid">
           {errors.confirm_password}
-        </Form.Control.Feedback>
+        </Form.Control.Feedback> */}
       </Form.Group>
       <div className="d-grid mt-3 ">
         <Button type="submit" onClick={submitHandler}>

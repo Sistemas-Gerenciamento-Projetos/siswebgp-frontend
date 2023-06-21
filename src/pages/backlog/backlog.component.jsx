@@ -3,11 +3,10 @@ import Toolbar from "../../components/toolbar/toolbar.component";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
 import { Navigate } from "react-router-dom";
-import { Button, Row, Col, Container } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { getTasks } from "../../services/tasks/getTasks";
 import Taskitem from "../../components/tasks-component/taskitem/taskitem";
 import ModalFormTask from "../../components/tasks-component/modal-form-task.component/modal-form-task.component";
-import "./backlog.styles.scss";
 import { Empty } from "antd";
 
 const Backlog = () => {
@@ -27,14 +26,8 @@ const Backlog = () => {
     setTasks(result);
   }
 
-  const test = () => {
-    handleData();
-    console.log(tasks);
-  };
-
   useEffect(() => {
     handleData();
-    console.log("useffect");
   }, [update]);
 
   if (!userDetails.accessToken) {
@@ -42,7 +35,7 @@ const Backlog = () => {
   }
 
   return (
-    <Container className="backlog-main">
+    <>
       <Toolbar title={projectDetails.projectName} />
 
       <Button variant="primary" onClick={() => setShow(true)}>
@@ -59,42 +52,52 @@ const Backlog = () => {
 
       {tasks.length !== 0 && (
         <>
-          <Row className="mt-4">
-            <Col sm={3} xl={3}>
-              <h4>Nome da Tarefa</h4>
-            </Col>
-            <Col sm={2} xl={2}>
-              <h4>Status</h4>
-            </Col>
-            <Col sm={3} xl={3}>
-              <h4>Prazo</h4>
-            </Col>
-            <Col sm={2} xl={2}>
-              <h4>Responsável</h4>
-            </Col>
-            <Col sm={2} xl={2}>
-              <h4>Ações</h4>
-            </Col>
-            <hr class="hr hr-blurry" />
-          </Row>
-          {tasks.map((task) => (
-            <Taskitem
-              setUpdate={setUpdate}
-              update={update}
-              task={task}
-              userDetails={userDetails}
-              projectDetails={projectDetails}
-            />
-          ))}
+          <Table className="mt-4">
+            <thead>
+              <tr>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Nome da Tarefa</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Status</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Prazo</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Responsável</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Ações</p>
+                </th>
+              </tr>
+            </thead>
+
+            {tasks.map((task) => (
+              <Taskitem
+                setUpdate={setUpdate}
+                update={update}
+                task={task}
+                userDetails={userDetails}
+                projectDetails={projectDetails}
+              />
+            ))}
+          </Table>
         </>
       )}
 
       {tasks.length === 0 && (
-        <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
           <Empty description="Sem tarefas existentes" />
         </div>
       )}
-    </Container>
+    </>
   );
 };
 
