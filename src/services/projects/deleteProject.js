@@ -3,7 +3,7 @@ import { PROJECTS_ENDPOINT } from "../../constants/urls";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export function deleteProject(userDetails, projectId) {
+export function deleteProject(userDetails, projectId, onRefreshProject) {
   const header = {
     headers: {
       "Content-Type": "application/json",
@@ -26,6 +26,7 @@ export function deleteProject(userDetails, projectId) {
           progress: undefined,
           theme: "colored",
         });
+        onRefreshProject()
       }
     })
     .catch((error) => {

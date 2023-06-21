@@ -12,7 +12,7 @@ import { useUserDetails } from "../../context/usercontext";
 import { deleteProject } from "../../services/projects/deleteProject";
 
 
-const DashboardItem = ({ project, onPress, setIndex }) => {
+const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects }) => {
   const [projectDetails] = useProjectDetails();
   const [userDetails] = useUserDetails();
   const parsedStartDate = parseDateWithoutTimezone(project.creation_date);
@@ -21,7 +21,7 @@ const DashboardItem = ({ project, onPress, setIndex }) => {
 
   const handleDelete = (project) => {
     if (window.confirm(`Você tem certeza que deseja deletar ${project.project_name}?`)) {
-      deleteProject(userDetails, project.id)
+      deleteProject(userDetails, project.id, onRefreshProjects)
     }
   };
 
@@ -30,7 +30,6 @@ const DashboardItem = ({ project, onPress, setIndex }) => {
   }
 
   return (
-
     <tr
       style={{ backgroundColor: project.id === projectDetails.projectId ? "#bae7ff" : ""}}
       onClick={() => {

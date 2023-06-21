@@ -21,7 +21,7 @@ const Projetos = () => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    getProjects(userDetails, setProjects);
+    onRefreshProjects();
   }, [novoProjeto]);
 
   if (!userDetails.accessToken) {
@@ -30,6 +30,10 @@ const Projetos = () => {
 
   function onClickProject(projectId, projectName) {
     updateProjectDetails(projectId, projectName);
+  }
+
+  function onRefreshProjects() {
+    getProjects(userDetails, setProjects);
   }
 
   return (
@@ -54,6 +58,7 @@ const Projetos = () => {
                   onPress={onClickProject}
                   project={project}
                   setIndex={setIndex}
+                  onRefreshProjects={onRefreshProjects}
                 />
               ))}
             </tbody>
