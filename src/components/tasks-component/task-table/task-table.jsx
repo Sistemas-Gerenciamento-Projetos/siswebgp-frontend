@@ -11,8 +11,14 @@ import { getTasks } from "../../../services/tasks/getTasks";
 import { deleteTask } from "../../../services/tasks/deleteTask";
 
 function TaskTable(props) {
-  const { setIndex, setShow, show, setTaskSelected, taskSelected, editAction } =
-    props;
+  const {
+    setShow,
+    show,
+    setTaskSelected,
+    taskSelected,
+    editAction,
+    setShowEdit,
+  } = props;
 
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
@@ -70,9 +76,10 @@ function TaskTable(props) {
             </td>
             <td onClick={() => handleTask(task)}>
               <ActionButtons
-                setIndex={setIndex}
-                setShowEdit={setShow}
                 deleteAction={deleteAction}
+                setShowEdit={setShow}
+                setUpdate={setUpdate}
+                update={update}
               />
             </td>
           </tr>

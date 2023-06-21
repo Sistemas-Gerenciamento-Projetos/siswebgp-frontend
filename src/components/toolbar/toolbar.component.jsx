@@ -19,7 +19,7 @@ const Toolbar = ({ title, setIndex }) => {
     localStorage.removeItem("projectId");
     localStorage.removeItem("projectName");
     updateUserDetails(false, false, false);
-    updateProjectDetails("", "")
+    updateProjectDetails("", "");
     nav("/");
   };
 

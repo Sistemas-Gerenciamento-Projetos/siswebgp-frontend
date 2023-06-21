@@ -10,7 +10,7 @@ import { useProjectDetails } from "../../context/projectContext";
 import OptionsProject from "../../components/options-project/home-options/home-options";
 import EditProject from "../../components/form-edit-project/edit-project";
 import { ToastContainer } from "react-toastify";
-import { Empty } from 'antd'
+import { Empty } from "antd";
 import DashboardItem from "../../components/dashboard/dashboardItem.component";
 import { Table } from "reactstrap";
 
@@ -41,15 +41,25 @@ const Projetos = () => {
     <>
       <Toolbar title={"Meus projetos"} setIndex={setIndex} />
       {index === 0 && projects.length !== 0 && (
-        <div>
+        <div className="mt-4">
           <Table>
             <thead>
               <tr>
-                <th>Nome do projeto</th>
-                <th>Progresso</th>
-                <th>Prazo</th>
-                <th>Gerente</th>
-                <th></th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Nome do projeto</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Progresso</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Prazo</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Gerente</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Ações</p>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -68,7 +78,13 @@ const Projetos = () => {
       )}
 
       {index === 0 && projects.length === 0 && (
-        <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
           <Empty description="Sem projetos existentes" />
         </div>
       )}
@@ -87,7 +103,11 @@ const Projetos = () => {
 
       {index === 3 && (
         <EditProject
-          project={projects.filter(project => project.id == projectDetails.projectId)[0]}
+          project={
+            projects.filter(
+              (project) => project.id == projectDetails.projectId
+            )[0]
+          }
           novoProjeto={novoProjeto}
           setNovoProjeto={setNovoProjeto}
           setIndex={setIndex}

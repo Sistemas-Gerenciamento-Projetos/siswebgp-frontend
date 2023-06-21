@@ -3,8 +3,8 @@ import { Form, Button } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
 import { sigin } from "../../services/authorization/login";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -38,14 +38,14 @@ function Login() {
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
-      return
+      return;
     }
-    
-    const logged = await sigin(email, password, userDetails, updateUserDetails)
+
+    const logged = await sigin(email, password, userDetails, updateUserDetails);
     if (logged) {
       setErrors("");
     } else {
-      toast.error('Credenciais inválidas', {
+      toast.error("Credenciais inválidas", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,

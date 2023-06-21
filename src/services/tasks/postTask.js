@@ -10,7 +10,8 @@ export function postTask(
   description,
   startDate,
   endDate,
-  status
+  status,
+  id
 ) {
   // const parsedTitle = title.trim();
   const header = {
@@ -19,11 +20,10 @@ export function postTask(
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
+  console.log(id);
 
   const CREATE_TASK =
     TASK_CREATE_ENDPOINT + projectDetails.projectId + "/create_new_task/";
-
-  console.log(CREATE_TASK);
 
   axios
     .post(
@@ -34,7 +34,7 @@ export function postTask(
         start_date: startDate,
         deadline_date: endDate,
         status: status,
-        user: userDetails.id,
+        user: id,
       },
 
       header
