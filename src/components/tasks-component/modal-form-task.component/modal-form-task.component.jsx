@@ -1,98 +1,69 @@
 import React, { useState, useRef, useEffect } from "react";
-import Button from "react-bootstrap/Button";
+import { Button, InputGroup, Badge } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { InputGroup, Badge } from "react-bootstrap";
+import { patchTask } from "../../../services/tasks/patchTask";
 import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
 import { postTask } from "../../../services/tasks/postTask";
-import { patchTask } from "../../../services/tasks/patchTask";
 import { getUsersByProject } from "../../../services/users/getUsersByProject";
 
-const options = {
-  day: "2-digit",
-  month: "2-digit",
-  year: "numeric",
-};
-
-const ManageTask = ({
-  titleTask,
-  textButton,
-  index,
-  setIndex,
+function ModalFormTask({
   show,
   setShow,
+  titleAction,
+  textButton,
   task,
-  setTaskSelected,
-}) => {
-  const handleClose = () => {
-    setShow(false);
-    setTaskSelected(false);
-    setIndex(0);
-  };
-
+  setUpdate,
+  update,
+}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
-  const [usersName, setUsersName] = useState([]);
+  const [listUsers, setListUsers] = useState([]);
+  const [nameUser, setNameUser] = useState("");
+  const [idUser, setIdUser] = useState("");
+  const [validated, setvalidated] = useState(false);
+  const [errors, setErrors] = useState({});
+  const formRef = useRef(null);
+  const [status] = useState("TODO");
 
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
-  const [errors, setErrors] = useState({});
-  const [validated, setvalidated] = useState(false);
-  const [status, setStatus] = useState("TODO");
-  const [userId, setUserId] = useState();
-  const [userName, setUserName] = useState();
 
-  const newEditedTask = { ...task };
-
-  const [updateTasks, setUpdateTasks] = useState(false);
-
-  const formRef = useRef(null);
-
+  const handleClose = () => {
+    setShow(false);
+  };
   const handleReset = () => {
     formRef.current.reset();
-    setvalidated(false);
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!title || title === "") newErrors.title = "Preencha o título.";
-    if (!description || description === " ")
-      newErrors.description = "Preencha descrição.";
-    if (!beginDate || beginDate === "") newErrors.beginDate = "Data de início.";
-    if (
-      !deadlineDate ||
-      deadlineDate === "" ||
-      Date.parse(beginDate) > Date.parse(deadlineDate)
-    )
-      newErrors.deadlineDate = "Data de fim.";
-
-    return newErrors;
-  };
-
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
-    const formErrors = validateForm();
 
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
+    if (titleAction === "Editar tarefa") {
+      editTask();
     } else {
-      if (index === 0) {
-        createTask();
-      }
-      if (index === 1) {
-        await editTask();
-      }
-      setShow(!show);
-      setvalidated(true);
-      handleReset();
-      handleClose();
+      createTask();
     }
+    setUpdate(!update);
+    handleReset();
+    handleClose();
+  };
+
+  const editTask = async () => {
+    console.log("edit");
+    const newEditedTask = { ...task };
+    newEditedTask.title = title;
+    newEditedTask.description = description;
+    newEditedTask.start_date = beginDate;
+    newEditedTask.deadline_date = deadlineDate;
+    await patchTask(userDetails, projectDetails, newEditedTask, setUpdate);
+    setUpdate(!update);
+    console.log(newEditedTask);
   };
 
   const createTask = () => {
@@ -105,19 +76,18 @@ const ManageTask = ({
       deadlineDate,
       status
     );
+    setUpdate(!update);
   };
 
-  const editTask = async () => {
-    newEditedTask.title = title;
-    newEditedTask.description = description;
-    newEditedTask.beginDate = beginDate;
-    newEditedTask.deadlineDate = deadlineDate;
-    await patchTask(userDetails, projectDetails, newEditedTask, setUpdateTasks);
+  const handleUser = (id, name) => {
+    setNameUser(name);
+    setIdUser(id);
   };
 
   useEffect(() => {
-    getUsersByProject(userDetails, projectDetails, setUsersName);
-    if (task) {
+    getUsersByProject(userDetails, projectDetails, setListUsers);
+
+    if (titleAction === "Editar tarefa") {
       setTitle(task.title);
       setBeginDate(task.start_date.substring(0, 10));
       setDeadlineDate(task.deadline_date.substring(0, 10));
@@ -128,13 +98,13 @@ const ManageTask = ({
       setDeadlineDate("");
       setDescription("");
     }
-  }, [task]);
+  }, []);
 
   return (
     <div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{titleTask}</Modal.Title>
+          <Modal.Title>{titleAction}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form
@@ -161,8 +131,8 @@ const ManageTask = ({
             <Form.Group className="mb-3" controlId="users">
               <Form.Label className="label">Responsável:</Form.Label>
               <Form.Select required>
-                {usersName.map(({ id, name }) => (
-                  <option onChange={(e) => setUserId(id)} key={id}>
+                {listUsers.map(({ id, name }) => (
+                  <option onChange={() => handleUser(id, name)} key={id}>
                     {name}
                   </option>
                 ))}
@@ -188,7 +158,7 @@ const ManageTask = ({
 
               <Col>
                 <Form.Group controlId="endDate">
-                  <Form.Label className="label">Data de fim</Form.Label>
+                  <Form.Label className="label">Data de fim:</Form.Label>
                   <InputGroup hasValidation>
                     <Form.Control
                       type="date"
@@ -247,6 +217,23 @@ const ManageTask = ({
       </Modal>
     </div>
   );
-};
+}
 
-export default ManageTask;
+export default ModalFormTask;
+
+// const validateForm = () => {
+//   const newErrors = {};
+
+//   if (!title || title === "") newErrors.title = "Preencha o título.";
+//   if (!description || description === " ")
+//     newErrors.description = "Preencha descrição.";
+//   if (!beginDate || beginDate === "") newErrors.beginDate = "Data de início.";
+//   if (
+//     !deadlineDate ||
+//     deadlineDate === "" ||
+//     Date.parse(beginDate) > Date.parse(deadlineDate)
+//   )
+//     newErrors.deadlineDate = "Data de fim.";
+
+//   return newErrors;
+// };

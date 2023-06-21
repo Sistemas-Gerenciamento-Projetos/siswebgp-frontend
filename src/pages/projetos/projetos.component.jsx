@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import DashboardItem from "../../components/dashboard/dashboardItem.component";
 import Toolbar from "../../components/toolbar/toolbar.component";
-import { Table } from "reactstrap";
 import { useState } from "react";
 import NovoProjeto from "../../components/form-new-project/new-project";
 import { useUserDetails } from "../../context/usercontext";
@@ -12,6 +10,7 @@ import { useProjectDetails } from "../../context/projectContext";
 import OptionsProject from "../../components/options-project/home-options/home-options";
 import EditProject from "../../components/form-edit-project/edit-project";
 import { ToastContainer } from "react-toastify";
+import TableProject from "../../components/project-components/table-project/table-projects";
 
 const Projetos = () => {
   const [userDetails] = useUserDetails();
