@@ -92,11 +92,7 @@ function Login() {
       </Form.Group>
 
       <div className="d-grid">
-        <Button
-          type="submit"
-          onClick={submitHandler}
-          variant="primary"
-          disabled={false}>
+        <Button type="submit" onClick={submitHandler} variant="primary">
           Entrar
         </Button>
       </div>

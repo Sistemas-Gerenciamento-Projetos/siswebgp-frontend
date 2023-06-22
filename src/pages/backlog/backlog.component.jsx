@@ -22,12 +22,14 @@ const Backlog = () => {
       userDetails.accessToken,
       projectDetails.projectId
     );
+    console.log("tasks");
 
     setTasks(result);
   }
 
   useEffect(() => {
     handleData();
+    console.log("update");
   }, [update]);
 
   if (!userDetails.accessToken) {

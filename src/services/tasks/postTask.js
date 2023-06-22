@@ -13,15 +13,12 @@ export function postTask(
   status,
   id
 ) {
-  // const parsedTitle = title.trim();
   const header = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
-  console.log(id);
-
   const CREATE_TASK =
     TASK_CREATE_ENDPOINT + projectDetails.projectId + "/create_new_task/";
 

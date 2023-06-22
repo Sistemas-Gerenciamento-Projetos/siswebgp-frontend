@@ -29,37 +29,59 @@ function ModalFormTask({
   const [listUsers, setListUsers] = useState([]);
   const [userName, setUserName] = useState("");
   const [idUser, setIdUser] = useState("");
-  const [validated, setvalidated] = useState(false);
   const [errors, setErrors] = useState({});
 
   const formRef = useRef(null);
   const [status] = useState("TODO");
 
   const handleReset = () => {
-    formRef.current.reset();
+    setTitle("");
+    setBeginDate("");
+    setDeadlineDate("");
+    setDescription("");
+    setIdUser(userDetails.id);
+  };
+
+  const handleClose = () => {
+    setShow(!show);
+    handleReset();
+    setErrors({});
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
+    const formErrors = validateForm();
+
     setUserName(listUsers.find((x) => x.id == idUser).name); // atualiza o nome do usuário
+
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
 
     if (titleAction === "Editar tarefa") {
       editTask();
     } else {
       createTask();
     }
+
     setUpdate(!update);
-    handleReset();
     setShow(!show);
+    handleReset();
   };
 
-  // const handleUser = () => {
-  //   // console.log(idUser);
+  const validateForm = () => {
+    const newErrors = {};
 
-  //   const name = listUsers.find((x) => x.id == idUser).name;
+    if (!title) newErrors.title = "Preencha o título.";
+    if (!description || description === "")
+      newErrors.description = "Preencha descrição.";
+    if (!beginDate || beginDate === "") newErrors.beginDate = "Data de início.";
+    if (!deadlineDate || deadlineDate === "")
+      newErrors.deadlineDate = "Data de fim.";
 
-  //   console.log(name);
-  // };
+    return newErrors;
+  };
 
   const editTask = async () => {
     const newEditedTask = { ...task };
@@ -72,6 +94,7 @@ function ModalFormTask({
     await patchTask(userDetails, projectDetails, newEditedTask, setUpdate);
     setUpdate(!update);
     setShow(!show);
+    titleAction = "";
   };
 
   const createTask = () => {
@@ -90,43 +113,33 @@ function ModalFormTask({
 
   useEffect(() => {
     getUsersByProject(userDetails, projectDetails, setListUsers);
-    console.log("useffect");
     if (titleAction === "Editar tarefa") {
       setTitle(task.title);
       setBeginDate(task.start_date.substring(0, 10));
       setDeadlineDate(task.deadline_date.substring(0, 10));
       setDescription(task.description);
       setUserName(task.user_name);
-      console.log(userName);
       setIdUser(task.user);
     } else {
-      setTitle("");
-      setBeginDate("");
-      setDeadlineDate("");
-      setDescription("");
-      setIdUser(userDetails.id);
+      handleReset();
     }
+    setErrors({});
   }, []);
 
   return (
     <div>
-      <Modal show={show} onHide={() => setShow(false)}>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{titleAction}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form
-            ref={formRef}
-            noValidate
-            validated={validated}
-            onSubmit={submitHandler}>
+          <Form ref={formRef} onSubmit={submitHandler}>
             <Form.Group className="mb-3" controlId="title">
               <Form.Label className="label">Título:</Form.Label>
 
               <Form.Control
                 type="text"
                 placeholder="Digite o título da tarefa"
-                required
                 isInvalid={!!errors.title}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -140,7 +153,6 @@ function ModalFormTask({
               <Form.Label className="label">Responsável:</Form.Label>
               <Form.Select
                 defaultValue={idUser}
-                required
                 onChange={(e) => setIdUser(e.target.value)}>
                 {listUsers.map((user) => (
                   <option value={user.id} key={user.id}>
@@ -156,7 +168,6 @@ function ModalFormTask({
                   <Form.Label className="label">Data de início:</Form.Label>
                   <Form.Control
                     type="date"
-                    required
                     isInvalid={!!errors.beginDate}
                     value={beginDate}
                     onChange={(e) => [setBeginDate(e.target.value)]}
@@ -180,7 +191,6 @@ function ModalFormTask({
                           : beginDate
                       }
                       disabled={beginDate === ""}
-                      required
                       value={deadlineDate}
                       onChange={(e) => [setDeadlineDate(e.target.value)]}
                     />
@@ -204,7 +214,6 @@ function ModalFormTask({
                 rows={3}
                 value={description}
                 isInvalid={!!errors.description}
-                required
                 onChange={(e) => [setDescription(e.target.value)]}
               />
               <Badge
@@ -231,20 +240,3 @@ function ModalFormTask({
 }
 
 export default ModalFormTask;
-
-// const validateForm = () => {
-//   const newErrors = {};
-
-//   if (!title || title === "") newErrors.title = "Preencha o título.";
-//   if (!description || description === " ")
-//     newErrors.description = "Preencha descrição.";
-//   if (!beginDate || beginDate === "") newErrors.beginDate = "Data de início.";
-//   if (
-//     !deadlineDate ||
-//     deadlineDate === "" ||
-//     Date.parse(beginDate) > Date.parse(deadlineDate)
-//   )
-//     newErrors.deadlineDate = "Data de fim.";
-
-//   return newErrors;
-// };
