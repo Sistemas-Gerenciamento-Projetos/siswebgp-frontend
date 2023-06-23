@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import styles from "./sidebarStyles.component";
 import { useProjectDetails } from "../../context/projectContext";
+import { Navigate } from "react-router-dom";
 
 const Sidebar = (props) => {
   const { menuItem, setMenuItem } = props;
@@ -26,6 +27,7 @@ const Sidebar = (props) => {
         src={sgpLogo}
         alt="ic logo"
         style={{ width: "100%", marginTop: "10px" }}
+        onClick={() => setMenuItem(0)}
       />
 
       <div style={{ marginTop: "20px", width: "100%" }}>

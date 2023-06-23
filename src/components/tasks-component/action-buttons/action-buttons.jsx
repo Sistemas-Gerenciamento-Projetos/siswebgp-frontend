@@ -1,45 +1,32 @@
 import React, { useState } from "react";
-import TrashIcon from "../../Assets/trash.svg";
-import EditIcon from "../../Assets/edit.svg";
-import AddIcon from "../../Assets/person-add.svg";
+import TrashIcon from "../../../Assets/trash.svg";
+import EditIcon from "../../../Assets/edit.svg";
 import { Modal, Button } from "react-bootstrap";
+import { useUserDetails } from "../../../context/usercontext";
+import { useProjectDetails } from "../../../context/projectContext";
+import { deleteTask } from "../../../services/tasks/deleteTask";
 
-function ActionButtons({
-  addAction,
-  editAction,
-  deleteAction,
-  setShowEdit,
-  setIndex,
-}) {
+function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
   const [show, setShow] = useState(false);
-  const handleClose = () => {
-    setShow(false);
-    // setShowEdit(false);
-  };
-  const handleShow = () => setShow(true);
-
-  const handleAdd = () => {
-    // addButton();
-    console.log("add");
-  };
-  const handleEdit = () => {
-    // editButton();
-    // console.log("edit");
-    // setShowEdit(true);
-    setIndex(1);
-    // handleClose();
-  };
+  const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
 
   const handleDelete = () => {
-    deleteAction();
+    console.log(projectDetails.projectId);
+    deleteTask(userDetails, projectDetails, taskId, onRefreshTasks);
     handleClose();
+  };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleEdit = () => {
+    setShowEdit(true);
+    console.log("edit");
   };
 
   return (
     <div>
-      <Button variant="outline-light" style={{ border: 0 }} onClick={handleAdd}>
-        <img src={AddIcon} />
-      </Button>
       <Button
         variant="outline-light"
         style={{ border: 0 }}

@@ -9,9 +9,7 @@ import { useUserDetails } from "../../../context/usercontext";
 import { useProjectDetails } from "../../../context/projectContext";
 import { postTask } from "../../../services/tasks/postTask";
 import { patchTask } from "../../../services/tasks/patchTask";
-import { getUsers } from "../../../services/projects/getUsers";
-
-import "./task-new.scss";
+import { getUsersByProject } from "../../../services/users/getUsersByProject";
 
 const options = {
   day: "2-digit",
@@ -19,10 +17,11 @@ const options = {
   year: "numeric",
 };
 
-const NewTask = ({
+const ManageTask = ({
   titleTask,
   textButton,
-  actionTask,
+  index,
+  setIndex,
   show,
   setShow,
   task,
@@ -31,6 +30,7 @@ const NewTask = ({
   const handleClose = () => {
     setShow(false);
     setTaskSelected(false);
+    setIndex(0);
   };
 
   const [title, setTitle] = useState("");
@@ -44,6 +44,9 @@ const NewTask = ({
   const [errors, setErrors] = useState({});
   const [validated, setvalidated] = useState(false);
   const [status, setStatus] = useState("TODO");
+  const [userId, setUserId] = useState();
+  const [userName, setUserName] = useState();
+
   const newEditedTask = { ...task };
 
   const [updateTasks, setUpdateTasks] = useState(false);
@@ -79,15 +82,13 @@ const NewTask = ({
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
-      if (actionTask === 0) {
+      if (index === 0) {
         createTask();
       }
-      if (actionTask === 1) {
-        console.log(task);
-        console.log(actionTask);
+      if (index === 1) {
         await editTask();
       }
-
+      setShow(!show);
       setvalidated(true);
       handleReset();
       handleClose();
@@ -112,11 +113,10 @@ const NewTask = ({
     newEditedTask.beginDate = beginDate;
     newEditedTask.deadlineDate = deadlineDate;
     await patchTask(userDetails, projectDetails, newEditedTask, setUpdateTasks);
-    setShow(true);
   };
 
   useEffect(() => {
-    getUsers(userDetails, projectDetails, setUsersName);
+    getUsersByProject(userDetails, projectDetails, setUsersName);
     if (task) {
       setTitle(task.title);
       setBeginDate(task.start_date.substring(0, 10));
@@ -127,9 +127,8 @@ const NewTask = ({
       setBeginDate("");
       setDeadlineDate("");
       setDescription("");
-      // setUsersName([]);°
     }
-  }, [show]);
+  }, [task]);
 
   return (
     <div>
@@ -163,7 +162,9 @@ const NewTask = ({
               <Form.Label className="label">Responsável:</Form.Label>
               <Form.Select required>
                 {usersName.map(({ id, name }) => (
-                  <option key={id}>{name}</option>
+                  <option onChange={(e) => setUserId(id)} key={id}>
+                    {name}
+                  </option>
                 ))}
               </Form.Select>
             </Form.Group>
@@ -248,4 +249,4 @@ const NewTask = ({
   );
 };
 
-export default NewTask;
+export default ManageTask;

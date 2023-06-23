@@ -1,41 +1,22 @@
 import axios from "axios";
 import { PROJECTS_ENDPOINT } from "../../constants/urls";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
-export async function deleteTask(
-  userDetails,
-  projectDetails,
-  id,
-  onRefreshTasks
-) {
+export function getUsersByProject(userDetails, projectDetails, setUsersName) {
   const header = {
     headers: {
-      "Content-Type": "application/json",
+      "Content-type": "application/json",
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
-  console.log(projectDetails);
-  const DELETE_TASK = `${PROJECTS_ENDPOINT}${projectDetails.projectId}/tasks/${id}/`;
-  console.log(DELETE_TASK);
 
+  const GET_USERS = `${PROJECTS_ENDPOINT}${projectDetails.projectId}/project_users/`;
   axios
-    .delete(DELETE_TASK, header)
+    .get(GET_USERS, header)
     .then((response) => {
       if (response.status === 200) {
-        const data = response.data;
-        onRefreshTasks();
-        toast.success("Tarefa excluída", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-        return true;
+        setUsersName(response.data);
       }
     })
     .catch((error) => {
@@ -55,7 +36,7 @@ export async function deleteTask(
         console.log("Error", error.message);
       }
 
-      toast.error("Erro ao excluir tarefa", {
+      toast.error('Erro ao recuperar os usuários do projeto', {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -65,6 +46,5 @@ export async function deleteTask(
         progress: undefined,
         theme: "colored",
       });
-      return false;
     });
 }

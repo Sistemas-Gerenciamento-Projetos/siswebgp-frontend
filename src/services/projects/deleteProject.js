@@ -1,21 +1,32 @@
 import axios from "axios";
 import { PROJECTS_ENDPOINT } from "../../constants/urls";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export function getUsers(userDetails, projectDetails, setUsersName) {
+export function deleteProject(userDetails, projectId, onRefreshProject) {
   const header = {
     headers: {
-      "Content-type": "application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
+  const DELETE_PROJECT = `${PROJECTS_ENDPOINT}${projectId}`;
 
-  const GET_USERS = `${PROJECTS_ENDPOINT}${projectDetails.projectId}/project_users/`;
   axios
-    .get(GET_USERS, header)
+    .delete(DELETE_PROJECT, header)
     .then((response) => {
-      if (response.status === 200) {
-        setUsersName(response.data);
+      if (response.status === 204) {
+        toast.success("Projeto excluído", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        onRefreshProject()
       }
     })
     .catch((error) => {
@@ -34,5 +45,17 @@ export function getUsers(userDetails, projectDetails, setUsersName) {
         // Something happened in setting up the request that triggered an Error
         console.log("Error", error.message);
       }
+
+      toast.error("Erro ao excluir projeto", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return false;
     });
 }

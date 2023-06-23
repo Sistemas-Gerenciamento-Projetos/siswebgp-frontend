@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import DashboardItem from "../../components/dashboard/dashboardItem.component";
 import Toolbar from "../../components/toolbar/toolbar.component";
-import { Table } from "reactstrap";
 import { useState } from "react";
 import NovoProjeto from "../../components/form-new-project/new-project";
 import { useUserDetails } from "../../context/usercontext";
@@ -12,16 +10,20 @@ import { useProjectDetails } from "../../context/projectContext";
 import OptionsProject from "../../components/options-project/home-options/home-options";
 import EditProject from "../../components/form-edit-project/edit-project";
 import { ToastContainer } from "react-toastify";
+import { Empty } from "antd";
+import DashboardItem from "../../components/dashboard/dashboardItem.component";
+import { Table } from "reactstrap";
 
 const Projetos = () => {
   const [userDetails] = useUserDetails();
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [novoProjeto, setNovoProjeto] = useState(true);
+
   const [projects, setProjects] = useState([]);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    getProjects(userDetails, setProjects);
+    onRefreshProjects();
   }, [novoProjeto]);
 
   if (!userDetails.accessToken) {
@@ -32,19 +34,33 @@ const Projetos = () => {
     updateProjectDetails(projectId, projectName);
   }
 
+  function onRefreshProjects() {
+    getProjects(userDetails, setProjects);
+  }
+
   return (
     <>
       <Toolbar title={"Meus projetos"} setIndex={setIndex} />
-      {index === 0 && (
-        <div>
+      {index === 0 && projects.length !== 0 && (
+        <div className="mt-4">
           <Table>
             <thead>
               <tr>
-                <th>Nome do projeto</th>
-                <th>Progresso</th>
-                <th>Prazo</th>
-                <th>Gerente</th>
-                <th></th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Nome do projeto</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Progresso</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Prazo</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Gerente</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Ações</p>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -54,12 +70,26 @@ const Projetos = () => {
                   onPress={onClickProject}
                   project={project}
                   setIndex={setIndex}
+                  onRefreshProjects={onRefreshProjects}
                 />
               ))}
             </tbody>
           </Table>
         </div>
       )}
+
+      {index === 0 && projects.length === 0 && (
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
+          <Empty description="Sem projetos existentes" />
+        </div>
+      )}
+
       {index === 1 && (
         <NovoProjeto
           postProject={postProject}
@@ -70,14 +100,17 @@ const Projetos = () => {
         />
       )}
 
-      {index === 2 && <OptionsProject />}
+      {index === 2 && <OptionsProject setIndex={setIndex} />}
 
       {index === 3 && (
         <EditProject
-          postProject={postProject}
+          project={
+            projects.filter(
+              (project) => project.id == projectDetails.projectId
+            )[0]
+          }
           novoProjeto={novoProjeto}
           setNovoProjeto={setNovoProjeto}
-          userDetails={userDetails}
           setIndex={setIndex}
         />
       )}

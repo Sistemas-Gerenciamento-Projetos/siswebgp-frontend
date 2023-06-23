@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, InputGroup, Badge } from "react-bootstrap";
-import { Navigate } from "react-router-dom";
 import "./edit-project.scss";
+import { patchProject } from "../../services/projects/patchProject";
+import { useUserDetails } from "../../context/usercontext";
 
-const EditProject = ({
-  postProject,
-  novoProjeto,
-  setNovoProjeto,
-  userDetails,
-  setIndex,
-}) => {
+const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
+  const [userDetails] = useUserDetails();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [validated, setValidated] = useState(false);
+
+  useEffect(() => {
+    setTitle(project.project_name);
+    setDescription(project.description);
+    setBeginDate(project.start_date.split("T")[0]);
+    setEndDate(project.deadline_date.split("T")[0]);
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,23 +29,22 @@ const EditProject = ({
       return;
     }
 
-    postProject(
+    patchProject(
       novoProjeto,
       setNovoProjeto,
+      setIndex,
       userDetails,
+      project.id,
       title,
       description,
       beginDate,
       endDate
-    )
-    setIndex(0)
+    );
   };
-
-
 
   return (
     <Form
-      className="main-form-new-project"
+      className="main-form-edit-project"
       noValidate
       validated={validated}
       onSubmit={handleSubmit}>
@@ -125,8 +127,25 @@ const EditProject = ({
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
-      <div className="d-grid mt-4">
-        <Button type="submit">Salvar alterações</Button>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          paddingTop: "15px",
+        }}>
+        <Button
+          style={{ width: "45%" }}
+          className="button"
+          variant="secondary"
+          onClick={() => setIndex(0)}>
+          Voltar
+        </Button>
+
+        <Button style={{ width: "45%" }} className="button" type="submit">
+          Salvar alterações
+        </Button>
       </div>
     </Form>
   );

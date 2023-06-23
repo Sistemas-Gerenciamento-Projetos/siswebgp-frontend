@@ -1,90 +1,51 @@
-import React from "react";
-import { Table } from "reactstrap";
-import { Button } from "reactstrap";
-import Buttonstatus from "../../buttonstatus/buttostatus.component";
-import "./taskitem.css";
-import Taskdescription from "../../modal/modal";
-import DatePeriod from "../../dashboard/datePeriod/datePeriod";
+import React, { useState } from "react";
+import StatusTask from "../status-task/status-task";
+import DatePeriod from "../../datePeriod/datePeriod";
+import { parseDateWithoutTimezone } from "../../../utils/dateParse";
+import ManagerPhoto from "../../managerPhoto/managerPhoto";
+import ActionButtons from "../action-buttons/action-buttons";
+import ModalFormTask from "../modal-form-task.component/modal-form-task.component";
 
-export default function Taskitem() {
+export default function Taskitem({ task, setUpdate, update, onRefreshTasks }) {
+  const [titleAction, setTitleAction] = useState("Editar tarefa");
+  const [show, setShow] = useState(false);
+
   return (
-    <div className="table">
-      <Table hover>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Nome da Tarefa</th>
-            <th>Detalhe</th>
-            <th>Status</th>
-            <th>Prazo</th>
-            <th>Responsável</th>
-            <th> </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Definição da Arquitetura</td>
-            <td>
-              <Taskdescription />
-            </td>
-            <td>
-              <Buttonstatus />
-            </td>
-            <td>
-              <DatePeriod
-                startDate={new Date(2023, 2, 1)}
-                endDate={new Date(2023, 6, 24)}
-              />
-            </td>
-            <td>Bruno</td>
-            <td>
-              <Button color="danger">X</Button>
-            </td>
-          </tr>
-
-          <tr>
-            <th scope="row">2</th>
-            <td>Criação do Banco de Dados</td>
-            <td>
-              <Taskdescription />
-            </td>
-            <td>
-              <Buttonstatus />
-            </td>
-            <td>
-              <DatePeriod
-                startDate={new Date(2023, 2, 1)}
-                endDate={new Date(2023, 6, 24)}
-              />
-            </td>
-            <td>Bruno</td>
-            <td>
-              <Button color="danger"> X </Button>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Prototipação das Telas</td>
-            <td>
-              <Taskdescription />
-            </td>
-            <td>
-              <Buttonstatus />
-            </td>
-            <td>
-              <DatePeriod
-                startDate={new Date(2023, 2, 1)}
-                endDate={new Date(2023, 6, 24)}
-              />
-            </td>
-            <td>Bruno</td>
-            <td>
-              <Button color="danger">X</Button>
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
+    <>
+      <ModalFormTask
+        show={show}
+        setShow={setShow}
+        titleAction={titleAction}
+        textButton={"Salvar alterações"}
+        task={task}
+        onRefreshTasks={onRefreshTasks}
+      />
+      <tbody>
+        <tr>
+          <td>
+            <span>{task.title}</span>
+          </td>
+          <td>
+            <StatusTask status={task.status} taskItem={task} />
+          </td>
+          <td>
+            <DatePeriod
+              startDate={parseDateWithoutTimezone(task.start_date)}
+              endDate={parseDateWithoutTimezone(task.deadline_date)}
+            />
+          </td>
+          <td>
+            <ManagerPhoto name={task.user_name} />
+          </td>
+          <td>
+            <ActionButtons
+              setShowEdit={setShow}
+              onRefreshTasks={onRefreshTasks}
+              taskId={task.id}
+            />
+          </td>
+        </tr>
+      </tbody>
+    </>
   );
 }

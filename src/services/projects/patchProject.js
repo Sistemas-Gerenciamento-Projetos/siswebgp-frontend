@@ -1,31 +1,45 @@
-import axios from "axios";
 import { PROJECTS_ENDPOINT } from "../../constants/urls";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export async function deleteTask(
+export function patchProject(
+  novoProjeto,
+  setNovoProjeto,
+  setIndex,
   userDetails,
-  projectDetails,
-  id,
-  onRefreshTasks
+  projectId,
+  title,
+  description,
+  startDate,
+  endDate
 ) {
+  const parsedTitle = title.trim();
+
   const header = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
-  console.log(projectDetails);
-  const DELETE_TASK = `${PROJECTS_ENDPOINT}${projectDetails.projectId}/tasks/${id}/`;
-  console.log(DELETE_TASK);
 
   axios
-    .delete(DELETE_TASK, header)
+    .patch(
+      `${PROJECTS_ENDPOINT + projectId}/`,
+      {
+        manager: userDetails.id,
+        project_name: parsedTitle,
+        description: description,
+        start_date: startDate,
+        deadline_date: endDate
+      },
+      header
+    )
     .then((response) => {
       if (response.status === 200) {
-        const data = response.data;
-        onRefreshTasks();
-        toast.success("Tarefa excluída", {
+        setNovoProjeto(!novoProjeto);
+        setIndex(0);
+        toast.success('Projeto atualizado', {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -35,7 +49,6 @@ export async function deleteTask(
           progress: undefined,
           theme: "colored",
         });
-        return true;
       }
     })
     .catch((error) => {
@@ -55,7 +68,7 @@ export async function deleteTask(
         console.log("Error", error.message);
       }
 
-      toast.error("Erro ao excluir tarefa", {
+      toast.error('Erro ao atualizar projeto', {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -65,6 +78,5 @@ export async function deleteTask(
         progress: undefined,
         theme: "colored",
       });
-      return false;
     });
 }

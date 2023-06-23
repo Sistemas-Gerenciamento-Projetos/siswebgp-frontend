@@ -4,7 +4,7 @@ import Board from "../../components/board/board.component";
 import { Navigate } from "react-router-dom";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 const Painel = () => {
   const [userDetails] = useUserDetails();

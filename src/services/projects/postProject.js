@@ -36,7 +36,6 @@ export function postProject(
     )
     .then((response) => {
       if (response.status === 201) {
-        console.log(response);
         setNovoProjeto(!novoProjeto);
         toast.success('Projeto criado', {
           position: "bottom-right",

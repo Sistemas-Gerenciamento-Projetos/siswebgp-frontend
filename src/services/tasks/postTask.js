@@ -10,20 +10,18 @@ export function postTask(
   description,
   startDate,
   endDate,
-  status
+  status,
+  id,
+  onRefreshTasks
 ) {
-  // const parsedTitle = title.trim();
   const header = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
-
   const CREATE_TASK =
     TASK_CREATE_ENDPOINT + projectDetails.projectId + "/create_new_task/";
-
-  console.log(CREATE_TASK);
 
   axios
     .post(
@@ -34,12 +32,14 @@ export function postTask(
         start_date: startDate,
         deadline_date: endDate,
         status: status,
-        user: userDetails.id,
+        user: id,
       },
+
       header
     )
     .then((response) => {
       if (response.status === 201) {
+        onRefreshTasks();
         toast.success("Tarefa criada", {
           position: "bottom-right",
           autoClose: 5000,

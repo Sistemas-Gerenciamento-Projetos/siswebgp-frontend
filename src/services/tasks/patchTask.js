@@ -6,8 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 export async function patchTask(
   userDetails,
   projectDetails,
-  task,
-  setUpdateTasks
+  taskEdited,
+  setUpdateTasks,
+  onRefreshTasks
 ) {
   const header = {
     headers: {
@@ -16,18 +17,20 @@ export async function patchTask(
     },
   };
 
-  const PATCH_TASK = `${TASK_PATCH_ENDPOINT}${projectDetails.projectId}/tasks/${task.id}/`;
+  console.log(taskEdited.user);
 
+  const PATCH_TASK = `${TASK_PATCH_ENDPOINT}${projectDetails.projectId}/tasks/${taskEdited.id}/`;
   axios
     .patch(
       PATCH_TASK,
       {
-        title: task.title,
-        description: task.description,
-        start_date: task.start_date,
-        deadline_date: task.deadline_date,
-        status: task.status,
-        user: task.user_id,
+        title: taskEdited.title,
+        description: taskEdited.description,
+        start_date: taskEdited.start_date,
+        deadline_date: taskEdited.deadline_date,
+        status: taskEdited.status,
+        user_name: taskEdited.user_name,
+        user: taskEdited.user,
       },
       header
     )
@@ -41,6 +44,7 @@ export async function patchTask(
         ) {
           return setUpdateTasks(false);
         } else {
+          onRefreshTasks();
           return setUpdateTasks(true);
         }
       }

@@ -1,114 +1,104 @@
 import React, { useEffect, useState } from "react";
 import Toolbar from "../../components/toolbar/toolbar.component";
-import Newtask from "../../components/tasks-component/task-new/task-new";
-import StatusTask from "../../components/tasks-component/status-task/status-task";
-import { Table } from "reactstrap";
 import { useUserDetails } from "../../context/usercontext";
 import { useProjectDetails } from "../../context/projectContext";
 import { Navigate } from "react-router-dom";
+import { Button, Table } from "react-bootstrap";
 import { getTasks } from "../../services/tasks/getTasks";
-import { parseDateWithoutTimezone } from "../../utils/dateParse";
+import Taskitem from "../../components/tasks-component/taskitem/taskitem";
+import ModalFormTask from "../../components/tasks-component/modal-form-task.component/modal-form-task.component";
+import { Empty } from "antd";
 import { ToastContainer } from "react-toastify";
-import DatePeriod from "../../components/dashboard/datePeriod/datePeriod";
-import ManagerPhoto from "../../components/dashboard/managerPhoto/managerPhoto";
-import { Button } from "react-bootstrap";
-import ActionButtons from "../../components/action-buttons/action-buttons";
 
 const Backlog = () => {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
-  const [tasks, setTasks] = useState([]);
-  const [index, setIndex] = useState(0);
   const [show, setShow] = useState(false);
-  const [taskSelected, setTaskSelected] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
-  const newedittasktitle = {
-    0: "Nova tarefa",
-    1: "Editar tarefa",
-  };
-
-  const buttontask = {
-    0: "Criar tarefa",
-    1: "Editar tarefa",
-  };
+  const [tasks, setTasks] = useState([]);
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const tasksfromdb = await getTasks(
-        userDetails.accessToken,
-        projectDetails.projectId
-      );
-      setTasks(tasksfromdb);
-    })();
-  }, [show, refresh]);
-
-  useEffect(() => {
-    if (!show) setIndex(0);
-  }, [show]);
+    onRefreshTasks();
+  }, [update]);
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
   }
 
+  async function onRefreshTasks() {
+    const result = await getTasks(
+      userDetails.accessToken,
+      projectDetails.projectId
+    );
+
+    setTasks(result);
+  }
+
   return (
     <>
       <Toolbar title={projectDetails.projectName} />
-      <div>
-        <Button variant="primary" onClick={() => setShow(true)}>
-          {newedittasktitle[index]}
-        </Button>
-        <Newtask
-          titleTask={newedittasktitle[index]}
-          textButton={buttontask[index]}
-          actionTask={index}
-          setShow={setShow}
-          show={show}
-          task={taskSelected}
-          setTaskSelected={setTaskSelected}
-        />
 
-        <Table className="mt-4 ">
-          <thead>
-            <tr className="text">
-              <th>Nome da Tarefa</th>
-              <th>Status</th>
-              <th>Prazo</th>
-              <th>Responsável</th>
-              <th></th>
-            </tr>
-          </thead>
-          {tasks.map((task) => (
-            <tbody>
+      <Button variant="primary" onClick={() => setShow(true)}>
+        Nova tarefa
+      </Button>
+      <ModalFormTask
+        show={show}
+        setShow={setShow}
+        titleAction={"Nova tarefa"}
+        textButton={"Criar tarefa"}
+        onRefreshTasks={onRefreshTasks}
+        update={update}
+      />
+
+      {tasks.length !== 0 && (
+        <>
+          <Table className="mt-4">
+            <thead>
               <tr>
-                <td>{task.title}</td>
-                <td>
-                  <StatusTask status={task.status} taskItem={task} />
-                </td>
-                <DatePeriod
-                  startDate={parseDateWithoutTimezone(task.start_date)}
-                  endDate={parseDateWithoutTimezone(task.deadline_date)}
-                />
-                <td>
-                  <ManagerPhoto name={task.user_name} />
-                </td>
-                <td>
-                  <ActionButtons
-                    setRefresh={setRefresh}
-                    refresh={refresh}
-                    setIndex={setIndex}
-                    setShow={setShow}
-                    setTaskSelected={setTaskSelected}
-                    task={task}
-                    userDetails={userDetails}
-                    projectDetails={projectDetails}
-                  />
-                </td>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Nome da Tarefa</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Status</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Prazo</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Responsável</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: "600" }}>Ações</p>
+                </th>
               </tr>
-            </tbody>
-          ))}
-        </Table>
-      </div>
+            </thead>
+
+            {tasks.map((task) => (
+              <Taskitem
+                setUpdate={setUpdate}
+                update={update}
+                task={task}
+                userDetails={userDetails}
+                projectDetails={projectDetails}
+                onRefreshTasks={onRefreshTasks}
+              />
+            ))}
+          </Table>
+        </>
+      )}
+
+      {tasks.length === 0 && (
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
+          <Empty description="Sem tarefas existentes" />
+        </div>
+      )}
 
       <ToastContainer
         position="bottom-right"

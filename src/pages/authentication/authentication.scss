@@ -5,18 +5,22 @@
   height: 100vh;
 }
 .col-left {
-  background-color: rgb(20, 149, 255);
+  background-color: rgb(27, 144, 260);
   height: 500px;
   text-align: center;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 
   .logo {
-    width: 100%;
+    width: 90%;
+
     border-radius: 12px;
+    border-top: 1px;
   }
   .logo-ufba {
-    width: 17%;
+    position: static;
+    margin-top: 4%;
+    width: 15%;
   }
   h2 {
     margin-top: 60px;

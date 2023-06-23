@@ -1,31 +1,35 @@
+import {
+  PROJECTS_ENDPOINT,
+  ADD_USER_IN_PROJECT_ENDPOINT,
+} from "../../constants/urls";
 import axios from "axios";
-import { PROJECTS_ENDPOINT } from "../../constants/urls";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export async function deleteTask(
-  userDetails,
-  projectDetails,
-  id,
-  onRefreshTasks
+export function postAddUserInProject(
+  accessToken,
+  projectId,
+  fetchUsersList,
+  userToAdd
 ) {
   const header = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${userDetails.accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   };
-  console.log(projectDetails);
-  const DELETE_TASK = `${PROJECTS_ENDPOINT}${projectDetails.projectId}/tasks/${id}/`;
-  console.log(DELETE_TASK);
 
   axios
-    .delete(DELETE_TASK, header)
+    .post(
+      PROJECTS_ENDPOINT + projectId + ADD_USER_IN_PROJECT_ENDPOINT,
+      {
+        users: [userToAdd],
+      },
+      header
+    )
     .then((response) => {
       if (response.status === 200) {
-        const data = response.data;
-        onRefreshTasks();
-        toast.success("Tarefa excluída", {
+        toast.success("Membro adicionado", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -35,7 +39,7 @@ export async function deleteTask(
           progress: undefined,
           theme: "colored",
         });
-        return true;
+        fetchUsersList();
       }
     })
     .catch((error) => {
@@ -55,7 +59,7 @@ export async function deleteTask(
         console.log("Error", error.message);
       }
 
-      toast.error("Erro ao excluir tarefa", {
+      toast.error("Erro ao adicionar membro", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -65,6 +69,5 @@ export async function deleteTask(
         progress: undefined,
         theme: "colored",
       });
-      return false;
     });
 }
