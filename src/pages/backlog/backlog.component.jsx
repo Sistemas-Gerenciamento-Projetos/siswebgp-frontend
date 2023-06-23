@@ -8,6 +8,7 @@ import { getTasks } from "../../services/tasks/getTasks";
 import Taskitem from "../../components/tasks-component/taskitem/taskitem";
 import ModalFormTask from "../../components/tasks-component/modal-form-task.component/modal-form-task.component";
 import { Empty } from "antd";
+import { ToastContainer } from "react-toastify";
 
 const Backlog = () => {
   const [userDetails] = useUserDetails();
@@ -17,21 +18,21 @@ const Backlog = () => {
   const [tasks, setTasks] = useState([]);
   const [update, setUpdate] = useState(false);
 
-  async function handleData() {
+  useEffect(() => {
+    onRefreshTasks();
+  }, [update]);
+
+  if (!userDetails.accessToken) {
+    return <Navigate replace to="/" />;
+  }
+
+  async function onRefreshTasks() {
     const result = await getTasks(
       userDetails.accessToken,
       projectDetails.projectId
     );
 
     setTasks(result);
-  }
-
-  useEffect(() => {
-    handleData();
-  }, [update]);
-
-  if (!userDetails.accessToken) {
-    return <Navigate replace to="/" />;
   }
 
   return (
@@ -46,7 +47,7 @@ const Backlog = () => {
         setShow={setShow}
         titleAction={"Nova tarefa"}
         textButton={"Criar tarefa"}
-        setUpdate={setUpdate}
+        onRefreshTasks={onRefreshTasks}
         update={update}
       />
 
@@ -80,6 +81,7 @@ const Backlog = () => {
                 task={task}
                 userDetails={userDetails}
                 projectDetails={projectDetails}
+                onRefreshTasks={onRefreshTasks}
               />
             ))}
           </Table>
@@ -97,6 +99,19 @@ const Backlog = () => {
           <Empty description="Sem tarefas existentes" />
         </div>
       )}
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+      />
     </>
   );
 };

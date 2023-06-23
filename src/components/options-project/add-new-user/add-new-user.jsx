@@ -7,9 +7,9 @@ import { postAddUserInProject } from "../../../services/projects/postAddUserInPr
 import { useProjectDetails } from "../../../context/projectContext";
 import { toast } from "react-toastify";
 
-const AddNewUser = ({setIndex}) => {
-  const [users, setUsers] = useState([])
-  const [userDetails] = useUserDetails()
+const AddNewUser = ({ setIndex }) => {
+  const [users, setUsers] = useState([]);
+  const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   var selectedUserId = "";
 
@@ -26,9 +26,14 @@ const AddNewUser = ({setIndex}) => {
     event.stopPropagation();
 
     if (selectedUserId !== "") {
-      postAddUserInProject(userDetails.accessToken, projectDetails.projectId, fetchUsersList, selectedUserId)
+      postAddUserInProject(
+        userDetails.accessToken,
+        projectDetails.projectId,
+        fetchUsersList,
+        selectedUserId
+      );
     } else {
-      toast.error('Selecione um membro', {
+      toast.error("Selecione um membro", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -42,29 +47,39 @@ const AddNewUser = ({setIndex}) => {
   }
 
   return (
-    <Form className="main-add"
-      noValidate
-      onSubmit={handleSubmit}>
+    <Form className="main-add" noValidate onSubmit={handleSubmit}>
       <Form.Label>Pesquisar usuário:</Form.Label>
 
       <Form.Control
         as="select"
-        onChange={(e) => selectedUserId = e.target.value}>
-          <option key={0} value={""}>Selecione um usuário...</option>
-          {users.map((user, index) => (
-            <option key={index + 1} value={user.id}>{user.name} | {user.email}</option>
-          ))}
+        onChange={(e) => (selectedUserId = e.target.value)}>
+        <option key={0} value={""}>
+          Selecione um usuário...
+        </option>
+        {users.map((user, index) => (
+          <option key={index + 1} value={user.id}>
+            {user.name} | {user.email}
+          </option>
+        ))}
       </Form.Control>
 
-      <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center"}}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}>
         <Button
+          style={{ width: "45%" }}
           className="btn-submit mt-4"
-          variant="primary"
+          variant="secondary"
           onClick={() => setIndex(0)}>
           Voltar
         </Button>
-        
+
         <Button
+          style={{ width: "45%" }}
           className="btn-submit mt-4"
           type="submit"
           variant="primary">

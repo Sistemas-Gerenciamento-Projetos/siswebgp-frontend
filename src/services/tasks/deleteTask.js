@@ -3,7 +3,12 @@ import { PROJECTS_ENDPOINT } from "../../constants/urls";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export async function deleteTask(userDetails, projectDetails, id) {
+export async function deleteTask(
+  userDetails,
+  projectDetails,
+  id,
+  onRefreshTasks
+) {
   const header = {
     headers: {
       "Content-Type": "application/json",
@@ -19,6 +24,17 @@ export async function deleteTask(userDetails, projectDetails, id) {
     .then((response) => {
       if (response.status === 200) {
         const data = response.data;
+        onRefreshTasks();
+        toast.success("Tarefa excluída", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
         return true;
       }
     })

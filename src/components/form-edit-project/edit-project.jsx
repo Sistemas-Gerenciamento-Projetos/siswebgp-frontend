@@ -131,18 +131,19 @@ const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           alignItems: "center",
           paddingTop: "15px",
         }}>
         <Button
+          style={{ width: "45%" }}
           className="button"
-          variant="primary"
+          variant="secondary"
           onClick={() => setIndex(0)}>
           Voltar
         </Button>
 
-        <Button className="button" type="submit">
+        <Button style={{ width: "45%" }} className="button" type="submit">
           Salvar alterações
         </Button>
       </div>

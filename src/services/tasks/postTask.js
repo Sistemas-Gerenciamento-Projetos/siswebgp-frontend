@@ -11,17 +11,15 @@ export function postTask(
   startDate,
   endDate,
   status,
-  id
+  id,
+  onRefreshTasks
 ) {
-  // const parsedTitle = title.trim();
   const header = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
-  console.log(id);
-
   const CREATE_TASK =
     TASK_CREATE_ENDPOINT + projectDetails.projectId + "/create_new_task/";
 
@@ -41,6 +39,7 @@ export function postTask(
     )
     .then((response) => {
       if (response.status === 201) {
+        onRefreshTasks();
         toast.success("Tarefa criada", {
           position: "bottom-right",
           autoClose: 5000,

@@ -4,20 +4,10 @@ import DatePeriod from "../../datePeriod/datePeriod";
 import { parseDateWithoutTimezone } from "../../../utils/dateParse";
 import ManagerPhoto from "../../managerPhoto/managerPhoto";
 import ActionButtons from "../action-buttons/action-buttons";
-import { deleteTask } from "../../../services/tasks/deleteTask";
 import ModalFormTask from "../modal-form-task.component/modal-form-task.component";
-export default function Taskitem({
-  task,
-  setUpdate,
-  update,
-  userDetails,
-  projectDetails,
-}) {
-  const deleteAction = () => {
-    deleteTask(userDetails, projectDetails, task.id);
-    setUpdate(!update);
-  };
 
+export default function Taskitem({ task, setUpdate, update, onRefreshTasks }) {
+  const [titleAction, setTitleAction] = useState("Editar tarefa");
   const [show, setShow] = useState(false);
 
   return (
@@ -25,14 +15,13 @@ export default function Taskitem({
       <ModalFormTask
         show={show}
         setShow={setShow}
-        titleAction={"Editar tarefa"}
+        titleAction={titleAction}
         textButton={"Salvar alterações"}
         task={task}
-        setUpdate={setUpdate}
-        update={update}
+        onRefreshTasks={onRefreshTasks}
       />
       <tbody>
-        <tr onDoubleClick={() => setShow(true)}>
+        <tr>
           <td>
             <span>{task.title}</span>
           </td>
@@ -50,10 +39,9 @@ export default function Taskitem({
           </td>
           <td>
             <ActionButtons
-              deleteAction={deleteAction}
               setShowEdit={setShow}
-              setUpdate={setUpdate}
-              update={update}
+              onRefreshTasks={onRefreshTasks}
+              taskId={task.id}
             />
           </td>
         </tr>

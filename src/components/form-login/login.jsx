@@ -60,7 +60,7 @@ function Login() {
 
   useEffect(() => {
     if (isLogged) {
-      <Navigate replace to="/" />;
+      <Navigate replace to="/projetos" />;
     }
   }, [isLogged, setIsLogged]);
 
@@ -92,11 +92,7 @@ function Login() {
       </Form.Group>
 
       <div className="d-grid">
-        <Button
-          type="submit"
-          onClick={submitHandler}
-          variant="primary"
-          disabled={false}>
+        <Button type="submit" onClick={submitHandler} variant="primary">
           Entrar
         </Button>
       </div>
