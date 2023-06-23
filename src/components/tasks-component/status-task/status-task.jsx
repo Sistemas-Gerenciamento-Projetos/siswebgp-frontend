@@ -12,7 +12,7 @@ import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const StatusTask = ({ status, taskItem }) => {
+const StatusTask = ({ status, taskItem, onRefreshTasks }) => {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [updateTasks, setUpdateTasks] = useState(false);
@@ -20,11 +20,18 @@ const StatusTask = ({ status, taskItem }) => {
   const [atualStatus, setAtualStatus] = useState(status);
   const newstatusfromtask = { ...taskItem };
 
-  const handleChange = () => {
+  const handleChange = async () => {
     if (taskItem.status !== atualStatus) {
       newstatusfromtask.status = atualStatus;
-      patchTask(userDetails, projectDetails, newstatusfromtask, setUpdateTasks);
+      await patchTask(
+        userDetails,
+        projectDetails,
+        newstatusfromtask,
+        setUpdateTasks,
+        onRefreshTasks
+      );
       if (updateTasks) {
+        console.log("update");
         setUpdateTasks(false);
       }
     } else {
