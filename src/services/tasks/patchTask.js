@@ -7,7 +7,8 @@ export async function patchTask(
   userDetails,
   projectDetails,
   taskEdited,
-  setUpdateTasks
+  setUpdateTasks,
+  onRefreshTasks
 ) {
   const header = {
     headers: {
@@ -43,6 +44,7 @@ export async function patchTask(
         ) {
           return setUpdateTasks(false);
         } else {
+          onRefreshTasks();
           return setUpdateTasks(true);
         }
       }

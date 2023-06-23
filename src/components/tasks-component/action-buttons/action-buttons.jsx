@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import TrashIcon from "../../../Assets/trash.svg";
 import EditIcon from "../../../Assets/edit.svg";
 import { Modal, Button } from "react-bootstrap";
+import { useUserDetails } from "../../../context/usercontext";
+import { useProjectDetails } from "../../../context/projectContext";
+import { deleteTask } from "../../../services/tasks/deleteTask";
 
-function ActionButtons({ deleteAction, setShowEdit, setUpdate, update }) {
+function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
   const [show, setShow] = useState(false);
+  const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
 
   const handleDelete = () => {
-    deleteAction();
+    console.log(projectDetails.projectId);
+    deleteTask(userDetails, projectDetails, taskId, onRefreshTasks);
     handleClose();
-    setUpdate(!update);
   };
 
   const handleClose = () => setShow(false);
@@ -17,6 +22,7 @@ function ActionButtons({ deleteAction, setShowEdit, setUpdate, update }) {
 
   const handleEdit = () => {
     setShowEdit(true);
+    console.log("edit");
   };
 
   return (

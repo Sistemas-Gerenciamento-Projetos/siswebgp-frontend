@@ -18,6 +18,7 @@ const Projetos = () => {
   const [userDetails] = useUserDetails();
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [novoProjeto, setNovoProjeto] = useState(true);
+
   const [projects, setProjects] = useState([]);
   const [index, setIndex] = useState(0);
 

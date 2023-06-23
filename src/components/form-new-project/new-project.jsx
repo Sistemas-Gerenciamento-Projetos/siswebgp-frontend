@@ -20,7 +20,7 @@ const Registration = ({
     event.stopPropagation();
 
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
+    if (form.checkValidity() === false && title.trim() && description.trim()) {
       setValidated(true);
       return;
     }
@@ -33,11 +33,9 @@ const Registration = ({
       description,
       beginDate,
       endDate
-    )
-    setIndex(0)
+    );
+    setIndex(0);
   };
-
-
 
   return (
     <Form

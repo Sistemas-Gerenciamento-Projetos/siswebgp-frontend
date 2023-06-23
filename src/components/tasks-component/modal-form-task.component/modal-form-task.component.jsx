@@ -16,8 +16,7 @@ function ModalFormTask({
   titleAction,
   textButton,
   task,
-  setUpdate,
-  update,
+  onRefreshTasks,
 }) {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
@@ -30,6 +29,7 @@ function ModalFormTask({
   const [userName, setUserName] = useState("");
   const [idUser, setIdUser] = useState("");
   const [errors, setErrors] = useState({});
+  const [update, setUpdate] = useState();
 
   const formRef = useRef(null);
   const [status] = useState("TODO");
@@ -65,7 +65,6 @@ function ModalFormTask({
       createTask();
     }
 
-    setUpdate(!update);
     setShow(!show);
     handleReset();
   };
@@ -73,8 +72,8 @@ function ModalFormTask({
   const validateForm = () => {
     const newErrors = {};
 
-    if (!title) newErrors.title = "Preencha o título.";
-    if (!description || description === "")
+    if (!title || !title.trim()) newErrors.title = "Preencha o título.";
+    if (!description || description === "" || !description.trim())
       newErrors.description = "Preencha descrição.";
     if (!beginDate || beginDate === "") newErrors.beginDate = "Data de início.";
     if (!deadlineDate || deadlineDate === "")
@@ -91,10 +90,15 @@ function ModalFormTask({
     newEditedTask.deadline_date = deadlineDate;
     newEditedTask.user = idUser;
     newEditedTask.user_name = userName;
-    await patchTask(userDetails, projectDetails, newEditedTask, setUpdate);
-    setUpdate(!update);
+    await patchTask(
+      userDetails,
+      projectDetails,
+      newEditedTask,
+      setUpdate,
+      onRefreshTasks
+    );
     setShow(!show);
-    titleAction = "";
+    // titleAction = "";
   };
 
   const createTask = () => {
@@ -106,12 +110,13 @@ function ModalFormTask({
       beginDate,
       deadlineDate,
       status,
-      idUser
+      idUser,
+      onRefreshTasks
     );
-    setUpdate(!update);
   };
 
   useEffect(() => {
+    console.log(titleAction);
     getUsersByProject(userDetails, projectDetails, setListUsers);
     if (titleAction === "Editar tarefa") {
       setTitle(task.title);
@@ -124,7 +129,7 @@ function ModalFormTask({
       handleReset();
     }
     setErrors({});
-  }, []);
+  }, [show]);
 
   return (
     <div>

@@ -60,7 +60,7 @@ function Login() {
 
   useEffect(() => {
     if (isLogged) {
-      <Navigate replace to="/" />;
+      <Navigate replace to="/projetos" />;
     }
   }, [isLogged, setIsLogged]);
 

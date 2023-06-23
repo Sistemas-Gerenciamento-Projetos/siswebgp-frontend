@@ -11,7 +11,8 @@ export function postTask(
   startDate,
   endDate,
   status,
-  id
+  id,
+  onRefreshTasks
 ) {
   const header = {
     headers: {
@@ -38,6 +39,7 @@ export function postTask(
     )
     .then((response) => {
       if (response.status === 201) {
+        onRefreshTasks();
         toast.success("Tarefa criada", {
           position: "bottom-right",
           autoClose: 5000,
