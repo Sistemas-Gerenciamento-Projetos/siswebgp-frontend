@@ -26,7 +26,11 @@ export default function Taskitem({ task, setUpdate, update, onRefreshTasks }) {
             <span>{task.title}</span>
           </td>
           <td>
-            <StatusTask status={task.status} taskItem={task} />
+            <StatusTask
+              status={task.status}
+              taskItem={task}
+              onRefreshTasks={onRefreshTasks}
+            />
           </td>
           <td>
             <DatePeriod

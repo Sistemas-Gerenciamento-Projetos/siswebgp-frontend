@@ -31,7 +31,7 @@ const TaskList = styled.div`
 
 export default function TaskColumn({ title, tasks, id }) {
   return (
-    <Container className="column">
+    <Container className="column" style={{ overflow: "hidden" }}>
       <Title
         style={{
           backgroundColor: "#bae7ff",
