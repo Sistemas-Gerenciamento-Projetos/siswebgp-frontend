@@ -51,6 +51,7 @@ const AddNewUser = ({ setIndex }) => {
       <Form.Label>Pesquisar usuário:</Form.Label>
 
       <Form.Control
+        className="mt-4"
         as="select"
         onChange={(e) => (selectedUserId = e.target.value)}>
         <option key={0} value={""}>

@@ -21,6 +21,8 @@ export default function Board() {
   const [done, setDone] = useState([]);
   const [updateTasks, setUpdateTasks] = useState(false);
 
+  async function onRefreshTasks() {}
+
   useEffect(() => {
     (async () => {
       const tasks = await getTasks(
@@ -77,8 +79,13 @@ export default function Board() {
       setDone([...done, task]);
     }
 
-    patchTask(userDetails, projectDetails, task, setUpdateTasks);
-    console.log(task);
+    patchTask(
+      userDetails,
+      projectDetails,
+      task,
+      setUpdateTasks,
+      onRefreshTasks
+    );
   };
 
   function findItemById(id, array) {
@@ -101,8 +108,8 @@ export default function Board() {
         }}>
         <TaskColumn title={"A fazer"} tasks={todo} id={"1"} />
         <TaskColumn title={"Em andamento"} tasks={inProgress} id={"2"} />
-        <TaskColumn title={"Pausado"} tasks={paused} id={"3"} />
         <TaskColumn title={"Concluído"} tasks={done} id={"4"} />
+        <TaskColumn title={"Pausado"} tasks={paused} id={"3"} />
       </div>
     </DragDropContext>
   );
