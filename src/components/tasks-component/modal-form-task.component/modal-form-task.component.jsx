@@ -98,7 +98,6 @@ function ModalFormTask({
       onRefreshTasks
     );
     setShow(!show);
-    // titleAction = "";
   };
 
   const createTask = () => {
@@ -116,7 +115,6 @@ function ModalFormTask({
   };
 
   useEffect(() => {
-    console.log(titleAction);
     getUsersByProject(userDetails, projectDetails, setListUsers);
     if (titleAction === "Editar tarefa") {
       setTitle(task.title);

@@ -18,14 +18,18 @@ export async function sigin(email, password, userDetails, updateUserDetails) {
         password: password,
       },
       req_config
-    )
+    );
 
     if (response.status === 200) {
       localStorage.setItem("userDetails", JSON.stringify(response.data));
-      updateUserDetails(response.data.access, response.data.refresh, response.data.user.id);
+      updateUserDetails(
+        response.data.access,
+        response.data.refresh,
+        response.data.user.id
+      );
       isValidSigin = true;
     }
-  } catch(error) {
+  } catch (error) {
     isValidSigin = false;
     if (error.response) {
       console.log(error.response.data);

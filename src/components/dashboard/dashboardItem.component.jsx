@@ -5,9 +5,12 @@ import ManagerPhoto from "../../components/managerPhoto/managerPhoto";
 import { useProjectDetails } from "../../context/projectContext";
 import { parseDateWithoutTimezone } from "../../utils/dateParse";
 import Button from "react-bootstrap/Button";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import TrashIcon from "../../Assets/trash.svg";
 import EditIcon from "../../Assets/edit.svg";
 import AddIcon from "../../Assets/person-add.svg";
+
 import { useUserDetails } from "../../context/usercontext";
 import { deleteProject } from "../../services/projects/deleteProject";
 
@@ -35,6 +38,18 @@ const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects }) => {
     progress = (project.num_completed_tasks / project.num_total_tasks) * 100;
   }
 
+  const addNewUserTooltip = (props) => (
+    <Tooltip {...props}>Adicionar novo usuário ao projeto.</Tooltip>
+  );
+
+  const deleteProjectTooltip = (props) => (
+    <Tooltip {...props}>Excluir projeto.</Tooltip>
+  );
+
+  const editProjectTooltip = (props) => (
+    <Tooltip {...props}>Editar projeto.</Tooltip>
+  );
+
   return (
     <tr
       style={{
@@ -57,28 +72,41 @@ const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects }) => {
       <td>
         {project.manager === userDetails.id && (
           <>
-            <Button
-              variant="outline-light"
-              style={{ border: 0 }}
-              onClick={() => setIndex(2)}>
-              <img src={AddIcon} />
-            </Button>
-
-            <Button
-              variant="outline-light"
-              style={{ border: 0 }}
-              onClick={() => setIndex(3)}>
-              <img src={EditIcon} />
-            </Button>
-
-            <Button
-              variant="outline-light"
-              style={{ border: 0 }}
-              onClick={() => {
-                handleDelete(project);
-              }}>
-              <img src={TrashIcon} />
-            </Button>
+            <OverlayTrigger
+              placement="left"
+              delay={{ show: 250, hide: 400 }}
+              overlay={addNewUserTooltip}>
+              <Button
+                variant="outline-light"
+                style={{ border: 0 }}
+                onClick={() => setIndex(2)}>
+                <img src={AddIcon} />
+              </Button>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="left"
+              delay={{ show: 250, hide: 400 }}
+              overlay={editProjectTooltip}>
+              <Button
+                variant="outline-light"
+                style={{ border: 0 }}
+                onClick={() => setIndex(3)}>
+                <img src={EditIcon} />
+              </Button>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="left"
+              delay={{ show: 250, hide: 400 }}
+              overlay={deleteProjectTooltip}>
+              <Button
+                variant="outline-light"
+                style={{ border: 0 }}
+                onClick={() => {
+                  handleDelete(project);
+                }}>
+                <img src={TrashIcon} />
+              </Button>
+            </OverlayTrigger>
           </>
         )}
       </td>
