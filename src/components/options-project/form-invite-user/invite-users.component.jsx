@@ -27,7 +27,7 @@ const InviteUsers = () => {
       (result) => {
         setEmail("");
         setMessage("");
-        toast.success("Email envida com sucesso", {
+        toast.success("Email enviado com sucesso", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
