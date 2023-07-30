@@ -6,7 +6,7 @@ import ManagerPhoto from "../../managerPhoto/managerPhoto";
 import ActionButtons from "../action-buttons/action-buttons";
 import ModalFormTask from "../modal-form-task.component/modal-form-task.component";
 
-export default function Taskitem({ task, setUpdate, update, onRefreshTasks }) {
+export default function Taskitem({ task, setUpdate, update, onRefreshTasks, index }) {
   const [titleAction, setTitleAction] = useState("Editar tarefa");
   const [show, setShow] = useState(false);
 
@@ -21,7 +21,7 @@ export default function Taskitem({ task, setUpdate, update, onRefreshTasks }) {
         onRefreshTasks={onRefreshTasks}
       />
       <tbody>
-        <tr>
+        <tr style={{backgroundColor: index % 2 === 0 ? '' : '#ebebeb'}}>
           <td>
             <span>{task.title}</span>
           </td>

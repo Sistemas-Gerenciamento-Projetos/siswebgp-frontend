@@ -11,7 +11,7 @@ import AddIcon from "../../Assets/person-add.svg";
 import { useUserDetails } from "../../context/usercontext";
 import { deleteProject } from "../../services/projects/deleteProject";
 
-const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects }) => {
+const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects, index }) => {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [userDetails] = useUserDetails();
   const parsedStartDate = parseDateWithoutTimezone(project.start_date);
@@ -39,7 +39,7 @@ const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects }) => {
     <tr
       style={{
         backgroundColor:
-          project.id === projectDetails.projectId ? "#bae7ff" : "",
+          project.id === projectDetails.projectId ? "#bae7ff" : index % 2 === 0 ? "" : '#ebebeb',
       }}
       onClick={() => {
         onPress(project.id, project.project_name);

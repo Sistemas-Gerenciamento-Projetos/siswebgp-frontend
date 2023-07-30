@@ -64,13 +64,14 @@ const Projetos = () => {
               </tr>
             </thead>
             <tbody>
-              {projects.map((project) => (
+              {projects.map((project, index) => (
                 <DashboardItem
                   key={project.id}
                   onPress={onClickProject}
                   project={project}
                   setIndex={setIndex}
                   onRefreshProjects={onRefreshProjects}
+                  index={index}
                 />
               ))}
             </tbody>
