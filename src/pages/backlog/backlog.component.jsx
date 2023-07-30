@@ -74,7 +74,7 @@ const Backlog = () => {
               </tr>
             </thead>
 
-            {tasks.map((task) => (
+            {tasks.map((task, index) => (
               <Taskitem
                 setUpdate={setUpdate}
                 update={update}
@@ -82,6 +82,7 @@ const Backlog = () => {
                 userDetails={userDetails}
                 projectDetails={projectDetails}
                 onRefreshTasks={onRefreshTasks}
+                index={index}
               />
             ))}
           </Table>
