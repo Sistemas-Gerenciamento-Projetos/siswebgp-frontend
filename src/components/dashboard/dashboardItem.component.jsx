@@ -1,33 +1,40 @@
-import React, { useState } from "react";
-import ProgressBar from "../../components/project-components/progressBar/progressBar";
-import DatePeriod from "../../components/datePeriod/datePeriod";
-import ManagerPhoto from "../../components/managerPhoto/managerPhoto";
-import { useProjectDetails } from "../../context/projectContext";
-import { parseDateWithoutTimezone } from "../../utils/dateParse";
-import Button from "react-bootstrap/Button";
-import TrashIcon from "../../Assets/trash.svg";
-import EditIcon from "../../Assets/edit.svg";
-import AddIcon from "../../Assets/person-add.svg";
-import { useUserDetails } from "../../context/usercontext";
-import { deleteProject } from "../../services/projects/deleteProject";
+import React from 'react';
+import ProgressBar from '../../components/project-components/progressBar/progressBar';
+import DatePeriod from '../../components/datePeriod/datePeriod';
+import ManagerPhoto from '../../components/managerPhoto/managerPhoto';
+import { useProjectDetails } from '../../context/projectContext';
+import { parseDateWithoutTimezone } from '../../utils/dateParse';
+import Button from 'react-bootstrap/Button';
+import TrashIcon from '../../Assets/trash.svg';
+import EditIcon from '../../Assets/edit.svg';
+import AddIcon from '../../Assets/person-add.svg';
+import { useUserDetails } from '../../context/usercontext';
+import { deleteProject } from '../../services/projects/deleteProject';
+import PropTypes from 'prop-types';
 
-const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects, index }) => {
+const DashboardItem = ({
+  project,
+  onPress,
+  setIndex,
+  onRefreshProjects,
+  index,
+}) => {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [userDetails] = useUserDetails();
   const parsedStartDate = parseDateWithoutTimezone(project.start_date);
   const parsedEndDate = parseDateWithoutTimezone(project.deadline_date);
-  var progress = 0;
+  let progress = 0;
 
   const handleDelete = (project) => {
     if (
       window.confirm(
-        `Você tem certeza que deseja deletar ${project.project_name}?`
+        `Você tem certeza que deseja deletar ${project.project_name}?`,
       )
     ) {
       deleteProject(userDetails, project.id, onRefreshProjects);
-      project.id = "";
-      project.project_name = "";
-      updateProjectDetails("", "");
+      project.id = '';
+      project.project_name = '';
+      updateProjectDetails('', '');
     }
   };
 
@@ -39,11 +46,16 @@ const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects, index })
     <tr
       style={{
         backgroundColor:
-          project.id === projectDetails.projectId ? "#bae7ff" : index % 2 === 0 ? "" : '#ebebeb',
+          project.id === projectDetails.projectId
+            ? '#bae7ff'
+            : index % 2 === 0
+            ? ''
+            : '#ebebeb',
       }}
       onClick={() => {
         onPress(project.id, project.project_name);
-      }}>
+      }}
+    >
       <td>{project.project_name}</td>
       <td>
         <ProgressBar completed={progress} />
@@ -60,14 +72,16 @@ const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects, index })
             <Button
               variant="outline-light"
               style={{ border: 0 }}
-              onClick={() => setIndex(2)}>
+              onClick={() => setIndex(2)}
+            >
               <img src={AddIcon} />
             </Button>
 
             <Button
               variant="outline-light"
               style={{ border: 0 }}
-              onClick={() => setIndex(3)}>
+              onClick={() => setIndex(3)}
+            >
               <img src={EditIcon} />
             </Button>
 
@@ -76,7 +90,8 @@ const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects, index })
               style={{ border: 0 }}
               onClick={() => {
                 handleDelete(project);
-              }}>
+              }}
+            >
               <img src={TrashIcon} />
             </Button>
           </>
@@ -84,6 +99,14 @@ const DashboardItem = ({ project, onPress, setIndex, onRefreshProjects, index })
       </td>
     </tr>
   );
+};
+
+DashboardItem.propTypes = {
+  project: PropTypes.object.isRequired,
+  onPress: PropTypes.func.isRequired,
+  setIndex: PropTypes.func.isRequired,
+  onRefreshProjects: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default DashboardItem;

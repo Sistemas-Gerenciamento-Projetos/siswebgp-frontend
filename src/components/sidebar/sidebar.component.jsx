@@ -1,36 +1,35 @@
-import React from "react";
-import sgpLogo from "../../Assets/logo sgp (jpg).jpg";
+import React from 'react';
+import sgpLogo from '../../Assets/logo sgp (jpg).jpg';
+import PropTypes from 'prop-types';
 
 import {
   OrderedListOutlined,
   GroupOutlined,
   BarChartOutlined,
   TableOutlined,
-} from "@ant-design/icons";
-import styles from "./sidebarStyles.component";
-import { useProjectDetails } from "../../context/projectContext";
-import { Navigate } from "react-router-dom";
+} from '@ant-design/icons';
+import styles from './sidebarStyles.component';
+import { useProjectDetails } from '../../context/projectContext';
 
-const Sidebar = (props) => {
-  const { menuItem, setMenuItem } = props;
-
+const Sidebar = ({ menuItem, setMenuItem }) => {
   const [projectDetails] = useProjectDetails();
 
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}>
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
       <img
         src={sgpLogo}
         alt="ic logo"
-        style={{ width: "100%", marginTop: "10px" }}
+        style={{ width: '100%', marginTop: '10px' }}
         onClick={() => setMenuItem(0)}
       />
 
-      <div style={{ marginTop: "20px", width: "100%" }}>
+      <div style={{ marginTop: '20px', width: '100%' }}>
         <div
           to="/painel"
           style={
@@ -38,20 +37,22 @@ const Sidebar = (props) => {
               ? styles.menuItemSelectedDiv
               : styles.menuItemUnselectedDiv
           }
-          onClick={() => setMenuItem(0)}>
+          onClick={() => setMenuItem(0)}
+        >
           <div>
-            <GroupOutlined style={{ paddingLeft: "20px" }} />
+            <GroupOutlined style={{ paddingLeft: '20px' }} />
             <span
               style={
                 menuItem === 0 ? styles.textSelected : styles.textUnselected
-              }>
+              }
+            >
               Projetos
             </span>
           </div>
           {menuItem === 0 && <div style={styles.blueDiv}></div>}
         </div>
 
-        {projectDetails.projectId !== "" && (
+        {projectDetails.projectId !== '' && (
           <div>
             <div
               style={
@@ -59,13 +60,15 @@ const Sidebar = (props) => {
                   ? styles.menuItemSelectedDiv
                   : styles.menuItemUnselectedDiv
               }
-              onClick={() => setMenuItem(1)}>
+              onClick={() => setMenuItem(1)}
+            >
               <div>
-                <OrderedListOutlined style={{ paddingLeft: "20px" }} />
+                <OrderedListOutlined style={{ paddingLeft: '20px' }} />
                 <span
                   style={
                     menuItem === 1 ? styles.textSelected : styles.textUnselected
-                  }>
+                  }
+                >
                   Backlog
                 </span>
               </div>
@@ -78,13 +81,15 @@ const Sidebar = (props) => {
                   ? styles.menuItemSelectedDiv
                   : styles.menuItemUnselectedDiv
               }
-              onClick={() => setMenuItem(2)}>
+              onClick={() => setMenuItem(2)}
+            >
               <div>
-                <TableOutlined style={{ paddingLeft: "20px" }} />
+                <TableOutlined style={{ paddingLeft: '20px' }} />
                 <span
                   style={
                     menuItem === 2 ? styles.textSelected : styles.textUnselected
-                  }>
+                  }
+                >
                   Painel
                 </span>
               </div>
@@ -97,13 +102,15 @@ const Sidebar = (props) => {
                   ? styles.menuItemSelectedDiv
                   : styles.menuItemUnselectedDiv
               }
-              onClick={() => setMenuItem(3)}>
+              onClick={() => setMenuItem(3)}
+            >
               <div>
-                <BarChartOutlined style={{ paddingLeft: "20px" }} />
+                <BarChartOutlined style={{ paddingLeft: '20px' }} />
                 <span
                   style={
                     menuItem === 3 ? styles.textSelected : styles.textUnselected
-                  }>
+                  }
+                >
                   Roteiro
                 </span>
               </div>
@@ -114,6 +121,11 @@ const Sidebar = (props) => {
       </div>
     </div>
   );
+};
+
+Sidebar.propTypes = {
+  menuItem: PropTypes.number.isRequired,
+  setMenuItem: PropTypes.func.isRequired,
 };
 
 export default Sidebar;
