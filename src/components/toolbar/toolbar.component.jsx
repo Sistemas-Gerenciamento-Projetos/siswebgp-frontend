@@ -6,11 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { useProjectDetails } from '../../context/projectContext';
 import { MenuOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
+import Sidebar from '../sidebar/sidebar.component';
 
-const Toolbar = ({ title, setIndex }) => {
+const Toolbar = ({ title, setIndex, menuItem }) => {
   const [updateUserDetails] = useUserDetails();
   const [updateProjectDetails] = useProjectDetails();
-  const [setSidebar] = useState(false);
+  const [sidebar, setSidebar] = useState(false);
   const nav = useNavigate();
 
   const logoutHandler = () => {
@@ -22,7 +23,7 @@ const Toolbar = ({ title, setIndex }) => {
     nav('/');
   };
 
-  const showSidebar = () => setSidebar(!false);
+  const showSidebar = () => setSidebar(!sidebar);
 
   const isProjectsPage = (title) => title === 'Meus projetos';
 
@@ -30,6 +31,13 @@ const Toolbar = ({ title, setIndex }) => {
     <div style={styles.root}>
       <div style={styles.titleDiv}>
         <MenuOutlined onClick={showSidebar} style={styles.menuIcon} />
+        {sidebar && (
+          <Sidebar
+            active={setSidebar}
+            menuItem={menuItem}
+            setMenuItem={setIndex}
+          />
+        )}
         <h3 style={styles.title}>{title}</h3>
         {isProjectsPage(title) && (
           <Button color="primary" onClick={() => setIndex(1)}>
@@ -47,6 +55,7 @@ const Toolbar = ({ title, setIndex }) => {
 Toolbar.propTypes = {
   title: PropTypes.string.isRequired,
   setIndex: PropTypes.func.isRequired,
+  menuItem: PropTypes.number.isRequired,
 };
 
 export default Toolbar;

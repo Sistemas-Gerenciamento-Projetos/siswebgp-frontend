@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
-import { useUserDetails } from "../../context/usercontext";
-import { useProjectDetails } from "../../context/projectContext";
-import { getTasks } from "../../services/tasks/getTasks";
-import "./roteiro.styles.css";
-import ToolbarHome from "../../components/toolbar/toolbar.component";
+import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useUserDetails } from '../../context/usercontext';
+import { useProjectDetails } from '../../context/projectContext';
+import { getTasks } from '../../services/tasks/getTasks';
+import './roteiro.styles.css';
 
 import Gantt, {
   Tasks,
@@ -14,7 +13,7 @@ import Gantt, {
   Validation,
   Item,
   StripLine,
-} from "devextreme-react/gantt";
+} from 'devextreme-react/gantt';
 
 const Roteiro = () => {
   const currentDate = new Date(Date.now());
@@ -28,7 +27,7 @@ const Roteiro = () => {
   async function handleData() {
     const result = await getTasks(
       userDetails.accessToken,
-      projectDetails.projectId
+      projectDetails.projectId,
     );
     setStriped(true);
 
@@ -45,7 +44,6 @@ const Roteiro = () => {
 
   return (
     <div>
-      <ToolbarHome title={projectDetails.projectName} />
       <Gantt taskListWidth={220} scaleType="weeks" height={700}>
         {striped && (
           <StripLine

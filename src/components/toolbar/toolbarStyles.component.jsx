@@ -8,7 +8,7 @@ const styles = {
     justifyContent: 'space-between',
     paddingRight: '10px',
     marginBottom: '20px',
-    marginTop: '10px',
+    boxShadow: '0 0 10px 0',
   },
 
   titleDiv: {
