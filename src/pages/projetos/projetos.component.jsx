@@ -14,7 +14,7 @@ import DashboardItem from '../../components/dashboard/dashboardItem.component';
 import { Table } from 'reactstrap';
 
 const Projetos = () => {
-  const [userDetails] = useUserDetails();
+  const [userDetails, updateUserDetails] = useUserDetails();
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [novoProjeto, setNovoProjeto] = useState(true);
 
@@ -26,7 +26,7 @@ const Projetos = () => {
   }, [novoProjeto]);
 
   if (!userDetails.accessToken) {
-    return <Navigate replace to="/" />;
+    return navigateToLogin();
   }
 
   function onClickProject(projectId, projectName) {
@@ -34,7 +34,11 @@ const Projetos = () => {
   }
 
   function onRefreshProjects() {
-    getProjects(userDetails, setProjects);
+    getProjects(userDetails, setProjects, updateUserDetails);
+  }
+
+  function navigateToLogin() {
+    <Navigate replace to="auth/" />;
   }
 
   return (
