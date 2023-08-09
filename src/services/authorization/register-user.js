@@ -1,14 +1,14 @@
-import { REGISTRATION_ENDPOINT } from "../../constants/urls";
-import axios from "axios";
+import { REGISTRATION_ENDPOINT } from '../../constants/urls';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export async function registerUser(name, email, password, updateUserDetails) {
-  var isRegistered = false;
+  let isRegistered = false;
 
-  const req_config = {
+  const reqConfig = {
     headers: {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
     },
   };
   await axios
@@ -19,25 +19,29 @@ export async function registerUser(name, email, password, updateUserDetails) {
         email: email,
         password: password,
       },
-      req_config
+      reqConfig,
     )
     .then((response) => {
       isRegistered = true;
-      updateUserDetails(response.data.access, response.data.refresh, response.data.user.id);
+      updateUserDetails(
+        response.data.access,
+        response.data.refresh,
+        response.data.user.id,
+      );
     })
     .catch((error) => {
       console.log(error);
-      console.log("error");
+      console.log('error');
       isRegistered = false;
       toast.error('Erro ao criar cadastro', {
-        position: "bottom-right",
+        position: 'bottom-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "colored",
+        theme: 'colored',
       });
     });
   return isRegistered;

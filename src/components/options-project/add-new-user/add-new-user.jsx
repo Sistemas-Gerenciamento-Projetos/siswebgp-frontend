@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import "./add-new-user.styles.scss";
-import { useUserDetails } from "../../../context/usercontext";
-import { getUsers } from "../../../services/users/getUsers";
-import { postAddUserInProject } from "../../../services/projects/postAddUserInProject";
-import { useProjectDetails } from "../../../context/projectContext";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import './add-new-user.styles.scss';
+import { useUserDetails } from '../../../context/usercontext';
+import { getUsers } from '../../../services/users/getUsers';
+import { postAddUserInProject } from '../../../services/projects/postAddUserInProject';
+import { useProjectDetails } from '../../../context/projectContext';
+import { toast } from 'react-toastify';
 
 const AddNewUser = ({ setIndex }) => {
   const [users, setUsers] = useState([]);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
-  var selectedUserId = "";
+  let selectedUserId = '';
 
   function fetchUsersList() {
     getUsers(userDetails.accessToken, projectDetails.projectId, setUsers);
@@ -25,23 +25,23 @@ const AddNewUser = ({ setIndex }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    if (selectedUserId !== "") {
+    if (selectedUserId !== '') {
       postAddUserInProject(
         userDetails.accessToken,
         projectDetails.projectId,
         fetchUsersList,
-        selectedUserId
+        selectedUserId,
       );
     } else {
-      toast.error("Selecione um membro", {
-        position: "bottom-right",
+      toast.error('Selecione um membro', {
+        position: 'bottom-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "colored",
+        theme: 'colored',
       });
     }
   }
@@ -53,8 +53,9 @@ const AddNewUser = ({ setIndex }) => {
       <Form.Control
         className="mt-4"
         as="select"
-        onChange={(e) => (selectedUserId = e.target.value)}>
-        <option key={0} value={""}>
+        onChange={(e) => (selectedUserId = e.target.value)}
+      >
+        <option key={0} value={''}>
           Selecione um usuário...
         </option>
         {users.map((user, index) => (
@@ -66,24 +67,27 @@ const AddNewUser = ({ setIndex }) => {
 
       <div
         style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}>
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <Button
-          style={{ width: "45%" }}
+          style={{ width: '45%' }}
           className="btn-submit mt-4"
           variant="secondary"
-          onClick={() => setIndex(0)}>
+          onClick={() => setIndex(0)}
+        >
           Voltar
         </Button>
 
         <Button
-          style={{ width: "45%" }}
+          style={{ width: '45%' }}
           className="btn-submit mt-4"
           type="submit"
-          variant="primary">
+          variant="primary"
+        >
           Adicionar
         </Button>
       </div>

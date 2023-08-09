@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Form, Button, InputGroup, Badge } from "react-bootstrap";
-import "./edit-project.scss";
-import { patchProject } from "../../services/projects/patchProject";
-import { useUserDetails } from "../../context/usercontext";
+import React, { useEffect, useState } from 'react';
+import { Form, Button, InputGroup, Badge } from 'react-bootstrap';
+import './edit-project.scss';
+import { patchProject } from '../../services/projects/patchProject';
+import { useUserDetails } from '../../context/usercontext';
 
 const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
   const [userDetails] = useUserDetails();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [beginDate, setBeginDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [beginDate, setBeginDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     setTitle(project.project_name);
     setDescription(project.description);
-    setBeginDate(project.start_date.split("T")[0]);
-    setEndDate(project.deadline_date.split("T")[0]);
+    setBeginDate(project.start_date.split('T')[0]);
+    setEndDate(project.deadline_date.split('T')[0]);
   }, []);
 
   const handleSubmit = (event) => {
@@ -38,7 +38,7 @@ const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
       title,
       description,
       beginDate,
-      endDate
+      endDate,
     );
   };
 
@@ -47,7 +47,8 @@ const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
       className="main-form-edit-project"
       noValidate
       validated={validated}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+    >
       {/* Tem um bug visual na validação de string com espaços em branco, o form nega o seguimento mas o feedback visual é de correto */}
       <Form.Group controlId="title">
         <Form.Label className="label">Título:</Form.Label>
@@ -56,7 +57,7 @@ const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
             type="text"
             className="form-item"
             required
-            isInvalid={!!title.trim() === ""}
+            isInvalid={!!title.trim() === ''}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -81,7 +82,8 @@ const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
         <Badge
           className="form-item"
           text="primary"
-          bg={`${description.length > 200 ? "danger" : "light"}`}>
+          bg={`${description.length > 200 ? 'danger' : 'light'}`}
+        >
           {description.length}/{200}
         </Badge>
         <Form.Control.Feedback type="invalid">
@@ -111,11 +113,11 @@ const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
             type="date"
             isValid={Date.parse(beginDate) < Date.parse(endDate)}
             min={
-              beginDate === ""
-                ? new Date().toISOString().split("T")[0]
+              beginDate === ''
+                ? new Date().toISOString().split('T')[0]
                 : beginDate
             }
-            disabled={beginDate === ""}
+            disabled={beginDate === ''}
             required
             className="form-item"
             value={endDate}
@@ -129,21 +131,23 @@ const EditProject = ({ project, novoProjeto, setNovoProjeto, setIndex }) => {
       </Form.Group>
       <div
         style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingTop: "15px",
-        }}>
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingTop: '15px',
+        }}
+      >
         <Button
-          style={{ width: "45%" }}
+          style={{ width: '45%' }}
           className="button"
           variant="secondary"
-          onClick={() => setIndex(0)}>
+          onClick={() => setIndex(0)}
+        >
           Voltar
         </Button>
 
-        <Button style={{ width: "45%" }} className="button" type="submit">
+        <Button style={{ width: '45%' }} className="button" type="submit">
           Salvar alterações
         </Button>
       </div>

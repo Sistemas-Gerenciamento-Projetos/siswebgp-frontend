@@ -21,6 +21,7 @@
           "FunctionExpression": false
         }
       }
-    ]
+    ],
+    "react/prop-types": 0
   }
 }

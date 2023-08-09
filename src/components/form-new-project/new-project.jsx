@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Form, Button, InputGroup, Badge } from "react-bootstrap";
-import "./new-project.scss";
+import React, { useState } from 'react';
+import { Form, Button, InputGroup, Badge } from 'react-bootstrap';
+import './new-project.scss';
 
 const Registration = ({
   postProject,
@@ -9,10 +9,10 @@ const Registration = ({
   userDetails,
   setIndex,
 }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [beginDate, setBeginDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [beginDate, setBeginDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event) => {
@@ -32,7 +32,7 @@ const Registration = ({
       title,
       description,
       beginDate,
-      endDate
+      endDate,
     );
     setIndex(0);
   };
@@ -42,7 +42,8 @@ const Registration = ({
       className="main-form-new-project"
       noValidate
       validated={validated}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+    >
       {/* Tem um bug visual na validação de string com espaços em branco, o form nega o seguimento mas o feedback visual é de correto */}
       <Form.Group controlId="title">
         <Form.Label className="label">Título:</Form.Label>
@@ -51,7 +52,7 @@ const Registration = ({
             type="text"
             className="form-item"
             required
-            isInvalid={!!title.trim() === ""}
+            isInvalid={!!title.trim() === ''}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -76,7 +77,8 @@ const Registration = ({
         <Badge
           className="form-item"
           text="primary"
-          bg={`${description.length > 200 ? "danger" : "light"}`}>
+          bg={`${description.length > 200 ? 'danger' : 'light'}`}
+        >
           {description.length}/{200}
         </Badge>
         <Form.Control.Feedback type="invalid">
@@ -106,11 +108,11 @@ const Registration = ({
             type="date"
             isValid={Date.parse(beginDate) < Date.parse(endDate)}
             min={
-              beginDate === ""
-                ? new Date().toISOString().split("T")[0]
+              beginDate === ''
+                ? new Date().toISOString().split('T')[0]
                 : beginDate
             }
-            disabled={beginDate === ""}
+            disabled={beginDate === ''}
             required
             className="form-item"
             value={endDate}
