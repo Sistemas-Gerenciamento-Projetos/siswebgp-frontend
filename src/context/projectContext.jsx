@@ -1,42 +1,44 @@
-import { createContext, useContext, useState, useMemo } from "react"
+import { React, createContext, useContext, useState, useMemo } from 'react';
 
-const ProjectDetails = createContext()
+const ProjectDetails = createContext();
 
 export function useProjectDetails() {
-  const context = useContext(ProjectDetails)
+  const context = useContext(ProjectDetails);
   if (!context) {
-    throw new Error("useProjectDetails must be used within a ProjectDetailsProvider")
+    throw new Error(
+      'useProjectDetails must be used within a ProjectDetailsProvider',
+    );
   }
-  return context
+  return context;
 }
 
 export function ProjectDetailsProvider(props) {
-  const projectDetailsFromStorage = localStorage.getItem("projectId") 
-  ? localStorage.getItem("projectId")
-  : ""
+  const projectDetailsFromStorage = localStorage.getItem('projectId')
+    ? localStorage.getItem('projectId')
+    : '';
 
-  const projectNameFromStorage = localStorage.getItem("projectName") 
-  ? localStorage.getItem("projectName")
-  : ""
+  const projectNameFromStorage = localStorage.getItem('projectName')
+    ? localStorage.getItem('projectName')
+    : '';
 
   const [projectDetails, setProjectDetails] = useState({
     projectId: projectDetailsFromStorage,
-    projectName: projectNameFromStorage
+    projectName: projectNameFromStorage,
   });
 
   const value = useMemo(() => {
     function updateProjectDetails(projectId, projectName) {
-      const newProjectDetails = { ...projectDetails }
+      const newProjectDetails = { ...projectDetails };
 
-      newProjectDetails.projectId = projectId
-      newProjectDetails.projectName = projectName
+      newProjectDetails.projectId = projectId;
+      newProjectDetails.projectName = projectName;
 
-      localStorage.setItem("projectId", projectId)
-      localStorage.setItem("projectName", projectName)
-      setProjectDetails(newProjectDetails)
+      localStorage.setItem('projectId', projectId);
+      localStorage.setItem('projectName', projectName);
+      setProjectDetails(newProjectDetails);
     }
     return [{ ...projectDetails }, updateProjectDetails];
-  }, [projectDetails])
+  }, [projectDetails]);
 
   return <ProjectDetails.Provider value={value} {...props} />;
 }

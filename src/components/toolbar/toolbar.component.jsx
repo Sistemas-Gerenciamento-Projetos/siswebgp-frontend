@@ -1,31 +1,43 @@
-import React from "react";
-import { Button } from "reactstrap";
-import styles from "./toolbarStyles.component";
-import { useUserDetails } from "../../context/usercontext";
-import { useNavigate } from "react-router-dom";
-import { useProjectDetails } from "../../context/projectContext";
+import React, { useState } from 'react';
+import { Button } from 'reactstrap';
+import styles from './toolbarStyles.component';
+import { useUserDetails } from '../../context/usercontext';
+import { useNavigate } from 'react-router-dom';
+import { useProjectDetails } from '../../context/projectContext';
+import { MenuOutlined } from '@ant-design/icons';
+import PropTypes from 'prop-types';
+import Sidebar from '../sidebar/sidebar.component';
 
-function isProjectsPage(title) {
-  return title === "Meus projetos";
-}
-
-const Toolbar = ({ title, setIndex }) => {
-  const [userDetails, updateUserDetails] = useUserDetails();
-  const [projectDetails, updateProjectDetails] = useProjectDetails();
+const Toolbar = ({ title, setIndex, menuItem }) => {
+  const [updateUserDetails] = useUserDetails();
+  const [updateProjectDetails] = useProjectDetails();
+  const [sidebar, setSidebar] = useState(false);
   const nav = useNavigate();
 
   const logoutHandler = () => {
-    localStorage.removeItem("userDetails");
-    localStorage.removeItem("projectId");
-    localStorage.removeItem("projectName");
+    localStorage.removeItem('userDetails');
+    localStorage.removeItem('projectId');
+    localStorage.removeItem('projectName');
     updateUserDetails(false, false, false);
-    updateProjectDetails("", "");
-    nav("/");
+    updateProjectDetails('', '');
+    nav('/');
   };
+
+  const showSidebar = () => setSidebar(!sidebar);
+
+  const isProjectsPage = (title) => title === 'Meus projetos';
 
   return (
     <div style={styles.root}>
       <div style={styles.titleDiv}>
+        <MenuOutlined onClick={showSidebar} style={styles.menuIcon} />
+        {sidebar && (
+          <Sidebar
+            active={setSidebar}
+            menuItem={menuItem}
+            setMenuItem={setIndex}
+          />
+        )}
         <h3 style={styles.title}>{title}</h3>
         {isProjectsPage(title) && (
           <Button color="primary" onClick={() => setIndex(1)}>
@@ -38,6 +50,12 @@ const Toolbar = ({ title, setIndex }) => {
       </Button>
     </div>
   );
+};
+
+Toolbar.propTypes = {
+  title: PropTypes.string.isRequired,
+  setIndex: PropTypes.func.isRequired,
+  menuItem: PropTypes.number.isRequired,
 };
 
 export default Toolbar;

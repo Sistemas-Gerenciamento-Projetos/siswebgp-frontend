@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   STATUS_TODO,
   STATUS_INPROGRESS,
   STATUS_DONE,
   STATUS_PAUSED,
-} from "../../../constants/taskStatus";
-import { useUserDetails } from "../../../context/usercontext";
-import { useProjectDetails } from "../../../context/projectContext";
-import { patchTask } from "../../../services/tasks/patchTask";
-import { Form } from "react-bootstrap";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+} from '../../../constants/taskStatus';
+import { useUserDetails } from '../../../context/usercontext';
+import { useProjectDetails } from '../../../context/projectContext';
+import { patchTask } from '../../../services/tasks/patchTask';
+import { Form } from 'react-bootstrap';
 
 const StatusTask = ({ status, taskItem, onRefreshTasks }) => {
   const [userDetails] = useUserDetails();
@@ -28,14 +26,14 @@ const StatusTask = ({ status, taskItem, onRefreshTasks }) => {
         projectDetails,
         newstatusfromtask,
         setUpdateTasks,
-        onRefreshTasks
+        onRefreshTasks,
       );
       if (updateTasks) {
-        console.log("update");
+        console.log('update');
         setUpdateTasks(false);
       }
     } else {
-      console.error("patch");
+      console.error('patch');
     }
   };
 
@@ -46,7 +44,8 @@ const StatusTask = ({ status, taskItem, onRefreshTasks }) => {
   return (
     <Form.Select
       defaultValue={status}
-      onChange={(e) => setAtualStatus(e.target.value)}>
+      onChange={(e) => setAtualStatus(e.target.value)}
+    >
       <option value={STATUS_TODO}>A fazer</option>
       <option value={STATUS_INPROGRESS}>Em andamento</option>
       <option value={STATUS_DONE}>Concluído</option>

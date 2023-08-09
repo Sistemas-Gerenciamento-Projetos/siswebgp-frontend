@@ -1,11 +1,11 @@
-import { LOGIN_ENDPOINT } from "../../constants/urls";
-import axios from "axios";
+import { LOGIN_ENDPOINT } from '../../constants/urls';
+import axios from 'axios';
 
 export async function sigin(email, password, userDetails, updateUserDetails) {
-  var isValidSigin = false;
-  const req_config = {
+  let isValidSigin = false;
+  const reqConfig = {
     headers: {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
@@ -17,15 +17,19 @@ export async function sigin(email, password, userDetails, updateUserDetails) {
         email: email,
         password: password,
       },
-      req_config
-    )
+      reqConfig,
+    );
 
     if (response.status === 200) {
-      localStorage.setItem("userDetails", JSON.stringify(response.data));
-      updateUserDetails(response.data.access, response.data.refresh, response.data.user.id);
+      localStorage.setItem('userDetails', JSON.stringify(response.data));
+      updateUserDetails(
+        response.data.access,
+        response.data.refresh,
+        response.data.user.id,
+      );
       isValidSigin = true;
     }
-  } catch(error) {
+  } catch (error) {
     isValidSigin = false;
     if (error.response) {
       console.log(error.response.data);
@@ -34,7 +38,7 @@ export async function sigin(email, password, userDetails, updateUserDetails) {
     } else if (error.request) {
       console.log(error.request);
     } else {
-      console.log("Error", error.message);
+      console.log('Error', error.message);
     }
   }
 

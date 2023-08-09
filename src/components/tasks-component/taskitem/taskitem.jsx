@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import StatusTask from "../status-task/status-task";
-import DatePeriod from "../../datePeriod/datePeriod";
-import { parseDateWithoutTimezone } from "../../../utils/dateParse";
-import ManagerPhoto from "../../managerPhoto/managerPhoto";
-import ActionButtons from "../action-buttons/action-buttons";
-import ModalFormTask from "../modal-form-task.component/modal-form-task.component";
+/* eslint react/prop-types: 0 */
 
-export default function Taskitem({ task, setUpdate, update, onRefreshTasks, index }) {
-  const [titleAction, setTitleAction] = useState("Editar tarefa");
+import React, { useState } from 'react';
+import StatusTask from '../status-task/status-task';
+import DatePeriod from '../../datePeriod/datePeriod';
+import { parseDateWithoutTimezone } from '../../../utils/dateParse';
+import ManagerPhoto from '../../managerPhoto/managerPhoto';
+import ActionButtons from '../action-buttons/action-buttons';
+import ModalFormTask from '../modal-form-task.component/modal-form-task.component';
+
+const TaskItem = ({ task, onRefreshTasks, index }) => {
+  const [titleAction] = useState('Editar tarefa');
   const [show, setShow] = useState(false);
 
   return (
@@ -16,12 +18,12 @@ export default function Taskitem({ task, setUpdate, update, onRefreshTasks, inde
         show={show}
         setShow={setShow}
         titleAction={titleAction}
-        textButton={"Salvar alterações"}
+        textButton={'Salvar alterações'}
         task={task}
         onRefreshTasks={onRefreshTasks}
       />
       <tbody>
-        <tr style={{backgroundColor: index % 2 === 0 ? '' : '#ebebeb'}}>
+        <tr style={{ backgroundColor: index % 2 === 0 ? '' : '#ebebeb' }}>
           <td>
             <span>{task.title}</span>
           </td>
@@ -52,4 +54,6 @@ export default function Taskitem({ task, setUpdate, update, onRefreshTasks, inde
       </tbody>
     </>
   );
-}
+};
+
+export default TaskItem;

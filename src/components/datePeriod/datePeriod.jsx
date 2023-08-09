@@ -1,15 +1,16 @@
-import React from "react";
+import React from 'react';
 import {
   SwapRightOutlined,
   CalendarOutlined,
   WarningFilled,
-} from "@ant-design/icons";
-import styles from "./datePeriodStyles";
+} from '@ant-design/icons';
+import styles from './datePeriodStyles';
+import PropTypes from 'prop-types';
 
 const options = {
-  day: "2-digit",
-  month: "2-digit",
-  year: "numeric",
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
 };
 
 function calculateDelayedDays(endDate) {
@@ -19,9 +20,7 @@ function calculateDelayedDays(endDate) {
   return totalDays;
 }
 
-const DelayedProject = (props) => {
-  const { endDate } = props;
-
+const DelayedProject = ({ endDate }) => {
   const totalDays = calculateDelayedDays(endDate);
 
   return (
@@ -32,11 +31,13 @@ const DelayedProject = (props) => {
   );
 };
 
-const DatePeriod = (props) => {
-  const { startDate, endDate } = props;
+DelayedProject.propTypes = {
+  endDate: PropTypes.object.isRequired,
+};
 
-  const startDateParsed = startDate.toLocaleDateString("pt-BR", options);
-  const endDateParsed = endDate.toLocaleDateString("pt-BR", options);
+const DatePeriod = ({ startDate, endDate }) => {
+  const startDateParsed = startDate.toLocaleDateString('pt-BR', options);
+  const endDateParsed = endDate.toLocaleDateString('pt-BR', options);
 
   const scheduleDelay = () => {
     return calculateDelayedDays(endDate) > 0;
@@ -45,14 +46,19 @@ const DatePeriod = (props) => {
   return (
     <div style={styles.root}>
       <div style={styles.datesDiv}>
-        <span onClick={() => console.log("start")}>{startDateParsed}</span>
+        <span onClick={() => console.log('start')}>{startDateParsed}</span>
         <SwapRightOutlined style={styles.dateIcons} />
-        <span onClick={() => console.log("end")}>{endDateParsed}</span>
+        <span onClick={() => console.log('end')}>{endDateParsed}</span>
         <CalendarOutlined style={styles.dateIcons} />
       </div>
       {scheduleDelay() && <DelayedProject endDate={endDate} />}
     </div>
   );
+};
+
+DatePeriod.propTypes = {
+  startDate: PropTypes.object.isRequired,
+  endDate: PropTypes.object.isRequired,
 };
 
 export default DatePeriod;
