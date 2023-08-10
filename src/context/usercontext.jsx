@@ -58,7 +58,7 @@ export function UserDetailsProvider(props) {
       newUserDetails.id = userId;
 
       if (newUserDetails.accessToken) {
-        const jwtDecoded = jwt_decode(newUserDetails.accessToken);
+        const jwtDecoded = jwtDecode(newUserDetails.accessToken);
         newUserDetails.name = jwtDecoded.name;
       } else {
         newUserDetails.name = false;
