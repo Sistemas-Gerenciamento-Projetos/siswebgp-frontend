@@ -21,6 +21,7 @@ const Projetos = () => {
 
   const [projects, setProjects] = useState([]);
   const [index, setIndex] = useState(0);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     onRefreshProjects();
@@ -95,15 +96,14 @@ const Projetos = () => {
         </div>
       )}
 
-      {index === 1 && (
-        <NovoProjeto
-          postProject={postProject}
-          novoProjeto={novoProjeto}
-          setNovoProjeto={setNovoProjeto}
-          userDetails={userDetails}
-          setIndex={setIndex}
-        />
-      )}
+      <NovoProjeto
+        postProject={postProject}
+        novoProjeto={novoProjeto}
+        setNovoProjeto={setNovoProjeto}
+        userDetails={userDetails}
+        show={show}
+        setShow={setShow}
+      />
 
       {index === 2 && <OptionsProject setIndex={setIndex} />}
 
@@ -125,7 +125,7 @@ const Projetos = () => {
           icon={<PlusOutlined />}
           tooltip={<div>Novo projeto</div>}
           type={'primary'}
-          onClick={() => setIndex(1)}
+          onClick={() => setShow(true)}
         />
       )}
 
