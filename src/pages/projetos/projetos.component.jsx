@@ -21,7 +21,8 @@ const Projetos = () => {
 
   const [projects, setProjects] = useState([]);
   const [index, setIndex] = useState(0);
-  const [show, setShow] = useState(false);
+  const [showNewProject, setShowNewProject] = useState(false);
+  const [showEditProject, setShowEditProject] = useState(false);
 
   useEffect(() => {
     onRefreshProjects();
@@ -76,6 +77,7 @@ const Projetos = () => {
                   setIndex={setIndex}
                   onRefreshProjects={onRefreshProjects}
                   index={index}
+                  setShowEditProject={setShowEditProject}
                 />
               ))}
             </tbody>
@@ -101,13 +103,13 @@ const Projetos = () => {
         novoProjeto={novoProjeto}
         setNovoProjeto={setNovoProjeto}
         userDetails={userDetails}
-        show={show}
-        setShow={setShow}
+        show={showNewProject}
+        setShow={setShowNewProject}
       />
 
       {index === 2 && <OptionsProject setIndex={setIndex} />}
 
-      {index === 3 && (
+      {projects.length !== 0 && (
         <EditProject
           project={
             projects.filter(
@@ -117,6 +119,8 @@ const Projetos = () => {
           novoProjeto={novoProjeto}
           setNovoProjeto={setNovoProjeto}
           setIndex={setIndex}
+          show={showEditProject}
+          setShow={setShowEditProject}
         />
       )}
 

@@ -18,6 +18,7 @@ const DashboardItem = ({
   setIndex,
   onRefreshProjects,
   index,
+  setShowEditProject,
 }) => {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [userDetails] = useUserDetails();
@@ -52,9 +53,7 @@ const DashboardItem = ({
             ? ''
             : '#ebebeb',
       }}
-      onClick={() => {
-        onPress(project.id, project.project_name);
-      }}
+      onClick={() => onPress(project.id, project.project_name)}
     >
       <td>{project.project_name}</td>
       <td>
@@ -80,7 +79,7 @@ const DashboardItem = ({
             <Button
               variant="outline-light"
               style={{ border: 0 }}
-              onClick={() => setIndex(3)}
+              onClick={() => setShowEditProject(true)}
             >
               <img src={EditIcon} />
             </Button>
