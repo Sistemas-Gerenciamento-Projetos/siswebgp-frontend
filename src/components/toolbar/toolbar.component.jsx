@@ -25,8 +25,6 @@ const Toolbar = ({ setMenuItem, menuItem }) => {
 
   const showSidebar = () => setSidebar(!sidebar);
 
-  const isProjectsPage = (title) => title === 'Meus projetos';
-
   const getTitle = () => {
     switch (menuItem) {
       case 0:
@@ -52,11 +50,6 @@ const Toolbar = ({ setMenuItem, menuItem }) => {
           />
         )}
         <h3 style={styles.title}>{getTitle()}</h3>
-        {isProjectsPage(getTitle()) && (
-          <Button color="primary" onClick={() => setMenuItem(1)}>
-            Novo projeto
-          </Button>
-        )}
       </div>
       <Button color="primary" onClick={logoutHandler}>
         Sair

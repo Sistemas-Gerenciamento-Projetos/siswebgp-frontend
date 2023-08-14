@@ -9,9 +9,10 @@ import { useProjectDetails } from '../../context/projectContext';
 import OptionsProject from '../../components/options-project/home-options/home-options';
 import EditProject from '../../components/form-edit-project/edit-project';
 import { ToastContainer } from 'react-toastify';
-import { Empty } from 'antd';
+import { Empty, FloatButton } from 'antd';
 import DashboardItem from '../../components/dashboard/dashboardItem.component';
 import { Table } from 'reactstrap';
+import { PlusOutlined } from '@ant-design/icons';
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -116,6 +117,15 @@ const Projetos = () => {
           novoProjeto={novoProjeto}
           setNovoProjeto={setNovoProjeto}
           setIndex={setIndex}
+        />
+      )}
+
+      {index == 0 && (
+        <FloatButton
+          icon={<PlusOutlined />}
+          tooltip={<div>Novo projeto</div>}
+          type={'primary'}
+          onClick={() => setIndex(1)}
         />
       )}
 
