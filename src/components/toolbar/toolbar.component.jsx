@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 import Sidebar from '../sidebar/sidebar.component';
 
 const Toolbar = ({ title, setIndex, menuItem }) => {
-  const [updateUserDetails] = useUserDetails();
-  const [updateProjectDetails] = useProjectDetails();
+  const [userDetails, updateUserDetails] = useUserDetails();
+  const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [sidebar, setSidebar] = useState(false);
   const nav = useNavigate();
 
@@ -18,8 +18,9 @@ const Toolbar = ({ title, setIndex, menuItem }) => {
     localStorage.removeItem('userDetails');
     localStorage.removeItem('projectId');
     localStorage.removeItem('projectName');
+    console.log(updateUserDetails);
     updateUserDetails(false, false, false);
-    updateProjectDetails('', '');
+    updateProjectDetails('', '', '');
     nav('/');
   };
 

@@ -34,7 +34,7 @@ const DashboardItem = ({
       deleteProject(userDetails, project.id, onRefreshProjects);
       project.id = '';
       project.project_name = '';
-      updateProjectDetails('', '');
+      updateProjectDetails('', '', '');
     }
   };
 
@@ -53,7 +53,8 @@ const DashboardItem = ({
             : '#ebebeb',
       }}
       onClick={() => {
-        onPress(project.id, project.project_name);
+        console.log(project);
+        onPress(project.id, project.project_name, project.manager_name);
       }}
     >
       <td>{project.project_name}</td>
