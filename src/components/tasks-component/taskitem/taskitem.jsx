@@ -6,7 +6,7 @@ import DatePeriod from '../../datePeriod/datePeriod';
 import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/action-buttons';
-import ModalFormTask from '../modal-form-task.component/modal-form-task.component';
+import NewTaskBacklog from '../new-task.component/new-task.component';
 
 const TaskItem = ({ task, onRefreshTasks, index }) => {
   const [titleAction] = useState('Editar tarefa');
@@ -14,7 +14,7 @@ const TaskItem = ({ task, onRefreshTasks, index }) => {
 
   return (
     <>
-      <ModalFormTask
+      <NewTaskBacklog
         show={show}
         setShow={setShow}
         titleAction={titleAction}
