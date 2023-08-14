@@ -11,17 +11,13 @@ import Toolbar from '../../components/toolbar/toolbar.component';
 const Home = () => {
   const [userDetails] = useUserDetails();
 
-  const [menuItem, setIndex] = useState(0);
+  const [menuItem, setMenuItem] = useState(0);
 
   return (
     <div className="home">
       {userDetails.accessToken ? (
         <div>
-          <Toolbar
-            title={'Meus projetos'}
-            setIndex={setIndex}
-            menuItem={menuItem}
-          />
+          <Toolbar setMenuItem={setMenuItem} menuItem={menuItem} />
           <div className="body-home">
             {menuItem === 0 && <Projetos />}
             {menuItem === 1 && <Backlog />}
