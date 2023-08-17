@@ -157,7 +157,7 @@ const EditProject = ({
                 style={{ width: '45%' }}
                 className="button"
                 variant="secondary"
-                onClick={() => setIndex(0)}
+                onClick={handleClose}
               >
                 Voltar
               </Button>

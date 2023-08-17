@@ -7,7 +7,7 @@ import { useProjectDetails } from '../../../context/projectContext';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 
-const InviteUsers = () => {
+const InviteUsers = ({ handleClose }) => {
   const form = useRef();
 
   const [email, setEmail] = useState('');
@@ -87,9 +87,32 @@ const InviteUsers = () => {
           </Form.Group>
         </Form.Group>
 
-        <Button className="btn-submit" type="submit" variant="primary">
-          Enviar
-        </Button>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Button
+            style={{ width: '45%' }}
+            className="btn-submit mt-4"
+            variant="secondary"
+            onClick={handleClose}
+          >
+            Voltar
+          </Button>
+
+          <Button
+            style={{ width: '45%' }}
+            className="btn-submit mt-4"
+            type="submit"
+            variant="primary"
+          >
+            Enviar
+          </Button>
+        </div>
       </Form>
       <ToastContainer
         position="bottom-right"

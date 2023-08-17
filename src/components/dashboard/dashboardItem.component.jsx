@@ -15,10 +15,10 @@ import PropTypes from 'prop-types';
 const DashboardItem = ({
   project,
   onPress,
-  setIndex,
   onRefreshProjects,
   index,
   setShowEditProject,
+  setShowInviteUsersToProject,
 }) => {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [userDetails] = useUserDetails();
@@ -71,7 +71,7 @@ const DashboardItem = ({
             <Button
               variant="outline-light"
               style={{ border: 0 }}
-              onClick={() => setIndex(2)}
+              onClick={() => setShowInviteUsersToProject(true)}
             >
               <img src={AddIcon} />
             </Button>

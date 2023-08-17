@@ -22,6 +22,8 @@ const Projetos = () => {
   const [index, setIndex] = useState(0);
   const [showNewProject, setShowNewProject] = useState(false);
   const [showEditProject, setShowEditProject] = useState(false);
+  const [showInviteUsersToProject, setShowInviteUsersToProject] =
+    useState(false);
 
   useEffect(() => {
     onRefreshProjects();
@@ -73,10 +75,10 @@ const Projetos = () => {
                   key={project.id}
                   onPress={onClickProject}
                   project={project}
-                  setIndex={setIndex}
                   onRefreshProjects={onRefreshProjects}
                   index={index}
                   setShowEditProject={setShowEditProject}
+                  setShowInviteUsersToProject={setShowInviteUsersToProject}
                 />
               ))}
             </tbody>
@@ -104,7 +106,10 @@ const Projetos = () => {
         setShow={setShowNewProject}
       />
 
-      {index === 2 && <OptionsProject setIndex={setIndex} />}
+      <OptionsProject
+        show={showInviteUsersToProject}
+        setShow={setShowInviteUsersToProject}
+      />
 
       {projects.length !== 0 && projectDetails.projectId !== '' && (
         <EditProject
