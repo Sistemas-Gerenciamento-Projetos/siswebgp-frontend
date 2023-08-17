@@ -8,7 +8,7 @@ import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/action-buttons';
 import NewTaskBacklog from '../new-task.component/new-task.component';
 
-const TaskItem = ({ task, onRefreshTasks, index }) => {
+const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
   const [titleAction] = useState('Editar tarefa');
   const [show, setShow] = useState(false);
 
@@ -42,6 +42,9 @@ const TaskItem = ({ task, onRefreshTasks, index }) => {
           </td>
           <td>
             <ManagerPhoto name={task.user_name} />
+          </td>
+          <td>
+            <p>{projectDetails.managerName}</p>
           </td>
           <td>
             <ActionButtons

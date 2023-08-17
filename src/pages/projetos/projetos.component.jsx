@@ -33,8 +33,8 @@ const Projetos = () => {
     return navigateToLogin();
   }
 
-  function onClickProject(projectId, projectName) {
-    updateProjectDetails(projectId, projectName);
+  function onClickProject(projectId, projectName, managerName) {
+    updateProjectDetails(projectId, projectName, managerName);
   }
 
   function onRefreshProjects() {
