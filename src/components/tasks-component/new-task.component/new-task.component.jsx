@@ -10,7 +10,7 @@ import { useProjectDetails } from '../../../context/projectContext';
 import { postTask } from '../../../services/tasks/postTask';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
 
-function ModalFormTask({
+function NewTaskBacklog({
   show,
   setShow,
   titleAction,
@@ -72,12 +72,21 @@ function ModalFormTask({
   const validateForm = () => {
     const newErrors = {};
 
-    if (!title || !title.trim()) newErrors.title = 'Preencha o título.';
-    if (!description || description === '' || !description.trim())
+    if (!title || !title.trim()) {
+      newErrors.title = 'Preencha o título.';
+    }
+
+    if (!description || description === '' || !description.trim()) {
       newErrors.description = 'Preencha descrição.';
-    if (!beginDate || beginDate === '') newErrors.beginDate = 'Data de início.';
-    if (!deadlineDate || deadlineDate === '')
+    }
+
+    if (!beginDate || beginDate === '') {
+      newErrors.beginDate = 'Data de início.';
+    }
+
+    if (!deadlineDate || deadlineDate === '') {
       newErrors.deadlineDate = 'Data de fim.';
+    }
 
     return newErrors;
   };
@@ -98,7 +107,6 @@ function ModalFormTask({
       onRefreshTasks,
     );
     setShow(!show);
-    // titleAction = "";
   };
 
   const createTask = () => {
@@ -247,4 +255,4 @@ function ModalFormTask({
   );
 }
 
-export default ModalFormTask;
+export default NewTaskBacklog;

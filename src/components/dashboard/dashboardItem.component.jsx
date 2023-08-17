@@ -15,9 +15,10 @@ import PropTypes from 'prop-types';
 const DashboardItem = ({
   project,
   onPress,
-  setIndex,
   onRefreshProjects,
   index,
+  setShowEditProject,
+  setShowInviteUsersToProject,
 }) => {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [userDetails] = useUserDetails();
@@ -52,10 +53,9 @@ const DashboardItem = ({
             ? ''
             : '#ebebeb',
       }}
-      onClick={() => {
-        console.log(project);
-        onPress(project.id, project.project_name, project.manager_name);
-      }}
+      onClick={() =>
+        onPress(project.id, project.project_name, project.manager_name)
+      }
     >
       <td>{project.project_name}</td>
       <td>
@@ -73,7 +73,7 @@ const DashboardItem = ({
             <Button
               variant="outline-light"
               style={{ border: 0 }}
-              onClick={() => setIndex(2)}
+              onClick={() => setShowInviteUsersToProject(true)}
             >
               <img src={AddIcon} />
             </Button>
@@ -81,7 +81,7 @@ const DashboardItem = ({
             <Button
               variant="outline-light"
               style={{ border: 0 }}
-              onClick={() => setIndex(3)}
+              onClick={() => setShowEditProject(true)}
             >
               <img src={EditIcon} />
             </Button>

@@ -3,15 +3,15 @@ import { useState } from 'react';
 import NovoProjeto from '../../components/form-new-project/new-project';
 import { useUserDetails } from '../../context/usercontext';
 import { Navigate } from 'react-router-dom';
-import { postProject } from '../../services/projects/postProject';
 import { getProjects } from '../../services/projects/getProjects';
 import { useProjectDetails } from '../../context/projectContext';
 import OptionsProject from '../../components/options-project/home-options/home-options';
 import EditProject from '../../components/form-edit-project/edit-project';
 import { ToastContainer } from 'react-toastify';
-import { Empty } from 'antd';
+import { Empty, FloatButton } from 'antd';
 import DashboardItem from '../../components/dashboard/dashboardItem.component';
 import { Table } from 'reactstrap';
+import { PlusOutlined } from '@ant-design/icons';
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -20,6 +20,10 @@ const Projetos = () => {
 
   const [projects, setProjects] = useState([]);
   const [index, setIndex] = useState(0);
+  const [showNewProject, setShowNewProject] = useState(false);
+  const [showEditProject, setShowEditProject] = useState(false);
+  const [showInviteUsersToProject, setShowInviteUsersToProject] =
+    useState(false);
 
   useEffect(() => {
     onRefreshProjects();
@@ -71,9 +75,10 @@ const Projetos = () => {
                   key={project.id}
                   onPress={onClickProject}
                   project={project}
-                  setIndex={setIndex}
                   onRefreshProjects={onRefreshProjects}
                   index={index}
+                  setShowEditProject={setShowEditProject}
+                  setShowInviteUsersToProject={setShowInviteUsersToProject}
                 />
               ))}
             </tbody>
@@ -94,19 +99,19 @@ const Projetos = () => {
         </div>
       )}
 
-      {index === 1 && (
-        <NovoProjeto
-          postProject={postProject}
-          novoProjeto={novoProjeto}
-          setNovoProjeto={setNovoProjeto}
-          userDetails={userDetails}
-          setIndex={setIndex}
-        />
-      )}
+      <NovoProjeto
+        onRefreshProjects={onRefreshProjects}
+        userDetails={userDetails}
+        show={showNewProject}
+        setShow={setShowNewProject}
+      />
 
-      {index === 2 && <OptionsProject setIndex={setIndex} />}
+      <OptionsProject
+        show={showInviteUsersToProject}
+        setShow={setShowInviteUsersToProject}
+      />
 
-      {index === 3 && (
+      {projects.length !== 0 && projectDetails.projectId !== '' && (
         <EditProject
           project={
             projects.filter(
@@ -116,6 +121,17 @@ const Projetos = () => {
           novoProjeto={novoProjeto}
           setNovoProjeto={setNovoProjeto}
           setIndex={setIndex}
+          show={showEditProject}
+          setShow={setShowEditProject}
+        />
+      )}
+
+      {index == 0 && (
+        <FloatButton
+          icon={<PlusOutlined />}
+          tooltip={<div>Novo projeto</div>}
+          type={'primary'}
+          onClick={() => setShowNewProject(true)}
         />
       )}
 

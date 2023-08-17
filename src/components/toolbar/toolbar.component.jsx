@@ -8,7 +8,7 @@ import { MenuOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import Sidebar from '../sidebar/sidebar.component';
 
-const Toolbar = ({ title, setIndex, menuItem }) => {
+const Toolbar = ({ setMenuItem, menuItem }) => {
   const [userDetails, updateUserDetails] = useUserDetails();
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [sidebar, setSidebar] = useState(false);
@@ -26,7 +26,18 @@ const Toolbar = ({ title, setIndex, menuItem }) => {
 
   const showSidebar = () => setSidebar(!sidebar);
 
-  const isProjectsPage = (title) => title === 'Meus projetos';
+  const getTitle = () => {
+    switch (menuItem) {
+      case 0:
+        return 'Meus projetos';
+      case 1:
+        return 'Backlog';
+      case 2:
+        return 'Painel';
+      case 3:
+        return 'Roteiro';
+    }
+  };
 
   return (
     <div style={styles.root}>
@@ -36,15 +47,10 @@ const Toolbar = ({ title, setIndex, menuItem }) => {
           <Sidebar
             active={setSidebar}
             menuItem={menuItem}
-            setMenuItem={setIndex}
+            setMenuItem={setMenuItem}
           />
         )}
-        <h3 style={styles.title}>{title}</h3>
-        {isProjectsPage(title) && (
-          <Button color="primary" onClick={() => setIndex(1)}>
-            Novo projeto
-          </Button>
-        )}
+        <h3 style={styles.title}>{getTitle()}</h3>
       </div>
       <Button color="primary" onClick={logoutHandler}>
         Sair
@@ -54,8 +60,7 @@ const Toolbar = ({ title, setIndex, menuItem }) => {
 };
 
 Toolbar.propTypes = {
-  title: PropTypes.string.isRequired,
-  setIndex: PropTypes.func.isRequired,
+  setMenuItem: PropTypes.func.isRequired,
   menuItem: PropTypes.number.isRequired,
 };
 

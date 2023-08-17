@@ -7,7 +7,7 @@ import { postAddUserInProject } from '../../../services/projects/postAddUserInPr
 import { useProjectDetails } from '../../../context/projectContext';
 import { toast } from 'react-toastify';
 
-const AddNewUser = ({ setIndex }) => {
+const AddNewUser = ({ handleClose }) => {
   const [users, setUsers] = useState([]);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
@@ -77,7 +77,7 @@ const AddNewUser = ({ setIndex }) => {
           style={{ width: '45%' }}
           className="btn-submit mt-4"
           variant="secondary"
-          onClick={() => setIndex(0)}
+          onClick={handleClose}
         >
           Voltar
         </Button>

@@ -5,9 +5,9 @@ import { Navigate } from 'react-router-dom';
 import { Button, Table } from 'react-bootstrap';
 import { getTasks } from '../../services/tasks/getTasks';
 import Taskitem from '../../components/tasks-component/taskitem/taskitem';
-import ModalFormTask from '../../components/tasks-component/modal-form-task.component/modal-form-task.component';
 import { Empty } from 'antd';
 import { ToastContainer } from 'react-toastify';
+import NewTaskBacklog from '../../components/tasks-component/new-task.component/new-task.component';
 
 const Backlog = () => {
   const [userDetails] = useUserDetails();
@@ -39,7 +39,7 @@ const Backlog = () => {
       <Button variant="primary" onClick={() => setShow(true)}>
         Nova tarefa
       </Button>
-      <ModalFormTask
+      <NewTaskBacklog
         show={show}
         setShow={setShow}
         titleAction={'Nova tarefa'}
