@@ -3,7 +3,6 @@ import { useState } from 'react';
 import NovoProjeto from '../../components/form-new-project/new-project';
 import { useUserDetails } from '../../context/usercontext';
 import { Navigate } from 'react-router-dom';
-import { postProject } from '../../services/projects/postProject';
 import { getProjects } from '../../services/projects/getProjects';
 import { useProjectDetails } from '../../context/projectContext';
 import OptionsProject from '../../components/options-project/home-options/home-options';
@@ -99,9 +98,7 @@ const Projetos = () => {
       )}
 
       <NovoProjeto
-        postProject={postProject}
-        novoProjeto={novoProjeto}
-        setNovoProjeto={setNovoProjeto}
+        onRefreshProjects={onRefreshProjects}
         userDetails={userDetails}
         show={showNewProject}
         setShow={setShowNewProject}
@@ -109,7 +106,7 @@ const Projetos = () => {
 
       {index === 2 && <OptionsProject setIndex={setIndex} />}
 
-      {projects.length !== 0 && (
+      {projects.length !== 0 && projectDetails.projectId !== '' && (
         <EditProject
           project={
             projects.filter(
@@ -129,7 +126,7 @@ const Projetos = () => {
           icon={<PlusOutlined />}
           tooltip={<div>Novo projeto</div>}
           type={'primary'}
-          onClick={() => setShow(true)}
+          onClick={() => setShowNewProject(true)}
         />
       )}
 

@@ -9,15 +9,10 @@ import {
   Col,
 } from 'react-bootstrap';
 import './new-project.scss';
+import { postProject } from '../../services/projects/postProject';
+import { toast } from 'react-toastify';
 
-const NewProject = ({
-  postProject,
-  novoProjeto,
-  setNovoProjeto,
-  userDetails,
-  show,
-  setShow,
-}) => {
+const NewProject = ({ onRefreshProjects, userDetails, show, setShow }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [beginDate, setBeginDate] = useState('');
@@ -42,17 +37,51 @@ const NewProject = ({
     }
 
     postProject(
-      novoProjeto,
-      setNovoProjeto,
-      userDetails,
+      userDetails.accessToken,
+      userDetails.id,
       title,
       description,
       beginDate,
       endDate,
-    );
+    )
+      .then((data) => {
+        onRefreshProjects();
+        toast.success('Projeto criado', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+        handleClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao criar projeto', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   };
 
-  const handleClose = () => setShow(!show);
+  const handleClose = () => {
+    setTitle('');
+    setDescription('');
+    setBeginDate('');
+    setEndDate('');
+    setValidated(false);
+    setErrors({});
+    setShow(!show);
+  };
 
   const validateForm = () => {
     const newErrors = {};

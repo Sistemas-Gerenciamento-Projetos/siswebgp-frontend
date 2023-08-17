@@ -59,7 +59,6 @@ const Toolbar = ({ setMenuItem, menuItem }) => {
 };
 
 Toolbar.propTypes = {
-  title: PropTypes.string.isRequired,
   setMenuItem: PropTypes.func.isRequired,
   menuItem: PropTypes.number.isRequired,
 };

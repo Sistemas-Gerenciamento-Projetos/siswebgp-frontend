@@ -46,8 +46,6 @@ const Registration = () => {
     } else {
       setLoading(true);
     }
-
-    console.log(formErrors);
   };
 
   useEffect(() => {
