@@ -4,7 +4,7 @@ import { useProjectDetails } from '../../context/projectContext';
 import { Navigate } from 'react-router-dom';
 import { Button, Table } from 'react-bootstrap';
 import { getTasks } from '../../services/tasks/getTasks';
-import Taskitem from '../../components/tasks-component/taskitem/taskitem';
+import TaskItem from '../../components/tasks-component/taskitem/taskitem';
 import { Empty } from 'antd';
 import { ToastContainer } from 'react-toastify';
 import NewTaskBacklog from '../../components/tasks-component/new-task.component/new-task.component';
@@ -75,7 +75,7 @@ const Backlog = () => {
             </thead>
 
             {tasks.map((task, index) => (
-              <Taskitem
+              <TaskItem
                 key={task.id}
                 setUpdate={setUpdate}
                 update={update}
