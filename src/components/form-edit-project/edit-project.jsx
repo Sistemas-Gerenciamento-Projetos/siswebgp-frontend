@@ -3,12 +3,12 @@ import { Form, Button, InputGroup, Badge, Modal } from 'react-bootstrap';
 import './edit-project.scss';
 import { patchProject } from '../../services/projects/patchProject';
 import { useUserDetails } from '../../context/usercontext';
+import { toast } from 'react-toastify';
 
 const EditProject = ({
   project,
   novoProjeto,
   setNovoProjeto,
-  setIndex,
   show,
   setShow,
 }) => {
@@ -37,16 +37,41 @@ const EditProject = ({
     }
 
     patchProject(
-      novoProjeto,
-      setNovoProjeto,
-      setIndex,
-      userDetails,
+      userDetails.accessToken,
+      userDetails.id,
       project.id,
       title,
       description,
       beginDate,
       endDate,
-    );
+    )
+      .then((data) => {
+        setNovoProjeto(!novoProjeto);
+        handleClose();
+        toast.success('Projeto atualizado', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao atualizar projeto', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   };
 
   const handleClose = () => setShow(!show);
