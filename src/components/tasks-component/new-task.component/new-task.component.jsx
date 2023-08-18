@@ -9,6 +9,7 @@ import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { postTask } from '../../../services/tasks/postTask';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
+import { toast } from 'react-toastify';
 
 function NewTaskBacklog({
   show,
@@ -111,20 +112,44 @@ function NewTaskBacklog({
 
   const createTask = () => {
     postTask(
-      userDetails,
-      projectDetails,
+      userDetails.accessToken,
+      projectDetails.projectId,
       title,
       description,
       beginDate,
       deadlineDate,
       status,
       idUser,
-      onRefreshTasks,
-    );
+    )
+      .then((data) => {
+        onRefreshTasks();
+        toast.success('Tarefa criada', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao criar tarefa', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   };
 
   useEffect(() => {
-    console.log(titleAction);
     getUsersByProject(userDetails, projectDetails, setListUsers);
     if (titleAction === 'Editar tarefa') {
       setTitle(task.title);
