@@ -1,48 +1,47 @@
 import { REGISTRATION_ENDPOINT } from '../../constants/urls';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-export async function registerUser(name, email, password, updateUserDetails) {
-  let isRegistered = false;
-
-  const reqConfig = {
-    headers: {
-      'Content-type': 'application/json',
-    },
-  };
-  await axios
-    .post(
-      REGISTRATION_ENDPOINT,
-      {
-        name: name,
-        email: email,
-        password: password,
+export function registerUser(name, email, password) {
+  return new Promise((resolve, reject) => {
+    const reqConfig = {
+      headers: {
+        'Content-type': 'application/json',
       },
-      reqConfig,
-    )
-    .then((response) => {
-      isRegistered = true;
-      updateUserDetails(
-        response.data.access,
-        response.data.refresh,
-        response.data.user.id,
-      );
-    })
-    .catch((error) => {
-      console.log(error);
-      console.log('error');
-      isRegistered = false;
-      toast.error('Erro ao criar cadastro', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
+    };
+
+    axios
+      .post(
+        REGISTRATION_ENDPOINT,
+        {
+          name: name,
+          email: email,
+          password: password,
+        },
+        reqConfig,
+      )
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
       });
-    });
-  return isRegistered;
+  }, 20000);
 }
+
+// updateUserDetails(
+//  response.data.access,
+//  response.data.refresh,
+//  response.data.user.id,
+// );
+
+// console.log(error);
+//        toast.error('Erro ao criar cadastro', {
+//          position: 'bottom-right',
+//          autoClose: 5000,
+//          hideProgressBar: false,
+//          closeOnClick: true,
+//          pauseOnHover: false,
+//          draggable: true,
+//          progress: undefined,
+//          theme: 'colored',
+//        });

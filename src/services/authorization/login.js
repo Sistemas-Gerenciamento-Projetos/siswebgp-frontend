@@ -27,22 +27,5 @@ export function login(accessToken, email, password) {
       .catch((error) => {
         reject(error);
       });
-  });
+  }, 20000);
 }
-
-// localStorage.setItem('userDetails', JSON.stringify(response.data));
-//        updateUserDetails(
-//          response.data.access,
-//          response.data.refresh,
-//          response.data.user.id,
-//        );
-
-// if (error.response) {
-//  console.log(error.response.data);
-//  console.log(error.response.status);
-//  console.log(error.response.headers);
-// } else if (error.request) {
-//  console.log(error.request);
-// } else {
-//  console.log('Error', error.message);
-// }
