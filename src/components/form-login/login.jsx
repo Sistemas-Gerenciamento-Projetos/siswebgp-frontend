@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { Navigate } from 'react-router-dom';
 import { useUserDetails } from '../../context/usercontext';
 import { login } from '../../services/authorization/login';
 import { toast } from 'react-toastify';
@@ -11,8 +10,6 @@ function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const [isLogged, setIsLogged] = useState(false);
 
   const [errors, setErrors] = useState({});
 
@@ -63,12 +60,6 @@ function Login() {
         });
       });
   };
-
-  useEffect(() => {
-    if (isLogged) {
-      <Navigate replace to="/projetos" />;
-    }
-  }, [isLogged, setIsLogged]);
 
   return (
     <Form className="form-cont" autoComplete="off" onSubmit={submitHandler}>

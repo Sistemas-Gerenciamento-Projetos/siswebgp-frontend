@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useUserDetails } from '../../context/usercontext';
-import { Navigate } from 'react-router-dom';
 import { registerUser } from '../../services/authorization/register-user';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -64,7 +63,6 @@ const Registration = () => {
           .then((data) => {
             localStorage.setItem('userDetails', JSON.stringify(data));
             updateUserDetails(data.access, data.refresh, data.user.id);
-            <Navigate replace to="/" />;
           })
           .catch((error) => {
             console.log(error);
