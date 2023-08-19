@@ -25,13 +25,14 @@ const Backlog = () => {
     return <Navigate replace to="/" />;
   }
 
-  async function onRefreshTasks() {
-    const result = await getTasks(
-      userDetails.accessToken,
-      projectDetails.projectId,
-    );
-
-    setTasks(result);
+  function onRefreshTasks() {
+    getTasks(userDetails.accessToken, projectDetails.projectId)
+      .then((data) => {
+        setTasks(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
