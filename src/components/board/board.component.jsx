@@ -11,6 +11,7 @@ import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
 import TaskColumn from '../tasks-component/task-column/TaskColumn.component';
 import { patchTask } from '../../services/tasks/patchTask';
+import { toast } from 'react-toastify';
 
 export default function Board() {
   const [userDetails] = useUserDetails();
@@ -22,18 +23,27 @@ export default function Board() {
   const [updateTasks, setUpdateTasks] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const tasks = await getTasks(
-        userDetails.accessToken,
-        projectDetails.projectId,
-      );
-
-      setTodo(tasks.filter((task) => task.status === STATUS_TODO));
-      setInProgress(tasks.filter((task) => task.status === STATUS_INPROGRESS));
-      setPaused(tasks.filter((task) => task.status === STATUS_PAUSED));
-      setDone(tasks.filter((task) => task.status == STATUS_DONE));
-      setUpdateTasks(false);
-    })();
+    getTasks(userDetails.accessToken, projectDetails.projectId)
+      .then((data) => {
+        setTodo(data.filter((task) => task.status === STATUS_TODO));
+        setInProgress(data.filter((task) => task.status === STATUS_INPROGRESS));
+        setPaused(data.filter((task) => task.status === STATUS_PAUSED));
+        setDone(data.filter((task) => task.status == STATUS_DONE));
+        setUpdateTasks(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao recuperar as tarefas', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   }, [updateTasks]);
 
   const handleDragEnd = (result) => {
