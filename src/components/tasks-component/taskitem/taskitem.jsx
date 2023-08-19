@@ -28,11 +28,7 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
             <span>{task.title}</span>
           </td>
           <td>
-            <StatusTask
-              status={task.status}
-              taskItem={task}
-              onRefreshTasks={onRefreshTasks}
-            />
+            <StatusTask status={task.status} taskItem={task} />
           </td>
           <td>
             <DatePeriod
