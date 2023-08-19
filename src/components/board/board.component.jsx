@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { DragDropContext } from "react-beautiful-dnd";
-import { getTasks } from "../../services/tasks/getTasks";
+import React, { useState, useEffect } from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
+import { getTasks } from '../../services/tasks/getTasks';
 import {
   STATUS_TODO,
   STATUS_INPROGRESS,
   STATUS_PAUSED,
   STATUS_DONE,
-} from "../../constants/taskStatus";
-import { useUserDetails } from "../../context/usercontext";
-import { useProjectDetails } from "../../context/projectContext";
-import TaskColumn from "../tasks-component/task-column/TaskColumn.component";
-import { patchTask } from "../../services/tasks/patchTask";
+} from '../../constants/taskStatus';
+import { useUserDetails } from '../../context/usercontext';
+import { useProjectDetails } from '../../context/projectContext';
+import TaskColumn from '../tasks-component/task-column/TaskColumn.component';
+import { patchTask } from '../../services/tasks/patchTask';
 
 export default function Board() {
   const [userDetails] = useUserDetails();
@@ -21,13 +21,11 @@ export default function Board() {
   const [done, setDone] = useState([]);
   const [updateTasks, setUpdateTasks] = useState(false);
 
-  async function onRefreshTasks() {}
-
   useEffect(() => {
     (async () => {
       const tasks = await getTasks(
         userDetails.accessToken,
-        projectDetails.projectId
+        projectDetails.projectId,
       );
 
       setTodo(tasks.filter((task) => task.status === STATUS_TODO));
@@ -79,13 +77,23 @@ export default function Board() {
       setDone([...done, task]);
     }
 
-    patchTask(
-      userDetails,
-      projectDetails,
-      task,
-      setUpdateTasks,
-      onRefreshTasks
-    );
+    patchTask(userDetails.accessToken, projectDetails.projectId, task)
+      .then((data) => {
+        setUpdateTasks(!updateTasks);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao atualizar a tarefa', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   };
 
   function findItemById(id, array) {
@@ -100,16 +108,17 @@ export default function Board() {
     <DragDropContext onDragEnd={handleDragEnd}>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexDirection: "row",
-          height: "87%",
-        }}>
-        <TaskColumn title={"A fazer"} tasks={todo} id={"1"} />
-        <TaskColumn title={"Em andamento"} tasks={inProgress} id={"2"} />
-        <TaskColumn title={"Concluído"} tasks={done} id={"4"} />
-        <TaskColumn title={"Pausado"} tasks={paused} id={"3"} />
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexDirection: 'row',
+          height: '87%',
+        }}
+      >
+        <TaskColumn title={'A fazer'} tasks={todo} id={'1'} />
+        <TaskColumn title={'Em andamento'} tasks={inProgress} id={'2'} />
+        <TaskColumn title={'Concluído'} tasks={done} id={'4'} />
+        <TaskColumn title={'Pausado'} tasks={paused} id={'3'} />
       </div>
     </DragDropContext>
   );
