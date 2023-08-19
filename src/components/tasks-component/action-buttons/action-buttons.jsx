@@ -5,6 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { deleteTask } from '../../../services/tasks/deleteTask';
+import { toast } from 'react-toastify';
 
 function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
   const [show, setShow] = useState(false);
@@ -12,9 +13,34 @@ function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
   const [projectDetails] = useProjectDetails();
 
   const handleDelete = () => {
-    console.log(projectDetails.projectId);
-    deleteTask(userDetails, projectDetails, taskId, onRefreshTasks);
-    handleClose();
+    deleteTask(userDetails.accessToken, projectDetails.projectId, taskId)
+      .then((data) => {
+        onRefreshTasks();
+        toast.success('Tarefa excluída', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+        handleClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao excluir tarefa', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   };
 
   const handleClose = () => setShow(false);

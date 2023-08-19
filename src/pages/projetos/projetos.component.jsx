@@ -19,7 +19,6 @@ const Projetos = () => {
   const [novoProjeto, setNovoProjeto] = useState(true);
 
   const [projects, setProjects] = useState([]);
-  const [index, setIndex] = useState(0);
   const [showNewProject, setShowNewProject] = useState(false);
   const [showEditProject, setShowEditProject] = useState(false);
   const [showInviteUsersToProject, setShowInviteUsersToProject] =
@@ -47,7 +46,7 @@ const Projetos = () => {
 
   return (
     <>
-      {index === 0 && projects.length !== 0 && (
+      {projects.length !== 0 && (
         <div>
           <Table>
             <thead>
@@ -86,7 +85,7 @@ const Projetos = () => {
         </div>
       )}
 
-      {index === 0 && projects.length === 0 && (
+      {projects.length === 0 && (
         <div
           style={{
             height: '100%',
@@ -120,20 +119,17 @@ const Projetos = () => {
           }
           novoProjeto={novoProjeto}
           setNovoProjeto={setNovoProjeto}
-          setIndex={setIndex}
           show={showEditProject}
           setShow={setShowEditProject}
         />
       )}
 
-      {index == 0 && (
-        <FloatButton
-          icon={<PlusOutlined />}
-          tooltip={<div>Novo projeto</div>}
-          type={'primary'}
-          onClick={() => setShowNewProject(true)}
-        />
-      )}
+      <FloatButton
+        icon={<PlusOutlined />}
+        tooltip={<div>Novo projeto</div>}
+        type={'primary'}
+        onClick={() => setShowNewProject(true)}
+      />
 
       <ToastContainer
         position="bottom-right"

@@ -24,14 +24,15 @@ const Roteiro = () => {
 
   const [tasks, setTasks] = useState([]);
 
-  async function handleData() {
-    const result = await getTasks(
-      userDetails.accessToken,
-      projectDetails.projectId,
-    );
-    setStriped(true);
-
-    setTasks(result);
+  function handleData() {
+    getTasks(userDetails.accessToken, projectDetails.projectId)
+      .then((data) => {
+        setStriped(true);
+        setTasks(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   useEffect(() => {

@@ -10,7 +10,7 @@ import { useProjectDetails } from '../../../context/projectContext';
 import { patchTask } from '../../../services/tasks/patchTask';
 import { Form } from 'react-bootstrap';
 
-const StatusTask = ({ status, taskItem, onRefreshTasks }) => {
+const StatusTask = ({ status, taskItem }) => {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [updateTasks, setUpdateTasks] = useState(false);
@@ -21,24 +21,27 @@ const StatusTask = ({ status, taskItem, onRefreshTasks }) => {
   const handleChange = async () => {
     if (taskItem.status !== atualStatus) {
       newstatusfromtask.status = atualStatus;
-      await patchTask(
-        userDetails,
-        projectDetails,
+
+      patchTask(
+        userDetails.accessToken,
+        projectDetails.projectId,
         newstatusfromtask,
-        setUpdateTasks,
-        onRefreshTasks,
-      );
-      if (updateTasks) {
-        console.log('update');
-        setUpdateTasks(false);
-      }
-    } else {
-      console.error('patch');
+      )
+        .then((data) => {
+          if (updateTasks) {
+            setUpdateTasks(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
   useEffect(() => {
-    if (atualStatus !== status) handleChange();
+    if (atualStatus !== status) {
+      handleChange();
+    }
   }, [atualStatus]);
 
   return (
