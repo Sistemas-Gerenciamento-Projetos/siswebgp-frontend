@@ -64,7 +64,7 @@ export default function Task({ task, index, columnId }) {
                 fontSize: '12px',
               }}
             >
-              {task.title}
+              #{task.number + ' ' + task.title}
             </div>
           </div>
           <div style={{ display: 'flex', padding: 2 }}>

@@ -1,7 +1,5 @@
 import axios from 'axios';
 import { TASKS_GET_ENDPOINT } from '../../constants/urls';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export function getTasks(accessToken, projectId) {
   return new Promise((resolve, reject) => {
