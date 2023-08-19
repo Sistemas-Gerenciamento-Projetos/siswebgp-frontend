@@ -25,6 +25,7 @@ export default function Board() {
   useEffect(() => {
     getTasks(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
+        console.log(data);
         setTodo(data.filter((task) => task.status === STATUS_TODO));
         setInProgress(data.filter((task) => task.status === STATUS_INPROGRESS));
         setPaused(data.filter((task) => task.status === STATUS_PAUSED));
