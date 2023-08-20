@@ -3,7 +3,7 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { UserOutlined } from '@ant-design/icons';
+import { FileDoneOutlined, UserOutlined } from '@ant-design/icons';
 import { CalendarOutlined, ScheduleOutlined } from '@ant-design/icons';
 
 const Container = styled.div`
@@ -56,6 +56,7 @@ export default function Task({ task, index, columnId }) {
           isDragging={snapshot.isDragging}
         >
           <div style={{ display: 'flex', justifyContent: 'start', padding: 2 }}>
+            <FileDoneOutlined style={{ marginRight: 5 }} />
             <div
               style={{
                 width: '100%',
