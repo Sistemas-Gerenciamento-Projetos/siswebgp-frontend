@@ -176,18 +176,37 @@ function NewTaskBacklog({
   };
 
   useEffect(() => {
-    getUsersByProject(userDetails, projectDetails, setListUsers);
-    if (titleAction === 'Editar tarefa') {
-      setTitle(task.title);
-      setBeginDate(task.start_date.substring(0, 10));
-      setDeadlineDate(task.deadline_date.substring(0, 10));
-      setDescription(task.description);
-      setUserName(task.user_name);
-      setIdUser(task.user);
-    } else {
-      handleReset();
+    if (show) {
+      getUsersByProject(userDetails.accessToken, projectDetails.projectId)
+        .then((data) => {
+          setListUsers(data);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          toast.error('Erro ao recuperar os usuários do projeto', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
+        });
+      if (titleAction === 'Editar tarefa') {
+        setTitle(task.title);
+        setBeginDate(task.start_date.substring(0, 10));
+        setDeadlineDate(task.deadline_date.substring(0, 10));
+        setDescription(task.description);
+        setUserName(task.user_name);
+        setIdUser(task.user);
+      } else {
+        handleReset();
+      }
+      setErrors({});
     }
-    setErrors({});
   }, [show]);
 
   return (

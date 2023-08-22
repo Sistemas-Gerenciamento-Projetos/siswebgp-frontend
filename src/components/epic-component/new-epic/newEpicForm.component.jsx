@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Badge,
   Button,
@@ -8,19 +8,25 @@ import {
   Modal,
   Row,
 } from 'react-bootstrap';
+import { useUserDetails } from '../../../context/usercontext';
+import { useProjectDetails } from '../../../context/projectContext';
+import { getUsersByProject } from '../../../services/users/getUsersByProject';
 
 export default function NewEpicForm({ show, setShow }) {
+  const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
   const [errors, setErrors] = useState({});
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [beginDate, setBeginDate] = useState('');
   const [deadlineDate, setDeadlineDate] = useState('');
-  const [status] = useState('TODO');
+  const [idUser, setIdUser] = useState('');
+  const [listUsers, setListUsers] = useState([]);
   const formRef = useRef(null);
 
   const handleClose = () => {
     setShow(!show);
-    // Resetar os campos
+    handleReset();
     setErrors({});
   };
 
@@ -51,6 +57,35 @@ export default function NewEpicForm({ show, setShow }) {
     return newErrors;
   };
 
+  const handleReset = () => {
+    setTitle('');
+    setBeginDate('');
+    setDeadlineDate('');
+    setDescription('');
+    setIdUser(userDetails.id);
+  };
+
+  useEffect(() => {
+    getUsersByProject(userDetails.accessToken, projectDetails.projectId)
+      .then((data) => {
+        setListUsers(data);
+      })
+      .catch((error) => {
+        console.log(error);
+
+        toast.error('Erro ao recuperar os usuários do projeto', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
+  }, [show]);
+
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -72,6 +107,20 @@ export default function NewEpicForm({ show, setShow }) {
               <Form.Control.Feedback type="invalid">
                 {errors.title}
               </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="users">
+              <Form.Label className="label">Responsável:</Form.Label>
+              <Form.Select
+                defaultValue={idUser}
+                onChange={(e) => setIdUser(e.target.value)}
+              >
+                {listUsers.map((user) => (
+                  <option value={user.id} key={user.id}>
+                    {user.name}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
 
             <Row>
