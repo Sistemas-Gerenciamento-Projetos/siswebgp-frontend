@@ -11,8 +11,10 @@ import {
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
+import { toast } from 'react-toastify';
+import { postEpic } from '../../../services/epics/postEpic';
 
-export default function NewEpicForm({ show, setShow }) {
+export default function NewEpicForm({ show, setShow, update, setUpdate }) {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [errors, setErrors] = useState({});
@@ -33,6 +35,49 @@ export default function NewEpicForm({ show, setShow }) {
   const submitHandler = (e) => {
     e.preventDefault();
     const formErrors = validateForm();
+
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+
+    postEpic(
+      userDetails.accessToken,
+      idUser,
+      projectDetails.projectId,
+      title,
+      description,
+      beginDate,
+      deadlineDate,
+      'TODO',
+    )
+      .then((data) => {
+        setUpdate(update);
+        handleClose();
+        toast.success('Épico criado', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao criar épico', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   };
 
   const validateForm = () => {

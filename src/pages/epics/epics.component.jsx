@@ -45,7 +45,12 @@ export default function Epics() {
 
   return (
     <>
-      <NewEpicForm show={show} setShow={setShow} />
+      <NewEpicForm
+        show={show}
+        setShow={setShow}
+        update={update}
+        setUpdate={setUpdate}
+      />
       {epics.length !== 0 && (
         <Table>
           <thead>

@@ -34,3 +34,4 @@ export const TEMPLATE_ID = 'template_unaeasm';
 export const PUBLIC_ID_KEY = '5KH-A9jK1wAHPRmmC';
 
 export const EPICS_GET_ENDPOINT = BACKEND_URL + 'api/epics/';
+export const EPICS_POST_ENDPOINT = BACKEND_URL + 'api/epics/';
