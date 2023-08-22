@@ -1,7 +1,5 @@
 import { TASK_CREATE_ENDPOINT } from '../../constants/urls';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export function postTask(
   accessToken,
@@ -33,7 +31,6 @@ export function postTask(
           status: status,
           user: id,
         },
-
         header,
       )
       .then((response) => {
@@ -46,27 +43,3 @@ export function postTask(
       });
   }, 20000);
 }
-
-// onRefreshTasks();
-//          toast.success('Tarefa criada', {
-//          position: 'bottom-right',
-//      autoClose: 5000,
-//        hideProgressBar: false,
-//      closeOnClick: true,
-//    pauseOnHover: false,
-//    draggable: true,
-//    progress: undefined,
-//   theme: 'colored',
-// });
-
-//        console.log(error)
-//        toast.error('Erro ao criar tarefa', {
-//          position: 'bottom-right',
-//          autoClose: 5000,
-//          hideProgressBar: false,
-//          closeOnClick: true,
-//          pauseOnHover: false,
-//          draggable: true,
-//          progress: undefined,
-//          theme: 'colored',
-//        });

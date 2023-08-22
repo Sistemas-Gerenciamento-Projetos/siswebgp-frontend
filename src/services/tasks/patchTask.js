@@ -10,8 +10,6 @@ export function patchTask(accessToken, projectId, editedTask) {
       },
     };
 
-    console.log(editedTask.user);
-
     const PATCH_TASK = `${TASK_PATCH_ENDPOINT}${projectId}/tasks/${editedTask.id}/`;
     axios
       .patch(

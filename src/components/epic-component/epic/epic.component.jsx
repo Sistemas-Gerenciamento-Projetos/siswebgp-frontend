@@ -1,10 +1,11 @@
-/* eslint react/prop-types: 0 */
-
+import {
+  CalendarOutlined,
+  ScheduleOutlined,
+  TrophyOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import styled from 'styled-components';
-import { FileDoneOutlined, UserOutlined } from '@ant-design/icons';
-import { CalendarOutlined, ScheduleOutlined } from '@ant-design/icons';
 
 const Container = styled.div`
   border-radius: 10px;
@@ -31,7 +32,7 @@ const TextContent = styled.div`
   font-size: 12px;
 `;
 
-export default function Task({ task, index }) {
+export default function Epic({ epic, index }) {
   return (
     <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
       {(provided, snapshot) => (
@@ -42,11 +43,11 @@ export default function Task({ task, index }) {
           isDragging={snapshot.isDragging}
         >
           <div style={{ display: 'flex', justifyContent: 'start', padding: 2 }}>
-            <FileDoneOutlined style={{ marginRight: 5 }} />
+            <TrophyOutlined style={{ marginRight: 5 }} />
             <div
               style={{
                 width: '100%',
-                backgroundColor: '#FFFED9',
+                backgroundColor: '#9e42f5',
                 paddingLeft: '5px',
                 fontSize: '12px',
               }}
@@ -118,7 +119,7 @@ export default function Task({ task, index }) {
                 width: '30px',
                 height: '30px',
                 borderRadius: '60px',
-                backgroundColor: '#FFFED9',
+                backgroundColor: '#9e42f5',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginRight: '5px',

@@ -11,6 +11,7 @@ import NewTaskBacklog from '../new-task.component/new-task.component';
 const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
   const [titleAction] = useState('Editar tarefa');
   const [show, setShow] = useState(false);
+  console.log(task);
 
   return (
     <>
@@ -36,6 +37,7 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
               endDate={parseDateWithoutTimezone(task.deadline_date)}
             />
           </td>
+          <td>{task.epic == null ? 'x' : task.epic}</td>
           <td>
             <ManagerPhoto name={task.user_name} />
           </td>

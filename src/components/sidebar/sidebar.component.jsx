@@ -7,6 +7,7 @@ import {
   BarChartOutlined,
   TableOutlined,
   CloseOutlined,
+  TrophyOutlined,
 } from '@ant-design/icons';
 import styles from './sidebarStyles.component';
 import { useProjectDetails } from '../../context/projectContext';
@@ -125,6 +126,29 @@ const Sidebar = ({ menuItem, setMenuItem, active }) => {
                     }
                   >
                     Roteiro
+                  </span>
+                </div>
+                {menuItem === 3 && <div style={styles.blueDiv}></div>}
+              </div>
+
+              <div
+                style={
+                  menuItem === 4
+                    ? styles.menuItemSelectedDiv
+                    : styles.menuItemUnselectedDiv
+                }
+                onClick={() => setMenuItem(4)}
+              >
+                <div>
+                  <TrophyOutlined style={{ paddingLeft: '20px' }} />
+                  <span
+                    style={
+                      menuItem === 4
+                        ? styles.textSelected
+                        : styles.textUnselected
+                    }
+                  >
+                    Épicos
                   </span>
                 </div>
                 {menuItem === 3 && <div style={styles.blueDiv}></div>}

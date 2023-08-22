@@ -48,7 +48,7 @@ export default function TaskColumn({ title, tasks, id }) {
             isDraggingOver={snapshot.isDraggingOver}
           >
             {tasks.map((task, index) => (
-              <Task key={index} index={index} task={task} columnId={id} />
+              <Task key={index} index={index} task={task} />
             ))}
             {provided.placeholder}
           </TaskList>
