@@ -80,7 +80,7 @@ export default function Epics() {
           </thead>
 
           {epics.map((epic, index) => (
-            <EpicItem key={epic.id} epic={epic} />
+            <EpicItem key={epic.id} epic={epic} index={index} />
           ))}
         </Table>
       )}
