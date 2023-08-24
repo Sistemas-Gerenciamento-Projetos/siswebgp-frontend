@@ -21,9 +21,10 @@ export function postEpic(
 
     console.log(userId);
 
+    const POST_EPIC_URL = `${EPICS_POST_ENDPOINT}${projectId}/epics/`;
     axios
       .post(
-        EPICS_POST_ENDPOINT,
+        POST_EPIC_URL,
         {
           title: title,
           description: description,
