@@ -6,9 +6,15 @@ import {
   STATUS_PAUSED,
   STATUS_TODO,
 } from '../../../constants/taskStatus';
+import { patchEpic } from '../../../services/epics/patchEpic';
+import { useUserDetails } from '../../../context/usercontext';
+import { toast } from 'react-toastify';
+import { useProjectDetails } from '../../../context/projectContext';
 
 export default function StatusEpic({ epic }) {
   const [actualStatus, setActualStatus] = useState(epic.status);
+  const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
 
   useEffect(() => {
     if (epic.status !== actualStatus) {
@@ -18,7 +24,24 @@ export default function StatusEpic({ epic }) {
 
   function handleStatusChange() {
     epic.status = actualStatus;
-    // Call patch epic endpoint
+
+    patchEpic(userDetails.accessToken, projectDetails.projectId, epic)
+      .then((data) => {})
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao atualizar o status do épico', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+        epic.statusc = actualStatus;
+        setActualStatus(actualStatus);
+      });
   }
 
   return (
