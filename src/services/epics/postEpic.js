@@ -19,6 +19,8 @@ export function postEpic(
       },
     };
 
+    console.log(userId);
+
     axios
       .post(
         EPICS_POST_ENDPOINT,

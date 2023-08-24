@@ -22,7 +22,7 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
   const [description, setDescription] = useState('');
   const [beginDate, setBeginDate] = useState('');
   const [deadlineDate, setDeadlineDate] = useState('');
-  const [idUser, setIdUser] = useState('');
+  const [idUser, setIdUser] = useState(userDetails.id);
   const [listUsers, setListUsers] = useState([]);
   const formRef = useRef(null);
 
