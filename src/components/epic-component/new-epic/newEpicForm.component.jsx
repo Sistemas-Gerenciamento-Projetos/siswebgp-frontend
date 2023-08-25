@@ -114,6 +114,7 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
     getUsersByProject(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         setListUsers(data);
+        setUpdate(!update);
       })
       .catch((error) => {
         console.log(error);
