@@ -7,7 +7,7 @@ const Container = styled.div`
   background-color: #ffffff;
   border-radius: 2.5px;
   width: 300px;
-  height: 100%;
+  height: 100vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -26,12 +26,12 @@ const TaskList = styled.div`
   transition: background-color 0.2s ease;
   background-color: #ffffff;
   flex-grow: 1;
-  min-height: 100px;
+  min-height: 100%;
 `;
 
 export default function TaskColumn({ title, tasks, id }) {
   return (
-    <Container className="column" style={{ overflow: 'hidden' }}>
+    <Container className="column">
       <Title
         style={{
           backgroundColor: '#bae7ff',
@@ -40,7 +40,7 @@ export default function TaskColumn({ title, tasks, id }) {
       >
         {title}
       </Title>
-      <Droppable droppableId={id}>
+      <Droppable droppableId={id} style={{ backgroundColor: '#ff0000' }}>
         {(provided, snapshot) => (
           <TaskList
             ref={provided.innerRef}
