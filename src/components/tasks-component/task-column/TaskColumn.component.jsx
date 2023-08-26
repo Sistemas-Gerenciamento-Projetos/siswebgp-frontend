@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
 import Task from '../../tasks-component/task/task.component';
+import Epic from '../../epic-component/epic/epic.component';
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -40,16 +41,20 @@ export default function TaskColumn({ title, tasks, id }) {
       >
         {title}
       </Title>
-      <Droppable droppableId={id} style={{ backgroundColor: '#ff0000' }}>
+      <Droppable droppableId={id}>
         {(provided, snapshot) => (
           <TaskList
             ref={provided.innerRef}
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}
           >
-            {tasks.map((task, index) => (
-              <Task key={index} index={index} task={task} />
-            ))}
+            {tasks.map((task, index) => {
+              if (task.epic === 1) {
+                return <Epic key={index} epic={task} index={index} />;
+              } else {
+                return <Task key={index} index={index} task={task} />;
+              }
+            })}
             {provided.placeholder}
           </TaskList>
         )}

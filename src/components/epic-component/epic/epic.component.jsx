@@ -6,6 +6,8 @@ import {
 } from '@ant-design/icons';
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import { styled } from 'styled-components';
+import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 
 const Container = styled.div`
   border-radius: 10px;
@@ -34,7 +36,7 @@ const TextContent = styled.div`
 
 export default function Epic({ epic, index }) {
   return (
-    <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
+    <Draggable draggableId={`${epic.id}`} key={epic.id} index={index}>
       {(provided, snapshot) => (
         <Container
           {...provided.draggableProps}
@@ -47,16 +49,16 @@ export default function Epic({ epic, index }) {
             <div
               style={{
                 width: '100%',
-                backgroundColor: '#9e42f5',
+                backgroundColor: '#B97CFF',
                 paddingLeft: '5px',
                 fontSize: '12px',
               }}
             >
-              #{task.number + ' ' + task.title}
+              #{epic.number + ' ' + epic.title}
             </div>
           </div>
           <div style={{ display: 'flex', padding: 2 }}>
-            <TextContent>{task.description}</TextContent>
+            <TextContent>{epic.description}</TextContent>
           </div>
 
           <div
@@ -76,11 +78,16 @@ export default function Epic({ epic, index }) {
             <div style={{ marginRight: '5px' }}>
               <CalendarOutlined />
             </div>
-            {new Date(task.start_date).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })}
+            <span>
+              {parseDateWithoutTimezone(epic.start_date).toLocaleDateString(
+                'pt-BR',
+                {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                },
+              )}
+            </span>
           </div>
 
           <div
@@ -96,11 +103,14 @@ export default function Epic({ epic, index }) {
             <div style={{ marginRight: '5px' }}>
               <ScheduleOutlined />
             </div>
-            {new Date(task.deadline_date).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })}
+            {parseDateWithoutTimezone(epic.deadline_date).toLocaleDateString(
+              'pt-BR',
+              {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              },
+            )}
           </div>
 
           <div
@@ -119,7 +129,7 @@ export default function Epic({ epic, index }) {
                 width: '30px',
                 height: '30px',
                 borderRadius: '60px',
-                backgroundColor: '#9e42f5',
+                backgroundColor: '#B97CFF',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginRight: '5px',
@@ -127,7 +137,7 @@ export default function Epic({ epic, index }) {
             >
               <UserOutlined />
             </div>
-            {task.user_name}
+            {epic.user_name}
           </div>
 
           {provided.placeholder}
