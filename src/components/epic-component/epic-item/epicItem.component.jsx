@@ -4,8 +4,9 @@ import DatePeriod from '../../datePeriod/datePeriod';
 import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 import { useProjectDetails } from '../../../context/projectContext';
 import ManagerPhoto from '../../managerPhoto/managerPhoto';
+import ActionButtons from '../action-buttons/actionButtons';
 
-export default function EpicItem({ epic, index }) {
+export default function EpicItem({ epic, index, update, setUpdate }) {
   const [projectDetails] = useProjectDetails();
   return (
     <>
@@ -32,7 +33,13 @@ export default function EpicItem({ epic, index }) {
           <td>
             <ManagerPhoto name={projectDetails.managerName} />
           </td>
-          <td>x</td>
+          <td>
+            <ActionButtons
+              setShowEdit={() => {}}
+              onRefreshEpics={() => setUpdate(!update)}
+              epicId={epic.id}
+            />
+          </td>
         </tr>
       </tbody>
     </>
