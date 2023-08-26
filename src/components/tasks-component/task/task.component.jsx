@@ -5,6 +5,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { FileDoneOutlined, UserOutlined } from '@ant-design/icons';
 import { CalendarOutlined, ScheduleOutlined } from '@ant-design/icons';
+import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 
 const Container = styled.div`
   border-radius: 10px;
@@ -75,11 +76,16 @@ export default function Task({ task, index }) {
             <div style={{ marginRight: '5px' }}>
               <CalendarOutlined />
             </div>
-            {new Date(task.start_date).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })}
+            <span>
+              {parseDateWithoutTimezone(task.start_date).toLocaleDateString(
+                'pt-BR',
+                {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                },
+              )}
+            </span>
           </div>
 
           <div
@@ -95,11 +101,14 @@ export default function Task({ task, index }) {
             <div style={{ marginRight: '5px' }}>
               <ScheduleOutlined />
             </div>
-            {new Date(task.deadline_date).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })}
+            {parseDateWithoutTimezone(task.deadline_date).toLocaleDateString(
+              'pt-BR',
+              {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              },
+            )}
           </div>
 
           <div

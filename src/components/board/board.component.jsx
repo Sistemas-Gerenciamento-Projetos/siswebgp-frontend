@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { getTasks } from '../../services/tasks/getTasks';
 import {
   STATUS_TODO,
   STATUS_INPROGRESS,
@@ -12,6 +11,8 @@ import { useProjectDetails } from '../../context/projectContext';
 import TaskColumn from '../tasks-component/task-column/TaskColumn.component';
 import { patchTask } from '../../services/tasks/patchTask';
 import { toast } from 'react-toastify';
+import getWorks from '../../services/board/getWorks';
+import { patchEpic } from '../../services/epics/patchEpic';
 
 export default function Board() {
   const [userDetails] = useUserDetails();
@@ -23,18 +24,24 @@ export default function Board() {
   const [updateTasks, setUpdateTasks] = useState(false);
 
   useEffect(() => {
-    getTasks(userDetails.accessToken, projectDetails.projectId)
+    getWorks(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         console.log(data);
-        setTodo(data.filter((task) => task.status === STATUS_TODO));
-        setInProgress(data.filter((task) => task.status === STATUS_INPROGRESS));
-        setPaused(data.filter((task) => task.status === STATUS_PAUSED));
-        setDone(data.filter((task) => task.status == STATUS_DONE));
+        const epics = data[0];
+        const tasks = data[1];
+        const cards = epics.concat(tasks);
+
+        setTodo(cards.filter((card) => card.status === STATUS_TODO));
+        setInProgress(
+          cards.filter((card) => card.status === STATUS_INPROGRESS),
+        );
+        setPaused(cards.filter((card) => card.status === STATUS_PAUSED));
+        setDone(cards.filter((card) => card.status == STATUS_DONE));
         setUpdateTasks(false);
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Erro ao recuperar as tarefas', {
+        toast.error('Erro ao recuperar os cards', {
           position: 'bottom-right',
           autoClose: 5000,
           hideProgressBar: false,
@@ -49,6 +56,10 @@ export default function Board() {
 
   const handleDragEnd = (result) => {
     const { destination, source, draggableId } = result;
+
+    console.log(source);
+    console.log(destination);
+    console.log(draggableId);
 
     if (destination == null) return;
 
@@ -66,7 +77,7 @@ export default function Board() {
     }
 
     // GET ITEM
-    const task = findItemById(draggableId, [
+    const card = findItemById(draggableId, [
       ...todo,
       ...inProgress,
       ...paused,
@@ -75,36 +86,56 @@ export default function Board() {
 
     // ADD ITEM
     if (destination.droppableId == 1) {
-      task.status = STATUS_TODO;
-      setTodo([...todo, task]);
+      card.status = STATUS_TODO;
+      setTodo([...todo, card]);
     } else if (destination.droppableId == 2) {
-      task.status = STATUS_INPROGRESS;
-      setInProgress([...inProgress, task]);
+      card.status = STATUS_INPROGRESS;
+      setInProgress([...inProgress, card]);
     } else if (destination.droppableId == 3) {
-      task.status = STATUS_PAUSED;
-      setPaused([...paused, task]);
+      card.status = STATUS_PAUSED;
+      setPaused([...paused, card]);
     } else if (destination.droppableId == 4) {
-      task.status = STATUS_DONE;
-      setDone([...done, task]);
+      card.status = STATUS_DONE;
+      setDone([...done, card]);
     }
 
-    patchTask(userDetails.accessToken, projectDetails.projectId, task)
-      .then((data) => {
-        setUpdateTasks(!updateTasks);
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Erro ao atualizar a tarefa', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
+    if (card.epic === 1) {
+      patchEpic(userDetails.accessToken, projectDetails.projectId, card)
+        .then((data) => {
+          setUpdateTasks(!updateTasks);
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error('Erro ao atualizar o épico', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
         });
-      });
+    } else {
+      patchTask(userDetails.accessToken, projectDetails.projectId, card)
+        .then((data) => {
+          setUpdateTasks(!updateTasks);
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error('Erro ao atualizar a tarefa', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
+        });
+    }
   };
 
   function findItemById(id, array) {
