@@ -8,7 +8,7 @@ import {
 } from '../../constants/taskStatus';
 import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
-import TaskColumn from '../tasks-component/task-column/TaskColumn.component';
+import CardsColumn from '../cards-components/card-column/CardsColumn.component';
 import { patchTask } from '../../services/tasks/patchTask';
 import { toast } from 'react-toastify';
 import getWorks from '../../services/board/getWorks';
@@ -157,10 +157,10 @@ export default function Board() {
           height: '87%',
         }}
       >
-        <TaskColumn title={'A fazer'} tasks={todo} id={'1'} />
-        <TaskColumn title={'Em andamento'} tasks={inProgress} id={'2'} />
-        <TaskColumn title={'Concluído'} tasks={done} id={'4'} />
-        <TaskColumn title={'Pausado'} tasks={paused} id={'3'} />
+        <CardsColumn title={'A fazer'} cards={todo} id={'1'} />
+        <CardsColumn title={'Em andamento'} cards={inProgress} id={'2'} />
+        <CardsColumn title={'Concluído'} cards={done} id={'4'} />
+        <CardsColumn title={'Pausado'} cards={paused} id={'3'} />
       </div>
     </DragDropContext>
   );

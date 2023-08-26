@@ -22,7 +22,7 @@ const Title = styled.h3`
   font-size: 15px;
 `;
 
-const TaskList = styled.div`
+const CardsList = styled.div`
   padding: 3px;
   transition: background-color 0.2s ease;
   background-color: #ffffff;
@@ -30,7 +30,7 @@ const TaskList = styled.div`
   min-height: 100%;
 `;
 
-export default function TaskColumn({ title, tasks, id }) {
+export default function CardsColumn({ title, cards, id }) {
   return (
     <Container className="column">
       <Title
@@ -43,20 +43,20 @@ export default function TaskColumn({ title, tasks, id }) {
       </Title>
       <Droppable droppableId={id}>
         {(provided, snapshot) => (
-          <TaskList
+          <CardsList
             ref={provided.innerRef}
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}
           >
-            {tasks.map((task, index) => {
-              if (task.epic === 1) {
-                return <Epic key={index} epic={task} index={index} />;
+            {cards.map((card, index) => {
+              if (card.epic === 1) {
+                return <Epic key={index} epic={card} index={index} />;
               } else {
-                return <Task key={index} index={index} task={task} />;
+                return <Task key={index} index={index} task={card} />;
               }
             })}
             {provided.placeholder}
-          </TaskList>
+          </CardsList>
         )}
       </Droppable>
     </Container>
