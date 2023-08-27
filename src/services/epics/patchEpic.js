@@ -2,6 +2,7 @@ import axios from 'axios';
 import { EPIC_PATCH_ENDPOINT } from '../../constants/urls';
 
 export function patchEpic(accessToken, projectId, epic) {
+  console.log(epic);
   return new Promise((resolve, reject) => {
     const header = {
       headers: {

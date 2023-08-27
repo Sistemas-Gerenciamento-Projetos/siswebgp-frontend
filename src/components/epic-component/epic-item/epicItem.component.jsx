@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import StatusEpic from '../status-epic/statusEpic.component';
 import DatePeriod from '../../datePeriod/datePeriod';
 import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 import { useProjectDetails } from '../../../context/projectContext';
 import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/actionButtons';
+import EditEpicForm from '../edit-epic/editEpicForm.component';
 
 export default function EpicItem({ epic, index, update, setUpdate }) {
   const [projectDetails] = useProjectDetails();
+  const [showEditEpic, setShowEditEpic] = useState(false);
+
   return (
     <>
+      <EditEpicForm
+        epic={epic}
+        show={showEditEpic}
+        setShow={setShowEditEpic}
+        update={update}
+        setUpdate={setUpdate}
+      />
       <tbody>
         <tr style={{ backgroundColor: index % 2 === 0 ? '' : '#ebebeb' }}>
           <td>
@@ -35,7 +45,7 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
           </td>
           <td>
             <ActionButtons
-              setShowEdit={() => {}}
+              setShowEdit={setShowEditEpic}
               onRefreshEpics={() => setUpdate(!update)}
               epicId={epic.id}
             />
