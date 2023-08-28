@@ -22,6 +22,7 @@ export function patchTask(accessToken, projectId, editedTask) {
           status: editedTask.status,
           user_name: editedTask.user_name,
           user: editedTask.user,
+          epic: editedTask.epic,
         },
         header,
       )

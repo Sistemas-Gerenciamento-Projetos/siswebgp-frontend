@@ -6,10 +6,12 @@ import { useProjectDetails } from '../../../context/projectContext';
 import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/actionButtons';
 import EditEpicForm from '../edit-epic/editEpicForm.component';
+import AddEpicTasks from '../add-epic-tasks/addEpicTasks.component';
 
 export default function EpicItem({ epic, index, update, setUpdate }) {
   const [projectDetails] = useProjectDetails();
   const [showEditEpic, setShowEditEpic] = useState(false);
+  const [showAddEpicTasks, setShowAddEpicTasks] = useState(false);
 
   return (
     <>
@@ -19,6 +21,11 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
         setShow={setShowEditEpic}
         update={update}
         setUpdate={setUpdate}
+      />
+      <AddEpicTasks
+        show={showAddEpicTasks}
+        setShow={setShowAddEpicTasks}
+        epicId={epic.id}
       />
       <tbody>
         <tr style={{ backgroundColor: index % 2 === 0 ? '' : '#ebebeb' }}>
@@ -35,7 +42,15 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
             />
           </td>
           <td>
-            <span>em construção</span>
+            <span>
+              <button
+                type="button"
+                className={'btn btn-outline-primary'}
+                onClick={() => setShowAddEpicTasks(true)}
+              >
+                Visualizar
+              </button>
+            </span>
           </td>
           <td>
             <ManagerPhoto name={epic.user_name} />

@@ -21,7 +21,6 @@ export default function EditEpicForm({
   update,
   setUpdate,
 }) {
-  console.log(epic);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [errors, setErrors] = useState({});
