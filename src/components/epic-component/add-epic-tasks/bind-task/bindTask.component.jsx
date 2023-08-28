@@ -2,12 +2,11 @@ import { Checkbox, Empty } from 'antd';
 import Search from 'antd/es/input/Search';
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { getTasksWithoutEpic } from '../../../../services/tasks/getTasksWithoutEpic';
-import { useUserDetails } from '../../../../context/usercontext';
-import { useProjectDetails } from '../../../../context/projectContext';
 import { Button, Table } from 'react-bootstrap';
 import { patchTask } from '../../../../services/tasks/patchTask';
 import { toast } from 'react-toastify';
+import { useUserDetails } from '../../../../context/usercontext';
+import { useProjectDetails } from '../../../../context/projectContext';
 
 const EmptyDiv = styled.div`
   height: 100%;
@@ -21,25 +20,18 @@ const TableHeader = styled.p`
   font-weight: 600;
 `;
 
-export default function BindTask({ epicId }) {
-  const [tasks, setTasks] = useState([]);
-  const [tasksFiltered, setTasksFiltered] = useState([]);
+export default function BindTask({
+  epicId,
+  tasks,
+  tasksFiltered,
+  setTasksFiltered,
+  update,
+  setUpdate,
+}) {
   let tasksSelected = [];
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [filter, setFilter] = useState('');
-  const [update, setUpdate] = useState(false);
-
-  useEffect(() => {
-    getTasksWithoutEpic(userDetails.accessToken, projectDetails.projectId)
-      .then((data) => {
-        setTasks(data);
-        setTasksFiltered(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [update]);
 
   useEffect(() => {
     if (tasks.length !== 0 && filter !== '') {
