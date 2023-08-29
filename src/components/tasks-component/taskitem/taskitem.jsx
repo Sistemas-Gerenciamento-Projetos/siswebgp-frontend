@@ -37,7 +37,7 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
               endDate={parseDateWithoutTimezone(task.deadline_date)}
             />
           </td>
-          <td>{task.epic == null ? 'x' : task.epic}</td>
+          <td>{task.epic === null ? 'x' : task.epic}</td>
           <td>
             <ManagerPhoto name={task.user_name} />
           </td>
