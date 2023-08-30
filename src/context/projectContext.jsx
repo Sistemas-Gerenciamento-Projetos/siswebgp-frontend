@@ -25,23 +25,35 @@ export function ProjectDetailsProvider(props) {
     ? localStorage.getItem('managerName')
     : '';
 
+  const managerIdFromStorage = localStorage.getItem('managerId')
+    ? localStorage.getItem('managerId')
+    : '';
+
   const [projectDetails, setProjectDetails] = useState({
     projectId: projectDetailsFromStorage,
     projectName: projectNameFromStorage,
     managerName: managerNameFromStorage,
+    managerId: managerIdFromStorage,
   });
 
   const value = useMemo(() => {
-    function updateProjectDetails(projectId, projectName, managerName) {
+    function updateProjectDetails(
+      projectId,
+      projectName,
+      managerName,
+      managerId,
+    ) {
       const newProjectDetails = { ...projectDetails };
 
       newProjectDetails.projectId = projectId;
       newProjectDetails.projectName = projectName;
       newProjectDetails.managerName = managerName;
+      newProjectDetails.managerId = managerId;
 
       localStorage.setItem('projectId', projectId);
       localStorage.setItem('projectName', projectName);
       localStorage.setItem('managerName', managerName);
+      localStorage.setItem('managerId', managerId);
       setProjectDetails(newProjectDetails);
     }
     return [{ ...projectDetails }, updateProjectDetails];

@@ -20,7 +20,7 @@ const Toolbar = ({ setMenuItem, menuItem }) => {
     localStorage.removeItem('projectName');
     console.log(updateUserDetails);
     updateUserDetails(false, false, false);
-    updateProjectDetails('', '', '');
+    updateProjectDetails('', '', '', '');
     nav('/');
   };
 

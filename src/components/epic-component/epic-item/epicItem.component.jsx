@@ -7,11 +7,22 @@ import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/actionButtons';
 import EditEpicForm from '../edit-epic/editEpicForm.component';
 import AddEpicTasks from '../add-epic-tasks/addEpicTasks.component';
+import { useUserDetails } from '../../../context/usercontext';
 
 export default function EpicItem({ epic, index, update, setUpdate }) {
   const [projectDetails] = useProjectDetails();
+  const [userDetails] = useUserDetails();
   const [showEditEpic, setShowEditEpic] = useState(false);
   const [showAddEpicTasks, setShowAddEpicTasks] = useState(false);
+
+  function isAbleToEditTask() {
+    console.log(projectDetails.managerId);
+    console.log(userDetails.id);
+    return (
+      projectDetails.managerId === userDetails.id ||
+      epic.user === userDetails.id
+    );
+  }
 
   return (
     <>
@@ -59,11 +70,13 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
             <ManagerPhoto name={projectDetails.managerName} />
           </td>
           <td>
-            <ActionButtons
-              setShowEdit={setShowEditEpic}
-              onRefreshEpics={() => setUpdate(!update)}
-              epicId={epic.id}
-            />
+            {isAbleToEditTask() && (
+              <ActionButtons
+                setShowEdit={setShowEditEpic}
+                onRefreshEpics={() => setUpdate(!update)}
+                epicId={epic.id}
+              />
+            )}
           </td>
         </tr>
       </tbody>
