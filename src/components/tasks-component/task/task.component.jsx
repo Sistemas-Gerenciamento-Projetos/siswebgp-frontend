@@ -3,7 +3,11 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { FileDoneOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  FileDoneOutlined,
+  TrophyOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { CalendarOutlined, ScheduleOutlined } from '@ant-design/icons';
 import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 
@@ -109,6 +113,22 @@ export default function Task({ task, index }) {
                 year: 'numeric',
               },
             )}
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              padding: 2,
+              marginTop: '5px',
+              alignItems: 'center',
+              fontSize: '12px',
+            }}
+          >
+            <div style={{ marginRight: '5px' }}>
+              <TrophyOutlined />
+            </div>
+            {task.epic === null ? '' : '#' + task.epic_number}
           </div>
 
           <div

@@ -49,7 +49,7 @@ export default function CardsColumn({ title, cards, id }) {
             isDraggingOver={snapshot.isDraggingOver}
           >
             {cards.map((card, index) => {
-              if (card.epic === 1) {
+              if (card.is_epic === true) {
                 return <Epic key={index} epic={card} index={index} />;
               } else {
                 return <Task key={index} index={index} task={card} />;
