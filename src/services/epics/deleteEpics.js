@@ -1,18 +1,19 @@
 import axios from 'axios';
-import { PROJECTS_ENDPOINT } from '../../constants/urls';
+import { EPIC_DELETE_ENDPOINT } from '../../constants/urls';
 
-export function getUsersByProject(accessToken, projectId) {
+export async function deleteEpic(accessToken, projectId, id) {
   return new Promise((resolve, reject) => {
     const header = {
       headers: {
-        'Content-type': 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
     };
 
-    const GET_USERS = `${PROJECTS_ENDPOINT}${projectId}/project_users/`;
+    const DELETE_EPIC = `${EPIC_DELETE_ENDPOINT}${projectId}/epics/${id}/`;
+
     axios
-      .get(GET_USERS, header)
+      .delete(DELETE_EPIC, header)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

@@ -4,19 +4,19 @@ import EditIcon from '../../../Assets/edit.svg';
 import { Modal, Button } from 'react-bootstrap';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
-import { deleteTask } from '../../../services/tasks/deleteTask';
 import { toast } from 'react-toastify';
+import { deleteEpic } from '../../../services/epics/deleteEpics';
 
-function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
+function ActionButtons({ setShowEdit, onRefreshEpics, epicId }) {
   const [show, setShow] = useState(false);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
 
   const handleDelete = () => {
-    deleteTask(userDetails.accessToken, projectDetails.projectId, taskId)
+    deleteEpic(userDetails.accessToken, projectDetails.projectId, epicId)
       .then((data) => {
-        onRefreshTasks();
-        toast.success('Tarefa excluída', {
+        onRefreshEpics();
+        toast.success('Épico excluído', {
           position: 'bottom-right',
           autoClose: 5000,
           hideProgressBar: false,
@@ -30,7 +30,7 @@ function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Erro ao excluir tarefa', {
+        toast.error('Erro ao excluir épico', {
           position: 'bottom-right',
           autoClose: 5000,
           hideProgressBar: false,

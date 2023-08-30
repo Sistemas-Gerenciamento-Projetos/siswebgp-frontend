@@ -7,7 +7,7 @@ import { getProjects } from '../../services/projects/getProjects';
 import { useProjectDetails } from '../../context/projectContext';
 import OptionsProject from '../../components/options-project/home-options/home-options';
 import EditProject from '../../components/form-edit-project/edit-project';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { Empty, FloatButton } from 'antd';
 import DashboardItem from '../../components/dashboard/dashboardItem.component';
 import { Table } from 'reactstrap';
@@ -37,7 +37,31 @@ const Projetos = () => {
   }
 
   function onRefreshProjects() {
-    getProjects(userDetails, setProjects, updateUserDetails);
+    getProjects(userDetails.accessToken)
+      .then((data) => {
+        console.log(data);
+        setProjects(data);
+      })
+      .catch((error) => {
+        let errorString = 'Erro ao buscar projetos';
+        console.log(error);
+
+        if (error.response.status === 401) {
+          errorString = 'Sessão expirada';
+          updateUserDetails(null);
+        }
+
+        toast.error(errorString, {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   }
 
   function navigateToLogin() {

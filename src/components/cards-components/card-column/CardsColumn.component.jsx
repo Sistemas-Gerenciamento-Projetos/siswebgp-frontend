@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
 import Task from '../../tasks-component/task/task.component';
+import Epic from '../../epic-component/epic/epic.component';
 
 const Container = styled.div`
   background-color: #ffffff;
   border-radius: 2.5px;
   width: 300px;
-  height: 100%;
+  height: 100vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -21,17 +22,17 @@ const Title = styled.h3`
   font-size: 15px;
 `;
 
-const TaskList = styled.div`
+const CardsList = styled.div`
   padding: 3px;
   transition: background-color 0.2s ease;
   background-color: #ffffff;
   flex-grow: 1;
-  min-height: 100px;
+  min-height: 100%;
 `;
 
-export default function TaskColumn({ title, tasks, id }) {
+export default function CardsColumn({ title, cards, id }) {
   return (
-    <Container className="column" style={{ overflow: 'hidden' }}>
+    <Container className="column">
       <Title
         style={{
           backgroundColor: '#bae7ff',
@@ -42,16 +43,20 @@ export default function TaskColumn({ title, tasks, id }) {
       </Title>
       <Droppable droppableId={id}>
         {(provided, snapshot) => (
-          <TaskList
+          <CardsList
             ref={provided.innerRef}
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}
           >
-            {tasks.map((task, index) => (
-              <Task key={index} index={index} task={task} columnId={id} />
-            ))}
+            {cards.map((card, index) => {
+              if (card.is_epic === true) {
+                return <Epic key={index} epic={card} index={index} />;
+              } else {
+                return <Task key={index} index={index} task={card} />;
+              }
+            })}
             {provided.placeholder}
-          </TaskList>
+          </CardsList>
         )}
       </Droppable>
     </Container>

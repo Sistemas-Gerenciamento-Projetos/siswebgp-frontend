@@ -1,15 +1,15 @@
-import { TASK_CREATE_ENDPOINT } from '../../constants/urls';
+import { EPICS_POST_ENDPOINT } from '../../constants/urls';
 import axios from 'axios';
 
-export function postTask(
+export function postEpic(
   accessToken,
+  userId,
   projectId,
   title,
   description,
   startDate,
   endDate,
   status,
-  id,
 ) {
   return new Promise((resolve, reject) => {
     const header = {
@@ -18,18 +18,21 @@ export function postTask(
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    const CREATE_TASK = TASK_CREATE_ENDPOINT + projectId + '/create_new_task/';
 
+    console.log(userId);
+
+    const POST_EPIC_URL = `${EPICS_POST_ENDPOINT}${projectId}/epics/`;
     axios
       .post(
-        CREATE_TASK,
+        POST_EPIC_URL,
         {
           title: title,
           description: description,
           start_date: startDate,
           deadline_date: endDate,
           status: status,
-          user: id,
+          user: userId,
+          project: projectId,
         },
         header,
       )

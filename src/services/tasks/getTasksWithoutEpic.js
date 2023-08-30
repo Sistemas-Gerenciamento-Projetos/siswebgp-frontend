@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { PROJECTS_ENDPOINT } from '../../constants/urls';
+import { TASKS_GET_ENDPOINT } from '../../constants/urls';
 
-export function getUsersByProject(accessToken, projectId) {
+export function getTasksWithoutEpic(accessToken, projectId) {
   return new Promise((resolve, reject) => {
     const header = {
       headers: {
@@ -10,9 +10,8 @@ export function getUsersByProject(accessToken, projectId) {
       },
     };
 
-    const GET_USERS = `${PROJECTS_ENDPOINT}${projectId}/project_users/`;
     axios
-      .get(GET_USERS, header)
+      .get(TASKS_GET_ENDPOINT + `${projectId}/get_tasks_without_epic/`, header)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

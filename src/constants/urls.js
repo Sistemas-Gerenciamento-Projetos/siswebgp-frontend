@@ -32,3 +32,8 @@ export const GET_EXTERNAL_USERS_ENDPOINT = '/external_users/';
 export const EMAIL_ID = 'service_mo3esbq';
 export const TEMPLATE_ID = 'template_unaeasm';
 export const PUBLIC_ID_KEY = '5KH-A9jK1wAHPRmmC';
+
+export const EPICS_GET_ENDPOINT = BACKEND_URL + 'api/projects/';
+export const EPICS_POST_ENDPOINT = BACKEND_URL + 'api/projects/';
+export const EPIC_PATCH_ENDPOINT = BACKEND_URL + 'api/projects/';
+export const EPIC_DELETE_ENDPOINT = BACKEND_URL + 'api/projects/';

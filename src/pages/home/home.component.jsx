@@ -7,6 +7,7 @@ import Backlog from '../backlog/backlog.component';
 import Painel from '../painel/painel.component';
 import Roteiro from '../roteiro/roteiro.component';
 import Toolbar from '../../components/toolbar/toolbar.component';
+import Epics from '../epics/epics.component';
 
 const Home = () => {
   const [userDetails] = useUserDetails();
@@ -23,6 +24,7 @@ const Home = () => {
             {menuItem === 1 && <Backlog />}
             {menuItem === 2 && <Painel />}
             {menuItem === 3 && <Roteiro />}
+            {menuItem === 4 && <Epics />}
           </div>
         </div>
       ) : (

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
 import { Navigate } from 'react-router-dom';
-import { Button, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { getTasks } from '../../services/tasks/getTasks';
 import TaskItem from '../../components/tasks-component/taskitem/taskitem';
-import { Empty } from 'antd';
+import { Empty, FloatButton } from 'antd';
 import { ToastContainer } from 'react-toastify';
 import NewTaskBacklog from '../../components/tasks-component/new-task.component/new-task.component';
+import { PlusOutlined } from '@ant-design/icons';
 
 const Backlog = () => {
   const [userDetails] = useUserDetails();
@@ -37,9 +38,6 @@ const Backlog = () => {
 
   return (
     <>
-      <Button variant="primary" onClick={() => setShow(true)}>
-        Nova tarefa
-      </Button>
       <NewTaskBacklog
         show={show}
         setShow={setShow}
@@ -62,6 +60,9 @@ const Backlog = () => {
                 </th>
                 <th>
                   <p style={{ fontWeight: '600' }}>Prazo</p>
+                </th>
+                <th>
+                  <p style={{ fontWeight: '600' }}>Épico</p>
                 </th>
                 <th>
                   <p style={{ fontWeight: '600' }}>Responsável</p>
@@ -103,6 +104,13 @@ const Backlog = () => {
           <Empty description="Sem tarefas existentes" />
         </div>
       )}
+
+      <FloatButton
+        icon={<PlusOutlined />}
+        tooltip={<div>Nova tarefa</div>}
+        type={'primary'}
+        onClick={() => setShow(true)}
+      />
 
       <ToastContainer
         position="bottom-right"

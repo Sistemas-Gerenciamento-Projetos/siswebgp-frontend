@@ -1,47 +1,30 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Button, InputGroup, Badge } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { patchTask } from '../../../services/tasks/patchTask';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Badge,
+  Button,
+  Col,
+  Form,
+  InputGroup,
+  Modal,
+  Row,
+} from 'react-bootstrap';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
-import { postTask } from '../../../services/tasks/postTask';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
 import { toast } from 'react-toastify';
+import { postEpic } from '../../../services/epics/postEpic';
 
-function NewTaskBacklog({
-  show,
-  setShow,
-  titleAction,
-  textButton,
-  task,
-  onRefreshTasks,
-}) {
+export default function NewEpicForm({ show, setShow, update, setUpdate }) {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
-
+  const [errors, setErrors] = useState({});
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [beginDate, setBeginDate] = useState('');
   const [deadlineDate, setDeadlineDate] = useState('');
+  const [idUser, setIdUser] = useState(userDetails.id);
   const [listUsers, setListUsers] = useState([]);
-  const [userName, setUserName] = useState('');
-  const [idUser, setIdUser] = useState('');
-  const [errors, setErrors] = useState({});
-  const [setUpdate] = useState();
-
   const formRef = useRef(null);
-  const [status] = useState('TODO');
-
-  const handleReset = () => {
-    setTitle('');
-    setBeginDate('');
-    setDeadlineDate('');
-    setDescription('');
-    setIdUser(userDetails.id);
-  };
 
   const handleClose = () => {
     setShow(!show);
@@ -53,21 +36,48 @@ function NewTaskBacklog({
     e.preventDefault();
     const formErrors = validateForm();
 
-    setUserName(listUsers.find((x) => x.id == idUser).name); // atualiza o nome do usuário
-
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
 
-    if (titleAction === 'Editar tarefa') {
-      editTask();
-    } else {
-      createTask();
-    }
-
-    setShow(!show);
-    handleReset();
+    postEpic(
+      userDetails.accessToken,
+      idUser,
+      projectDetails.projectId,
+      title,
+      description,
+      beginDate,
+      deadlineDate,
+      'TODO',
+    )
+      .then((data) => {
+        setUpdate(update);
+        handleClose();
+        toast.success('Épico criado', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao criar épico', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   };
 
   const validateForm = () => {
@@ -92,128 +102,41 @@ function NewTaskBacklog({
     return newErrors;
   };
 
-  const editTask = async () => {
-    const newEditedTask = { ...task };
-    newEditedTask.title = title;
-    newEditedTask.description = description;
-    newEditedTask.start_date = beginDate;
-    newEditedTask.deadline_date = deadlineDate;
-    newEditedTask.user = idUser;
-    newEditedTask.user_name = userName;
-
-    patchTask(
-      userDetails.accessToken,
-      projectDetails.projectId,
-      newEditedTask,
-      setUpdate,
-    )
-      .then((data) => {
-        onRefreshTasks();
-        setShow(!show);
-        toast.success('Tarefa atualizada', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Erro ao atualizar tarefa', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
-      });
-  };
-
-  const createTask = () => {
-    postTask(
-      userDetails.accessToken,
-      projectDetails.projectId,
-      title,
-      description,
-      beginDate,
-      deadlineDate,
-      status,
-      idUser,
-    )
-      .then((data) => {
-        onRefreshTasks();
-        toast.success('Tarefa criada', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Erro ao criar tarefa', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
-      });
+  const handleReset = () => {
+    setTitle('');
+    setBeginDate('');
+    setDeadlineDate('');
+    setDescription('');
+    setIdUser(userDetails.id);
   };
 
   useEffect(() => {
-    if (show) {
-      getUsersByProject(userDetails.accessToken, projectDetails.projectId)
-        .then((data) => {
-          setListUsers(data);
-        })
-        .catch((error) => {
-          console.log(error);
+    getUsersByProject(userDetails.accessToken, projectDetails.projectId)
+      .then((data) => {
+        setListUsers(data);
+        setUpdate(!update);
+      })
+      .catch((error) => {
+        console.log(error);
 
-          toast.error('Erro ao recuperar os usuários do projeto', {
-            position: 'bottom-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored',
-          });
+        toast.error('Erro ao recuperar os usuários do projeto', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
         });
-      if (titleAction === 'Editar tarefa') {
-        setTitle(task.title);
-        setBeginDate(task.start_date.substring(0, 10));
-        setDeadlineDate(task.deadline_date.substring(0, 10));
-        setDescription(task.description);
-        setUserName(task.user_name);
-        setIdUser(task.user);
-      } else {
-        handleReset();
-      }
-      setErrors({});
-    }
+      });
   }, [show]);
 
   return (
-    <div>
+    <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{titleAction}</Modal.Title>
+          <Modal.Title>Novo épico</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form ref={formRef} onSubmit={submitHandler}>
@@ -315,14 +238,12 @@ function NewTaskBacklog({
 
             <div className="d-grid mt-4">
               <Button variant="primary" type="submit">
-                {textButton}
+                Criar épico
               </Button>
             </div>
           </Form>
         </Modal.Body>
       </Modal>
-    </div>
+    </>
   );
 }
-
-export default NewTaskBacklog;

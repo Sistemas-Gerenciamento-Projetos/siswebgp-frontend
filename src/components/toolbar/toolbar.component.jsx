@@ -36,6 +36,8 @@ const Toolbar = ({ setMenuItem, menuItem }) => {
         return 'Painel';
       case 3:
         return 'Roteiro';
+      case 4:
+        return 'Épicos';
     }
   };
 

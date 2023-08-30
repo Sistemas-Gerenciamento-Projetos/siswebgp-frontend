@@ -1,18 +1,18 @@
 import axios from 'axios';
-import { PROJECTS_ENDPOINT } from '../../constants/urls';
+import { EPICS_GET_ENDPOINT } from '../../constants/urls';
 
-export function getUsersByProject(accessToken, projectId) {
+export function getEpicTasks(accessToken, projectId, epicId) {
   return new Promise((resolve, reject) => {
     const header = {
       headers: {
-        'Content-type': 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
     };
 
-    const GET_USERS = `${PROJECTS_ENDPOINT}${projectId}/project_users/`;
+    const GET_EPICS_URL = `${EPICS_GET_ENDPOINT}${projectId}/epics/${epicId}/get_epic_tasks`;
     axios
-      .get(GET_USERS, header)
+      .get(GET_EPICS_URL, header)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

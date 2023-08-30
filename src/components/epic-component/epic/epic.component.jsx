@@ -1,14 +1,12 @@
-/* eslint react/prop-types: 0 */
-
-import React from 'react';
-import { Draggable } from 'react-beautiful-dnd';
-import styled from 'styled-components';
 import {
-  FileDoneOutlined,
+  CalendarOutlined,
+  ScheduleOutlined,
   TrophyOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { CalendarOutlined, ScheduleOutlined } from '@ant-design/icons';
+import React from 'react';
+import { Draggable } from 'react-beautiful-dnd';
+import { styled } from 'styled-components';
 import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 
 const Container = styled.div`
@@ -36,9 +34,9 @@ const TextContent = styled.div`
   font-size: 12px;
 `;
 
-export default function Task({ task, index }) {
+export default function Epic({ epic, index }) {
   return (
-    <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
+    <Draggable draggableId={`${epic.id}`} key={epic.id} index={index}>
       {(provided, snapshot) => (
         <Container
           {...provided.draggableProps}
@@ -47,20 +45,20 @@ export default function Task({ task, index }) {
           isDragging={snapshot.isDragging}
         >
           <div style={{ display: 'flex', justifyContent: 'start', padding: 2 }}>
-            <FileDoneOutlined style={{ marginRight: 5 }} />
+            <TrophyOutlined style={{ marginRight: 5 }} />
             <div
               style={{
                 width: '100%',
-                backgroundColor: '#FFFED9',
+                backgroundColor: '#B97CFF',
                 paddingLeft: '5px',
                 fontSize: '12px',
               }}
             >
-              #{task.number + ' ' + task.title}
+              #{epic.number + ' ' + epic.title}
             </div>
           </div>
           <div style={{ display: 'flex', padding: 2 }}>
-            <TextContent>{task.description}</TextContent>
+            <TextContent>{epic.description}</TextContent>
           </div>
 
           <div
@@ -81,7 +79,7 @@ export default function Task({ task, index }) {
               <CalendarOutlined />
             </div>
             <span>
-              {parseDateWithoutTimezone(task.start_date).toLocaleDateString(
+              {parseDateWithoutTimezone(epic.start_date).toLocaleDateString(
                 'pt-BR',
                 {
                   day: '2-digit',
@@ -105,7 +103,7 @@ export default function Task({ task, index }) {
             <div style={{ marginRight: '5px' }}>
               <ScheduleOutlined />
             </div>
-            {parseDateWithoutTimezone(task.deadline_date).toLocaleDateString(
+            {parseDateWithoutTimezone(epic.deadline_date).toLocaleDateString(
               'pt-BR',
               {
                 day: '2-digit',
@@ -125,29 +123,13 @@ export default function Task({ task, index }) {
               fontSize: '12px',
             }}
           >
-            <div style={{ marginRight: '5px' }}>
-              <TrophyOutlined />
-            </div>
-            {task.epic === null ? '' : '#' + task.epic_number}
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              padding: 2,
-              marginTop: '5px',
-              alignItems: 'center',
-              fontSize: '12px',
-            }}
-          >
             <div
               style={{
                 display: 'flex',
                 width: '30px',
                 height: '30px',
                 borderRadius: '60px',
-                backgroundColor: '#FFFED9',
+                backgroundColor: '#B97CFF',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginRight: '5px',
@@ -155,7 +137,7 @@ export default function Task({ task, index }) {
             >
               <UserOutlined />
             </div>
-            {task.user_name}
+            {epic.user_name}
           </div>
 
           {provided.placeholder}
