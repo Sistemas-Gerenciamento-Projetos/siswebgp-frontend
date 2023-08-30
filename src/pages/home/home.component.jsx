@@ -8,6 +8,7 @@ import Painel from '../painel/painel.component';
 import Roteiro from '../roteiro/roteiro.component';
 import Toolbar from '../../components/toolbar/toolbar.component';
 import Epics from '../epics/epics.component';
+import Dashboard from '../dashboard/dashboard.component';
 
 const Home = () => {
   const [userDetails] = useUserDetails();
@@ -21,10 +22,11 @@ const Home = () => {
           <Toolbar setMenuItem={setMenuItem} menuItem={menuItem} />
           <div className="body-home">
             {menuItem === 0 && <Projetos />}
-            {menuItem === 1 && <Backlog />}
-            {menuItem === 2 && <Painel />}
-            {menuItem === 3 && <Roteiro />}
-            {menuItem === 4 && <Epics />}
+            {menuItem === 1 && <Dashboard />}
+            {menuItem === 2 && <Backlog />}
+            {menuItem === 3 && <Painel />}
+            {menuItem === 4 && <Roteiro />}
+            {menuItem === 5 && <Epics />}
           </div>
         </div>
       ) : (

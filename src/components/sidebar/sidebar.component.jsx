@@ -8,6 +8,7 @@ import {
   TableOutlined,
   CloseOutlined,
   TrophyOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
 import styles from './sidebarStyles.component';
 import { useProjectDetails } from '../../context/projectContext';
@@ -71,7 +72,7 @@ const Sidebar = ({ menuItem, setMenuItem, active }) => {
                 onClick={() => setMenuItem(1)}
               >
                 <div>
-                  <OrderedListOutlined style={{ paddingLeft: '20px' }} />
+                  <HomeOutlined style={{ paddingLeft: '20px' }} />
                   <span
                     style={
                       menuItem === 1
@@ -79,7 +80,7 @@ const Sidebar = ({ menuItem, setMenuItem, active }) => {
                         : styles.textUnselected
                     }
                   >
-                    Backlog
+                    Dashboard
                   </span>
                 </div>
                 {menuItem === 1 && <div style={styles.blueDiv}></div>}
@@ -94,7 +95,7 @@ const Sidebar = ({ menuItem, setMenuItem, active }) => {
                 onClick={() => setMenuItem(2)}
               >
                 <div>
-                  <TableOutlined style={{ paddingLeft: '20px' }} />
+                  <OrderedListOutlined style={{ paddingLeft: '20px' }} />
                   <span
                     style={
                       menuItem === 2
@@ -102,7 +103,7 @@ const Sidebar = ({ menuItem, setMenuItem, active }) => {
                         : styles.textUnselected
                     }
                   >
-                    Painel
+                    Backlog
                   </span>
                 </div>
                 {menuItem === 2 && <div style={styles.blueDiv}></div>}
@@ -117,7 +118,7 @@ const Sidebar = ({ menuItem, setMenuItem, active }) => {
                 onClick={() => setMenuItem(3)}
               >
                 <div>
-                  <BarChartOutlined style={{ paddingLeft: '20px' }} />
+                  <TableOutlined style={{ paddingLeft: '20px' }} />
                   <span
                     style={
                       menuItem === 3
@@ -125,7 +126,7 @@ const Sidebar = ({ menuItem, setMenuItem, active }) => {
                         : styles.textUnselected
                     }
                   >
-                    Roteiro
+                    Painel
                   </span>
                 </div>
                 {menuItem === 3 && <div style={styles.blueDiv}></div>}
@@ -140,7 +141,7 @@ const Sidebar = ({ menuItem, setMenuItem, active }) => {
                 onClick={() => setMenuItem(4)}
               >
                 <div>
-                  <TrophyOutlined style={{ paddingLeft: '20px' }} />
+                  <BarChartOutlined style={{ paddingLeft: '20px' }} />
                   <span
                     style={
                       menuItem === 4
@@ -148,10 +149,33 @@ const Sidebar = ({ menuItem, setMenuItem, active }) => {
                         : styles.textUnselected
                     }
                   >
+                    Roteiro
+                  </span>
+                </div>
+                {menuItem === 4 && <div style={styles.blueDiv}></div>}
+              </div>
+
+              <div
+                style={
+                  menuItem === 5
+                    ? styles.menuItemSelectedDiv
+                    : styles.menuItemUnselectedDiv
+                }
+                onClick={() => setMenuItem(5)}
+              >
+                <div>
+                  <TrophyOutlined style={{ paddingLeft: '20px' }} />
+                  <span
+                    style={
+                      menuItem === 5
+                        ? styles.textSelected
+                        : styles.textUnselected
+                    }
+                  >
                     Épicos
                   </span>
                 </div>
-                {menuItem === 3 && <div style={styles.blueDiv}></div>}
+                {menuItem === 5 && <div style={styles.blueDiv}></div>}
               </div>
             </div>
           )}
