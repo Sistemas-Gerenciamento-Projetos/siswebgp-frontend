@@ -1,25 +1,25 @@
 import React from 'react';
-import ProgressBar from '../../components/project-components/progressBar/progressBar';
-import DatePeriod from '../../components/datePeriod/datePeriod';
-import ManagerPhoto from '../../components/managerPhoto/managerPhoto';
-import { useProjectDetails } from '../../context/projectContext';
-import { parseDateWithoutTimezone } from '../../utils/dateParse';
+import ProgressBar from '../progressBar/progressBar';
+import DatePeriod from '../../datePeriod/datePeriod';
+import ManagerPhoto from '../../managerPhoto/managerPhoto';
+import { useProjectDetails } from '../../../context/projectContext';
+import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 import Button from 'react-bootstrap/Button';
-import TrashIcon from '../../Assets/trash.svg';
-import EditIcon from '../../Assets/edit.svg';
-import AddIcon from '../../Assets/person-add.svg';
-import { useUserDetails } from '../../context/usercontext';
-import { deleteProject } from '../../services/projects/deleteProject';
+import TrashIcon from '../../../Assets/trash.svg';
+import EditIcon from '../../../Assets/edit.svg';
+import AddIcon from '../../../Assets/person-add.svg';
+import { useUserDetails } from '../../../context/usercontext';
+import { deleteProject } from '../../../services/projects/deleteProject';
 import PropTypes from 'prop-types';
 
-const DashboardItem = ({
+export default function ProjectItem({
   project,
   onPress,
   onRefreshProjects,
   index,
   setShowEditProject,
   setShowInviteUsersToProject,
-}) => {
+}) {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [userDetails] = useUserDetails();
   const parsedStartDate = parseDateWithoutTimezone(project.start_date);
@@ -105,14 +105,11 @@ const DashboardItem = ({
       </td>
     </tr>
   );
-};
-
-DashboardItem.propTypes = {
+}
+ProjectItem.propTypes = {
   project: PropTypes.object.isRequired,
   onPress: PropTypes.func.isRequired,
   setIndex: PropTypes.func.isRequired,
   onRefreshProjects: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
 };
-
-export default DashboardItem;
