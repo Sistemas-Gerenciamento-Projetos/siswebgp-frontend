@@ -99,7 +99,7 @@ export default function Board() {
       setDone([...done, card]);
     }
 
-    if (card.epic === 1) {
+    if (card.is_epic === true) {
       patchEpic(userDetails.accessToken, projectDetails.projectId, card)
         .then((data) => {
           setUpdateTasks(!updateTasks);
