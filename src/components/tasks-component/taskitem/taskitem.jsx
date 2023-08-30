@@ -7,11 +7,20 @@ import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/action-buttons';
 import NewTaskBacklog from '../new-task.component/new-task.component';
+import { useUserDetails } from '../../../context/usercontext';
 
 const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
   const [titleAction] = useState('Editar tarefa');
   const [show, setShow] = useState(false);
+  const [userDetails] = useUserDetails();
   console.log(task);
+
+  function isAbleToEditTask() {
+    return (
+      projectDetails.managerId === userDetails.id ||
+      task.user === userDetails.id
+    );
+  }
 
   return (
     <>
@@ -45,11 +54,13 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
             <p>{projectDetails.managerName}</p>
           </td>
           <td>
-            <ActionButtons
-              setShowEdit={setShow}
-              onRefreshTasks={onRefreshTasks}
-              taskId={task.id}
-            />
+            {isAbleToEditTask() && (
+              <ActionButtons
+                setShowEdit={setShow}
+                onRefreshTasks={onRefreshTasks}
+                taskId={task.id}
+              />
+            )}
           </td>
         </tr>
       </tbody>
