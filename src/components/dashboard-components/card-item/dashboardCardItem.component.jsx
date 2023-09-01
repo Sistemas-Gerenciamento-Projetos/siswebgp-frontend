@@ -22,11 +22,11 @@ const TitleText = styled.span`
   font-size: 16px;
 `;
 
-export default function DashboardCardItem({ data, title }) {
+export default function DashboardCardItem({ card }) {
   return (
     <RootDiv>
-      <DataText>{data}</DataText>
-      <TitleText>{title}</TitleText>
+      <DataText>{card.data}</DataText>
+      <TitleText>{card.title}</TitleText>
     </RootDiv>
   );
 }

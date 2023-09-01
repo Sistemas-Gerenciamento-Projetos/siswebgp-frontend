@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardCardItem from '../../components/dashboard-components/card-item/dashboardCardItem.component';
 import { styled } from 'styled-components';
 import DashboardPieItem from '../../components/dashboard-components/pie-item/dashboardPieItem.component';
+import { getAnalytics } from '../../services/analytics/getAnalytics';
+import { useUserDetails } from '../../context/usercontext';
+import { useProjectDetails } from '../../context/projectContext';
 
 const CardsDiv = styled.div`
   display: flex;
@@ -11,16 +14,42 @@ const CardsDiv = styled.div`
 `;
 
 export default function Dashboard() {
+  const [userDetails] = useUserDetails();
+  const [projectDetails] = useProjectDetails();
+  const [cards, setCards] = useState([]);
+  const [pies, setPies] = useState([]);
+
+  useEffect(() => {
+    getAnalytics(userDetails.accessToken, projectDetails.projectId)
+      .then((data) => {
+        const cardsJson = [];
+        const piesJson = [];
+        for (let i = 0; i < 4; i++) {
+          cardsJson.push(data[i]);
+        }
+
+        for (let i = 4; i < data.length; i++) {
+          piesJson.push(data[i]);
+        }
+
+        setCards(cardsJson);
+        setPies(piesJson);
+        console.log(cardsJson);
+        console.log(piesJson);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <>
       <CardsDiv>
-        <DashboardCardItem data={1000} title={'Cards criados'} />
-        <DashboardCardItem data={1000} title={'Épicos concluídos'} />
-        <DashboardCardItem data={1000} title={'Tarefas concluídas'} />
-        <DashboardCardItem data={1000} title={'Projeto concluído'} />
-        <DashboardCardItem data={1000} title={'Dias restantes'} />
+        {cards.map((card, index) => (
+          <DashboardCardItem key={index} card={card} />
+        ))}
       </CardsDiv>
-      <DashboardPieItem />
+      <DashboardPieItem piesData={pies} />
     </>
   );
 }

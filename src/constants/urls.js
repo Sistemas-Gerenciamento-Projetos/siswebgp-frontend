@@ -37,3 +37,5 @@ export const EPICS_GET_ENDPOINT = BACKEND_URL + 'api/projects/';
 export const EPICS_POST_ENDPOINT = BACKEND_URL + 'api/projects/';
 export const EPIC_PATCH_ENDPOINT = BACKEND_URL + 'api/projects/';
 export const EPIC_DELETE_ENDPOINT = BACKEND_URL + 'api/projects/';
+
+export const ANALYTICS_GET_ENDPOINT = BACKEND_URL + 'api/projects/';

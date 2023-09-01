@@ -17,40 +17,16 @@ const PieDiv = styled.div`
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
-export default function DashboardPieItem() {
-  const mock1 = [
-    {
-      status: 'concluídos',
-      percent: 49,
-    },
-    {
-      status: 'em andamento',
-      percent: 51,
-    },
-  ];
-
-  const mock2 = [
-    {
-      status: 'Concluído',
-      percent: 25,
-    },
-    {
-      status: 'Em progresso',
-      percent: 25,
-    },
-    {
-      status: 'Pausado',
-      percent: 25,
-    },
-    {
-      status: 'A fazer',
-      percent: 25,
-    },
-  ];
+export default function DashboardPieItem({ piesData }) {
+  const inProgressAndCompletedPie = [piesData[0], piesData[1]];
+  const cardsByStatePie = [piesData[2], piesData[3], piesData[4], piesData[5]];
 
   const pieCharts = [
-    { title: 'Cards em andamento/concluídos', dataSource: mock1 },
-    { title: 'Cards por status', dataSource: mock2 },
+    {
+      title: 'Cards em andamento/concluídos',
+      dataSource: inProgressAndCompletedPie,
+    },
+    { title: 'Cards por status', dataSource: cardsByStatePie },
   ];
 
   return (
@@ -63,7 +39,7 @@ export default function DashboardPieItem() {
               dataSource={options.dataSource}
               type="doughnut"
             >
-              <Series argumentField="status" valueField="percent">
+              <Series argumentField="title" valueField="data">
                 <Label visible={true}>
                   <Connector visible={true} width={1} />
                 </Label>
