@@ -31,12 +31,14 @@ const Toolbar = ({ setMenuItem, menuItem }) => {
       case 0:
         return 'Meus projetos';
       case 1:
-        return 'Backlog';
+        return 'Dashboard';
       case 2:
-        return 'Painel';
+        return 'Backlog';
       case 3:
-        return 'Roteiro';
+        return 'Painel';
       case 4:
+        return 'Roteiro';
+      case 5:
         return 'Épicos';
     }
   };

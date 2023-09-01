@@ -9,9 +9,9 @@ import OptionsProject from '../../components/options-project/home-options/home-o
 import EditProject from '../../components/form-edit-project/edit-project';
 import { ToastContainer, toast } from 'react-toastify';
 import { Empty, FloatButton } from 'antd';
-import DashboardItem from '../../components/dashboard/dashboardItem.component';
 import { Table } from 'reactstrap';
 import { PlusOutlined } from '@ant-design/icons';
+import ProjectItem from '../../components/project-components/project-item/projectItem.component';
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -94,7 +94,7 @@ const Projetos = () => {
             </thead>
             <tbody>
               {projects.map((project, index) => (
-                <DashboardItem
+                <ProjectItem
                   key={project.id}
                   onPress={onClickProject}
                   project={project}
