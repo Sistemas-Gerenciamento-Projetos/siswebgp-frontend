@@ -78,7 +78,13 @@ const Roteiro = () => {
 
     console.log(task);
 
-    patchTask(userDetails.accessToken, projectDetails.projectId, task)
+    patchTask(
+      userDetails.accessToken,
+      projectDetails.projectId,
+      projectDetails.projectName,
+      projectDetails.managerEmail,
+      task,
+    )
       .then((data) => {
         handleData();
         toast.success('Tarefa atualizada', {

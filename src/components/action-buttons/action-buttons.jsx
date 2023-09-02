@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import TrashIcon from "../../Assets/trash.svg";
-import EditIcon from "../../Assets/edit.svg";
-import AddIcon from "../../Assets/person-add.svg";
-import { Modal, Button } from "react-bootstrap";
+import React, { useState } from 'react';
+import TrashIcon from '../../Assets/trash.svg';
+import EditIcon from '../../Assets/edit.svg';
+import AddIcon from '../../Assets/person-add.svg';
+import { Modal, Button } from 'react-bootstrap';
 
-function ActionButtons({
+export default function ActionButtons({
   addAction,
   editAction,
   deleteAction,
@@ -20,7 +20,7 @@ function ActionButtons({
 
   const handleAdd = () => {
     // addButton();
-    console.log("add");
+    console.log('add');
   };
   const handleEdit = () => {
     // editButton();
@@ -43,13 +43,15 @@ function ActionButtons({
       <Button
         variant="outline-light"
         style={{ border: 0 }}
-        onClick={handleEdit}>
+        onClick={handleEdit}
+      >
         <img src={EditIcon} />
       </Button>
       <Button
         variant="outline-light"
         onClick={handleShow}
-        style={{ border: 0 }}>
+        style={{ border: 0 }}
+      >
         <img src={TrashIcon} />
       </Button>
       <>
@@ -71,5 +73,3 @@ function ActionButtons({
     </div>
   );
 }
-
-export default ActionButtons;

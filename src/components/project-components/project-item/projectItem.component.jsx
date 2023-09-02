@@ -35,7 +35,7 @@ export default function ProjectItem({
       deleteProject(userDetails, project.id, onRefreshProjects);
       project.id = '';
       project.project_name = '';
-      updateProjectDetails('', '', '', '');
+      updateProjectDetails('', '', '', '', '');
     }
   };
 
@@ -59,6 +59,7 @@ export default function ProjectItem({
           project.project_name,
           project.manager_name,
           project.manager,
+          project.manager_email,
         )
       }
     >

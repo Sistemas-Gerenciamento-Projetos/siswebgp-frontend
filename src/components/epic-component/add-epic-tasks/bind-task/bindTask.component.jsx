@@ -75,7 +75,13 @@ export default function BindTask({ epicId }) {
     tasksSelected.forEach((task) => {
       task.epic = epicId;
       patchPromises.push(
-        patchTask(userDetails.accessToken, projectDetails.projectId, task),
+        patchTask(
+          userDetails.accessToken,
+          projectDetails.projectId,
+          projectDetails.projectName,
+          projectDetails.managerEmail,
+          task,
+        ),
       );
     });
     Promise.all(patchPromises)

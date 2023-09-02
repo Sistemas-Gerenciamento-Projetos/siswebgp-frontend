@@ -1,7 +1,19 @@
 import axios from 'axios';
-import { TASK_PATCH_ENDPOINT } from '../../constants/urls';
+import {
+  EMAIL_ID,
+  PATCH_TASK_TEMPLATE_ID,
+  PUBLIC_ID_KEY,
+  TASK_PATCH_ENDPOINT,
+} from '../../constants/urls';
+import emailjs from '@emailjs/browser';
 
-export function patchTask(accessToken, projectId, editedTask) {
+export function patchTask(
+  accessToken,
+  projectId,
+  projectName,
+  managerEmail,
+  editedTask,
+) {
   return new Promise((resolve, reject) => {
     const header = {
       headers: {
@@ -30,6 +42,23 @@ export function patchTask(accessToken, projectId, editedTask) {
       )
       .then((response) => {
         if (response.status === 200) {
+          //  emailjs
+          //    .send(
+          //      EMAIL_ID,
+          //      PATCH_TASK_TEMPLATE_ID,
+          //      {
+          // name: editedTask.title,
+          //        email: managerEmail,
+          //        message: `A tarefa ${editedTask.title} foi atualizada, acesse o projeto ${projectName} para conferir as alterações.`,
+          //      },
+          //      PUBLIC_ID_KEY,
+          //    )
+          //    .then((result) => {
+          //      console.log(result.text);
+          //    })
+          //    .catch((error) => {
+          //      console.log(error.text);
+          //    });
           resolve(response.data);
         }
       })

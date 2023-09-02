@@ -1,11 +1,11 @@
-import React from "react";
-import { Table } from "reactstrap";
-import ProgressBar from "../progressBar/progressBar";
-import DatePeriod from "../../datePeriod/datePeriod";
-import { parseDateWithoutTimezone } from "../../../utils/dateParse";
-import ManagerPhoto from "../../managerPhoto/managerPhoto";
-import ActionButtons from "../../action-buttons/action-buttons";
-import { deleteProject } from "../../../services/projects/deleteProject";
+import React from 'react';
+import { Table } from 'reactstrap';
+import ProgressBar from '../progressBar/progressBar';
+import DatePeriod from '../../datePeriod/datePeriod';
+import { parseDateWithoutTimezone } from '../../../utils/dateParse';
+import ManagerPhoto from '../../managerPhoto/managerPhoto';
+import ActionButtons from '../../action-buttons/action-buttons';
+import { deleteProject } from '../../../services/projects/deleteProject';
 
 function TableProject({
   projects,
@@ -15,15 +15,14 @@ function TableProject({
   userDetails,
 }) {
   const addButton = () => {
-    console.log("add");
+    console.log('add');
   };
   const editButton = () => {
-    console.log("edit");
+    console.log('edit');
   };
 
   const deleteButton = () => {
     deleteProject(userDetails, projectDetails);
-    console.log("delete");
   };
 
   return (
@@ -37,16 +36,17 @@ function TableProject({
           <th></th>
         </tr>
       </thead>
-      {projects.map((project) => (
-        <tbody>
+      {projects.map((project, index) => (
+        <tbody key={index}>
           <tr
             style={{
               backgroundColor:
-                project.id === projectDetails.projectId ? "#bae7ff" : "",
+                project.id === projectDetails.projectId ? '#bae7ff' : '',
             }}
             onClick={() => {
               onClickProject(project.id, project.project_name);
-            }}>
+            }}
+          >
             <td>{project.project_name}</td>
             <td>
               <ProgressBar

@@ -13,7 +13,13 @@ function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
   const [projectDetails] = useProjectDetails();
 
   const handleDelete = () => {
-    deleteTask(userDetails.accessToken, projectDetails.projectId, taskId)
+    deleteTask(
+      userDetails.accessToken,
+      projectDetails.projectId,
+      projectDetails.projectName,
+      projectDetails.managerEmail,
+      taskId,
+    )
       .then((data) => {
         onRefreshTasks();
         toast.success('Tarefa excluída', {

@@ -1,7 +1,11 @@
 import './invite-users.styles.scss';
 import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
-import { EMAIL_ID, TEMPLATE_ID, PUBLIC_ID_KEY } from '../../../constants/urls';
+import {
+  EMAIL_ID,
+  INVITE_TEMPLATE_ID,
+  PUBLIC_ID_KEY,
+} from '../../../constants/urls';
 import { Form, Button, Badge } from 'react-bootstrap';
 import { useProjectDetails } from '../../../context/projectContext';
 import { toast } from 'react-toastify';
@@ -23,25 +27,27 @@ const InviteUsers = ({ handleClose }) => {
       email: email,
     };
     console.log(projectDetails.projectName);
-    emailjs.send(EMAIL_ID, TEMPLATE_ID, contentEmail, PUBLIC_ID_KEY).then(
-      (result) => {
-        setEmail('');
-        setMessage('');
-        toast.success('Email envida com sucesso', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
-      },
-      (error) => {
-        console.log(error.text);
-      },
-    );
+    emailjs
+      .send(EMAIL_ID, INVITE_TEMPLATE_ID, contentEmail, PUBLIC_ID_KEY)
+      .then(
+        (result) => {
+          setEmail('');
+          setMessage('');
+          toast.success('Email enviado com sucesso', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
+        },
+        (error) => {
+          console.log(error.text);
+        },
+      );
   };
 
   return (

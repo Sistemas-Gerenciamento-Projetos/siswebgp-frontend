@@ -1,7 +1,19 @@
 import axios from 'axios';
-import { PROJECTS_ENDPOINT } from '../../constants/urls';
+import {
+  EMAIL_ID,
+  PATCH_TASK_TEMPLATE_ID,
+  PROJECTS_ENDPOINT,
+  PUBLIC_ID_KEY,
+} from '../../constants/urls';
+import emailjs from '@emailjs/browser';
 
-export async function deleteTask(accessToken, projectId, id) {
+export async function deleteTask(
+  accessToken,
+  projectId,
+  projectName,
+  managerEmail,
+  id,
+) {
   return new Promise((resolve, reject) => {
     const header = {
       headers: {
@@ -16,7 +28,23 @@ export async function deleteTask(accessToken, projectId, id) {
       .delete(DELETE_TASK, header)
       .then((response) => {
         if (response.status === 200) {
-          resolve(response.data);
+          //  emailjs
+          //    .send(
+          //      EMAIL_ID,
+          //      PATCH_TASK_TEMPLATE_ID,
+          // {
+          //        email: managerEmail,
+          //        message: `Uma tarefa foi deletada, acesse o projeto ${projectName} para conferir essa atualização.`,
+          //      },
+          //      PUBLIC_ID_KEY,
+          //    )
+          //    .then((result) => {
+          //      console.log(result.text);
+          //    })
+          //    .catch((error) => {
+          //     console.log(error.text);
+          //    });
+          //  resolve(response.data);
         }
       })
       .catch((error) => {

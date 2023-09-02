@@ -25,6 +25,8 @@ const StatusTask = ({ status, taskItem }) => {
       patchTask(
         userDetails.accessToken,
         projectDetails.projectId,
+        projectDetails.projectName,
+        projectDetails.managerEmail,
         newstatusfromtask,
       )
         .then((data) => {
