@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProgressBar from '../progressBar/progressBar';
 import DatePeriod from '../../datePeriod/datePeriod';
 import ManagerPhoto from '../../managerPhoto/managerPhoto';
@@ -11,6 +11,9 @@ import AddIcon from '../../../Assets/person-add.svg';
 import { useUserDetails } from '../../../context/usercontext';
 import { deleteProject } from '../../../services/projects/deleteProject';
 import PropTypes from 'prop-types';
+import PDFIcon from '../../../Assets/pdf.svg';
+import pdfReport from '../../../utils/pdfReport';
+import getWorks from '../../../services/board/getWorks';
 
 export default function ProjectItem({
   project,
@@ -24,7 +27,20 @@ export default function ProjectItem({
   const [userDetails] = useUserDetails();
   const parsedStartDate = parseDateWithoutTimezone(project.start_date);
   const parsedEndDate = parseDateWithoutTimezone(project.deadline_date);
+  let tasks;
+  let epics;
   let progress = 0;
+
+  useEffect(() => {
+    getWorks(userDetails.accessToken, project.id)
+      .then((data) => {
+        epics = data[0];
+        tasks = data[1];
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleDelete = (project) => {
     if (
@@ -76,6 +92,16 @@ export default function ProjectItem({
       <td>
         {project.manager === userDetails.id && (
           <>
+            <Button
+              variant="outline-light"
+              style={{ border: 0 }}
+              onClick={() =>
+                pdfReport(projectDetails.projectName, epics, tasks)
+              }
+            >
+              <img src={PDFIcon} />
+            </Button>
+
             <Button
               variant="outline-light"
               style={{ border: 0 }}
