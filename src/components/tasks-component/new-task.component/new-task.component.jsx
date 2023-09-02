@@ -104,8 +104,9 @@ function NewTaskBacklog({
     patchTask(
       userDetails.accessToken,
       projectDetails.projectId,
+      projectDetails.projectName,
+      projectDetails.managerEmail,
       newEditedTask,
-      setUpdate,
     )
       .then((data) => {
         onRefreshTasks();
@@ -140,6 +141,8 @@ function NewTaskBacklog({
     postTask(
       userDetails.accessToken,
       projectDetails.projectId,
+      projectDetails.projectName,
+      projectDetails.managerEmail,
       title,
       description,
       beginDate,

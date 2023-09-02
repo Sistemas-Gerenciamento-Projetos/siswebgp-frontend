@@ -118,7 +118,13 @@ export default function Board() {
           });
         });
     } else {
-      patchTask(userDetails.accessToken, projectDetails.projectId, card)
+      patchTask(
+        userDetails.accessToken,
+        projectDetails.projectId,
+        projectDetails.projectName,
+        projectDetails.managerEmail,
+        card,
+      )
         .then((data) => {
           setUpdateTasks(!updateTasks);
         })
