@@ -28,23 +28,25 @@ export async function deleteTask(
       .delete(DELETE_TASK, header)
       .then((response) => {
         if (response.status === 200) {
-          //  emailjs
-          //    .send(
-          //      EMAIL_ID,
-          //      PATCH_TASK_TEMPLATE_ID,
-          // {
-          //        email: managerEmail,
-          //        message: `Uma tarefa foi deletada, acesse o projeto ${projectName} para conferir essa atualização.`,
-          //      },
-          //      PUBLIC_ID_KEY,
-          //    )
-          //    .then((result) => {
-          //      console.log(result.text);
-          //    })
-          //    .catch((error) => {
-          //     console.log(error.text);
-          //    });
-          //  resolve(response.data);
+          if (process.env.NODE_ENV === 'production') {
+            emailjs
+              .send(
+                EMAIL_ID,
+                PATCH_TASK_TEMPLATE_ID,
+                {
+                  email: managerEmail,
+                  message: `Uma tarefa foi deletada, acesse o projeto ${projectName} para conferir essa atualização.`,
+                },
+                PUBLIC_ID_KEY,
+              )
+              .then((result) => {
+                console.log(result.text);
+              })
+              .catch((error) => {
+                console.log(error.text);
+              });
+          }
+          resolve(response.data);
         }
       })
       .catch((error) => {
