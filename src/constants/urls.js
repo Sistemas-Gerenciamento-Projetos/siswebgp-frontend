@@ -1,5 +1,7 @@
 export const BACKEND_URL =
-  'env' in window ? window.__env__.BACKEND_URL : 'http://localhost:8000/';
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:8000/'
+    : 'https://siswebgp-backend-django.vercel.app';
 
 export const REGISTRATION_ENDPOINT = BACKEND_URL + 'api/auth/register/';
 
