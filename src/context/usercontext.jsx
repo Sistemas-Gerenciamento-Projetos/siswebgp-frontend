@@ -1,32 +1,33 @@
-import { createContext, useContext, useState, useMemo } from "react";
-import jwt_decode from "jwt-decode";
+import React from 'react';
+import { createContext, useContext, useState, useMemo } from 'react';
+import jwtDecode from 'jwt-decode';
 
 const UserDetails = createContext();
 
 export function useUserDetails() {
   const context = useContext(UserDetails);
   if (!context) {
-    throw new Error("useUserDetails must be used within a UserDetailsProvider");
+    throw new Error('useUserDetails must be used within a UserDetailsProvider');
   }
   return context;
 }
 
 export function UserDetailsProvider(props) {
-  const userDetailsFromStorage = localStorage.getItem("userDetails")
-    ? JSON.parse(localStorage.getItem("userDetails"))
+  const userDetailsFromStorage = localStorage.getItem('userDetails')
+    ? JSON.parse(localStorage.getItem('userDetails'))
     : null;
 
-  var accessTokenFromStorage = false;
-  var refreshTokenFromStorage = false;
-  var nameFromStorage = false;
-  var idFromStorage = false;
+  let accessTokenFromStorage = false;
+  let refreshTokenFromStorage = false;
+  let nameFromStorage = false;
+  let idFromStorage = false;
 
   if (userDetailsFromStorage != null) {
     if (userDetailsFromStorage.access) {
       accessTokenFromStorage = userDetailsFromStorage.access;
-      const jwt_decoded = jwt_decode(accessTokenFromStorage);
+      const jwtDecoded = jwtDecode(accessTokenFromStorage);
 
-      nameFromStorage = jwt_decoded.name;
+      nameFromStorage = jwtDecoded.name;
     } else {
       accessTokenFromStorage = false;
       nameFromStorage = false;
@@ -54,11 +55,11 @@ export function UserDetailsProvider(props) {
 
       newUserDetails.accessToken = accessToken;
       newUserDetails.refreshToken = refreshToken;
-      newUserDetails.id = userId
+      newUserDetails.id = userId;
 
       if (newUserDetails.accessToken) {
-        const jwt_decoded = jwt_decode(newUserDetails.accessToken);
-        newUserDetails.name = jwt_decoded.name;
+        const jwtDecoded = jwtDecode(newUserDetails.accessToken);
+        newUserDetails.name = jwtDecoded.name;
       } else {
         newUserDetails.name = false;
       }

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import TrashIcon from "../../../Assets/trash.svg";
-import EditIcon from "../../../Assets/edit.svg";
-import { Modal, Button } from "react-bootstrap";
-import { useUserDetails } from "../../../context/usercontext";
-import { useProjectDetails } from "../../../context/projectContext";
-import { deleteTask } from "../../../services/tasks/deleteTask";
+import React, { useState } from 'react';
+import TrashIcon from '../../../Assets/trash.svg';
+import EditIcon from '../../../Assets/edit.svg';
+import { Modal, Button } from 'react-bootstrap';
+import { useUserDetails } from '../../../context/usercontext';
+import { useProjectDetails } from '../../../context/projectContext';
+import { deleteTask } from '../../../services/tasks/deleteTask';
+import { toast } from 'react-toastify';
 
 function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
   const [show, setShow] = useState(false);
@@ -12,9 +13,40 @@ function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
   const [projectDetails] = useProjectDetails();
 
   const handleDelete = () => {
-    console.log(projectDetails.projectId);
-    deleteTask(userDetails, projectDetails, taskId, onRefreshTasks);
-    handleClose();
+    deleteTask(
+      userDetails.accessToken,
+      projectDetails.projectId,
+      projectDetails.projectName,
+      projectDetails.managerEmail,
+      taskId,
+    )
+      .then((data) => {
+        onRefreshTasks();
+        toast.success('Tarefa excluída', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+        handleClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao excluir tarefa', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   };
 
   const handleClose = () => setShow(false);
@@ -22,7 +54,6 @@ function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
 
   const handleEdit = () => {
     setShowEdit(true);
-    console.log("edit");
   };
 
   return (
@@ -30,13 +61,15 @@ function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
       <Button
         variant="outline-light"
         style={{ border: 0 }}
-        onClick={handleEdit}>
+        onClick={handleEdit}
+      >
         <img src={EditIcon} />
       </Button>
       <Button
         variant="outline-light"
         onClick={handleShow}
-        style={{ border: 0 }}>
+        style={{ border: 0 }}
+      >
         <img src={TrashIcon} />
       </Button>
       <>

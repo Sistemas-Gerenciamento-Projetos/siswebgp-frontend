@@ -1,47 +1,53 @@
-import "./invite-users.styles.scss";
-import React, { useState, useRef } from "react";
-import emailjs from "@emailjs/browser";
-import { EMAIL_ID, TEMPLATE_ID, PUBLIC_ID_KEY } from "../../../constants/urls";
-import { Form, Button, InputGroup, Badge } from "react-bootstrap";
-import { useProjectDetails } from "../../../context/projectContext";
-import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
+import './invite-users.styles.scss';
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
+import {
+  EMAIL_ID,
+  INVITE_TEMPLATE_ID,
+  PUBLIC_ID_KEY,
+} from '../../../constants/urls';
+import { Form, Button, Badge } from 'react-bootstrap';
+import { useProjectDetails } from '../../../context/projectContext';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
-const InviteUsers = () => {
+const InviteUsers = ({ handleClose }) => {
   const form = useRef();
 
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
   const [projectDetails] = useProjectDetails();
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const content_email = {
+    const contentEmail = {
       name: projectDetails.projectName,
       message: message,
       email: email,
     };
     console.log(projectDetails.projectName);
-    emailjs.send(EMAIL_ID, TEMPLATE_ID, content_email, PUBLIC_ID_KEY).then(
-      (result) => {
-        setEmail("");
-        setMessage("");
-        toast.success("Email enviado com sucesso", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      },
-      (error) => {
-        console.log(error.text);
-      }
-    );
+    emailjs
+      .send(EMAIL_ID, INVITE_TEMPLATE_ID, contentEmail, PUBLIC_ID_KEY)
+      .then(
+        (result) => {
+          setEmail('');
+          setMessage('');
+          toast.success('Email enviado com sucesso', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
+        },
+        (error) => {
+          console.log(error.text);
+        },
+      );
   };
 
   return (
@@ -77,7 +83,8 @@ const InviteUsers = () => {
             <Badge
               className="form-item"
               text="primary"
-              bg={`${message.length > 200 ? "danger" : "light"}`}>
+              bg={`${message.length > 200 ? 'danger' : 'light'}`}
+            >
               {message.length}/{200}
             </Badge>
             <Form.Control.Feedback type="invalid">
@@ -86,9 +93,32 @@ const InviteUsers = () => {
           </Form.Group>
         </Form.Group>
 
-        <Button className="btn-submit" type="submit" variant="primary">
-          Enviar
-        </Button>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Button
+            style={{ width: '45%' }}
+            className="btn-submit mt-4"
+            variant="secondary"
+            onClick={handleClose}
+          >
+            Voltar
+          </Button>
+
+          <Button
+            style={{ width: '45%' }}
+            className="btn-submit mt-4"
+            type="submit"
+            variant="primary"
+          >
+            Enviar
+          </Button>
+        </div>
       </Form>
       <ToastContainer
         position="bottom-right"

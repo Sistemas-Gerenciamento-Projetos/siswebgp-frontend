@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "./managerPhotoStyles";
-import { UserOutlined } from "@ant-design/icons";
+import React from 'react';
+import styles from './managerPhotoStyles';
+import { UserOutlined } from '@ant-design/icons';
 
 const ManagerPhoto = (props) => {
   const { name } = props;
   return (
-    <div style={styles.root} onClick={() => console.log("reponsavel")}>
+    <div style={styles.root} onClick={() => console.log('reponsavel')}>
       <div style={styles.iconDiv}>
         <UserOutlined style={styles.icon} />
       </div>

@@ -1,12 +1,12 @@
-import axios from "axios";
-import { PROJECTS_ENDPOINT } from "../../constants/urls";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
+import { PROJECTS_ENDPOINT } from '../../constants/urls';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function deleteProject(userDetails, projectId, onRefreshProject) {
   const header = {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${userDetails.accessToken}`,
     },
   };
@@ -16,17 +16,17 @@ export function deleteProject(userDetails, projectId, onRefreshProject) {
     .delete(DELETE_PROJECT, header)
     .then((response) => {
       if (response.status === 204) {
-        toast.success("Projeto excluído", {
-          position: "bottom-right",
+        toast.success('Projeto excluído', {
+          position: 'bottom-right',
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
         });
-        onRefreshProject()
+        onRefreshProject();
       }
     })
     .catch((error) => {
@@ -43,18 +43,18 @@ export function deleteProject(userDetails, projectId, onRefreshProject) {
         console.log(error.request);
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
+        console.log('Error', error.message);
       }
 
-      toast.error("Erro ao excluir projeto", {
-        position: "bottom-right",
+      toast.error('Erro ao excluir projeto', {
+        position: 'bottom-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "colored",
+        theme: 'colored',
       });
       return false;
     });

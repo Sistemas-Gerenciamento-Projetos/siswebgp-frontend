@@ -1,16 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Button, InputGroup, Badge } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { patchTask } from "../../../services/tasks/patchTask";
-import { useUserDetails } from "../../../context/usercontext";
-import { useProjectDetails } from "../../../context/projectContext";
-import { postTask } from "../../../services/tasks/postTask";
-import { getUsersByProject } from "../../../services/users/getUsersByProject";
+import React, { useState, useRef, useEffect } from 'react';
+import { Button, InputGroup, Badge } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { patchTask } from '../../../services/tasks/patchTask';
+import { useUserDetails } from '../../../context/usercontext';
+import { useProjectDetails } from '../../../context/projectContext';
+import { postTask } from '../../../services/tasks/postTask';
+import { getUsersByProject } from '../../../services/users/getUsersByProject';
+import { toast } from 'react-toastify';
 
-function ModalFormTask({
+function NewTaskBacklog({
   show,
   setShow,
   titleAction,
@@ -21,24 +22,24 @@ function ModalFormTask({
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [beginDate, setBeginDate] = useState("");
-  const [deadlineDate, setDeadlineDate] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [beginDate, setBeginDate] = useState('');
+  const [deadlineDate, setDeadlineDate] = useState('');
   const [listUsers, setListUsers] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [idUser, setIdUser] = useState("");
+  const [userName, setUserName] = useState('');
+  const [idUser, setIdUser] = useState('');
   const [errors, setErrors] = useState({});
-  const [update, setUpdate] = useState();
+  const [setUpdate] = useState();
 
   const formRef = useRef(null);
-  const [status] = useState("TODO");
+  const [status] = useState('TODO');
 
   const handleReset = () => {
-    setTitle("");
-    setBeginDate("");
-    setDeadlineDate("");
-    setDescription("");
+    setTitle('');
+    setBeginDate('');
+    setDeadlineDate('');
+    setDescription('');
     setIdUser(userDetails.id);
   };
 
@@ -59,7 +60,7 @@ function ModalFormTask({
       return;
     }
 
-    if (titleAction === "Editar tarefa") {
+    if (titleAction === 'Editar tarefa') {
       editTask();
     } else {
       createTask();
@@ -72,12 +73,21 @@ function ModalFormTask({
   const validateForm = () => {
     const newErrors = {};
 
-    if (!title || !title.trim()) newErrors.title = "Preencha o título.";
-    if (!description || description === "" || !description.trim())
-      newErrors.description = "Preencha descrição.";
-    if (!beginDate || beginDate === "") newErrors.beginDate = "Data de início.";
-    if (!deadlineDate || deadlineDate === "")
-      newErrors.deadlineDate = "Data de fim.";
+    if (!title || !title.trim()) {
+      newErrors.title = 'Preencha o título.';
+    }
+
+    if (!description || description === '' || !description.trim()) {
+      newErrors.description = 'Preencha descrição.';
+    }
+
+    if (!beginDate || beginDate === '') {
+      newErrors.beginDate = 'Data de início.';
+    }
+
+    if (!deadlineDate || deadlineDate === '') {
+      newErrors.deadlineDate = 'Data de fim.';
+    }
 
     return newErrors;
   };
@@ -90,45 +100,116 @@ function ModalFormTask({
     newEditedTask.deadline_date = deadlineDate;
     newEditedTask.user = idUser;
     newEditedTask.user_name = userName;
-    await patchTask(
-      userDetails,
-      projectDetails,
+
+    patchTask(
+      userDetails.accessToken,
+      projectDetails.projectId,
+      projectDetails.projectName,
+      projectDetails.managerEmail,
       newEditedTask,
-      setUpdate,
-      onRefreshTasks
-    );
-    setShow(!show);
-    // titleAction = "";
+    )
+      .then((data) => {
+        onRefreshTasks();
+        setShow(!show);
+        toast.success('Tarefa atualizada', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao atualizar tarefa', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   };
 
   const createTask = () => {
     postTask(
-      userDetails,
-      projectDetails,
+      userDetails.accessToken,
+      projectDetails.projectId,
+      projectDetails.projectName,
+      projectDetails.managerEmail,
       title,
       description,
       beginDate,
       deadlineDate,
       status,
       idUser,
-      onRefreshTasks
-    );
+    )
+      .then((data) => {
+        onRefreshTasks();
+        toast.success('Tarefa criada', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Erro ao criar tarefa', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      });
   };
 
   useEffect(() => {
-    console.log(titleAction);
-    getUsersByProject(userDetails, projectDetails, setListUsers);
-    if (titleAction === "Editar tarefa") {
-      setTitle(task.title);
-      setBeginDate(task.start_date.substring(0, 10));
-      setDeadlineDate(task.deadline_date.substring(0, 10));
-      setDescription(task.description);
-      setUserName(task.user_name);
-      setIdUser(task.user);
-    } else {
-      handleReset();
+    if (show) {
+      getUsersByProject(userDetails.accessToken, projectDetails.projectId)
+        .then((data) => {
+          setListUsers(data);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          toast.error('Erro ao recuperar os usuários do projeto', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
+        });
+      if (titleAction === 'Editar tarefa') {
+        setTitle(task.title);
+        setBeginDate(task.start_date.substring(0, 10));
+        setDeadlineDate(task.deadline_date.substring(0, 10));
+        setDescription(task.description);
+        setUserName(task.user_name);
+        setIdUser(task.user);
+      } else {
+        handleReset();
+      }
+      setErrors({});
     }
-    setErrors({});
   }, [show]);
 
   return (
@@ -158,7 +239,8 @@ function ModalFormTask({
               <Form.Label className="label">Responsável:</Form.Label>
               <Form.Select
                 defaultValue={idUser}
-                onChange={(e) => setIdUser(e.target.value)}>
+                onChange={(e) => setIdUser(e.target.value)}
+              >
                 {listUsers.map((user) => (
                   <option value={user.id} key={user.id}>
                     {user.name}
@@ -191,11 +273,11 @@ function ModalFormTask({
                       type="date"
                       isInvalid={!!errors.deadlineDate}
                       min={
-                        beginDate === ""
-                          ? new Date().toISOString().split("T")[0]
+                        beginDate === ''
+                          ? new Date().toISOString().split('T')[0]
                           : beginDate
                       }
-                      disabled={beginDate === ""}
+                      disabled={beginDate === ''}
                       value={deadlineDate}
                       onChange={(e) => [setDeadlineDate(e.target.value)]}
                     />
@@ -210,7 +292,8 @@ function ModalFormTask({
             <Form.Group
               className="mb-3"
               controlId="description"
-              style={{ marginTop: "1rem" }}>
+              style={{ marginTop: '1rem' }}
+            >
               <Form.Label className="label">Descrição:</Form.Label>
               <Form.Control
                 as="textarea"
@@ -224,7 +307,8 @@ function ModalFormTask({
               <Badge
                 className="form-item"
                 text="primary"
-                bg={`${description.length > 200 ? "danger" : "light"}`}>
+                bg={`${description.length > 200 ? 'danger' : 'light'}`}
+              >
                 {description.length}/{200}
               </Badge>
               <Form.Control.Feedback type="invalid">
@@ -244,4 +328,4 @@ function ModalFormTask({
   );
 }
 
-export default ModalFormTask;
+export default NewTaskBacklog;

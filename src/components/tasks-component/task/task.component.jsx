@@ -1,8 +1,15 @@
-import React from "react";
-import { Draggable } from "react-beautiful-dnd";
-import styled from "styled-components";
-import { UserOutlined } from "@ant-design/icons";
-import { CalendarOutlined, ScheduleOutlined } from "@ant-design/icons";
+/* eslint react/prop-types: 0 */
+
+import React from 'react';
+import { Draggable } from 'react-beautiful-dnd';
+import styled from 'styled-components';
+import {
+  FileDoneOutlined,
+  TrophyOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import { CalendarOutlined, ScheduleOutlined } from '@ant-design/icons';
+import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 
 const Container = styled.div`
   border-radius: 10px;
@@ -29,21 +36,7 @@ const TextContent = styled.div`
   font-size: 12px;
 `;
 
-function taskColor(columnId) {
-  if (columnId === "1") {
-    return "#FFFED9";
-  } else if (columnId === "2") {
-    return "#D9FFFA";
-  } else if (columnId === "3") {
-    return "#FFD9D9";
-  } else {
-    return "#DDFFD9";
-  }
-}
-
-export default function Task({ task, index, columnId }) {
-  var taskBgColor = taskColor(columnId);
-
+export default function Task({ task, index }) {
   return (
     <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
       {(provided, snapshot) => (
@@ -51,84 +44,115 @@ export default function Task({ task, index, columnId }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          isDragging={snapshot.isDragging}>
-          <div style={{ display: "flex", justifyContent: "start", padding: 2 }}>
+          isDragging={snapshot.isDragging}
+        >
+          <div style={{ display: 'flex', justifyContent: 'start', padding: 2 }}>
+            <FileDoneOutlined style={{ marginRight: 5 }} />
             <div
               style={{
-                width: "100%",
-                backgroundColor: taskBgColor,
-                paddingLeft: "5px",
-                fontSize: "12px",
-              }}>
-              {task.title}
+                width: '100%',
+                backgroundColor: '#FFFED9',
+                paddingLeft: '5px',
+                fontSize: '12px',
+              }}
+            >
+              #{task.number + ' ' + task.title}
             </div>
           </div>
-          <div style={{ display: "flex", padding: 2 }}>
+          <div style={{ display: 'flex', padding: 2 }}>
             <TextContent>{task.description}</TextContent>
           </div>
 
           <div
-            style={{ width: "100%", height: "1px", backgroundColor: "#000" }}
+            style={{ width: '100%', height: '1px', backgroundColor: '#000' }}
           />
 
           <div
             style={{
-              display: "flex",
-              flexDirection: "row",
+              display: 'flex',
+              flexDirection: 'row',
               padding: 2,
-              marginTop: "5px",
-              alignItems: "center",
-              fontSize: "12px",
-            }}>
-            <div style={{ marginRight: "5px" }}>
+              marginTop: '5px',
+              alignItems: 'center',
+              fontSize: '12px',
+            }}
+          >
+            <div style={{ marginRight: '5px' }}>
               <CalendarOutlined />
             </div>
-            {new Date(task.start_date).toLocaleDateString("pt-BR", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })}
+            <span>
+              {parseDateWithoutTimezone(task.start_date).toLocaleDateString(
+                'pt-BR',
+                {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                },
+              )}
+            </span>
           </div>
 
           <div
             style={{
-              display: "flex",
-              flexDirection: "row",
+              display: 'flex',
+              flexDirection: 'row',
               padding: 2,
-              marginTop: "5px",
-              alignItems: "center",
-              fontSize: "12px",
-            }}>
-            <div style={{ marginRight: "5px" }}>
+              marginTop: '5px',
+              alignItems: 'center',
+              fontSize: '12px',
+            }}
+          >
+            <div style={{ marginRight: '5px' }}>
               <ScheduleOutlined />
             </div>
-            {new Date(task.deadline_date).toLocaleDateString("pt-BR", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })}
+            {parseDateWithoutTimezone(task.deadline_date).toLocaleDateString(
+              'pt-BR',
+              {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              },
+            )}
           </div>
 
           <div
             style={{
-              display: "flex",
-              flexDirection: "row",
+              display: 'flex',
+              flexDirection: 'row',
               padding: 2,
-              marginTop: "5px",
-              alignItems: "center",
-              fontSize: "12px",
-            }}>
+              marginTop: '5px',
+              alignItems: 'center',
+              fontSize: '12px',
+            }}
+          >
+            <div style={{ marginRight: '5px' }}>
+              <TrophyOutlined />
+            </div>
+            {task.epic === null ? '' : '#' + task.epic_number}
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              padding: 2,
+              marginTop: '5px',
+              alignItems: 'center',
+              fontSize: '12px',
+            }}
+          >
             <div
               style={{
-                display: "flex",
-                width: "30px",
-                height: "30px",
-                borderRadius: "60px",
-                backgroundColor: taskBgColor,
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: "5px",
-              }}>
+                display: 'flex',
+                width: '30px',
+                height: '30px',
+                borderRadius: '60px',
+                backgroundColor: '#FFFED9',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: '5px',
+              }}
+            >
               <UserOutlined />
             </div>
             {task.user_name}
