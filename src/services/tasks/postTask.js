@@ -43,23 +43,25 @@ export function postTask(
       )
       .then((response) => {
         if (response.status === 201) {
-          //  emailjs
-          //    .send(
-          //      EMAIL_ID,
-          //      PATCH_TASK_TEMPLATE_ID,
-          //      {
-          //        name: title,
-          //        email: managerEmail,
-          //        message: `A tarefa ${title} foi criada, acesse o projeto ${projectName} para conferir a nova tarefa.`,
-          //      },
-          //      PUBLIC_ID_KEY,
-          //    )
-          //    .then((result) => {
-          //     console.log(result.text);
-          //   })
-          //   .catch((error) => {
-          //     console.log(error.text);
-          //   });
+          if (process.env.NODE_ENV === 'production') {
+            emailjs
+              .send(
+                EMAIL_ID,
+                PATCH_TASK_TEMPLATE_ID,
+                {
+                  name: title,
+                  email: managerEmail,
+                  message: `A tarefa ${title} foi criada, acesse o projeto ${projectName} para conferir a nova tarefa.`,
+                },
+                PUBLIC_ID_KEY,
+              )
+              .then((result) => {
+                console.log(result.text);
+              })
+              .catch((error) => {
+                console.log(error.text);
+              });
+          }
           resolve(response.data);
         }
       })
