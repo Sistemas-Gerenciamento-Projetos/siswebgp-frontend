@@ -62,9 +62,6 @@ const Backlog = () => {
                   <p style={{ fontWeight: '600' }}>Prazo</p>
                 </th>
                 <th>
-                  <p style={{ fontWeight: '600' }}>Épico</p>
-                </th>
-                <th>
                   <p style={{ fontWeight: '600' }}>Responsável</p>
                 </th>
                 <th>
