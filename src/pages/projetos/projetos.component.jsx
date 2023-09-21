@@ -10,8 +10,9 @@ import EditProject from '../../components/form-edit-project/edit-project';
 import { ToastContainer, toast } from 'react-toastify';
 import { Empty, FloatButton } from 'antd';
 import { Table } from 'reactstrap';
-import { PlusOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import ProjectItem from '../../components/project-components/project-item/projectItem.component';
+import { showInfoToast } from '../../utils/Toasts';
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -80,6 +81,12 @@ const Projetos = () => {
     <Navigate replace to="auth/" />;
   }
 
+  function showProgressInfoAlert() {
+    showInfoToast(
+      'O progresso do projeto é calculado através da soma de todos os épicos e tarefas criados e dividido pelo número de épicos e tarefas concluídos',
+    );
+  }
+
   return (
     <>
       {projects.length !== 0 && (
@@ -91,7 +98,24 @@ const Projetos = () => {
                   <p style={{ fontWeight: '600' }}>Nome do projeto</p>
                 </th>
                 <th>
-                  <p style={{ fontWeight: '600' }}>Progresso</p>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontWeight: '600',
+                      }}
+                    >
+                      Progresso
+                    </p>
+                    <InfoCircleOutlined
+                      style={{ backgroundColor: '#FFFFFF', padding: '5px' }}
+                      onClick={showProgressInfoAlert}
+                    />
+                  </div>
                 </th>
                 <th>
                   <p style={{ fontWeight: '600' }}>Prazo</p>
