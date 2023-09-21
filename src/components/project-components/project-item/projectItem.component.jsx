@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import PDFIcon from '../../../Assets/pdf.svg';
 import pdfReport from '../../../utils/pdfReport';
 import getWorks from '../../../services/board/getWorks';
-import { Center } from 'devextreme-react/map';
 
 export default function ProjectItem({
   project,
