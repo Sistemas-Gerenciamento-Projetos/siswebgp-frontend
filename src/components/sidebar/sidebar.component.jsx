@@ -1,48 +1,18 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import {
   OrderedListOutlined,
   GroupOutlined,
   BarChartOutlined,
   TableOutlined,
-  CloseOutlined,
   TrophyOutlined,
   HomeOutlined,
 } from '@ant-design/icons';
-import styles from './sidebarStyles.component';
 import { useProjectDetails } from '../../context/projectContext';
-import { Container } from './styles';
-import {
-  Sidebar,
-  Menu,
-  SubMenu,
-  MenuItem,
-  SidebarFooter,
-  menuClasses,
-} from 'react-pro-sidebar';
-import SGPSidebarHeader from './header/SGPSidebarHeader';
-import { Typography } from './Typography';
-
-const themes = {
-  light: {
-    sidebar: {
-      backgroundColor: '#ffffff',
-      color: '#607489',
-    },
-    menu: {
-      menuContent: '#fbfcfd',
-      icon: '#0098e5',
-      hover: {
-        backgroundColor: '#c5e4ff',
-        color: '#44596e',
-      },
-      disabled: {
-        color: '#9fb6cf',
-      },
-    },
-  },
-};
+import { Sidebar, Menu, MenuItem, menuClasses } from 'react-pro-sidebar';
+import SGPSidebarHeader from './header/sgpSidebarHeader.component';
+import { MenuContent, MenuItemContent, Root, themes } from './sidebar.styles';
+import SGPSidebarFooter from './footer/sgpSidebarFooter.component';
 
 const hexToRgba = (hex, alpha) => {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -52,7 +22,7 @@ const hexToRgba = (hex, alpha) => {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-function SGPSidebar({ menuItem, setMenuItem, active }) {
+export default function SGPSidebar({ menuItem, setMenuItem, active }) {
   const [projectDetails] = useProjectDetails();
   const [collapsed, setCollapsed] = useState(true);
   const theme = 'light';
@@ -63,9 +33,9 @@ function SGPSidebar({ menuItem, setMenuItem, active }) {
       fontWeight: 400,
     },
     icon: {
-      color: themes[theme].menu.icon,
+      color: themes['light'].menu.icon,
       [`&.${menuClasses.disabled}`]: {
-        color: themes[theme].menu.disabled.color,
+        color: themes['light'].menu.disabled.color,
       },
     },
     SubMenuExpandIcon: {
@@ -74,16 +44,19 @@ function SGPSidebar({ menuItem, setMenuItem, active }) {
     subMenuContent: ({ level }) => ({
       backgroundColor:
         level === 0
-          ? hexToRgba(themes[theme].menu.menuContent, !collapsed ? 0.4 : 1)
+          ? hexToRgba(themes['light'].menu.menuContent, !collapsed ? 0.4 : 1)
           : 'transparent',
     }),
     button: {
       [`&.${menuClasses.disabled}`]: {
-        color: themes[theme].menu.disabled.color,
+        color: themes['light'].menu.disabled.color,
       },
       '&:hover': {
-        backgroundColor: hexToRgba(themes[theme].menu.hover.backgroundColor, 1),
-        color: themes[theme].menu.hover.color,
+        backgroundColor: hexToRgba(
+          themes['light'].menu.hover.backgroundColor,
+          1,
+        ),
+        color: themes['light'].menu.hover.color,
       },
     },
     label: ({ open }) => ({
@@ -92,7 +65,7 @@ function SGPSidebar({ menuItem, setMenuItem, active }) {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100%', direction: 'ltr' }}>
+    <Root>
       <Sidebar
         collapsed={collapsed}
         breakPoint="md"
@@ -101,72 +74,55 @@ function SGPSidebar({ menuItem, setMenuItem, active }) {
           color: themes[theme].sidebar.color,
         }}
       >
-        <div
-          style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
-        >
-          <div onClick={() => setCollapsed(!collapsed)}>
-            <SGPSidebarHeader />
-          </div>
-          <div style={{ flex: 1, marginBottom: '32px' }}>
-            <div style={{ padding: '0 24px', marginBottom: '8px' }}>
-              <Typography
-                variant="body2"
-                fontWeight={600}
-                style={{ opacity: collapsed ? 0 : 0.7, letterSpacing: '0.5px' }}
-              >
-                General
-              </Typography>
-            </div>
+        <MenuContent>
+          <SGPSidebarHeader collapsed={collapsed} />
+          <MenuItemContent>
             <Menu menuItemStyles={menuItemStyles}>
               <MenuItem icon={<GroupOutlined />} onClick={() => setMenuItem(0)}>
                 Projetos
               </MenuItem>
-              {projectDetails.projectId !== '' && (
-                <>
-                  <MenuItem
-                    icon={<HomeOutlined />}
-                    onClick={() => setMenuItem(1)}
-                  >
-                    Dashboard
-                  </MenuItem>
-                  <MenuItem
-                    icon={<OrderedListOutlined />}
-                    onClick={() => setMenuItem(2)}
-                  >
-                    Backlog
-                  </MenuItem>
-                  <MenuItem
-                    icon={<TableOutlined />}
-                    onClick={() => setMenuItem(3)}
-                  >
-                    Painel
-                  </MenuItem>
-                  <MenuItem
-                    icon={<BarChartOutlined />}
-                    onClick={() => setMenuItem(4)}
-                  >
-                    Roteiro
-                  </MenuItem>
-                  <MenuItem
-                    icon={<TrophyOutlined />}
-                    onClick={() => setMenuItem(5)}
-                  >
-                    Épicos
-                  </MenuItem>
-                </>
-              )}
+              <MenuItem
+                icon={<HomeOutlined />}
+                onClick={() => setMenuItem(1)}
+                disabled={projectDetails.projectId === ''}
+              >
+                Dashboard
+              </MenuItem>
+              <MenuItem
+                icon={<OrderedListOutlined />}
+                onClick={() => setMenuItem(2)}
+                disabled={projectDetails.projectId === ''}
+              >
+                Backlog
+              </MenuItem>
+              <MenuItem
+                icon={<TableOutlined />}
+                onClick={() => setMenuItem(3)}
+                disabled={projectDetails.projectId === ''}
+              >
+                Painel
+              </MenuItem>
+              <MenuItem
+                icon={<BarChartOutlined />}
+                onClick={() => setMenuItem(4)}
+                disabled={projectDetails.projectId === ''}
+              >
+                Roteiro
+              </MenuItem>
+              <MenuItem
+                icon={<TrophyOutlined />}
+                onClick={() => setMenuItem(5)}
+                disabled={projectDetails.projectId === ''}
+              >
+                Épicos
+              </MenuItem>
             </Menu>
+          </MenuItemContent>
+          <div onClick={() => setCollapsed(!collapsed)}>
+            <SGPSidebarFooter collapsed={collapsed} />
           </div>
-        </div>
+        </MenuContent>
       </Sidebar>
-    </div>
+    </Root>
   );
 }
-
-Sidebar.propTypes = {
-  menuItem: PropTypes.number.isRequired,
-  setMenuItem: PropTypes.func.isRequired,
-  active: PropTypes.func.isRequired,
-};
-
-export default SGPSidebar;

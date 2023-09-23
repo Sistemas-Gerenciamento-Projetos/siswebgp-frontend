@@ -19,7 +19,7 @@ const Home = () => {
   return (
     <div className="home">
       {userDetails.accessToken ? (
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
           <SGPSidebar setMenuItem={setMenuItem} menuItem={menuItem} />
           <div style={{ width: '100%' }}>
             <Toolbar setMenuItem={setMenuItem} menuItem={menuItem} />
