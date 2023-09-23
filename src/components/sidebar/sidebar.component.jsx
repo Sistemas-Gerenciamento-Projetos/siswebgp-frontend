@@ -1,194 +1,128 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 import {
   OrderedListOutlined,
   GroupOutlined,
   BarChartOutlined,
   TableOutlined,
-  CloseOutlined,
   TrophyOutlined,
   HomeOutlined,
 } from '@ant-design/icons';
-import styles from './sidebarStyles.component';
 import { useProjectDetails } from '../../context/projectContext';
-import { Container } from './styles';
+import { Sidebar, Menu, MenuItem, menuClasses } from 'react-pro-sidebar';
+import SGPSidebarHeader from './header/sgpSidebarHeader.component';
+import { MenuContent, MenuItemContent, Root, themes } from './sidebar.styles';
+import SGPSidebarFooter from './footer/sgpSidebarFooter.component';
 
-const Sidebar = ({ menuItem, setMenuItem, active }) => {
+const hexToRgba = (hex, alpha) => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+export default function SGPSidebar({ menuItem, setMenuItem, active }) {
   const [projectDetails] = useProjectDetails();
+  const [collapsed, setCollapsed] = useState(true);
+  const theme = 'light';
 
-  const closeSidebar = () => {
-    active(false);
+  const menuItemStyles = {
+    root: {
+      fontSize: '13px',
+      fontWeight: 400,
+    },
+    icon: {
+      color: themes['light'].menu.icon,
+      [`&.${menuClasses.disabled}`]: {
+        color: themes['light'].menu.disabled.color,
+      },
+    },
+    SubMenuExpandIcon: {
+      color: '#b6b7b9',
+    },
+    subMenuContent: ({ level }) => ({
+      backgroundColor:
+        level === 0
+          ? hexToRgba(themes['light'].menu.menuContent, !collapsed ? 0.4 : 1)
+          : 'transparent',
+    }),
+    button: {
+      [`&.${menuClasses.disabled}`]: {
+        color: themes['light'].menu.disabled.color,
+      },
+      '&:hover': {
+        backgroundColor: hexToRgba(
+          themes['light'].menu.hover.backgroundColor,
+          1,
+        ),
+        color: themes['light'].menu.hover.color,
+      },
+    },
+    label: ({ open }) => ({
+      fontWeight: open ? 600 : undefined,
+    }),
   };
 
   return (
-    <Container sidebar={active}>
-      <CloseOutlined
-        onClick={closeSidebar}
-        style={{
-          marginTop: '20px',
-          marginLeft: '20px',
-          fontSize: '24px',
-        }}
-      />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+    <Root>
+      <Sidebar
+        collapsed={collapsed}
+        breakPoint="md"
+        backgroundColor={hexToRgba(themes[theme].sidebar.backgroundColor, 1)}
+        rootStyles={{
+          color: themes[theme].sidebar.color,
         }}
       >
-        <div style={{ marginTop: '20px', width: '100%' }}>
-          <div
-            to="/painel"
-            style={
-              menuItem === 0
-                ? styles.menuItemSelectedDiv
-                : styles.menuItemUnselectedDiv
-            }
-            onClick={() => setMenuItem(0)}
-          >
-            <div>
-              <GroupOutlined style={{ paddingLeft: '20px' }} />
-              <span
-                style={
-                  menuItem === 0 ? styles.textSelected : styles.textUnselected
-                }
-              >
+        <MenuContent>
+          <SGPSidebarHeader collapsed={collapsed} />
+          <MenuItemContent>
+            <Menu menuItemStyles={menuItemStyles}>
+              <MenuItem icon={<GroupOutlined />} onClick={() => setMenuItem(0)}>
                 Projetos
-              </span>
-            </div>
-            {menuItem === 0 && <div style={styles.blueDiv}></div>}
-          </div>
-
-          {projectDetails.projectId !== '' && (
-            <div>
-              <div
-                style={
-                  menuItem === 1
-                    ? styles.menuItemSelectedDiv
-                    : styles.menuItemUnselectedDiv
-                }
+              </MenuItem>
+              <MenuItem
+                icon={<HomeOutlined />}
                 onClick={() => setMenuItem(1)}
+                disabled={projectDetails.projectId === ''}
               >
-                <div>
-                  <HomeOutlined style={{ paddingLeft: '20px' }} />
-                  <span
-                    style={
-                      menuItem === 1
-                        ? styles.textSelected
-                        : styles.textUnselected
-                    }
-                  >
-                    Dashboard
-                  </span>
-                </div>
-                {menuItem === 1 && <div style={styles.blueDiv}></div>}
-              </div>
-
-              <div
-                style={
-                  menuItem === 2
-                    ? styles.menuItemSelectedDiv
-                    : styles.menuItemUnselectedDiv
-                }
+                Dashboard
+              </MenuItem>
+              <MenuItem
+                icon={<OrderedListOutlined />}
                 onClick={() => setMenuItem(2)}
+                disabled={projectDetails.projectId === ''}
               >
-                <div>
-                  <OrderedListOutlined style={{ paddingLeft: '20px' }} />
-                  <span
-                    style={
-                      menuItem === 2
-                        ? styles.textSelected
-                        : styles.textUnselected
-                    }
-                  >
-                    Backlog
-                  </span>
-                </div>
-                {menuItem === 2 && <div style={styles.blueDiv}></div>}
-              </div>
-
-              <div
-                style={
-                  menuItem === 3
-                    ? styles.menuItemSelectedDiv
-                    : styles.menuItemUnselectedDiv
-                }
+                Backlog
+              </MenuItem>
+              <MenuItem
+                icon={<TableOutlined />}
                 onClick={() => setMenuItem(3)}
+                disabled={projectDetails.projectId === ''}
               >
-                <div>
-                  <TableOutlined style={{ paddingLeft: '20px' }} />
-                  <span
-                    style={
-                      menuItem === 3
-                        ? styles.textSelected
-                        : styles.textUnselected
-                    }
-                  >
-                    Painel
-                  </span>
-                </div>
-                {menuItem === 3 && <div style={styles.blueDiv}></div>}
-              </div>
-
-              <div
-                style={
-                  menuItem === 4
-                    ? styles.menuItemSelectedDiv
-                    : styles.menuItemUnselectedDiv
-                }
+                Painel
+              </MenuItem>
+              <MenuItem
+                icon={<BarChartOutlined />}
                 onClick={() => setMenuItem(4)}
+                disabled={projectDetails.projectId === ''}
               >
-                <div>
-                  <BarChartOutlined style={{ paddingLeft: '20px' }} />
-                  <span
-                    style={
-                      menuItem === 4
-                        ? styles.textSelected
-                        : styles.textUnselected
-                    }
-                  >
-                    Roteiro
-                  </span>
-                </div>
-                {menuItem === 4 && <div style={styles.blueDiv}></div>}
-              </div>
-
-              <div
-                style={
-                  menuItem === 5
-                    ? styles.menuItemSelectedDiv
-                    : styles.menuItemUnselectedDiv
-                }
+                Roteiro
+              </MenuItem>
+              <MenuItem
+                icon={<TrophyOutlined />}
                 onClick={() => setMenuItem(5)}
+                disabled={projectDetails.projectId === ''}
               >
-                <div>
-                  <TrophyOutlined style={{ paddingLeft: '20px' }} />
-                  <span
-                    style={
-                      menuItem === 5
-                        ? styles.textSelected
-                        : styles.textUnselected
-                    }
-                  >
-                    Épicos
-                  </span>
-                </div>
-                {menuItem === 5 && <div style={styles.blueDiv}></div>}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </Container>
+                Épicos
+              </MenuItem>
+            </Menu>
+          </MenuItemContent>
+          <div onClick={() => setCollapsed(!collapsed)}>
+            <SGPSidebarFooter collapsed={collapsed} />
+          </div>
+        </MenuContent>
+      </Sidebar>
+    </Root>
   );
-};
-
-Sidebar.propTypes = {
-  menuItem: PropTypes.number.isRequired,
-  setMenuItem: PropTypes.func.isRequired,
-  active: PropTypes.func.isRequired,
-};
-
-export default Sidebar;
+}
