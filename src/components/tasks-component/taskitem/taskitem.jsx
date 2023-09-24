@@ -8,6 +8,7 @@ import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/action-buttons';
 import NewTaskBacklog from '../new-task.component/new-task.component';
 import { useUserDetails } from '../../../context/usercontext';
+import { Button } from 'react-bootstrap';
 
 const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
   const [titleAction] = useState('Editar tarefa');
@@ -35,7 +36,21 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
       <tbody>
         <tr style={{ backgroundColor: index % 2 === 0 ? '' : '#ebebeb' }}>
           <td>
-            <span>{task.title}</span>
+            <Button
+              variant="outlined-dark"
+              style={{
+                border: 0,
+                display: 'inline-block',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                maxWidth: '25ch',
+                width: 'fit-content',
+              }}
+              onClick={() => setShow(true)}
+            >
+              {task.title}
+            </Button>
           </td>
           <td>
             <StatusTask status={task.status} taskItem={task} />
@@ -48,9 +63,6 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
           </td>
           <td>
             <ManagerPhoto name={task.user_name} />
-          </td>
-          <td>
-            <p>{projectDetails.managerName}</p>
           </td>
           <td>
             {isAbleToEditTask() && (

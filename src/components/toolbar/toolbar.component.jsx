@@ -27,15 +27,15 @@ const Toolbar = ({ setMenuItem, menuItem }) => {
       case 0:
         return 'Meus projetos';
       case 1:
-        return 'Dashboard';
+        return `${projectDetails.projectName} / Dashboard`;
       case 2:
-        return 'Backlog';
+        return `${projectDetails.projectName} / Backlog`;
       case 3:
-        return 'Painel';
+        return `${projectDetails.projectName} / Painel`;
       case 4:
-        return 'Roteiro';
+        return `${projectDetails.projectName} / Roteiro`;
       case 5:
-        return 'Épicos';
+        return `${projectDetails.projectName} / Épicos`;
     }
   };
 

@@ -1,6 +1,6 @@
 const styles = {
   root: {
-    width: '250px',
+    width: 'fit-content',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -8,12 +8,7 @@ const styles = {
   datesDiv: {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
-    height: '40px',
-    borderRadius: '10px',
-    border: '1px solid #d9d9d9',
     alignItems: 'center',
-    justifyContent: 'space-around',
   },
 
   dateIcons: {
@@ -23,7 +18,6 @@ const styles = {
   delayedDiv: {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
     height: '20px',
     justifyContent: 'flex-start',
   },
