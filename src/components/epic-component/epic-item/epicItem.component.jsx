@@ -8,6 +8,7 @@ import ActionButtons from '../action-buttons/actionButtons';
 import EditEpicForm from '../edit-epic/editEpicForm.component';
 import AddEpicTasks from '../add-epic-tasks/addEpicTasks.component';
 import { useUserDetails } from '../../../context/usercontext';
+import { Button } from 'react-bootstrap';
 
 export default function EpicItem({ epic, index, update, setUpdate }) {
   const [projectDetails] = useProjectDetails();
@@ -41,7 +42,21 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
       <tbody>
         <tr style={{ backgroundColor: index % 2 === 0 ? '' : '#ebebeb' }}>
           <td>
-            <span>{epic.title}</span>
+            <Button
+              variant="outlined-dark"
+              style={{
+                border: 0,
+                display: 'inline-block',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                maxWidth: '25ch',
+                width: 'fit-content',
+              }}
+              onClick={() => setShowEditEpic(true)}
+            >
+              {epic.title}
+            </Button>
           </td>
           <td>
             <StatusEpic epic={epic} />

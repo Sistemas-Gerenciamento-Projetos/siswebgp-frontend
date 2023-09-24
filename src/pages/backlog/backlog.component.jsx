@@ -65,9 +65,6 @@ const Backlog = () => {
                   <p style={{ fontWeight: '600' }}>Responsável</p>
                 </th>
                 <th>
-                  <p style={{ fontWeight: '600' }}>Gerente</p>
-                </th>
-                <th>
                   <p style={{ fontWeight: '600' }}>Ações</p>
                 </th>
               </tr>

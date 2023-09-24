@@ -50,6 +50,7 @@ const StatusTask = ({ status, taskItem }) => {
     <Form.Select
       defaultValue={status}
       onChange={(e) => setAtualStatus(e.target.value)}
+      style={{ width: 'fit-content' }}
     >
       <option value={STATUS_TODO}>A fazer</option>
       <option value={STATUS_INPROGRESS}>Em andamento</option>
