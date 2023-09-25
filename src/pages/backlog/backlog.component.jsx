@@ -18,6 +18,14 @@ const Backlog = () => {
   const [tasks, setTasks] = useState([]);
   const [update, setUpdate] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 9;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = tasks.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(tasks.length / recordsPerPage);
+  const numbers = [...Array(nPage + 1).keys()].slice(1);
+
   useEffect(() => {
     onRefreshTasks();
   }, [update]);
@@ -34,6 +42,22 @@ const Backlog = () => {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  function previousPage() {
+    if (currentPage != 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
+  function changeCurrentPage(pageNumber) {
+    setCurrentPage(pageNumber);
+  }
+
+  function nextPage() {
+    if (currentPage != nPage) {
+      setCurrentPage(currentPage + 1);
+    }
   }
 
   return (
@@ -70,7 +94,7 @@ const Backlog = () => {
               </tr>
             </thead>
 
-            {tasks.map((task, index) => (
+            {records.map((task, index) => (
               <TaskItem
                 key={task.id}
                 setUpdate={setUpdate}
@@ -85,6 +109,42 @@ const Backlog = () => {
           </Table>
         </>
       )}
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <nav>
+          <ul className="pagination">
+            <li className="page-item">
+              <a href="#" className="page-link" onClick={previousPage}>
+                Anterior
+              </a>
+            </li>
+            {numbers.map((n, i) => (
+              <li
+                className={`page-item ${currentPage === n ? 'active' : ''}`}
+                key={i}
+              >
+                <a
+                  href="#"
+                  className="page-link"
+                  onClick={() => changeCurrentPage(n)}
+                >
+                  {n}
+                </a>
+              </li>
+            ))}
+            <li className="page-item">
+              <a href="#" className="page-link" onClick={nextPage}>
+                Próximo
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
       {tasks.length === 0 && (
         <div
