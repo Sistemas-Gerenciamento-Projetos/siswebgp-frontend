@@ -13,6 +13,7 @@ import { Table } from 'reactstrap';
 import { InfoCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import ProjectItem from '../../components/project-components/project-item/projectItem.component';
 import { showInfoToast } from '../../utils/Toasts';
+import PageNavigator from '../../components/pageNavigator/pageNavigator';
 
 const Projetos = () => {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -24,6 +25,14 @@ const Projetos = () => {
   const [showEditProject, setShowEditProject] = useState(false);
   const [showInviteUsersToProject, setShowInviteUsersToProject] =
     useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 9;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const projectsPage = projects.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(projects.length / recordsPerPage);
+  const numbers = [...Array(nPage + 1).keys()].slice(1);
 
   useEffect(() => {
     onRefreshProjects();
@@ -90,59 +99,67 @@ const Projetos = () => {
   return (
     <>
       {projects.length !== 0 && (
-        <div>
-          <Table>
-            <thead>
-              <tr>
-                <th>
-                  <p style={{ fontWeight: '600' }}>Nome do projeto</p>
-                </th>
-                <th>
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                    }}
-                  >
-                    <p
+        <>
+          <div>
+            <Table>
+              <thead>
+                <tr>
+                  <th>
+                    <p style={{ fontWeight: '600' }}>Nome do projeto</p>
+                  </th>
+                  <th>
+                    <div
                       style={{
-                        fontWeight: '600',
+                        display: 'flex',
+                        flexDirection: 'row',
                       }}
                     >
-                      Progresso
-                    </p>
-                    <InfoCircleOutlined
-                      style={{ backgroundColor: '#FFFFFF', padding: '5px' }}
-                      onClick={showProgressInfoAlert}
-                    />
-                  </div>
-                </th>
-                <th>
-                  <p style={{ fontWeight: '600' }}>Prazo</p>
-                </th>
-                <th>
-                  <p style={{ fontWeight: '600' }}>Gerente</p>
-                </th>
-                <th>
-                  <p style={{ fontWeight: '600' }}>Ações</p>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {projects.map((project, index) => (
-                <ProjectItem
-                  key={project.id}
-                  onPress={onClickProject}
-                  project={project}
-                  onRefreshProjects={onRefreshProjects}
-                  index={index}
-                  setShowEditProject={setShowEditProject}
-                  setShowInviteUsersToProject={setShowInviteUsersToProject}
-                />
-              ))}
-            </tbody>
-          </Table>
-        </div>
+                      <p
+                        style={{
+                          fontWeight: '600',
+                        }}
+                      >
+                        Progresso
+                      </p>
+                      <InfoCircleOutlined
+                        style={{ backgroundColor: '#FFFFFF', padding: '5px' }}
+                        onClick={showProgressInfoAlert}
+                      />
+                    </div>
+                  </th>
+                  <th>
+                    <p style={{ fontWeight: '600' }}>Prazo</p>
+                  </th>
+                  <th>
+                    <p style={{ fontWeight: '600' }}>Gerente</p>
+                  </th>
+                  <th>
+                    <p style={{ fontWeight: '600' }}>Ações</p>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {projectsPage.map((project, index) => (
+                  <ProjectItem
+                    key={project.id}
+                    onPress={onClickProject}
+                    project={project}
+                    onRefreshProjects={onRefreshProjects}
+                    index={index}
+                    setShowEditProject={setShowEditProject}
+                    setShowInviteUsersToProject={setShowInviteUsersToProject}
+                  />
+                ))}
+              </tbody>
+            </Table>
+          </div>
+          <PageNavigator
+            numbers={numbers}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            nPage={nPage}
+          />
+        </>
       )}
 
       {projects.length === 0 && (

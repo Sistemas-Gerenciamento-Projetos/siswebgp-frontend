@@ -61,51 +61,52 @@ export default function Epics() {
         setUpdate={setUpdate}
       />
       {epics.length !== 0 && (
-        <Table>
-          <thead>
-            <tr>
-              <th>
-                <TableHeader>Nome do Épico</TableHeader>
-              </th>
-              <th>
-                <TableHeader>Status</TableHeader>
-              </th>
-              <th>
-                <TableHeader>Prazo</TableHeader>
-              </th>
-              <th>
-                <TableHeader>Tarefas</TableHeader>
-              </th>
-              <th>
-                <TableHeader>Responsável</TableHeader>
-              </th>
-              <th>
-                <TableHeader>Gerente</TableHeader>
-              </th>
-              <th>
-                <TableHeader>Ações</TableHeader>
-              </th>
-            </tr>
-          </thead>
+        <>
+          <Table>
+            <thead>
+              <tr>
+                <th>
+                  <TableHeader>Nome do Épico</TableHeader>
+                </th>
+                <th>
+                  <TableHeader>Status</TableHeader>
+                </th>
+                <th>
+                  <TableHeader>Prazo</TableHeader>
+                </th>
+                <th>
+                  <TableHeader>Tarefas</TableHeader>
+                </th>
+                <th>
+                  <TableHeader>Responsável</TableHeader>
+                </th>
+                <th>
+                  <TableHeader>Gerente</TableHeader>
+                </th>
+                <th>
+                  <TableHeader>Ações</TableHeader>
+                </th>
+              </tr>
+            </thead>
 
-          {epicsPage.map((epic, index) => (
-            <EpicItem
-              key={epic.id}
-              epic={epic}
-              index={index}
-              update={update}
-              setUpdate={setUpdate}
-            />
-          ))}
-        </Table>
+            {epicsPage.map((epic, index) => (
+              <EpicItem
+                key={epic.id}
+                epic={epic}
+                index={index}
+                update={update}
+                setUpdate={setUpdate}
+              />
+            ))}
+          </Table>
+          <PageNavigator
+            numbers={numbers}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            nPage={nPage}
+          />
+        </>
       )}
-
-      <PageNavigator
-        numbers={numbers}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        nPage={nPage}
-      />
 
       {epics.length === 0 && (
         <div

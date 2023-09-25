@@ -92,15 +92,14 @@ const Backlog = () => {
               />
             ))}
           </Table>
+          <PageNavigator
+            numbers={numbers}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            nPage={nPage}
+          />
         </>
       )}
-
-      <PageNavigator
-        numbers={numbers}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        nPage={nPage}
-      />
 
       {tasks.length === 0 && (
         <div
