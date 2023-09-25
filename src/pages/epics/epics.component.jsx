@@ -10,6 +10,7 @@ import { useUserDetails } from '../../context/usercontext';
 import { getEpics } from '../../services/epics/getEpics';
 import { useProjectDetails } from '../../context/projectContext';
 import NewEpicForm from '../../components/epic-component/new-epic/newEpicForm.component';
+import PageNavigator from '../../components/pageNavigator/pageNavigator';
 
 export default function Epics() {
   const [epics, setEpics] = useState([]);
@@ -17,6 +18,14 @@ export default function Epics() {
   const [update, setUpdate] = useState(false);
   const [projectDetails] = useProjectDetails();
   const [show, setShow] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 9;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const epicsPage = epics.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(epics.length / recordsPerPage);
+  const numbers = [...Array(nPage + 1).keys()].slice(1);
 
   useEffect(() => {
     getEpics(userDetails.accessToken, projectDetails.projectId)
@@ -79,7 +88,7 @@ export default function Epics() {
             </tr>
           </thead>
 
-          {epics.map((epic, index) => (
+          {epicsPage.map((epic, index) => (
             <EpicItem
               key={epic.id}
               epic={epic}
@@ -90,6 +99,13 @@ export default function Epics() {
           ))}
         </Table>
       )}
+
+      <PageNavigator
+        numbers={numbers}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        nPage={nPage}
+      />
 
       {epics.length === 0 && (
         <div
