@@ -9,6 +9,7 @@ import { Empty, FloatButton } from 'antd';
 import { ToastContainer } from 'react-toastify';
 import NewTaskBacklog from '../../components/tasks-component/new-task.component/new-task.component';
 import { PlusOutlined } from '@ant-design/icons';
+import PageNavigator from '../../components/pageNavigator/pageNavigator';
 
 const Backlog = () => {
   const [userDetails] = useUserDetails();
@@ -17,6 +18,14 @@ const Backlog = () => {
 
   const [tasks, setTasks] = useState([]);
   const [update, setUpdate] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 9;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const tasksPage = tasks.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(tasks.length / recordsPerPage);
+  const numbers = [...Array(nPage + 1).keys()].slice(1);
 
   useEffect(() => {
     onRefreshTasks();
@@ -70,7 +79,7 @@ const Backlog = () => {
               </tr>
             </thead>
 
-            {tasks.map((task, index) => (
+            {tasksPage.map((task, index) => (
               <TaskItem
                 key={task.id}
                 setUpdate={setUpdate}
@@ -83,6 +92,12 @@ const Backlog = () => {
               />
             ))}
           </Table>
+          <PageNavigator
+            numbers={numbers}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            nPage={nPage}
+          />
         </>
       )}
 
