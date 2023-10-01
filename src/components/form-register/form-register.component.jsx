@@ -5,7 +5,9 @@ import { registerUser } from '../../services/authorization/register-user';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from '../../services/authorization/login';
-import { showSuccessToast } from '../../utils/Toasts';
+import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
+import { postAddUserInProject } from '../../services/projects/postAddUserInProject';
+import { useProjectDetails } from '../../context/projectContext';
 
 function Registration({ cameFromProjectPage }) {
   const [name, setName] = useState('');
@@ -14,6 +16,7 @@ function Registration({ cameFromProjectPage }) {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [userDetails, updateUserDetails] = useUserDetails();
+  const [projectDetails, updateProjectDetails] = useProjectDetails();
 
   const [errors, setErrors] = useState({});
   const validateForm = () => {
@@ -53,6 +56,7 @@ function Registration({ cameFromProjectPage }) {
   const submitHandler = (e) => {
     e.preventDefault();
 
+    setErrors({});
     const formErrors = validateForm();
     console.log(formErrors);
 
@@ -64,7 +68,18 @@ function Registration({ cameFromProjectPage }) {
     registerUser(name, email, password)
       .then((data) => {
         if (cameFromProjectPage) {
-          showSuccessToast('Novo membro adicionado com sucesso.');
+          console.log(data);
+          postAddUserInProject(
+            userDetails.accessToken,
+            projectDetails.projectId,
+            data.user.id,
+          )
+            .then((data) => {
+              showSuccessToast('Novo membro adicionado com sucesso.');
+            })
+            .catch((error) => {
+              showErrorToast('Erro ao adicionar membro no projeto.');
+            });
         } else {
           updateUserDetails(data.access, data.refresh, data.user.id);
           login(data.access, email, password)
@@ -74,31 +89,13 @@ function Registration({ cameFromProjectPage }) {
             })
             .catch((error) => {
               console.log(error);
-              toast.error('Erro ao entrar na conta', {
-                position: 'bottom-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: 'colored',
-              });
+              showErrorToast('Erro ao entrar na conta');
             });
         }
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Erro ao criar cadastro', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao criar cadastro');
       });
   };
 

@@ -29,9 +29,34 @@ const AddNewUser = ({ handleClose }) => {
       postAddUserInProject(
         userDetails.accessToken,
         projectDetails.projectId,
-        fetchUsersList,
         selectedUserId,
-      );
+      )
+        .then(() => {
+          toast.success('Membro adicionado', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
+          fetchUsersList();
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error('Erro ao adicionar membro', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
+        });
     } else {
       toast.error('Selecione um membro', {
         position: 'bottom-right',
