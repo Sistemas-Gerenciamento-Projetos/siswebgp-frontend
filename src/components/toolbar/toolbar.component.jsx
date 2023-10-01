@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'reactstrap';
-import styles from './toolbarStyles.component';
-import { useUserDetails } from '../../context/usercontext';
+import {
+  ExitButtonDiv,
+  ManagerInfo,
+  ManagerInfoTitle,
+  Root,
+  Title,
+  TitleDiv,
+} from './toolbar.styles';
 import { useNavigate } from 'react-router-dom';
 import { useProjectDetails } from '../../context/projectContext';
-import { MenuOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
+import ManagerPhoto from '../managerPhoto/managerPhoto';
 
-const Toolbar = ({ setMenuItem, menuItem }) => {
-  const [userDetails, updateUserDetails] = useUserDetails();
+const Toolbar = ({ menuItem }) => {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const nav = useNavigate();
 
@@ -40,14 +45,21 @@ const Toolbar = ({ setMenuItem, menuItem }) => {
   };
 
   return (
-    <div style={styles.root}>
-      <div style={styles.titleDiv}>
-        <h3 style={styles.title}>{getTitle()}</h3>
-      </div>
-      <Button color="primary" onClick={logoutHandler}>
-        Sair
-      </Button>
-    </div>
+    <Root>
+      <ManagerInfo>
+        <ManagerInfoTitle>{menuItem !== 0 ? 'Gerente: ' : ''}</ManagerInfoTitle>
+        {menuItem !== 0 && <ManagerPhoto name={projectDetails.managerName} />}
+      </ManagerInfo>
+
+      <TitleDiv>
+        <Title>{getTitle()}</Title>
+      </TitleDiv>
+      <ExitButtonDiv>
+        <Button color="primary" onClick={logoutHandler}>
+          Sair
+        </Button>
+      </ExitButtonDiv>
+    </Root>
   );
 };
 
