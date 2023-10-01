@@ -82,9 +82,6 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
             <ManagerPhoto name={epic.user_name} />
           </td>
           <td>
-            <ManagerPhoto name={projectDetails.managerName} />
-          </td>
-          <td>
             {isAbleToEditTask() && (
               <ActionButtons
                 setShowEdit={setShowEditEpic}

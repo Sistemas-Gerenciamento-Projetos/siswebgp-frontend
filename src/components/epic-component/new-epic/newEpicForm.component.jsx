@@ -145,7 +145,7 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
 
               <Form.Control
                 type="text"
-                placeholder="Digite o título da tarefa"
+                placeholder="Digite o título do épico"
                 isInvalid={!!errors.title}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}

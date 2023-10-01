@@ -79,9 +79,6 @@ export default function Epics({ show, setShow }) {
                   <TableHeader>Responsável</TableHeader>
                 </th>
                 <th>
-                  <TableHeader>Gerente</TableHeader>
-                </th>
-                <th>
                   <TableHeader>Ações</TableHeader>
                 </th>
               </tr>
