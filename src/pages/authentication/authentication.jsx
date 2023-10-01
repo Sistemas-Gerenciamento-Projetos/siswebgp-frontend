@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import FormLogin from "../../components/form-login/login";
-import CompUfba from "../../Assets/comp-ufba.png";
-import LogoSGP from "../../Assets/logo.png";
+import React, { useState } from 'react';
+import FormLogin from '../../components/form-login/login';
+import CompUfba from '../../Assets/comp-ufba.png';
+import LogoSGP from '../../Assets/logo.png';
 
-import { Link } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
-import FormRegister from "../../components/form-register/form-register.component";
-import "./authentication.scss";
+import { Link } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
+import FormRegister from '../../components/form-register/form-register.component';
+import './authentication.scss';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Authentication = () => {
   const info = {
-    1: "Login",
-    2: "Registre-se",
+    1: 'Login',
+    2: 'Registre-se',
   };
 
   const [isRegistered, setIsRegistered] = useState(true);
@@ -26,8 +26,8 @@ const Authentication = () => {
     <Container className="main-auth">
       <Row className="justify-content-md-center">
         <Col className="col-left" sm={6} xl={5}>
-          <img className="logo" src={LogoSGP} alt="Computação Ufba" />{" "}
-          <img className="logo-ufba" src={CompUfba} alt="Computação Ufba" />{" "}
+          <img className="logo" src={LogoSGP} alt="Computação Ufba" />{' '}
+          <img className="logo-ufba" src={CompUfba} alt="Computação Ufba" />{' '}
         </Col>
         <Col className="col-right " sm={6} xl={5}>
           {isRegistered && (
@@ -36,7 +36,7 @@ const Authentication = () => {
               <FormLogin />
               <div className="d-grid mt-3 ">
                 <p>
-                  Ainda não possui cadastro?{" "}
+                  Ainda não possui cadastro?{' '}
                   <Link onClick={handleRegister}>Registre-se</Link>
                 </p>
               </div>
@@ -45,7 +45,10 @@ const Authentication = () => {
           {!isRegistered && (
             <>
               <h2>{info[2]}</h2>
-              <FormRegister handleRegister={handleRegister} />
+              <FormRegister
+                handleRegister={handleRegister}
+                cameFromProjectPage={false}
+              />
               <p className="mt-3">
                 Já possui cadastro? <Link onClick={handleRegister}>Login</Link>
               </p>

@@ -5,6 +5,7 @@ import InviteUsers from '../form-invite-user/invite-users.component';
 import AddNewUser from '../add-new-user/add-new-user';
 import './home-options-styles.scss';
 import { Modal } from 'react-bootstrap';
+import Registration from '../../form-register/form-register.component';
 
 function OptionsProject({ show, setShow }) {
   const handleClose = () => setShow(!show);
@@ -29,6 +30,9 @@ function OptionsProject({ show, setShow }) {
           </Tab>
           <Tab eventKey="home" title="Convidar novo membro">
             <InviteUsers handleClose={handleClose} />
+          </Tab>
+          <Tab eventKey="create" title="Criar novo membro">
+            <Registration cameFromProjectPage={true} />
           </Tab>
         </Tabs>
       </Modal.Body>

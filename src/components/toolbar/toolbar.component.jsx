@@ -12,9 +12,11 @@ import { useNavigate } from 'react-router-dom';
 import { useProjectDetails } from '../../context/projectContext';
 import PropTypes from 'prop-types';
 import ManagerPhoto from '../managerPhoto/managerPhoto';
+import { useUserDetails } from '../../context/usercontext';
 
 const Toolbar = ({ menuItem, setShowBacklog, setShowEpics }) => {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
+  const [userDetails, updateUserDetails] = useUserDetails();
   const nav = useNavigate();
 
   const logoutHandler = () => {

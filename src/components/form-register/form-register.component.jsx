@@ -5,8 +5,9 @@ import { registerUser } from '../../services/authorization/register-user';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from '../../services/authorization/login';
+import { showSuccessToast } from '../../utils/Toasts';
 
-const Registration = () => {
+function Registration({ cameFromProjectPage }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +20,7 @@ const Registration = () => {
     const newErrors = {};
 
     if (!name || name === ' ') {
-      newErrors.name = 'Por favor, insira seu nome.';
+      newErrors.name = 'Por favor, insira um nome.';
     }
 
     if (
@@ -27,19 +28,23 @@ const Registration = () => {
       email === ' ' ||
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
     ) {
-      newErrors.email = 'Por favor, insira seu email corretamente.';
+      newErrors.email = 'Por favor, insira o email corretamente.';
     }
 
     if (!password || password === ' ') {
-      newErrors.password = 'Por favor, insira sua senha.';
+      newErrors.password = 'Por favor, insira uma senha.';
     }
 
     if (password.length < 8) {
       newErrors.password = 'A senha deve conter 8 digitos.';
     }
 
-    if (password !== confirmPassword || confirmPassword === ' ') {
-      newErrors.confirmPassword = 'Confirme sua senha.';
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = 'As senhas não são iguais.';
+    }
+
+    if (confirmPassword === ' ') {
+      newErrors.confirmPassword = 'Preencha a confirmação de senha.';
     }
 
     return newErrors;
@@ -58,25 +63,29 @@ const Registration = () => {
 
     registerUser(name, email, password)
       .then((data) => {
-        updateUserDetails(data.access, data.refresh, data.user.id);
-        login(data.access, email, password)
-          .then((data) => {
-            localStorage.setItem('userDetails', JSON.stringify(data));
-            updateUserDetails(data.access, data.refresh, data.user.id);
-          })
-          .catch((error) => {
-            console.log(error);
-            toast.error('Erro ao entrar na conta', {
-              position: 'bottom-right',
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: 'colored',
+        if (cameFromProjectPage) {
+          showSuccessToast('Novo membro adicionado com sucesso.');
+        } else {
+          updateUserDetails(data.access, data.refresh, data.user.id);
+          login(data.access, email, password)
+            .then((data) => {
+              localStorage.setItem('userDetails', JSON.stringify(data));
+              updateUserDetails(data.access, data.refresh, data.user.id);
+            })
+            .catch((error) => {
+              console.log(error);
+              toast.error('Erro ao entrar na conta', {
+                position: 'bottom-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: 'colored',
+              });
             });
-          });
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -99,7 +108,7 @@ const Registration = () => {
         <Form.Control
           type="name"
           placeholder="Nome completo"
-          className="form-item"
+          className="form-item mt-4"
           value={name}
           onChange={(e) => setName(e.target.value)}
           isInvalid={!!errors.name}
@@ -113,7 +122,7 @@ const Registration = () => {
         <Form.Control
           type="email"
           placeholder="Email"
-          className="form-item"
+          className="form-item mt-2"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           isInvalid={!!errors.email}
@@ -127,7 +136,7 @@ const Registration = () => {
         <Form.Control
           type="password"
           placeholder="Senha"
-          className="form-item"
+          className="form-item mt-2"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           isInvalid={!!errors.password}
@@ -137,17 +146,17 @@ const Registration = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="password">
+      <Form.Group controlId="password_confirmation">
         <Form.Control
           type="password"
           placeholder="Confirmar senha"
-          className="form-item"
+          className="form-item mt-2"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           isInvalid={!!errors.confirmPassword}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.confirm_password}
+          {errors.confirmPassword}
         </Form.Control.Feedback>
       </Form.Group>
       <div className="d-grid mt-3 ">
@@ -157,6 +166,6 @@ const Registration = () => {
       </div>
     </Form>
   );
-};
+}
 
 export default Registration;
