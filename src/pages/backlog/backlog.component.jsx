@@ -5,16 +5,14 @@ import { Navigate } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 import { getTasks } from '../../services/tasks/getTasks';
 import TaskItem from '../../components/tasks-component/taskitem/taskitem';
-import { Empty, FloatButton } from 'antd';
+import { Empty } from 'antd';
 import { ToastContainer } from 'react-toastify';
 import NewTaskBacklog from '../../components/tasks-component/new-task.component/new-task.component';
-import { PlusOutlined } from '@ant-design/icons';
 import PageNavigator from '../../components/pageNavigator/pageNavigator';
 
-const Backlog = () => {
+function Backlog({ show, setShow }) {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
-  const [show, setShow] = useState(false);
 
   const [tasks, setTasks] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -114,13 +112,6 @@ const Backlog = () => {
         </div>
       )}
 
-      <FloatButton
-        icon={<PlusOutlined />}
-        tooltip={<div>Nova tarefa</div>}
-        type={'primary'}
-        onClick={() => setShow(true)}
-      />
-
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -135,6 +126,6 @@ const Backlog = () => {
       />
     </>
   );
-};
+}
 
 export default Backlog;

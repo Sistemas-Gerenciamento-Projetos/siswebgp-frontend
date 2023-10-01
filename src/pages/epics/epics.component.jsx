@@ -1,5 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Empty, FloatButton } from 'antd';
+import { Empty } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
@@ -12,12 +11,11 @@ import { useProjectDetails } from '../../context/projectContext';
 import NewEpicForm from '../../components/epic-component/new-epic/newEpicForm.component';
 import PageNavigator from '../../components/pageNavigator/pageNavigator';
 
-export default function Epics() {
+export default function Epics({ show, setShow }) {
   const [epics, setEpics] = useState([]);
   const [userDetails] = useUserDetails();
   const [update, setUpdate] = useState(false);
   const [projectDetails] = useProjectDetails();
-  const [show, setShow] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 9;
@@ -120,13 +118,6 @@ export default function Epics() {
           <Empty description="Sem épicos existentes" />
         </div>
       )}
-
-      <FloatButton
-        icon={<PlusOutlined />}
-        tooltip={<div>Novo épico</div>}
-        type={'primary'}
-        onClick={() => setShow(true)}
-      />
 
       <ToastContainer
         position="bottom-right"

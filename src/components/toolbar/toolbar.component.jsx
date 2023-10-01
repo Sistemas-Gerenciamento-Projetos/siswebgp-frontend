@@ -13,7 +13,7 @@ import { useProjectDetails } from '../../context/projectContext';
 import PropTypes from 'prop-types';
 import ManagerPhoto from '../managerPhoto/managerPhoto';
 
-const Toolbar = ({ menuItem }) => {
+const Toolbar = ({ menuItem, setShowBacklog, setShowEpics }) => {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const nav = useNavigate();
 
@@ -44,6 +44,10 @@ const Toolbar = ({ menuItem }) => {
     }
   };
 
+  function isBacklogOrEpicsPage() {
+    return menuItem === 2 || menuItem === 5;
+  }
+
   return (
     <Root>
       <ManagerInfo>
@@ -55,6 +59,20 @@ const Toolbar = ({ menuItem }) => {
         <Title>{getTitle()}</Title>
       </TitleDiv>
       <ExitButtonDiv>
+        {isBacklogOrEpicsPage() && (
+          <Button
+            style={{ marginRight: '10px', border: '0px' }}
+            color="primary"
+            outline
+            onClick={() => {
+              {
+                menuItem === 2 ? setShowBacklog(true) : setShowEpics(true);
+              }
+            }}
+          >
+            {menuItem === 2 ? 'Nova tarefa' : 'Novo épico'}
+          </Button>
+        )}
         <Button color="primary" onClick={logoutHandler}>
           Sair
         </Button>

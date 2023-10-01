@@ -36,6 +36,7 @@ export const Title = styled.h3`
 
 export const ExitButtonDiv = styled.div`
   display: flex;
+  flex-direction: row;
   width: 100%;
   justify-content: flex-end;
 `;
