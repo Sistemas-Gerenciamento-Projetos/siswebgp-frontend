@@ -13,8 +13,9 @@ import SGPSidebar from '../../components/sidebar/sidebar.component';
 
 const Home = () => {
   const [userDetails] = useUserDetails();
-
   const [menuItem, setMenuItem] = useState(0);
+  const [showBacklog, setShowBacklog] = useState(false);
+  const [showEpics, setShowEpics] = useState(false);
 
   return (
     <div className="home">
@@ -22,14 +23,22 @@ const Home = () => {
         <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
           <SGPSidebar setMenuItem={setMenuItem} menuItem={menuItem} />
           <div style={{ width: '100%' }}>
-            <Toolbar setMenuItem={setMenuItem} menuItem={menuItem} />
+            <Toolbar
+              menuItem={menuItem}
+              setShowBacklog={setShowBacklog}
+              setShowEpics={setShowEpics}
+            />
             <div className="body-home">
               {menuItem === 0 && <Projetos />}
               {menuItem === 1 && <Dashboard />}
-              {menuItem === 2 && <Backlog />}
+              {menuItem === 2 && (
+                <Backlog show={showBacklog} setShow={setShowBacklog} />
+              )}
               {menuItem === 3 && <Painel />}
               {menuItem === 4 && <Roteiro />}
-              {menuItem === 5 && <Epics />}
+              {menuItem === 5 && (
+                <Epics show={showEpics} setShow={setShowEpics} />
+              )}
             </div>
           </div>
         </div>
