@@ -11,7 +11,7 @@ function OptionsProject({ show, setShow }) {
   const handleClose = () => setShow(!show);
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} dialogClassName="my-modal">
       <Modal.Header closeButton>
         <Modal.Title>Adicionar membros</Modal.Title>
       </Modal.Header>
@@ -21,17 +21,13 @@ function OptionsProject({ show, setShow }) {
           id="uncontrolled-tab-example"
           className="mb-6"
         >
-          <Tab
-            eventKey="profile"
-            title="Adicionar novo membro"
-            className="mb-4"
-          >
+          <Tab eventKey="profile" title="Adicionar" className="mb-4">
             <AddNewUser handleClose={handleClose} />
           </Tab>
-          <Tab eventKey="home" title="Convidar novo membro">
+          <Tab eventKey="home" title="Convidar">
             <InviteUsers handleClose={handleClose} />
           </Tab>
-          <Tab eventKey="create" title="Criar novo membro">
+          <Tab eventKey="create" title="Criar">
             <Registration cameFromProjectPage={true} />
           </Tab>
         </Tabs>
