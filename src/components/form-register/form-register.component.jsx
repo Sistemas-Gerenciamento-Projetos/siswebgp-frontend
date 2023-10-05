@@ -8,6 +8,7 @@ import { login } from '../../services/authorization/login';
 import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
 import { postAddUserInProject } from '../../services/projects/postAddUserInProject';
 import { useProjectDetails } from '../../context/projectContext';
+import { Spin } from 'antd';
 
 function Registration({ cameFromProjectPage }) {
   const [name, setName] = useState('');
@@ -19,6 +20,8 @@ function Registration({ cameFromProjectPage }) {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -54,6 +57,7 @@ function Registration({ cameFromProjectPage }) {
   };
 
   const submitHandler = (e) => {
+    setLoading(true);
     e.preventDefault();
 
     setErrors({});
@@ -61,6 +65,7 @@ function Registration({ cameFromProjectPage }) {
     console.log(formErrors);
 
     if (Object.keys(formErrors).length > 0) {
+      setLoading(false);
       setErrors(formErrors);
       return;
     }
@@ -68,32 +73,41 @@ function Registration({ cameFromProjectPage }) {
     registerUser(name, email, password)
       .then((data) => {
         if (cameFromProjectPage) {
-          console.log(data);
           postAddUserInProject(
             userDetails.accessToken,
             projectDetails.projectId,
             data.user.id,
           )
             .then((data) => {
+              setLoading(false);
+              setName('');
+              setEmail('');
+              setPassword('');
+              setConfirmPassword('');
               showSuccessToast('Novo membro adicionado com sucesso.');
             })
             .catch((error) => {
+              setLoading(false);
               showErrorToast('Erro ao adicionar membro no projeto.');
             });
         } else {
           updateUserDetails(data.access, data.refresh, data.user.id);
           login(data.access, email, password)
             .then((data) => {
+              setLoading(false);
+
               localStorage.setItem('userDetails', JSON.stringify(data));
               updateUserDetails(data.access, data.refresh, data.user.id);
             })
             .catch((error) => {
+              setLoading(false);
               console.log(error);
               showErrorToast('Erro ao entrar na conta');
             });
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
         showErrorToast('Erro ao criar cadastro');
       });
@@ -157,9 +171,13 @@ function Registration({ cameFromProjectPage }) {
         </Form.Control.Feedback>
       </Form.Group>
       <div className="d-grid mt-3 ">
-        <Button type="submit" onClick={submitHandler}>
-          Cadastrar
-        </Button>
+        {loading ? (
+          <Spin />
+        ) : (
+          <Button type="submit" onClick={submitHandler}>
+            Cadastrar
+          </Button>
+        )}
       </div>
     </Form>
   );
