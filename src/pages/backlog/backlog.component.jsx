@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 import { getTasks } from '../../services/tasks/getTasks';
 import TaskItem from '../../components/tasks-component/taskitem/taskitem';
-import { Empty } from 'antd';
+import { Empty, Spin } from 'antd';
 import { ToastContainer } from 'react-toastify';
 import NewTaskBacklog from '../../components/tasks-component/new-task.component/new-task.component';
 import PageNavigator from '../../components/pageNavigator/pageNavigator';
@@ -24,6 +24,7 @@ function Backlog({ show, setShow }) {
   const tasksPage = tasks.slice(firstIndex, lastIndex);
   const nPage = Math.ceil(tasks.length / recordsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     onRefreshTasks();
@@ -34,11 +35,14 @@ function Backlog({ show, setShow }) {
   }
 
   function onRefreshTasks() {
+    setLoading(true);
     getTasks(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         setTasks(data);
+        setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
       });
   }
@@ -54,62 +58,75 @@ function Backlog({ show, setShow }) {
         update={update}
       />
 
-      {tasks.length !== 0 && (
-        <>
-          <Table className="mt-4">
-            <thead>
-              <tr>
-                <th>
-                  <p style={{ fontWeight: '600' }}>Nome da Tarefa</p>
-                </th>
-                <th>
-                  <p style={{ fontWeight: '600' }}>Status</p>
-                </th>
-                <th>
-                  <p style={{ fontWeight: '600' }}>Prazo</p>
-                </th>
-                <th>
-                  <p style={{ fontWeight: '600' }}>Responsável</p>
-                </th>
-                <th>
-                  <p style={{ fontWeight: '600' }}>Ações</p>
-                </th>
-              </tr>
-            </thead>
-
-            {tasksPage.map((task, index) => (
-              <TaskItem
-                key={task.id}
-                setUpdate={setUpdate}
-                update={update}
-                task={task}
-                userDetails={userDetails}
-                projectDetails={projectDetails}
-                onRefreshTasks={onRefreshTasks}
-                index={index}
-              />
-            ))}
-          </Table>
-          <PageNavigator
-            numbers={numbers}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            nPage={nPage}
-          />
-        </>
-      )}
-
-      {tasks.length === 0 && (
+      {loading ? (
         <div
           style={{
-            height: '100%',
             display: 'flex',
-            alignItems: 'center',
             justifyContent: 'center',
+            height: '100%',
+            alignItems: 'center',
           }}
         >
-          <Empty description="Sem tarefas existentes" />
+          <Spin />
         </div>
+      ) : (
+        <>
+          {tasks.length !== 0 ? (
+            <>
+              <Table className="mt-4">
+                <thead>
+                  <tr>
+                    <th>
+                      <p style={{ fontWeight: '600' }}>Nome da Tarefa</p>
+                    </th>
+                    <th>
+                      <p style={{ fontWeight: '600' }}>Status</p>
+                    </th>
+                    <th>
+                      <p style={{ fontWeight: '600' }}>Prazo</p>
+                    </th>
+                    <th>
+                      <p style={{ fontWeight: '600' }}>Responsável</p>
+                    </th>
+                    <th>
+                      <p style={{ fontWeight: '600' }}>Ações</p>
+                    </th>
+                  </tr>
+                </thead>
+
+                {tasksPage.map((task, index) => (
+                  <TaskItem
+                    key={task.id}
+                    setUpdate={setUpdate}
+                    update={update}
+                    task={task}
+                    userDetails={userDetails}
+                    projectDetails={projectDetails}
+                    onRefreshTasks={onRefreshTasks}
+                    index={index}
+                  />
+                ))}
+              </Table>
+              <PageNavigator
+                numbers={numbers}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                nPage={nPage}
+              />
+            </>
+          ) : (
+            <div
+              style={{
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Empty description="Sem tarefas existentes" />
+            </div>
+          )}
+        </>
       )}
 
       <ToastContainer
