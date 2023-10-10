@@ -5,14 +5,18 @@ import { getAnalytics } from '../../services/analytics/getAnalytics';
 import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
 import { CardsDiv, ContentDiv, Root } from './dashboard.styles';
+import { showErrorToast } from '../../utils/Toasts';
+import { Spin } from 'antd';
 
 export default function Dashboard() {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [cards, setCards] = useState([]);
   const [pies, setPies] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     getAnalytics(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         const cardsJson = [];
@@ -27,24 +31,29 @@ export default function Dashboard() {
 
         setCards(cardsJson);
         setPies(piesJson);
-        console.log(cardsJson);
-        console.log(piesJson);
+        setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
+        showErrorToast('Erro ao carregar o dashboard');
       });
   }, []);
 
   return (
     <Root>
-      <ContentDiv>
-        <CardsDiv>
-          {cards.map((card, index) => (
-            <DashboardCardItem key={index} card={card} />
-          ))}
-        </CardsDiv>
-        <DashboardPieItem piesData={pies} />
-      </ContentDiv>
+      {loading ? (
+        <Spin />
+      ) : (
+        <ContentDiv>
+          <CardsDiv>
+            {cards.map((card, index) => (
+              <DashboardCardItem key={index} card={card} />
+            ))}
+          </CardsDiv>
+          <DashboardPieItem piesData={pies} />
+        </ContentDiv>
+      )}
     </Root>
   );
 }
