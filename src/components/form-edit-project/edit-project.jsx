@@ -4,6 +4,8 @@ import './edit-project.scss';
 import { patchProject } from '../../services/projects/patchProject';
 import { useUserDetails } from '../../context/usercontext';
 import { toast } from 'react-toastify';
+import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
+import { Spin } from 'antd';
 
 const EditProject = ({
   project,
@@ -18,6 +20,7 @@ const EditProject = ({
   const [beginDate, setBeginDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [validated, setValidated] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     console.log(project);
@@ -28,11 +31,13 @@ const EditProject = ({
   }, []);
 
   const handleSubmit = (event) => {
+    setLoading(true);
     event.preventDefault();
     event.stopPropagation();
 
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
+      setLoading(false);
       setValidated(true);
       return;
     }
@@ -47,31 +52,15 @@ const EditProject = ({
       endDate,
     )
       .then((data) => {
+        setLoading(false);
         setNovoProjeto(!novoProjeto);
         handleClose();
-        toast.success('Projeto atualizado', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showSuccessToast('Projeto atualizado');
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
-        toast.error('Erro ao atualizar projeto', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao atualizar projeto');
       });
   };
 
@@ -90,7 +79,6 @@ const EditProject = ({
             validated={validated}
             onSubmit={handleSubmit}
           >
-            {/* Tem um bug visual na validação de string com espaços em branco, o form nega o seguimento mas o feedback visual é de correto */}
             <Form.Group controlId="title">
               <Form.Label className="label">Título:</Form.Label>
               <InputGroup hasValidation>
@@ -98,7 +86,7 @@ const EditProject = ({
                   type="text"
                   className="form-item"
                   required
-                  isInvalid={!!title.trim() === ''}
+                  isInvalid={title.trim() === ''}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
@@ -119,6 +107,7 @@ const EditProject = ({
                 value={description}
                 required
                 onChange={(e) => setDescription(e.target.value)}
+                isInvalid={description.trim() === ''}
               />
               <Badge
                 className="form-item"
@@ -170,28 +159,45 @@ const EditProject = ({
                 </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingTop: '15px',
-              }}
-            >
-              <Button
-                style={{ width: '45%' }}
-                className="button"
-                variant="secondary"
-                onClick={handleClose}
-              >
-                Voltar
-              </Button>
 
-              <Button style={{ width: '45%' }} className="button" type="submit">
-                Salvar alterações
-              </Button>
-            </div>
+            {loading ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  paddingTop: '16px',
+                }}
+              >
+                <Spin />
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingTop: '15px',
+                }}
+              >
+                <Button
+                  style={{ width: '45%' }}
+                  className="button"
+                  variant="secondary"
+                  onClick={handleClose}
+                >
+                  Voltar
+                </Button>
+
+                <Button
+                  style={{ width: '45%' }}
+                  className="button"
+                  type="submit"
+                >
+                  Salvar alterações
+                </Button>
+              </div>
+            )}
           </Form>
         </Modal.Body>
       </Modal>
