@@ -4,7 +4,6 @@ import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
 import { getTasks } from '../../services/tasks/getTasks';
 import './roteiro.styles.css';
-
 import Gantt, {
   Tasks,
   Column,
@@ -16,6 +15,8 @@ import Gantt, {
 } from 'devextreme-react/gantt';
 import { ToastContainer, toast } from 'react-toastify';
 import { patchTask } from '../../services/tasks/patchTask';
+import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
+import { Spin } from 'antd';
 
 const Roteiro = () => {
   const currentDate = new Date(Date.now());
@@ -25,15 +26,18 @@ const Roteiro = () => {
   const [striped, setStriped] = useState(false);
 
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   function handleData() {
     getTasks(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         setStriped(true);
         setTasks(data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   }
 
@@ -46,22 +50,10 @@ const Roteiro = () => {
   }
 
   function updateTask({ key, values }) {
-    console.log(key);
-    console.log(values);
-
     const tasksFiltered = tasks.filter((item) => item.id === key);
 
     if (tasksFiltered.length === 0) {
-      toast.error('Erro ao atualizar a tarefa', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-      });
+      showErrorToast('Erro ao atualizar a tarefa');
       return;
     }
 
@@ -87,86 +79,83 @@ const Roteiro = () => {
     )
       .then((data) => {
         handleData();
-        toast.success('Tarefa atualizada', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showSuccessToast('Tarefa atualizada');
       })
       .catch((error) => {
-        toast.error('Erro ao atualizar a tarefa', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao atualizar a tarefa');
       });
   }
 
   return (
-    <div>
-      <Gantt
-        taskListWidth={220}
-        scaleType="weeks"
-        height={700}
-        onTaskUpdated={updateTask}
-      >
-        {striped && (
-          <StripLine
-            start={currentDate}
-            title="Current Time"
-            cssClass="current-time"
+    <>
+      {loading ? (
+        <div
+          style={{
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Spin />
+        </div>
+      ) : (
+        <>
+          <Gantt
+            taskListWidth={220}
+            scaleType="weeks"
+            height={700}
+            onTaskUpdated={updateTask}
+          >
+            {striped && (
+              <StripLine
+                start={currentDate}
+                title="Current Time"
+                cssClass="current-time"
+              />
+            )}
+            <Tasks
+              dataSource={tasks}
+              keyExpr="id"
+              parentIdExpr="parentId"
+              titleExpr="title"
+              progressExpr="progress"
+              startExpr="start_date"
+              endExpr="deadline_date"
+              colorExpr="taskColor"
+            />
+            <Toolbar>
+              <Item name="zoomIn" />
+              <Item name="zoomOut" />
+            </Toolbar>
+            <Column dataField="title" caption="Tarefa" width={100} />
+            <Validation autoUpdateParentTasks />
+            <Editing
+              enabled={true}
+              allowDependencyAdding={false}
+              allowDependencyDeleting={false}
+              allowResourceAdding={false}
+              allowResourceDeleting={false}
+              allowTaskAdding={false}
+              allowTaskDeleting={false}
+              allowTaskResourceUpdating={false}
+            />
+          </Gantt>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover={false}
+            theme="colored"
           />
-        )}
-        <Tasks
-          dataSource={tasks}
-          keyExpr="id"
-          parentIdExpr="parentId"
-          titleExpr="title"
-          progressExpr="progress"
-          startExpr="start_date"
-          endExpr="deadline_date"
-          colorExpr="taskColor"
-        />
-        <Toolbar>
-          <Item name="zoomIn" />
-          <Item name="zoomOut" />
-        </Toolbar>
-        <Column dataField="title" caption="Tarefa" width={100} />
-        <Validation autoUpdateParentTasks />
-        <Editing
-          enabled={true}
-          allowDependencyAdding={false}
-          allowDependencyDeleting={false}
-          allowResourceAdding={false}
-          allowResourceDeleting={false}
-          allowTaskAdding={false}
-          allowTaskDeleting={false}
-          allowTaskResourceUpdating={false}
-        />
-      </Gantt>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme="colored"
-      />
-    </div>
+        </>
+      )}
+    </>
   );
 };
 
