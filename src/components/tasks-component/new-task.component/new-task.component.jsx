@@ -9,7 +9,6 @@ import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { postTask } from '../../../services/tasks/postTask';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
-import { toast } from 'react-toastify';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 import { Spin } from 'antd';
 

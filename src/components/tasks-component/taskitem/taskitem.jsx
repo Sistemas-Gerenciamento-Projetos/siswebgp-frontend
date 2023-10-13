@@ -14,7 +14,6 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
   const [titleAction] = useState('Editar tarefa');
   const [show, setShow] = useState(false);
   const [userDetails] = useUserDetails();
-  console.log(task);
 
   function isAbleToEditTask() {
     return (
