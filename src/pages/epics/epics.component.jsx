@@ -75,9 +75,6 @@ export default function Epics({ show, setShow }) {
                       <TableHeader>Prazo</TableHeader>
                     </th>
                     <th>
-                      <TableHeader>Tarefas</TableHeader>
-                    </th>
-                    <th>
                       <TableHeader>Responsável</TableHeader>
                     </th>
                     <th>
