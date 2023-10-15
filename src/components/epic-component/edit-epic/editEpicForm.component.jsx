@@ -11,8 +11,8 @@ import {
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
-import { toast } from 'react-toastify';
 import { patchEpic } from '../../../services/epics/patchEpic';
+import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 
 export default function EditEpicForm({
   epic,
@@ -56,31 +56,13 @@ export default function EditEpicForm({
 
     patchEpic(userDetails.accessToken, projectDetails.projectId, epic)
       .then((data) => {
-        setUpdate(update);
+        setUpdate(!update);
         handleClose();
-        toast.success('Épico atualizado', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showSuccessToast('Épico atualizado');
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Erro ao atualizar épico', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao atualizar épico');
       });
   };
 
@@ -110,21 +92,11 @@ export default function EditEpicForm({
     getUsersByProject(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         setListUsers(data);
-        setUpdate(!update);
       })
       .catch((error) => {
         console.log(error);
 
-        toast.error('Erro ao recuperar os usuários do projeto', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao recuperar os usuários do projeto');
       });
   }, [show]);
 

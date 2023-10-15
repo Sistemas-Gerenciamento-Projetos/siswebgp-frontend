@@ -11,8 +11,8 @@ import {
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
-import { toast } from 'react-toastify';
 import { postEpic } from '../../../services/epics/postEpic';
+import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 
 export default function NewEpicForm({ show, setShow, update, setUpdate }) {
   const [userDetails] = useUserDetails();
@@ -52,31 +52,13 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
       'TODO',
     )
       .then((data) => {
-        setUpdate(update);
+        setUpdate(!update);
         handleClose();
-        toast.success('Épico criado', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showSuccessToast('Épico criado');
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Erro ao criar épico', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao criar épico');
       });
   };
 
@@ -118,17 +100,7 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
       })
       .catch((error) => {
         console.log(error);
-
-        toast.error('Erro ao recuperar os usuários do projeto', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao recuperar os usuários do projeto');
       });
   }, [show]);
 
