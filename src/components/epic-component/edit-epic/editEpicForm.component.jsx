@@ -13,6 +13,7 @@ import { useProjectDetails } from '../../../context/projectContext';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
 import { patchEpic } from '../../../services/epics/patchEpic';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
+import { Spin } from 'antd';
 
 export default function EditEpicForm({
   epic,
@@ -33,6 +34,7 @@ export default function EditEpicForm({
   const [idUser, setIdUser] = useState(userDetails.id);
   const [listUsers, setListUsers] = useState([]);
   const formRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     setShow(!show);
@@ -40,11 +42,13 @@ export default function EditEpicForm({
   };
 
   const submitHandler = (e) => {
+    setLoading(true);
     e.preventDefault();
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
+      setLoading(false);
       return;
     }
 
@@ -59,10 +63,12 @@ export default function EditEpicForm({
         setUpdate(!update);
         handleClose();
         showSuccessToast('Épico atualizado');
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
         showErrorToast('Erro ao atualizar épico');
+        setLoading(false);
       });
   };
 
@@ -204,11 +210,17 @@ export default function EditEpicForm({
               </Form.Control.Feedback>
             </Form.Group>
 
-            <div className="d-grid mt-4">
-              <Button variant="primary" type="submit">
-                Atualizar épico
-              </Button>
-            </div>
+            {loading ? (
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Spin />
+              </div>
+            ) : (
+              <div className="d-grid mt-4">
+                <Button variant="primary" type="submit">
+                  Atualizar épico
+                </Button>
+              </div>
+            )}
           </Form>
         </Modal.Body>
       </Modal>
