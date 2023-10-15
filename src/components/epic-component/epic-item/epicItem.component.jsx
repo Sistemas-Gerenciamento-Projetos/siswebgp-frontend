@@ -39,8 +39,12 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
         setShow={setShowAddEpicTasks}
         epicId={epic.id}
       />
-      <tbody>
-        <tr style={{ backgroundColor: index % 2 === 0 ? '' : '#ebebeb' }}>
+      <tbody onClick={() => setShowAddEpicTasks(true)}>
+        <tr
+          style={{
+            backgroundColor: index % 2 === 0 ? '' : '#ebebeb',
+          }}
+        >
           <td>
             <Button
               variant="outlined-dark"
@@ -53,7 +57,10 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
                 maxWidth: '25ch',
                 width: 'fit-content',
               }}
-              onClick={() => setShowEditEpic(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowEditEpic(true);
+              }}
             >
               {epic.title}
             </Button>
@@ -66,17 +73,6 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
               startDate={parseDateWithoutTimezone(epic.start_date)}
               endDate={parseDateWithoutTimezone(epic.deadline_date)}
             />
-          </td>
-          <td>
-            <span>
-              <button
-                type="button"
-                className={'btn btn-outline-primary'}
-                onClick={() => setShowAddEpicTasks(true)}
-              >
-                Visualizar
-              </button>
-            </span>
           </td>
           <td>
             <ManagerPhoto name={epic.user_name} />

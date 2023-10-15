@@ -8,11 +8,11 @@ import { useProjectDetails } from '../../context/projectContext';
 import OptionsProject from '../../components/options-project/home-options/home-options';
 import EditProject from '../../components/form-edit-project/edit-project';
 import { ToastContainer, toast } from 'react-toastify';
-import { Empty, FloatButton } from 'antd';
+import { Empty, FloatButton, Spin } from 'antd';
 import { Table } from 'reactstrap';
 import { InfoCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import ProjectItem from '../../components/project-components/project-item/projectItem.component';
-import { showInfoToast } from '../../utils/Toasts';
+import { showErrorToast, showInfoToast } from '../../utils/Toasts';
 import PageNavigator from '../../components/pageNavigator/pageNavigator';
 
 const Projetos = () => {
@@ -25,6 +25,7 @@ const Projetos = () => {
   const [showEditProject, setShowEditProject] = useState(false);
   const [showInviteUsersToProject, setShowInviteUsersToProject] =
     useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 9;
@@ -35,6 +36,7 @@ const Projetos = () => {
   const numbers = [...Array(nPage + 1).keys()].slice(1);
 
   useEffect(() => {
+    setLoading(true);
     onRefreshProjects();
   }, [novoProjeto]);
 
@@ -61,10 +63,11 @@ const Projetos = () => {
   function onRefreshProjects() {
     getProjects(userDetails.accessToken)
       .then((data) => {
-        console.log(data);
         setProjects(data);
+        setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
         let errorString = 'Erro ao buscar projetos';
         console.log(error);
 
@@ -73,16 +76,7 @@ const Projetos = () => {
           updateUserDetails(null);
         }
 
-        toast.error(errorString, {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast(errorString);
       });
   }
 
@@ -98,81 +92,95 @@ const Projetos = () => {
 
   return (
     <>
-      {projects.length !== 0 && (
-        <>
-          <div>
-            <Table>
-              <thead>
-                <tr>
-                  <th>
-                    <p style={{ fontWeight: '600' }}>Nome do projeto</p>
-                  </th>
-                  <th>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontWeight: '600',
-                        }}
-                      >
-                        Progresso
-                      </p>
-                      <InfoCircleOutlined
-                        style={{ backgroundColor: '#FFFFFF', padding: '5px' }}
-                        onClick={showProgressInfoAlert}
-                      />
-                    </div>
-                  </th>
-                  <th>
-                    <p style={{ fontWeight: '600' }}>Prazo</p>
-                  </th>
-                  <th>
-                    <p style={{ fontWeight: '600' }}>Gerente</p>
-                  </th>
-                  <th>
-                    <p style={{ fontWeight: '600' }}>Ações</p>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {projectsPage.map((project, index) => (
-                  <ProjectItem
-                    key={project.id}
-                    onPress={onClickProject}
-                    project={project}
-                    onRefreshProjects={onRefreshProjects}
-                    index={index}
-                    setShowEditProject={setShowEditProject}
-                    setShowInviteUsersToProject={setShowInviteUsersToProject}
-                  />
-                ))}
-              </tbody>
-            </Table>
-          </div>
-          <PageNavigator
-            numbers={numbers}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            nPage={nPage}
-          />
-        </>
-      )}
-
-      {projects.length === 0 && (
+      {loading ? (
         <div
           style={{
-            height: '100%',
             display: 'flex',
-            alignItems: 'center',
             justifyContent: 'center',
+            height: '100%',
+            alignItems: 'center',
           }}
         >
-          <Empty description="Sem projetos existentes" />
+          <Spin />
         </div>
+      ) : (
+        <>
+          {projects.length !== 0 ? (
+            <>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>
+                      <p style={{ fontWeight: '600' }}>Nome do projeto</p>
+                    </th>
+                    <th>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontWeight: '600',
+                          }}
+                        >
+                          Progresso
+                        </p>
+                        <InfoCircleOutlined
+                          style={{
+                            backgroundColor: '#FFFFFF',
+                            padding: '5px',
+                          }}
+                          onClick={showProgressInfoAlert}
+                        />
+                      </div>
+                    </th>
+                    <th>
+                      <p style={{ fontWeight: '600' }}>Prazo</p>
+                    </th>
+                    <th>
+                      <p style={{ fontWeight: '600' }}>Gerente</p>
+                    </th>
+                    <th>
+                      <p style={{ fontWeight: '600' }}>Ações</p>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {projectsPage.map((project, index) => (
+                    <ProjectItem
+                      key={project.id}
+                      onPress={onClickProject}
+                      project={project}
+                      onRefreshProjects={onRefreshProjects}
+                      index={index}
+                      setShowEditProject={setShowEditProject}
+                      setShowInviteUsersToProject={setShowInviteUsersToProject}
+                    />
+                  ))}
+                </tbody>
+              </Table>
+              <PageNavigator
+                numbers={numbers}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                nPage={nPage}
+              />
+            </>
+          ) : (
+            <div
+              style={{
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Empty description="Sem projetos existentes" />
+            </div>
+          )}
+        </>
       )}
 
       <NovoProjeto
