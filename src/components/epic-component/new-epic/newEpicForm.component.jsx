@@ -13,6 +13,7 @@ import { useProjectDetails } from '../../../context/projectContext';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
 import { postEpic } from '../../../services/epics/postEpic';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
+import { Spin } from 'antd';
 
 export default function NewEpicForm({ show, setShow, update, setUpdate }) {
   const [userDetails] = useUserDetails();
@@ -25,6 +26,7 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
   const [idUser, setIdUser] = useState(userDetails.id);
   const [listUsers, setListUsers] = useState([]);
   const formRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     setShow(!show);
@@ -33,11 +35,13 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
   };
 
   const submitHandler = (e) => {
+    setLoading(true);
     e.preventDefault();
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
+      setLoading(false);
       return;
     }
 
@@ -55,10 +59,12 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
         setUpdate(!update);
         handleClose();
         showSuccessToast('Épico criado');
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
         showErrorToast('Erro ao criar épico');
+        setLoading(false);
       });
   };
 
@@ -208,11 +214,17 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <div className="d-grid mt-4">
-              <Button variant="primary" type="submit">
-                Criar épico
-              </Button>
-            </div>
+            {loading ? (
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Spin />
+              </div>
+            ) : (
+              <div className="d-grid mt-4">
+                <Button variant="primary" type="submit">
+                  Criar épico
+                </Button>
+              </div>
+            )}
           </Form>
         </Modal.Body>
       </Modal>
