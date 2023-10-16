@@ -62,7 +62,6 @@ function Registration({ cameFromProjectPage }) {
 
     setErrors({});
     const formErrors = validateForm();
-    console.log(formErrors);
 
     if (Object.keys(formErrors).length > 0) {
       setLoading(false);
@@ -109,7 +108,12 @@ function Registration({ cameFromProjectPage }) {
       .catch((error) => {
         setLoading(false);
         console.log(error);
-        showErrorToast('Erro ao criar cadastro');
+
+        if (error.response.status == 422) {
+          showErrorToast('Este email já está em uso');
+        } else {
+          showErrorToast('Erro ao criar cadastro');
+        }
       });
   };
 
