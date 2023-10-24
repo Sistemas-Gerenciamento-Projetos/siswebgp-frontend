@@ -39,7 +39,7 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
     setBeginDate('');
     setDeadlineDate('');
     setDescription('');
-    setIdUser(userDetails.id);
+    setIdUser('');
   };
 
   const handleClose = () => {
@@ -129,7 +129,6 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
       getTask(userDetails.accessToken, projectId, taskId)
         .then((data) => {
           if (data != null) {
-            console.log(data);
             setTitle(data.title);
             setBeginDate(data.start_date.substring(0, 10));
             setDeadlineDate(data.deadline_date.substring(0, 10));
@@ -190,11 +189,14 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
                 defaultValue={idUser}
                 onChange={(e) => setIdUser(e.target.value)}
               >
-                {listUsers.map((user) => (
-                  <option value={user.id} key={user.id}>
-                    {user.name}
-                  </option>
-                ))}
+                {listUsers.map((user) => {
+                  // console.log(idUser);
+                  return (
+                    <option value={user.id} key={user.id}>
+                      {user.name}
+                    </option>
+                  );
+                })}
               </Form.Select>
             </Form.Group>
 
