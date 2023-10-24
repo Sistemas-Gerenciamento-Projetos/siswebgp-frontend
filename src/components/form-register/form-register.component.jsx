@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useUserDetails } from '../../context/usercontext';
 import { registerUser } from '../../services/authorization/register-user';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from '../../services/authorization/login';
 import { showErrorToast, showSuccessToast } from '../../utils/Toasts';

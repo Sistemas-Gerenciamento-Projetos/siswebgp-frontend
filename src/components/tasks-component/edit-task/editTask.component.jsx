@@ -1,43 +1,45 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  Badge,
-  Button,
-  Col,
-  Form,
-  InputGroup,
-  Modal,
-  Row,
-} from 'react-bootstrap';
+import React, { useState, useRef, useEffect } from 'react';
+import { Button, InputGroup, Badge } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { patchTask } from '../../../services/tasks/patchTask';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
-import { patchEpic } from '../../../services/epics/patchEpic';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 import { Spin } from 'antd';
 
-export default function EditEpicForm({
-  epic,
-  show,
-  setShow,
-  update,
-  setUpdate,
-}) {
+export default function EditTask({ show, setShow, task, onRefreshTasks }) {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
-  const [errors, setErrors] = useState({});
-  const [title, setTitle] = useState(epic.title);
-  const [description, setDescription] = useState(epic.description);
-  const [beginDate, setBeginDate] = useState(epic.start_date.substring(0, 10));
+
+  const [title, setTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.description);
+  const [beginDate, setBeginDate] = useState(task.start_date.substring(0, 10));
   const [deadlineDate, setDeadlineDate] = useState(
-    epic.deadline_date.substring(0, 10),
+    task.deadline_date.substring(0, 10),
   );
-  const [idUser, setIdUser] = useState(userDetails.id);
   const [listUsers, setListUsers] = useState([]);
-  const formRef = useRef(null);
+  const [userName, setUserName] = useState(task.user_name);
+  const [idUser, setIdUser] = useState(task.user);
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
+  const formRef = useRef(null);
+
+  const handleReset = () => {
+    setTitle('');
+    setBeginDate('');
+    setDeadlineDate('');
+    setDescription('');
+    setIdUser(userDetails.id);
+  };
 
   const handleClose = () => {
     setShow(!show);
+    handleReset();
     setErrors({});
   };
 
@@ -46,30 +48,15 @@ export default function EditEpicForm({
     e.preventDefault();
     const formErrors = validateForm();
 
+    setUserName(listUsers.find((x) => x.id == idUser).name); // atualiza o nome do usuário
+
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       setLoading(false);
       return;
     }
 
-    epic.title = title;
-    epic.description = description;
-    epic.user = idUser;
-    epic.start_date = beginDate;
-    epic.deadline_date = deadlineDate;
-
-    patchEpic(userDetails.accessToken, projectDetails.projectId, epic)
-      .then((data) => {
-        setUpdate(!update);
-        handleClose();
-        showSuccessToast('Épico atualizado');
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        showErrorToast('Erro ao atualizar épico');
-        setLoading(false);
-      });
+    editTask();
   };
 
   const validateForm = () => {
@@ -94,24 +81,59 @@ export default function EditEpicForm({
     return newErrors;
   };
 
-  useEffect(() => {
-    console.log('aqui2');
-    getUsersByProject(userDetails.accessToken, projectDetails.projectId)
+  const editTask = async () => {
+    const newEditedTask = { ...task };
+    newEditedTask.title = title;
+    newEditedTask.description = description;
+    newEditedTask.start_date = beginDate;
+    newEditedTask.deadline_date = deadlineDate;
+    newEditedTask.user = idUser;
+    newEditedTask.user_name = userName;
+
+    patchTask(
+      userDetails.accessToken,
+      projectDetails.projectId,
+      projectDetails.projectName,
+      projectDetails.managerEmail,
+      newEditedTask,
+    )
       .then((data) => {
-        setListUsers(data);
+        onRefreshTasks();
+        setShow(!show);
+        showSuccessToast('Tarefa atualizada');
+        setLoading(false);
+        setShow(!show);
+        handleReset();
       })
       .catch((error) => {
         console.log(error);
-
-        showErrorToast('Erro ao recuperar os usuários do projeto');
+        showErrorToast('Erro ao atualizar tarefa');
+        setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    console.log('aquiii');
+    if (show) {
+      getUsersByProject(userDetails.accessToken, projectDetails.projectId)
+        .then((data) => {
+          setListUsers(data);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          showErrorToast('Erro ao recuperar os usuários do projeto');
+        });
+
+      setErrors({});
+    }
   }, [show]);
 
   return (
-    <>
+    <div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Editar épico</Modal.Title>
+          <Modal.Title>{'Editar Tarefa'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form ref={formRef} onSubmit={submitHandler}>
@@ -212,19 +234,24 @@ export default function EditEpicForm({
             </Form.Group>
 
             {loading ? (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
                 <Spin />
               </div>
             ) : (
               <div className="d-grid mt-4">
                 <Button variant="primary" type="submit">
-                  Atualizar épico
+                  Salvar Alterações
                 </Button>
               </div>
             )}
           </Form>
         </Modal.Body>
       </Modal>
-    </>
+    </div>
   );
 }

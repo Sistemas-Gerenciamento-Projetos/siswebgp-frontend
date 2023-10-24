@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import ManagerPhoto from '../managerPhoto/managerPhoto';
 import { useUserDetails } from '../../context/usercontext';
 
-const Toolbar = ({ menuItem, setShowBacklog, setShowEpics }) => {
+const Toolbar = ({ menuItem, setShowBacklog, setShowEpics, title }) => {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
   const [userDetails, updateUserDetails] = useUserDetails();
   const nav = useNavigate();
@@ -29,23 +29,6 @@ const Toolbar = ({ menuItem, setShowBacklog, setShowEpics }) => {
     nav('/');
   };
 
-  const getTitle = () => {
-    switch (menuItem) {
-      case 0:
-        return 'Meus projetos';
-      case 1:
-        return `${projectDetails.projectName} / Dashboard`;
-      case 2:
-        return `${projectDetails.projectName} / Backlog`;
-      case 3:
-        return `${projectDetails.projectName} / Painel`;
-      case 4:
-        return `${projectDetails.projectName} / Roteiro`;
-      case 5:
-        return `${projectDetails.projectName} / Épicos`;
-    }
-  };
-
   function isBacklogOrEpicsPage() {
     return menuItem === 2 || menuItem === 5;
   }
@@ -58,7 +41,7 @@ const Toolbar = ({ menuItem, setShowBacklog, setShowEpics }) => {
       </ManagerInfo>
 
       <TitleDiv>
-        <Title>{getTitle()}</Title>
+        <Title>{title}</Title>
       </TitleDiv>
       <ExitButtonDiv>
         {isBacklogOrEpicsPage() && (

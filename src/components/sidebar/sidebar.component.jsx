@@ -13,6 +13,7 @@ import { Sidebar, Menu, MenuItem, menuClasses } from 'react-pro-sidebar';
 import SGPSidebarHeader from './header/sgpSidebarHeader.component';
 import { MenuContent, MenuItemContent, Root, themes } from './sidebar.styles';
 import SGPSidebarFooter from './footer/sgpSidebarFooter.component';
+import { useNavigate } from 'react-router-dom';
 
 const hexToRgba = (hex, alpha) => {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -22,10 +23,11 @@ const hexToRgba = (hex, alpha) => {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-export default function SGPSidebar({ menuItem, setMenuItem, active }) {
+export default function SGPSidebar() {
   const [projectDetails] = useProjectDetails();
   const [collapsed, setCollapsed] = useState(true);
   const theme = 'light';
+  const navigate = useNavigate();
 
   const menuItemStyles = {
     root: {
@@ -78,40 +80,53 @@ export default function SGPSidebar({ menuItem, setMenuItem, active }) {
           <SGPSidebarHeader collapsed={collapsed} />
           <MenuItemContent>
             <Menu menuItemStyles={menuItemStyles}>
-              <MenuItem icon={<GroupOutlined />} onClick={() => setMenuItem(0)}>
+              <MenuItem
+                icon={<GroupOutlined />}
+                onClick={() => navigate(`/projects`)}
+              >
                 Projetos
               </MenuItem>
               <MenuItem
                 icon={<HomeOutlined />}
-                onClick={() => setMenuItem(1)}
+                onClick={() =>
+                  navigate(`/projects/${projectDetails.projectId}/dashboard`)
+                }
                 disabled={projectDetails.projectId === ''}
               >
                 Dashboard
               </MenuItem>
               <MenuItem
                 icon={<OrderedListOutlined />}
-                onClick={() => setMenuItem(2)}
+                onClick={() =>
+                  navigate(`/projects/${projectDetails.projectId}/backlog`)
+                }
                 disabled={projectDetails.projectId === ''}
               >
                 Backlog
               </MenuItem>
               <MenuItem
                 icon={<TableOutlined />}
-                onClick={() => setMenuItem(3)}
+                onClick={() =>
+                  navigate(`/projects/${projectDetails.projectId}/painel`)
+                }
                 disabled={projectDetails.projectId === ''}
               >
                 Painel
               </MenuItem>
               <MenuItem
                 icon={<BarChartOutlined />}
-                onClick={() => setMenuItem(4)}
+                onClick={() =>
+                  navigate(`/projects/${projectDetails.projectId}/roteiro`)
+                }
                 disabled={projectDetails.projectId === ''}
               >
                 Roteiro
               </MenuItem>
               <MenuItem
                 icon={<TrophyOutlined />}
-                onClick={() => setMenuItem(5)}
+                onClick={() =>
+                  navigate(`/projects/${projectDetails.projectId}/epics`)
+                }
                 disabled={projectDetails.projectId === ''}
               >
                 Épicos
