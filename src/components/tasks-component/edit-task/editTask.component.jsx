@@ -11,11 +11,12 @@ import { getUsersByProject } from '../../../services/users/getUsersByProject';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 import { Spin } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getTask } from '../../../services/tasks/getTask';
 
 export default function EditTask({ show, setShow, onRefreshTasks }) {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
-  const { taskId } = useParams();
+  const { projectId, taskId } = useParams();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -25,6 +26,9 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
   const [listUsers, setListUsers] = useState([]);
   const [userName, setUserName] = useState('');
   const [idUser, setIdUser] = useState('');
+  const [status, setStatus] = useState('');
+  const [epic, setEpic] = useState('');
+  const [id, setId] = useState('');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -84,13 +88,19 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
   };
 
   const editTask = async () => {
-    const newEditedTask = { ...task };
-    newEditedTask.title = title;
-    newEditedTask.description = description;
-    newEditedTask.start_date = beginDate;
-    newEditedTask.deadline_date = deadlineDate;
-    newEditedTask.user = idUser;
-    newEditedTask.user_name = userName;
+    const newEditedTask = {
+      id: id,
+      title: title,
+      description: description,
+      start_date: beginDate,
+      deadline_date: deadlineDate,
+      user: idUser,
+      user_name: userName,
+      status: status,
+      epic: epic,
+    };
+
+    console.log(newEditedTask);
 
     patchTask(
       userDetails.accessToken,
@@ -116,7 +126,28 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
 
   useEffect(() => {
     if (show) {
-      getUsersByProject(userDetails.accessToken, projectDetails.projectId)
+      getTask(userDetails.accessToken, projectId, taskId)
+        .then((data) => {
+          if (data != null) {
+            console.log(data);
+            setTitle(data.title);
+            setBeginDate(data.start_date.substring(0, 10));
+            setDeadlineDate(data.deadline_date.substring(0, 10));
+            setDescription(data.description);
+            setIdUser(data.user);
+            setUserName(data.user_name);
+            setStatus(data.status);
+            setEpic(data.epic);
+            setId(data.id);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+
+          showErrorToast('Erro ao carregar os dados da tarefa');
+        });
+
+      getUsersByProject(userDetails.accessToken, projectId)
         .then((data) => {
           setListUsers(data);
         })

@@ -95,7 +95,6 @@ export default function EditEpicForm({
   };
 
   useEffect(() => {
-    console.log('aqui2');
     getUsersByProject(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         setListUsers(data);
