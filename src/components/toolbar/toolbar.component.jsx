@@ -67,7 +67,6 @@ const Toolbar = ({ menuItem, setShowBacklog, setShowEpics, title }) => {
 };
 
 Toolbar.propTypes = {
-  setMenuItem: PropTypes.func.isRequired,
   menuItem: PropTypes.number.isRequired,
 };
 

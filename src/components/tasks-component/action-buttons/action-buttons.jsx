@@ -6,11 +6,14 @@ import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { deleteTask } from '../../../services/tasks/deleteTask';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function ActionButtons({ setShowEditTask, onRefreshTasks, taskId }) {
+function ActionButtons({ onRefreshTasks, taskId, setShowEditTask }) {
   const [showDeleteTask, setShowDeleteTask] = useState(false);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
+  const { projectId } = useParams();
+  const navigate = useNavigate();
 
   const handleDelete = () => {
     deleteTask(
@@ -35,6 +38,7 @@ function ActionButtons({ setShowEditTask, onRefreshTasks, taskId }) {
   const handleShowDeleteTask = () => setShowDeleteTask(true);
 
   const handleEdit = () => {
+    navigate(`/projects/${projectId}/backlog/${taskId}/edit`);
     setShowEditTask(true);
   };
 

@@ -10,9 +10,15 @@ import { useUserDetails } from '../../../context/usercontext';
 import { Button } from 'react-bootstrap';
 import EditTask from '../edit-task/editTask.component';
 
-const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
+const TaskItem = ({
+  task,
+  onRefreshTasks,
+  index,
+  projectDetails,
+  showEditTask,
+  setShowEditTask,
+}) => {
   const [userDetails] = useUserDetails();
-  const [showEditTask, setShowEditTask] = useState(false);
 
   function isAbleToEditTask() {
     return (
@@ -23,12 +29,6 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
 
   return (
     <>
-      <EditTask
-        show={showEditTask}
-        setShow={setShowEditTask}
-        task={task}
-        onRefreshTasks={onRefreshTasks}
-      />
       <tbody>
         <tr style={{ backgroundColor: index % 2 === 0 ? '' : '#ebebeb' }}>
           <td>
@@ -63,9 +63,9 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
           <td>
             {isAbleToEditTask() && (
               <ActionButtons
-                setShowEditTask={setShowEditTask}
                 onRefreshTasks={onRefreshTasks}
                 taskId={task.id}
+                setShowEditTask={setShowEditTask}
               />
             )}
           </td>

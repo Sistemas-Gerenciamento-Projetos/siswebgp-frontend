@@ -11,6 +11,7 @@ import NewTaskBacklog from '../../components/tasks-component/new-task.component/
 import PageNavigator from '../../components/pageNavigator/pageNavigator';
 import SGPSidebar from '../../components/sidebar/sidebar.component';
 import Toolbar from '../../components/toolbar/toolbar.component';
+import EditTask from '../../components/tasks-component/edit-task/editTask.component';
 
 function Backlog() {
   const [userDetails] = useUserDetails();
@@ -73,6 +74,11 @@ function Backlog() {
           onRefreshTasks={onRefreshTasks}
           update={update}
         />
+        <EditTask
+          show={showEditTask}
+          setShow={setShowEditTask}
+          onRefreshTasks={onRefreshTasks}
+        />
 
         {loading ? (
           <div
@@ -120,6 +126,8 @@ function Backlog() {
                       projectDetails={projectDetails}
                       onRefreshTasks={onRefreshTasks}
                       index={index}
+                      showEditTask={showEditTask}
+                      setShowEditTask={setShowEditTask}
                     />
                   ))}
                 </Table>

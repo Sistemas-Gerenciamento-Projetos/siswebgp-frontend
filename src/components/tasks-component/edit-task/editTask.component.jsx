@@ -10,20 +10,21 @@ import { useProjectDetails } from '../../../context/projectContext';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 import { Spin } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function EditTask({ show, setShow, task, onRefreshTasks }) {
+export default function EditTask({ show, setShow, onRefreshTasks }) {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
+  const { taskId } = useParams();
+  const navigate = useNavigate();
 
-  const [title, setTitle] = useState(task.title);
-  const [description, setDescription] = useState(task.description);
-  const [beginDate, setBeginDate] = useState(task.start_date.substring(0, 10));
-  const [deadlineDate, setDeadlineDate] = useState(
-    task.deadline_date.substring(0, 10),
-  );
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [beginDate, setBeginDate] = useState('');
+  const [deadlineDate, setDeadlineDate] = useState('');
   const [listUsers, setListUsers] = useState([]);
-  const [userName, setUserName] = useState(task.user_name);
-  const [idUser, setIdUser] = useState(task.user);
+  const [userName, setUserName] = useState('');
+  const [idUser, setIdUser] = useState('');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -38,6 +39,7 @@ export default function EditTask({ show, setShow, task, onRefreshTasks }) {
   };
 
   const handleClose = () => {
+    navigate(-1);
     setShow(!show);
     handleReset();
     setErrors({});
@@ -113,7 +115,6 @@ export default function EditTask({ show, setShow, task, onRefreshTasks }) {
   };
 
   useEffect(() => {
-    console.log('aquiii');
     if (show) {
       getUsersByProject(userDetails.accessToken, projectDetails.projectId)
         .then((data) => {
