@@ -4,6 +4,8 @@ import { useUserDetails } from '../../context/usercontext';
 import { login } from '../../services/authorization/login';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Spin } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -12,6 +14,8 @@ function Login() {
   const [password, setPassword] = useState('');
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors = {};
@@ -32,21 +36,26 @@ function Login() {
   };
 
   const submitHandler = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
+      setLoading(false);
       setErrors(formErrors);
       return;
     }
 
     login(userDetails.accessToken, email, password)
       .then((data) => {
+        setLoading(false);
         setErrors('');
         localStorage.setItem('userDetails', JSON.stringify(data));
         updateUserDetails(data.access, data.refresh, data.user.id);
+        navigate('/projects');
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
         toast.error('Credenciais inválidas', {
           position: 'bottom-right',
@@ -93,9 +102,13 @@ function Login() {
       </Form.Group>
 
       <div className="d-grid">
-        <Button type="submit" onClick={submitHandler} variant="primary">
-          Entrar
-        </Button>
+        {loading ? (
+          <Spin />
+        ) : (
+          <Button type="submit" onClick={submitHandler} variant="primary">
+            Entrar
+          </Button>
+        )}
       </div>
     </Form>
   );

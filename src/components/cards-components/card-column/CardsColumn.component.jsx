@@ -8,7 +8,7 @@ const Container = styled.div`
   background-color: #ffffff;
   border-radius: 2.5px;
   width: 300px;
-  height: 100vh;
+  height: 87vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;

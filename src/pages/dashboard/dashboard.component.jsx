@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import DashboardCardItem from '../../components/dashboard-components/card-item/dashboardCardItem.component';
-import { styled } from 'styled-components';
 import DashboardPieItem from '../../components/dashboard-components/pie-item/dashboardPieItem.component';
 import { getAnalytics } from '../../services/analytics/getAnalytics';
 import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
-
-const CardsDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 32px;
-`;
+import { CardsDiv, ContentDiv, Root } from './dashboard.styles';
+import { showErrorToast } from '../../utils/Toasts';
+import { Spin } from 'antd';
+import Toolbar from '../../components/toolbar/toolbar.component';
+import SGPSidebar from '../../components/sidebar/sidebar.component';
 
 export default function Dashboard() {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [cards, setCards] = useState([]);
   const [pies, setPies] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     getAnalytics(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         const cardsJson = [];
@@ -34,22 +33,40 @@ export default function Dashboard() {
 
         setCards(cardsJson);
         setPies(piesJson);
-        console.log(cardsJson);
-        console.log(piesJson);
+        setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
+        showErrorToast('Erro ao carregar o dashboard');
       });
   }, []);
 
   return (
-    <>
-      <CardsDiv>
-        {cards.map((card, index) => (
-          <DashboardCardItem key={index} card={card} />
-        ))}
-      </CardsDiv>
-      <DashboardPieItem piesData={pies} />
-    </>
+    <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
+      <SGPSidebar />
+      <div style={{ width: '100%' }}>
+        <Toolbar
+          menuItem={1}
+          setShowBacklog={() => {}}
+          setShowEpics={() => {}}
+          title={`${projectDetails.projectName} / Dashboard`}
+        />
+        <Root>
+          {loading ? (
+            <Spin />
+          ) : (
+            <ContentDiv>
+              <CardsDiv>
+                {cards.map((card, index) => (
+                  <DashboardCardItem key={index} card={card} />
+                ))}
+              </CardsDiv>
+              <DashboardPieItem piesData={pies} />
+            </ContentDiv>
+          )}
+        </Root>
+      </div>
+    </div>
   );
 }

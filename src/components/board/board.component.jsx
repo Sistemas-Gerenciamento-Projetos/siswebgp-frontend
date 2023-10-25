@@ -10,9 +10,10 @@ import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
 import CardsColumn from '../cards-components/card-column/CardsColumn.component';
 import { patchTask } from '../../services/tasks/patchTask';
-import { toast } from 'react-toastify';
 import getWorks from '../../services/board/getWorks';
 import { patchEpic } from '../../services/epics/patchEpic';
+import { showErrorToast } from '../../utils/Toasts';
+import { Spin } from 'antd';
 
 export default function Board() {
   const [userDetails] = useUserDetails();
@@ -22,6 +23,7 @@ export default function Board() {
   const [paused, setPaused] = useState([]);
   const [done, setDone] = useState([]);
   const [updateTasks, setUpdateTasks] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getWorks(userDetails.accessToken, projectDetails.projectId)
@@ -37,20 +39,12 @@ export default function Board() {
         );
         setPaused(cards.filter((card) => card.status === STATUS_PAUSED));
         setDone(cards.filter((card) => card.status == STATUS_DONE));
-        setUpdateTasks(false);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Erro ao recuperar os cards', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao recuperar os cards');
+        setLoading(false);
       });
   }, [updateTasks]);
 
@@ -66,13 +60,13 @@ export default function Board() {
     if (source.droppableId === destination.droppableId) return;
 
     // REMOVE FROM SOURCE ARRAY
-    if (source.droppableId === 1) {
+    if (source.droppableId === '1') {
       setTodo(removeItemById(draggableId, todo));
-    } else if (source.droppableId === 2) {
+    } else if (source.droppableId === '2') {
       setInProgress(removeItemById(draggableId, inProgress));
-    } else if (source.droppableId === 3) {
+    } else if (source.droppableId === '3') {
       setPaused(removeItemById(draggableId, paused));
-    } else if (source.droppableId === 4) {
+    } else if (source.droppableId === '4') {
       setDone(removeItemById(draggableId, done));
     }
 
@@ -106,16 +100,7 @@ export default function Board() {
         })
         .catch((error) => {
           console.log(error);
-          toast.error('Erro ao atualizar o épico', {
-            position: 'bottom-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored',
-          });
+          showErrorToast('Erro ao atualizar o épico');
         });
     } else {
       patchTask(
@@ -130,16 +115,7 @@ export default function Board() {
         })
         .catch((error) => {
           console.log(error);
-          toast.error('Erro ao atualizar a tarefa', {
-            position: 'bottom-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored',
-          });
+          showErrorToast('Erro ao atualizar a tarefa');
         });
     }
   };
@@ -153,21 +129,35 @@ export default function Board() {
   }
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'row',
-          height: '87%',
-        }}
-      >
-        <CardsColumn title={'A fazer'} cards={todo} id={'1'} />
-        <CardsColumn title={'Em andamento'} cards={inProgress} id={'2'} />
-        <CardsColumn title={'Concluído'} cards={done} id={'4'} />
-        <CardsColumn title={'Pausado'} cards={paused} id={'3'} />
-      </div>
-    </DragDropContext>
+    <>
+      {loading ? (
+        <div
+          style={{
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Spin />
+        </div>
+      ) : (
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row',
+            }}
+          >
+            <CardsColumn title={'A fazer'} cards={todo} id={'1'} />
+            <CardsColumn title={'Em andamento'} cards={inProgress} id={'2'} />
+            <CardsColumn title={'Concluído'} cards={done} id={'4'} />
+            <CardsColumn title={'Pausado'} cards={paused} id={'3'} />
+          </div>
+        </DragDropContext>
+      )}
+    </>
   );
 }

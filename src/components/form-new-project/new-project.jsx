@@ -10,7 +10,8 @@ import {
 } from 'react-bootstrap';
 import './new-project.scss';
 import { postProject } from '../../services/projects/postProject';
-import { toast } from 'react-toastify';
+import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
+import { Spin } from 'antd';
 
 const NewProject = ({ onRefreshProjects, userDetails, show, setShow }) => {
   const [title, setTitle] = useState('');
@@ -19,19 +20,23 @@ const NewProject = ({ onRefreshProjects, userDetails, show, setShow }) => {
   const [endDate, setEndDate] = useState('');
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {
+    setLoading(true);
     event.preventDefault();
     event.stopPropagation();
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
+      setLoading(false);
       setErrors(formErrors);
       return;
     }
 
     const form = event.currentTarget;
     if (form.checkValidity() === false && title.trim() && description.trim()) {
+      setLoading(false);
       setValidated(true);
       return;
     }
@@ -46,30 +51,14 @@ const NewProject = ({ onRefreshProjects, userDetails, show, setShow }) => {
     )
       .then((data) => {
         onRefreshProjects();
-        toast.success('Projeto criado', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showSuccessToast('Projeto criado');
+        setLoading(false);
         handleClose();
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Erro ao criar projeto', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao criar projeto');
+        setLoading(false);
       });
   };
 
@@ -206,9 +195,21 @@ const NewProject = ({ onRefreshProjects, userDetails, show, setShow }) => {
               </Col>
             </Row>
 
-            <div className="d-grid mt-4">
-              <Button type="submit">Cadastrar</Button>
-            </div>
+            {loading ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  paddingTop: '16px',
+                }}
+              >
+                <Spin />
+              </div>
+            ) : (
+              <div className="d-grid mt-4">
+                <Button type="submit">Cadastrar</Button>
+              </div>
+            )}
           </Form>
         </Modal.Body>
       </Modal>

@@ -1,34 +1,49 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  Badge,
-  Button,
-  Col,
-  Form,
-  InputGroup,
-  Modal,
-  Row,
-} from 'react-bootstrap';
+import React, { useState, useRef, useEffect } from 'react';
+import { Button, InputGroup, Badge } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { patchTask } from '../../../services/tasks/patchTask';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
-import { postEpic } from '../../../services/epics/postEpic';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 import { Spin } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getTask } from '../../../services/tasks/getTask';
 
-export default function NewEpicForm({ show, setShow, update, setUpdate }) {
+export default function EditTask({ show, setShow, onRefreshTasks }) {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
-  const [errors, setErrors] = useState({});
+  const { projectId, taskId } = useParams();
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [beginDate, setBeginDate] = useState('');
   const [deadlineDate, setDeadlineDate] = useState('');
-  const [idUser, setIdUser] = useState(userDetails.id);
   const [listUsers, setListUsers] = useState([]);
-  const formRef = useRef(null);
+  const [userName, setUserName] = useState('');
+  const [idUser, setIdUser] = useState('');
+  const [status, setStatus] = useState('');
+  const [epic, setEpic] = useState('');
+  const [id, setId] = useState('');
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const formRef = useRef(null);
+
+  const handleReset = () => {
+    setTitle('');
+    setBeginDate('');
+    setDeadlineDate('');
+    setDescription('');
+    setIdUser('');
+  };
+
   const handleClose = () => {
+    navigate(-1);
     setShow(!show);
     handleReset();
     setErrors({});
@@ -39,33 +54,15 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
     e.preventDefault();
     const formErrors = validateForm();
 
+    setUserName(listUsers.find((x) => x.id == idUser).name); // atualiza o nome do usuário
+
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       setLoading(false);
       return;
     }
 
-    postEpic(
-      userDetails.accessToken,
-      idUser,
-      projectDetails.projectId,
-      title,
-      description,
-      beginDate,
-      deadlineDate,
-      'TODO',
-    )
-      .then((data) => {
-        setUpdate(!update);
-        handleClose();
-        showSuccessToast('Épico criado');
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        showErrorToast('Erro ao criar épico');
-        setLoading(false);
-      });
+    editTask();
   };
 
   const validateForm = () => {
@@ -90,31 +87,84 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
     return newErrors;
   };
 
-  const handleReset = () => {
-    setTitle('');
-    setBeginDate('');
-    setDeadlineDate('');
-    setDescription('');
-    setIdUser(userDetails.id);
-  };
+  const editTask = async () => {
+    const newEditedTask = {
+      id: id,
+      title: title,
+      description: description,
+      start_date: beginDate,
+      deadline_date: deadlineDate,
+      user: idUser,
+      user_name: userName,
+      status: status,
+      epic: epic,
+    };
 
-  useEffect(() => {
-    getUsersByProject(userDetails.accessToken, projectDetails.projectId)
+    console.log(newEditedTask);
+
+    patchTask(
+      userDetails.accessToken,
+      projectDetails.projectId,
+      projectDetails.projectName,
+      projectDetails.managerEmail,
+      newEditedTask,
+    )
       .then((data) => {
-        setListUsers(data);
-        setUpdate(!update);
+        onRefreshTasks();
+        setShow(!show);
+        showSuccessToast('Tarefa atualizada');
+        setLoading(false);
+        setShow(!show);
+        handleReset();
       })
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao recuperar os usuários do projeto');
+        showErrorToast('Erro ao atualizar tarefa');
+        setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    if (show) {
+      getTask(userDetails.accessToken, projectId, taskId)
+        .then((data) => {
+          if (data != null) {
+            setTitle(data.title);
+            setBeginDate(data.start_date.substring(0, 10));
+            setDeadlineDate(data.deadline_date.substring(0, 10));
+            setDescription(data.description);
+            setIdUser(data.user);
+            setUserName(data.user_name);
+            setStatus(data.status);
+            setEpic(data.epic);
+            setId(data.id);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+
+          showErrorToast('Erro ao carregar os dados da tarefa');
+        });
+
+      getUsersByProject(userDetails.accessToken, projectId)
+        .then((data) => {
+          setListUsers(data);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          showErrorToast('Erro ao recuperar os usuários do projeto');
+        });
+
+      setErrors({});
+    }
   }, [show]);
 
   return (
-    <>
+    <div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Novo épico</Modal.Title>
+          <Modal.Title>{'Editar Tarefa'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form ref={formRef} onSubmit={submitHandler}>
@@ -123,7 +173,7 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
 
               <Form.Control
                 type="text"
-                placeholder="Digite o título do épico"
+                placeholder="Digite o título da tarefa"
                 isInvalid={!!errors.title}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -139,11 +189,14 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
                 defaultValue={idUser}
                 onChange={(e) => setIdUser(e.target.value)}
               >
-                {listUsers.map((user) => (
-                  <option value={user.id} key={user.id}>
-                    {user.name}
-                  </option>
-                ))}
+                {listUsers.map((user) => {
+                  // console.log(idUser);
+                  return (
+                    <option value={user.id} key={user.id}>
+                      {user.name}
+                    </option>
+                  );
+                })}
               </Form.Select>
             </Form.Group>
 
@@ -215,19 +268,24 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
             </Form.Group>
 
             {loading ? (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
                 <Spin />
               </div>
             ) : (
               <div className="d-grid mt-4">
                 <Button variant="primary" type="submit">
-                  Criar épico
+                  Salvar Alterações
                 </Button>
               </div>
             )}
           </Form>
         </Modal.Body>
       </Modal>
-    </>
+    </div>
   );
 }

@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'reactstrap';
-import styles from './toolbarStyles.component';
-import { useUserDetails } from '../../context/usercontext';
+import {
+  ExitButtonDiv,
+  ManagerInfo,
+  ManagerInfoTitle,
+  Root,
+  Title,
+  TitleDiv,
+} from './toolbar.styles';
 import { useNavigate } from 'react-router-dom';
 import { useProjectDetails } from '../../context/projectContext';
-import { MenuOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
-import Sidebar from '../sidebar/sidebar.component';
+import ManagerPhoto from '../managerPhoto/managerPhoto';
+import { useUserDetails } from '../../context/usercontext';
 
-const Toolbar = ({ setMenuItem, menuItem }) => {
-  const [userDetails, updateUserDetails] = useUserDetails();
+const Toolbar = ({ menuItem, setShowBacklog, setShowEpics, title }) => {
   const [projectDetails, updateProjectDetails] = useProjectDetails();
-  const [sidebar, setSidebar] = useState(false);
+  const [userDetails, updateUserDetails] = useUserDetails();
   const nav = useNavigate();
 
   const logoutHandler = () => {
@@ -24,47 +29,44 @@ const Toolbar = ({ setMenuItem, menuItem }) => {
     nav('/');
   };
 
-  const showSidebar = () => setSidebar(!sidebar);
-
-  const getTitle = () => {
-    switch (menuItem) {
-      case 0:
-        return 'Meus projetos';
-      case 1:
-        return 'Dashboard';
-      case 2:
-        return 'Backlog';
-      case 3:
-        return 'Painel';
-      case 4:
-        return 'Roteiro';
-      case 5:
-        return 'Épicos';
-    }
-  };
+  function isBacklogOrEpicsPage() {
+    return menuItem === 2 || menuItem === 5;
+  }
 
   return (
-    <div style={styles.root}>
-      <div style={styles.titleDiv}>
-        <MenuOutlined onClick={showSidebar} style={styles.menuIcon} />
-        {sidebar && (
-          <Sidebar
-            active={setSidebar}
-            menuItem={menuItem}
-            setMenuItem={setMenuItem}
-          />
+    <Root>
+      <ManagerInfo>
+        <ManagerInfoTitle>{menuItem !== 0 ? 'Gerente: ' : ''}</ManagerInfoTitle>
+        {menuItem !== 0 && <ManagerPhoto name={projectDetails.managerName} />}
+      </ManagerInfo>
+
+      <TitleDiv>
+        <Title>{title}</Title>
+      </TitleDiv>
+      <ExitButtonDiv>
+        {isBacklogOrEpicsPage() && (
+          <Button
+            style={{ marginRight: '10px', border: '0px' }}
+            color="primary"
+            outline
+            onClick={() => {
+              {
+                menuItem === 2 ? setShowBacklog(true) : setShowEpics(true);
+              }
+            }}
+          >
+            {menuItem === 2 ? 'Nova tarefa' : 'Novo épico'}
+          </Button>
         )}
-        <h3 style={styles.title}>{getTitle()}</h3>
-      </div>
-      <Button color="primary" onClick={logoutHandler}>
-        Sair
-      </Button>
-    </div>
+        <Button color="primary" onClick={logoutHandler}>
+          Sair
+        </Button>
+      </ExitButtonDiv>
+    </Root>
   );
 };
 
 Toolbar.propTypes = {
-  setMenuItem: PropTypes.func.isRequired,
   menuItem: PropTypes.number.isRequired,
 };
 
