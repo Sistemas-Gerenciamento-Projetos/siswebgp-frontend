@@ -8,15 +8,13 @@ import {
 } from '../../../constants/taskStatus';
 import { patchEpic } from '../../../services/epics/patchEpic';
 import { useUserDetails } from '../../../context/usercontext';
+import { toast } from 'react-toastify';
 import { useProjectDetails } from '../../../context/projectContext';
-import { showErrorToast } from '../../../utils/Toasts';
-import { Spin } from 'antd';
 
 export default function StatusEpic({ epic }) {
   const [actualStatus, setActualStatus] = useState(epic.status);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (epic.status !== actualStatus) {
@@ -24,39 +22,37 @@ export default function StatusEpic({ epic }) {
     }
   }, [actualStatus]);
 
-  async function handleStatusChange() {
-    setLoading(true);
+  function handleStatusChange() {
     epic.status = actualStatus;
 
     patchEpic(userDetails.accessToken, projectDetails.projectId, epic)
-      .then((data) => {
-        setLoading(false);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao atualizar o status do épico');
+        toast.error('Erro ao atualizar o status do épico', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
         epic.statusc = actualStatus;
         setActualStatus(actualStatus);
-        setLoading(false);
       });
   }
 
   return (
-    <>
-      {loading ? (
-        <Spin />
-      ) : (
-        <Form.Select
-          defaultValue={epic.status}
-          onChange={(e) => setActualStatus(e.target.value)}
-          style={{ width: 'fit-content' }}
-        >
-          <option value={STATUS_TODO}>A fazer</option>
-          <option value={STATUS_INPROGRESS}>Em andamento</option>
-          <option value={STATUS_DONE}>Concluído</option>
-          <option value={STATUS_PAUSED}>Pausado</option>
-        </Form.Select>
-      )}
-    </>
+    <Form.Select
+      defaultValue={epic.status}
+      onChange={(e) => setActualStatus(e.target.value)}
+    >
+      <option value={STATUS_TODO}>A fazer</option>
+      <option value={STATUS_INPROGRESS}>Em andamento</option>
+      <option value={STATUS_DONE}>Concluído</option>
+      <option value={STATUS_PAUSED}>Pausado</option>
+    </Form.Select>
   );
 }

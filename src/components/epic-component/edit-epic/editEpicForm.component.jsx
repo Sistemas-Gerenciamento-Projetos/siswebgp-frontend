@@ -11,9 +11,8 @@ import {
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
+import { toast } from 'react-toastify';
 import { patchEpic } from '../../../services/epics/patchEpic';
-import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
-import { Spin } from 'antd';
 
 export default function EditEpicForm({
   epic,
@@ -34,7 +33,6 @@ export default function EditEpicForm({
   const [idUser, setIdUser] = useState(userDetails.id);
   const [listUsers, setListUsers] = useState([]);
   const formRef = useRef(null);
-  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     setShow(!show);
@@ -42,13 +40,11 @@ export default function EditEpicForm({
   };
 
   const submitHandler = (e) => {
-    setLoading(true);
     e.preventDefault();
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
-      setLoading(false);
       return;
     }
 
@@ -60,15 +56,31 @@ export default function EditEpicForm({
 
     patchEpic(userDetails.accessToken, projectDetails.projectId, epic)
       .then((data) => {
-        setUpdate(!update);
+        setUpdate(update);
         handleClose();
-        showSuccessToast('Épico atualizado');
-        setLoading(false);
+        toast.success('Épico atualizado', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       })
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao atualizar épico');
-        setLoading(false);
+        toast.error('Erro ao atualizar épico', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   };
 
@@ -98,11 +110,21 @@ export default function EditEpicForm({
     getUsersByProject(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         setListUsers(data);
+        setUpdate(!update);
       })
       .catch((error) => {
         console.log(error);
 
-        showErrorToast('Erro ao recuperar os usuários do projeto');
+        toast.error('Erro ao recuperar os usuários do projeto', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   }, [show]);
 
@@ -210,17 +232,11 @@ export default function EditEpicForm({
               </Form.Control.Feedback>
             </Form.Group>
 
-            {loading ? (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Spin />
-              </div>
-            ) : (
-              <div className="d-grid mt-4">
-                <Button variant="primary" type="submit">
-                  Atualizar épico
-                </Button>
-              </div>
-            )}
+            <div className="d-grid mt-4">
+              <Button variant="primary" type="submit">
+                Atualizar épico
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

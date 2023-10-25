@@ -8,9 +8,8 @@ import {
 } from '../../../constants/urls';
 import { Form, Button, Badge } from 'react-bootstrap';
 import { useProjectDetails } from '../../../context/projectContext';
+import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
-import { Spin } from 'antd';
-import { showSuccessToast } from '../../../utils/Toasts';
 
 const InviteUsers = ({ handleClose }) => {
   const form = useRef();
@@ -18,10 +17,8 @@ const InviteUsers = ({ handleClose }) => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [projectDetails] = useProjectDetails();
-  const [loading, setLoading] = useState(false);
 
   const submitHandler = (e) => {
-    setLoading(true);
     e.preventDefault();
 
     const contentEmail = {
@@ -34,13 +31,20 @@ const InviteUsers = ({ handleClose }) => {
       .send(EMAIL_ID, INVITE_TEMPLATE_ID, contentEmail, PUBLIC_ID_KEY)
       .then(
         (result) => {
-          setLoading(false);
           setEmail('');
           setMessage('');
-          showSuccessToast('Email enviado com sucesso');
+          toast.success('Email enviado com sucesso', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
         },
         (error) => {
-          setLoading(false);
           console.log(error.text);
         },
       );
@@ -49,86 +53,72 @@ const InviteUsers = ({ handleClose }) => {
   return (
     <>
       <Form ref={form} className="form-invite" onSubmit={submitHandler}>
-        {loading ? (
-          <div
-            style={{
-              display: 'flex',
-              height: '180px',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Spin />
-          </div>
-        ) : (
-          <>
-            <Form.Label className="mt-2" htmlFor="text">
-              <p>Enviar convite para novo membro para equipe.</p>
-            </Form.Label>
-            <Form.Group controlId="name" className="email mb-4 mt-2">
-              <Form.Label className="label mt-2">Email:</Form.Label>
+        <Form.Label className="mt-2" htmlFor="text">
+          <p>Enviar convite para novo membro para equipe.</p>
+        </Form.Label>
+        <Form.Group controlId="name" className="email mb-4 mt-2">
+          <Form.Label className="label mt-2">Email:</Form.Label>
 
-              <Form.Control
-                type="email"
-                name="user_email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="form-item"
-              />
+          <Form.Control
+            type="email"
+            name="user_email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="form-item"
+          />
 
-              <Form.Group controlId="message">
-                <Form.Label className="label mt-2">Mensagem:</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  maxLength={200}
-                  rows={3}
-                  type="text"
-                  value={message}
-                  className="form-item"
-                  required
-                  name="message"
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-                <Badge
-                  className="form-item"
-                  text="primary"
-                  bg={`${message.length > 200 ? 'danger' : 'light'}`}
-                >
-                  {message.length}/{200}
-                </Badge>
-                <Form.Control.Feedback type="invalid">
-                  Preencha a mensagem.
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Form.Group>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
+          <Form.Group controlId="message">
+            <Form.Label className="label mt-2">Mensagem:</Form.Label>
+            <Form.Control
+              as="textarea"
+              maxLength={200}
+              rows={3}
+              type="text"
+              value={message}
+              className="form-item"
+              required
+              name="message"
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <Badge
+              className="form-item"
+              text="primary"
+              bg={`${message.length > 200 ? 'danger' : 'light'}`}
             >
-              <Button
-                style={{ width: '45%' }}
-                className="btn-submit mt-4"
-                variant="secondary"
-                onClick={handleClose}
-              >
-                Voltar
-              </Button>
+              {message.length}/{200}
+            </Badge>
+            <Form.Control.Feedback type="invalid">
+              Preencha a mensagem.
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Form.Group>
 
-              <Button
-                style={{ width: '45%' }}
-                className="btn-submit mt-4"
-                type="submit"
-                variant="primary"
-              >
-                Enviar
-              </Button>
-            </div>
-          </>
-        )}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Button
+            style={{ width: '45%' }}
+            className="btn-submit mt-4"
+            variant="secondary"
+            onClick={handleClose}
+          >
+            Voltar
+          </Button>
+
+          <Button
+            style={{ width: '45%' }}
+            className="btn-submit mt-4"
+            type="submit"
+            variant="primary"
+          >
+            Enviar
+          </Button>
+        </div>
       </Form>
       <ToastContainer
         position="bottom-right"

@@ -11,9 +11,8 @@ import {
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
+import { toast } from 'react-toastify';
 import { postEpic } from '../../../services/epics/postEpic';
-import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
-import { Spin } from 'antd';
 
 export default function NewEpicForm({ show, setShow, update, setUpdate }) {
   const [userDetails] = useUserDetails();
@@ -26,7 +25,6 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
   const [idUser, setIdUser] = useState(userDetails.id);
   const [listUsers, setListUsers] = useState([]);
   const formRef = useRef(null);
-  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     setShow(!show);
@@ -35,13 +33,11 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
   };
 
   const submitHandler = (e) => {
-    setLoading(true);
     e.preventDefault();
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
-      setLoading(false);
       return;
     }
 
@@ -56,15 +52,31 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
       'TODO',
     )
       .then((data) => {
-        setUpdate(!update);
+        setUpdate(update);
         handleClose();
-        showSuccessToast('Épico criado');
-        setLoading(false);
+        toast.success('Épico criado', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       })
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao criar épico');
-        setLoading(false);
+        toast.error('Erro ao criar épico', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   };
 
@@ -106,7 +118,17 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
       })
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao recuperar os usuários do projeto');
+
+        toast.error('Erro ao recuperar os usuários do projeto', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   }, [show]);
 
@@ -123,7 +145,7 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
 
               <Form.Control
                 type="text"
-                placeholder="Digite o título do épico"
+                placeholder="Digite o título da tarefa"
                 isInvalid={!!errors.title}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -214,17 +236,11 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {loading ? (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Spin />
-              </div>
-            ) : (
-              <div className="d-grid mt-4">
-                <Button variant="primary" type="submit">
-                  Criar épico
-                </Button>
-              </div>
-            )}
+            <div className="d-grid mt-4">
+              <Button variant="primary" type="submit">
+                Criar épico
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

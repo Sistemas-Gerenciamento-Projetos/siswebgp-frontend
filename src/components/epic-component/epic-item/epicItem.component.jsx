@@ -8,7 +8,6 @@ import ActionButtons from '../action-buttons/actionButtons';
 import EditEpicForm from '../edit-epic/editEpicForm.component';
 import AddEpicTasks from '../add-epic-tasks/addEpicTasks.component';
 import { useUserDetails } from '../../../context/usercontext';
-import { Button } from 'react-bootstrap';
 
 export default function EpicItem({ epic, index, update, setUpdate }) {
   const [projectDetails] = useProjectDetails();
@@ -39,31 +38,10 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
         setShow={setShowAddEpicTasks}
         epicId={epic.id}
       />
-      <tbody onClick={() => setShowAddEpicTasks(true)}>
-        <tr
-          style={{
-            backgroundColor: index % 2 === 0 ? '' : '#ebebeb',
-          }}
-        >
+      <tbody>
+        <tr style={{ backgroundColor: index % 2 === 0 ? '' : '#ebebeb' }}>
           <td>
-            <Button
-              variant="outlined-dark"
-              style={{
-                border: 0,
-                display: 'inline-block',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                maxWidth: '25ch',
-                width: 'fit-content',
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowEditEpic(true);
-              }}
-            >
-              {epic.title}
-            </Button>
+            <span>{epic.title}</span>
           </td>
           <td>
             <StatusEpic epic={epic} />
@@ -75,7 +53,21 @@ export default function EpicItem({ epic, index, update, setUpdate }) {
             />
           </td>
           <td>
+            <span>
+              <button
+                type="button"
+                className={'btn btn-outline-primary'}
+                onClick={() => setShowAddEpicTasks(true)}
+              >
+                Visualizar
+              </button>
+            </span>
+          </td>
+          <td>
             <ManagerPhoto name={epic.user_name} />
+          </td>
+          <td>
+            <ManagerPhoto name={projectDetails.managerName} />
           </td>
           <td>
             {isAbleToEditTask() && (
