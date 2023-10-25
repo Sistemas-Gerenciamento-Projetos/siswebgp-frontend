@@ -1,5 +1,9 @@
 import React from 'react';
-import { SwapRightOutlined, WarningFilled } from '@ant-design/icons';
+import {
+  SwapRightOutlined,
+  CalendarOutlined,
+  WarningFilled,
+} from '@ant-design/icons';
 import styles from './datePeriodStyles';
 import PropTypes from 'prop-types';
 
@@ -45,6 +49,7 @@ const DatePeriod = ({ startDate, endDate }) => {
         <span onClick={() => console.log('start')}>{startDateParsed}</span>
         <SwapRightOutlined style={styles.dateIcons} />
         <span onClick={() => console.log('end')}>{endDateParsed}</span>
+        <CalendarOutlined style={styles.dateIcons} />
       </div>
       {scheduleDelay() && <DelayedProject endDate={endDate} />}
     </div>

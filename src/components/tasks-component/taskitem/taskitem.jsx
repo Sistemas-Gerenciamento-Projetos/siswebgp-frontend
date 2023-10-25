@@ -6,19 +6,14 @@ import DatePeriod from '../../datePeriod/datePeriod';
 import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/action-buttons';
+import NewTaskBacklog from '../new-task.component/new-task.component';
 import { useUserDetails } from '../../../context/usercontext';
-import { Button } from 'react-bootstrap';
-import EditTask from '../edit-task/editTask.component';
 
-const TaskItem = ({
-  task,
-  onRefreshTasks,
-  index,
-  projectDetails,
-  showEditTask,
-  setShowEditTask,
-}) => {
+const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
+  const [titleAction] = useState('Editar tarefa');
+  const [show, setShow] = useState(false);
   const [userDetails] = useUserDetails();
+  console.log(task);
 
   function isAbleToEditTask() {
     return (
@@ -29,24 +24,18 @@ const TaskItem = ({
 
   return (
     <>
+      <NewTaskBacklog
+        show={show}
+        setShow={setShow}
+        titleAction={titleAction}
+        textButton={'Salvar alterações'}
+        task={task}
+        onRefreshTasks={onRefreshTasks}
+      />
       <tbody>
         <tr style={{ backgroundColor: index % 2 === 0 ? '' : '#ebebeb' }}>
           <td>
-            <Button
-              variant="outlined-dark"
-              style={{
-                border: 0,
-                display: 'inline-block',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                maxWidth: '25ch',
-                width: 'fit-content',
-              }}
-              onClick={() => setShow(true)}
-            >
-              {task.title}
-            </Button>
+            <span>{task.title}</span>
           </td>
           <td>
             <StatusTask status={task.status} taskItem={task} />
@@ -57,15 +46,19 @@ const TaskItem = ({
               endDate={parseDateWithoutTimezone(task.deadline_date)}
             />
           </td>
+          <td>{task.epic === null ? 'x' : task.epic_number}</td>
           <td>
             <ManagerPhoto name={task.user_name} />
           </td>
           <td>
+            <p>{projectDetails.managerName}</p>
+          </td>
+          <td>
             {isAbleToEditTask() && (
               <ActionButtons
+                setShowEdit={setShow}
                 onRefreshTasks={onRefreshTasks}
                 taskId={task.id}
-                setShowEditTask={setShowEditTask}
               />
             )}
           </td>

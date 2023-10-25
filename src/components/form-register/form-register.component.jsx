@@ -2,30 +2,24 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useUserDetails } from '../../context/usercontext';
 import { registerUser } from '../../services/authorization/register-user';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from '../../services/authorization/login';
-import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
-import { postAddUserInProject } from '../../services/projects/postAddUserInProject';
-import { useProjectDetails } from '../../context/projectContext';
-import { Spin } from 'antd';
 
-function Registration({ cameFromProjectPage }) {
+const Registration = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [userDetails, updateUserDetails] = useUserDetails();
-  const [projectDetails, updateProjectDetails] = useProjectDetails();
 
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-
   const validateForm = () => {
     const newErrors = {};
 
     if (!name || name === ' ') {
-      newErrors.name = 'Por favor, insira um nome.';
+      newErrors.name = 'Por favor, insira seu nome.';
     }
 
     if (
@@ -33,86 +27,69 @@ function Registration({ cameFromProjectPage }) {
       email === ' ' ||
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
     ) {
-      newErrors.email = 'Por favor, insira o email corretamente.';
+      newErrors.email = 'Por favor, insira seu email corretamente.';
     }
 
     if (!password || password === ' ') {
-      newErrors.password = 'Por favor, insira uma senha.';
+      newErrors.password = 'Por favor, insira sua senha.';
     }
 
     if (password.length < 8) {
       newErrors.password = 'A senha deve conter 8 digitos.';
     }
 
-    if (password !== confirmPassword) {
-      newErrors.confirmPassword = 'As senhas não são iguais.';
-    }
-
-    if (confirmPassword === ' ') {
-      newErrors.confirmPassword = 'Preencha a confirmação de senha.';
+    if (password !== confirmPassword || confirmPassword === ' ') {
+      newErrors.confirmPassword = 'Confirme sua senha.';
     }
 
     return newErrors;
   };
 
   const submitHandler = (e) => {
-    setLoading(true);
     e.preventDefault();
 
-    setErrors({});
     const formErrors = validateForm();
+    console.log(formErrors);
 
     if (Object.keys(formErrors).length > 0) {
-      setLoading(false);
       setErrors(formErrors);
       return;
     }
 
     registerUser(name, email, password)
       .then((data) => {
-        if (cameFromProjectPage) {
-          postAddUserInProject(
-            userDetails.accessToken,
-            projectDetails.projectId,
-            data.user.id,
-          )
-            .then((data) => {
-              setLoading(false);
-              setName('');
-              setEmail('');
-              setPassword('');
-              setConfirmPassword('');
-              showSuccessToast('Novo membro adicionado com sucesso.');
-            })
-            .catch((error) => {
-              setLoading(false);
-              showErrorToast('Erro ao adicionar membro no projeto.');
+        updateUserDetails(data.access, data.refresh, data.user.id);
+        login(data.access, email, password)
+          .then((data) => {
+            localStorage.setItem('userDetails', JSON.stringify(data));
+            updateUserDetails(data.access, data.refresh, data.user.id);
+          })
+          .catch((error) => {
+            console.log(error);
+            toast.error('Erro ao entrar na conta', {
+              position: 'bottom-right',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: 'colored',
             });
-        } else {
-          updateUserDetails(data.access, data.refresh, data.user.id);
-          login(data.access, email, password)
-            .then((data) => {
-              setLoading(false);
-
-              localStorage.setItem('userDetails', JSON.stringify(data));
-              updateUserDetails(data.access, data.refresh, data.user.id);
-            })
-            .catch((error) => {
-              setLoading(false);
-              console.log(error);
-              showErrorToast('Erro ao entrar na conta');
-            });
-        }
+          });
       })
       .catch((error) => {
-        setLoading(false);
         console.log(error);
-
-        if (error.response.status == 422) {
-          showErrorToast('Este email já está em uso');
-        } else {
-          showErrorToast('Erro ao criar cadastro');
-        }
+        toast.error('Erro ao criar cadastro', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   };
 
@@ -122,7 +99,7 @@ function Registration({ cameFromProjectPage }) {
         <Form.Control
           type="name"
           placeholder="Nome completo"
-          className="form-item mt-4"
+          className="form-item"
           value={name}
           onChange={(e) => setName(e.target.value)}
           isInvalid={!!errors.name}
@@ -136,7 +113,7 @@ function Registration({ cameFromProjectPage }) {
         <Form.Control
           type="email"
           placeholder="Email"
-          className="form-item mt-2"
+          className="form-item"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           isInvalid={!!errors.email}
@@ -150,7 +127,7 @@ function Registration({ cameFromProjectPage }) {
         <Form.Control
           type="password"
           placeholder="Senha"
-          className="form-item mt-2"
+          className="form-item"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           isInvalid={!!errors.password}
@@ -160,30 +137,26 @@ function Registration({ cameFromProjectPage }) {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="password_confirmation">
+      <Form.Group controlId="password">
         <Form.Control
           type="password"
           placeholder="Confirmar senha"
-          className="form-item mt-2"
+          className="form-item"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           isInvalid={!!errors.confirmPassword}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.confirmPassword}
+          {errors.confirm_password}
         </Form.Control.Feedback>
       </Form.Group>
       <div className="d-grid mt-3 ">
-        {loading ? (
-          <Spin />
-        ) : (
-          <Button type="submit" onClick={submitHandler}>
-            Cadastrar
-          </Button>
-        )}
+        <Button type="submit" onClick={submitHandler}>
+          Cadastrar
+        </Button>
       </div>
     </Form>
   );
-}
+};
 
 export default Registration;

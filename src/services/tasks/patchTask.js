@@ -22,6 +22,8 @@ export function patchTask(
       },
     };
 
+    console.log(editedTask);
+
     const PATCH_TASK = `${TASK_PATCH_ENDPOINT}${projectId}/tasks/${editedTask.id}/`;
     axios
       .patch(

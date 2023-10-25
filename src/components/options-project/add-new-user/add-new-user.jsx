@@ -5,27 +5,16 @@ import { useUserDetails } from '../../../context/usercontext';
 import { getUsers } from '../../../services/users/getUsers';
 import { postAddUserInProject } from '../../../services/projects/postAddUserInProject';
 import { useProjectDetails } from '../../../context/projectContext';
-import { Spin } from 'antd';
-import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
+import { toast } from 'react-toastify';
 
 const AddNewUser = ({ handleClose }) => {
   const [users, setUsers] = useState([]);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   let selectedUserId = '';
-  const [loading, setLoading] = useState(true);
 
   function fetchUsersList() {
-    getUsers(userDetails.accessToken, projectDetails.projectId)
-      .then((response) => {
-        setLoading(false);
-        setUsers(response);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-        showErrorToast('Erro ao recuperar os usuários do projeto');
-      });
+    getUsers(userDetails.accessToken, projectDetails.projectId, setUsers);
   }
 
   useEffect(() => {
@@ -33,7 +22,6 @@ const AddNewUser = ({ handleClose }) => {
   }, []);
 
   function handleSubmit(event) {
-    setLoading(true);
     event.preventDefault();
     event.stopPropagation();
 
@@ -41,83 +29,68 @@ const AddNewUser = ({ handleClose }) => {
       postAddUserInProject(
         userDetails.accessToken,
         projectDetails.projectId,
+        fetchUsersList,
         selectedUserId,
-      )
-        .then(() => {
-          setLoading(false);
-          showSuccessToast('Membro adicionado');
-          fetchUsersList();
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error);
-          showErrorToast('Erro ao adicionar membro');
-        });
+      );
     } else {
-      showErrorToast('Selecione um membro');
+      toast.error('Selecione um membro', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
     }
   }
 
   return (
     <Form className="main-add" noValidate onSubmit={handleSubmit}>
-      {loading ? (
-        <div
-          style={{
-            display: 'flex',
-            height: '180px',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+      <Form.Label>Pesquisar usuário:</Form.Label>
+
+      <Form.Control
+        className="mt-4"
+        as="select"
+        onChange={(e) => (selectedUserId = e.target.value)}
+      >
+        <option key={0} value={''}>
+          Selecione um usuário...
+        </option>
+        {users.map((user, index) => (
+          <option key={index + 1} value={user.id}>
+            {user.name} | {user.email}
+          </option>
+        ))}
+      </Form.Control>
+
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Button
+          style={{ width: '45%' }}
+          className="btn-submit mt-4"
+          variant="secondary"
+          onClick={handleClose}
         >
-          <Spin />
-        </div>
-      ) : (
-        <>
-          <Form.Label>Pesquisar usuário:</Form.Label>
+          Voltar
+        </Button>
 
-          <Form.Control
-            className="mt-4"
-            as="select"
-            onChange={(e) => (selectedUserId = e.target.value)}
-          >
-            <option key={0} value={''}>
-              Selecione um usuário...
-            </option>
-            {users.map((user, index) => (
-              <option key={index + 1} value={user.id}>
-                {user.name} | {user.email}
-              </option>
-            ))}
-          </Form.Control>
-
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Button
-              style={{ width: '45%' }}
-              className="btn-submit mt-4"
-              variant="secondary"
-              onClick={handleClose}
-            >
-              Voltar
-            </Button>
-
-            <Button
-              style={{ width: '45%' }}
-              className="btn-submit mt-4"
-              type="submit"
-              variant="primary"
-            >
-              Adicionar
-            </Button>
-          </div>
-        </>
-      )}
+        <Button
+          style={{ width: '45%' }}
+          className="btn-submit mt-4"
+          type="submit"
+          variant="primary"
+        >
+          Adicionar
+        </Button>
+      </div>
     </Form>
   );
 };
