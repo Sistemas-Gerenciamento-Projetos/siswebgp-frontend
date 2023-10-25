@@ -5,12 +5,15 @@ import { Modal, Button } from 'react-bootstrap';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { deleteTask } from '../../../services/tasks/deleteTask';
-import { toast } from 'react-toastify';
+import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
-  const [show, setShow] = useState(false);
+function ActionButtons({ onRefreshTasks, taskId, setShowEditTask }) {
+  const [showDeleteTask, setShowDeleteTask] = useState(false);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
+  const { projectId } = useParams();
+  const navigate = useNavigate();
 
   const handleDelete = () => {
     deleteTask(
@@ -22,38 +25,21 @@ function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
     )
       .then((data) => {
         onRefreshTasks();
-        toast.success('Tarefa excluída', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showSuccessToast('Tarefa excluída');
         handleClose();
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Erro ao excluir tarefa', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao excluir tarefa');
       });
   };
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseDeleteTask = () => setShowDeleteTask(false);
+  const handleShowDeleteTask = () => setShowDeleteTask(true);
 
   const handleEdit = () => {
-    setShowEdit(true);
+    navigate(`/projects/${projectId}/backlog/${taskId}/edit`);
+    setShowEditTask(true);
   };
 
   return (
@@ -67,13 +53,13 @@ function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
       </Button>
       <Button
         variant="outline-light"
-        onClick={handleShow}
+        onClick={handleShowDeleteTask}
         style={{ border: 0 }}
       >
         <img src={TrashIcon} />
       </Button>
       <>
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={showDeleteTask} onHide={handleCloseDeleteTask}>
           <Modal.Header closeButton>
             <Modal.Title>Confirme a operação</Modal.Title>
           </Modal.Header>
@@ -82,7 +68,7 @@ function ActionButtons({ setShowEdit, onRefreshTasks, taskId }) {
             <Button variant="danger" onClick={handleDelete}>
               Excluir
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleCloseDeleteTask}>
               Cancelar
             </Button>
           </Modal.Footer>

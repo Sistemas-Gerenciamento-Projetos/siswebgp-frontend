@@ -5,6 +5,7 @@ import { login } from '../../services/authorization/login';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Spin } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -14,6 +15,7 @@ function Login() {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors = {};
@@ -50,6 +52,7 @@ function Login() {
         setErrors('');
         localStorage.setItem('userDetails', JSON.stringify(data));
         updateUserDetails(data.access, data.refresh, data.user.id);
+        navigate('/projects');
       })
       .catch((error) => {
         setLoading(false);

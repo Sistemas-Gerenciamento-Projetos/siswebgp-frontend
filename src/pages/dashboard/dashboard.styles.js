@@ -4,7 +4,6 @@ export const Root = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
 `;
 
 export const ContentDiv = styled.div`

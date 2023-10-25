@@ -6,13 +6,18 @@ import DatePeriod from '../../datePeriod/datePeriod';
 import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/action-buttons';
-import NewTaskBacklog from '../new-task.component/new-task.component';
 import { useUserDetails } from '../../../context/usercontext';
 import { Button } from 'react-bootstrap';
+import EditTask from '../edit-task/editTask.component';
 
-const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
-  const [titleAction] = useState('Editar tarefa');
-  const [show, setShow] = useState(false);
+const TaskItem = ({
+  task,
+  onRefreshTasks,
+  index,
+  projectDetails,
+  showEditTask,
+  setShowEditTask,
+}) => {
   const [userDetails] = useUserDetails();
 
   function isAbleToEditTask() {
@@ -24,14 +29,6 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
 
   return (
     <>
-      <NewTaskBacklog
-        show={show}
-        setShow={setShow}
-        titleAction={titleAction}
-        textButton={'Salvar alterações'}
-        task={task}
-        onRefreshTasks={onRefreshTasks}
-      />
       <tbody>
         <tr style={{ backgroundColor: index % 2 === 0 ? '' : '#ebebeb' }}>
           <td>
@@ -66,9 +63,9 @@ const TaskItem = ({ task, onRefreshTasks, index, projectDetails }) => {
           <td>
             {isAbleToEditTask() && (
               <ActionButtons
-                setShowEdit={setShow}
                 onRefreshTasks={onRefreshTasks}
                 taskId={task.id}
+                setShowEditTask={setShowEditTask}
               />
             )}
           </td>

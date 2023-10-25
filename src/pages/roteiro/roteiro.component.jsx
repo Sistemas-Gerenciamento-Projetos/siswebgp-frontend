@@ -8,7 +8,6 @@ import Gantt, {
   Tasks,
   Column,
   Editing,
-  Toolbar,
   Validation,
   Item,
   StripLine,
@@ -17,6 +16,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { patchTask } from '../../services/tasks/patchTask';
 import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
 import { Spin } from 'antd';
+import SGPSidebar from '../../components/sidebar/sidebar.component';
+import Toolbar from '../../components/toolbar/toolbar.component';
 
 const Roteiro = () => {
   const currentDate = new Date(Date.now());
@@ -87,75 +88,84 @@ const Roteiro = () => {
   }
 
   return (
-    <>
-      {loading ? (
-        <div
-          style={{
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Spin />
-        </div>
-      ) : (
-        <>
-          <Gantt
-            taskListWidth={220}
-            scaleType="weeks"
-            height={700}
-            onTaskUpdated={updateTask}
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <SGPSidebar />
+      <div style={{ width: '100%' }}>
+        <Toolbar
+          menuItem={4}
+          setShowBacklog={() => {}}
+          setShowEpics={() => {}}
+          title={`${projectDetails.projectName} / Roteiro`}
+        />
+        {loading ? (
+          <div
+            style={{
+              height: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
-            {striped && (
-              <StripLine
-                start={currentDate}
-                title="Current Time"
-                cssClass="current-time"
+            <Spin />
+          </div>
+        ) : (
+          <>
+            <Gantt
+              taskListWidth={220}
+              scaleType="weeks"
+              height={700}
+              onTaskUpdated={updateTask}
+            >
+              {striped && (
+                <StripLine
+                  start={currentDate}
+                  title="Current Time"
+                  cssClass="current-time"
+                />
+              )}
+              <Tasks
+                dataSource={tasks}
+                keyExpr="id"
+                parentIdExpr="parentId"
+                titleExpr="title"
+                progressExpr="progress"
+                startExpr="start_date"
+                endExpr="deadline_date"
+                colorExpr="taskColor"
               />
-            )}
-            <Tasks
-              dataSource={tasks}
-              keyExpr="id"
-              parentIdExpr="parentId"
-              titleExpr="title"
-              progressExpr="progress"
-              startExpr="start_date"
-              endExpr="deadline_date"
-              colorExpr="taskColor"
+              <Toolbar>
+                <Item name="zoomIn" />
+                <Item name="zoomOut" />
+              </Toolbar>
+              <Column dataField="title" caption="Tarefa" width={100} />
+              <Validation autoUpdateParentTasks />
+              <Editing
+                enabled={true}
+                allowDependencyAdding={false}
+                allowDependencyDeleting={false}
+                allowResourceAdding={false}
+                allowResourceDeleting={false}
+                allowTaskAdding={false}
+                allowTaskDeleting={false}
+                allowTaskResourceUpdating={false}
+              />
+            </Gantt>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover={false}
+              theme="colored"
             />
-            <Toolbar>
-              <Item name="zoomIn" />
-              <Item name="zoomOut" />
-            </Toolbar>
-            <Column dataField="title" caption="Tarefa" width={100} />
-            <Validation autoUpdateParentTasks />
-            <Editing
-              enabled={true}
-              allowDependencyAdding={false}
-              allowDependencyDeleting={false}
-              allowResourceAdding={false}
-              allowResourceDeleting={false}
-              allowTaskAdding={false}
-              allowTaskDeleting={false}
-              allowTaskResourceUpdating={false}
-            />
-          </Gantt>
-          <ToastContainer
-            position="bottom-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover={false}
-            theme="colored"
-          />
-        </>
-      )}
-    </>
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 

@@ -149,7 +149,6 @@ export default function Board() {
               justifyContent: 'center',
               alignItems: 'center',
               flexDirection: 'row',
-              height: '100%',
             }}
           >
             <CardsColumn title={'A fazer'} cards={todo} id={'1'} />
