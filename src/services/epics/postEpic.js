@@ -10,6 +10,7 @@ export function postEpic(
   startDate,
   endDate,
   status,
+  taskId,
 ) {
   return new Promise((resolve, reject) => {
     const header = {
@@ -19,7 +20,7 @@ export function postEpic(
       },
     };
 
-    console.log(userId);
+    console.log(taskId);
 
     const POST_EPIC_URL = `${EPICS_POST_ENDPOINT}${projectId}/epics/`;
     axios
@@ -33,6 +34,7 @@ export function postEpic(
           status: status,
           user: userId,
           project: projectId,
+          taskId: taskId,
         },
         header,
       )

@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
-import TrashIcon from '../../../Assets/trash.svg';
-import EditIcon from '../../../Assets/edit.svg';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { deleteTask } from '../../../services/tasks/deleteTask';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 import { useNavigate, useParams } from 'react-router-dom';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  TrophyOutlined,
+} from '@ant-design/icons';
+import NewEpicForm from '../../epic-component/new-epic/newEpicForm.component';
 
-function ActionButtons({ onRefreshTasks, taskId, setShowEditTask }) {
+function ActionButtons({ onRefreshTasks, taskId, setShowEditTask, epicId }) {
   const [showDeleteTask, setShowDeleteTask] = useState(false);
+  const [showCreateEpic, setShowCreateEpic] = useState(false);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const { projectId } = useParams();
@@ -42,21 +47,35 @@ function ActionButtons({ onRefreshTasks, taskId, setShowEditTask }) {
     setShowEditTask(true);
   };
 
+  function handleEpicClick() {
+    if (epicId == null) {
+      setShowCreateEpic(true);
+    }
+  }
+
   return (
     <div>
-      <Button
-        variant="outline-light"
-        style={{ border: 0 }}
-        onClick={handleEdit}
-      >
-        <img src={EditIcon} />
+      {epicId === null ? (
+        <Button
+          variant="outline-dark"
+          style={{ border: 0 }}
+          onClick={handleEpicClick}
+        >
+          <TrophyOutlined />
+        </Button>
+      ) : (
+        <></>
+      )}
+
+      <Button variant="outline-dark" style={{ border: 0 }} onClick={handleEdit}>
+        <EditOutlined />
       </Button>
       <Button
-        variant="outline-light"
+        variant="outline-dark"
         onClick={handleShowDeleteTask}
         style={{ border: 0 }}
       >
-        <img src={TrashIcon} />
+        <DeleteOutlined />
       </Button>
       <>
         <Modal show={showDeleteTask} onHide={handleCloseDeleteTask}>
@@ -74,6 +93,15 @@ function ActionButtons({ onRefreshTasks, taskId, setShowEditTask }) {
           </Modal.Footer>
         </Modal>
       </>
+
+      <NewEpicForm
+        show={showCreateEpic}
+        setShow={setShowCreateEpic}
+        update={false}
+        setUpdate={() => {}}
+        taskId={taskId}
+        onRefreshTasks={onRefreshTasks}
+      />
     </div>
   );
 }

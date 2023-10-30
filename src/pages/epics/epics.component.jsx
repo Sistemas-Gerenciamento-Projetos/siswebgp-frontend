@@ -14,12 +14,13 @@ import { showErrorToast } from '../../utils/Toasts';
 import SGPSidebar from '../../components/sidebar/sidebar.component';
 import Toolbar from '../../components/toolbar/toolbar.component';
 
-export default function Epics({ show, setShow }) {
+export default function Epics() {
   const [epics, setEpics] = useState([]);
   const [userDetails] = useUserDetails();
   const [update, setUpdate] = useState(false);
   const [projectDetails] = useProjectDetails();
   const [loading, setLoading] = useState(true);
+  const [show, setShow] = useState(false);
   const { projectId } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -63,6 +64,7 @@ export default function Epics({ show, setShow }) {
           setShow={setShow}
           update={update}
           setUpdate={setUpdate}
+          taskId={null}
         />
 
         {loading ? (

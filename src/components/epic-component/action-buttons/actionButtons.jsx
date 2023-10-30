@@ -37,13 +37,19 @@ function ActionButtons({ setShowEdit, onRefreshEpics, epicId }) {
       <Button
         variant="outline-light"
         style={{ border: 0 }}
-        onClick={handleEdit}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleEdit();
+        }}
       >
         <img src={EditIcon} />
       </Button>
       <Button
         variant="outline-light"
-        onClick={handleShow}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleShow();
+        }}
         style={{ border: 0 }}
       >
         <img src={TrashIcon} />
