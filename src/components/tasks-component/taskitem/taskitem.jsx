@@ -1,6 +1,6 @@
 /* eslint react/prop-types: 0 */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StatusTask from '../status-task/status-task';
 import DatePeriod from '../../datePeriod/datePeriod';
 import { parseDateWithoutTimezone } from '../../../utils/dateParse';
@@ -8,7 +8,6 @@ import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/action-buttons';
 import { useUserDetails } from '../../../context/usercontext';
 import { Button } from 'react-bootstrap';
-import EditTask from '../edit-task/editTask.component';
 
 const TaskItem = ({
   task,
@@ -66,6 +65,7 @@ const TaskItem = ({
                 onRefreshTasks={onRefreshTasks}
                 taskId={task.id}
                 setShowEditTask={setShowEditTask}
+                epicId={task.epic}
               />
             )}
           </td>

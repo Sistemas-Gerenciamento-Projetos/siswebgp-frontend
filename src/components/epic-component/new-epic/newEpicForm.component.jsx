@@ -15,7 +15,14 @@ import { postEpic } from '../../../services/epics/postEpic';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 import { Spin } from 'antd';
 
-export default function NewEpicForm({ show, setShow, update, setUpdate }) {
+export default function NewEpicForm({
+  show,
+  setShow,
+  update,
+  setUpdate,
+  taskId,
+  onRefreshTasks,
+}) {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [errors, setErrors] = useState({});
@@ -54,12 +61,16 @@ export default function NewEpicForm({ show, setShow, update, setUpdate }) {
       beginDate,
       deadlineDate,
       'TODO',
+      taskId,
     )
       .then((data) => {
         setUpdate(!update);
         handleClose();
         showSuccessToast('Épico criado');
         setLoading(false);
+        if (taskId !== null) {
+          onRefreshTasks();
+        }
       })
       .catch((error) => {
         console.log(error);
