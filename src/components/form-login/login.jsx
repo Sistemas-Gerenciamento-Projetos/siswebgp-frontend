@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useUserDetails } from '../../context/usercontext';
 import { login } from '../../services/authorization/login';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { showErrorToast } from '../../utils/Toasts';
 
 function Login() {
   const [userDetails, updateUserDetails] = useUserDetails();
@@ -57,16 +57,7 @@ function Login() {
       .catch((error) => {
         setLoading(false);
         console.log(error);
-        toast.error('Credenciais inválidas', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Credenciais inválidas');
       });
   };
 
