@@ -20,8 +20,6 @@ export function postEpic(
       },
     };
 
-    console.log(taskId);
-
     const POST_EPIC_URL = `${EPICS_POST_ENDPOINT}${projectId}/epics/`;
     axios
       .post(

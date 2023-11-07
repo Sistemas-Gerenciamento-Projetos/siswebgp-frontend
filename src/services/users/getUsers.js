@@ -4,7 +4,6 @@ import {
   GET_EXTERNAL_USERS_ENDPOINT,
 } from '../../constants/urls';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
 
 export function getUsers(accessToken, projectId) {
   return new Promise((resolve, reject) => {
@@ -25,32 +24,5 @@ export function getUsers(accessToken, projectId) {
       .catch((error) => {
         reject(error);
       });
-  }, 20000).catch((error) => {
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
-      console.log(error.request);
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.log('Error', error.message);
-    }
-
-    toast.error('Erro ao recuperar os usuários do projeto', {
-      position: 'bottom-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: 'colored',
-    });
-  });
+  }, 20000);
 }

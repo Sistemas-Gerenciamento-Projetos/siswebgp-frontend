@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import PDFIcon from '../../../Assets/pdf.svg';
 import pdfReport from '../../../utils/pdfReport';
 import getWorks from '../../../services/board/getWorks';
+import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 
 export default function ProjectItem({
   project,
@@ -48,10 +49,20 @@ export default function ProjectItem({
         `Você tem certeza que deseja deletar ${project.project_name}?`,
       )
     ) {
-      deleteProject(userDetails, project.id, onRefreshProjects);
-      project.id = '';
-      project.project_name = '';
-      updateProjectDetails('', '', '', '', '');
+      deleteProject(userDetails.accessToken, project.id)
+        .then((data) => {
+          if (data.status === 204) {
+            project.id = '';
+            project.project_name = '';
+            updateProjectDetails('', '', '', '', '');
+            showSuccessToast('Projeto excluído');
+            onRefreshProjects();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          showErrorToast('Erro ao excluir projeto');
+        });
     }
   };
 
