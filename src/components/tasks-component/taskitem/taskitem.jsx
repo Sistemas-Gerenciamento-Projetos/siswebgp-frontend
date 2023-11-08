@@ -8,6 +8,7 @@ import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import ActionButtons from '../action-buttons/action-buttons';
 import { useUserDetails } from '../../../context/usercontext';
 import { Button } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const TaskItem = ({
   task,
@@ -18,6 +19,8 @@ const TaskItem = ({
   setShowEditTask,
 }) => {
   const [userDetails] = useUserDetails();
+  const navigate = useNavigate();
+  const { projectId } = useParams();
 
   function isAbleToEditTask() {
     return (
@@ -42,7 +45,10 @@ const TaskItem = ({
                 maxWidth: '25ch',
                 width: 'fit-content',
               }}
-              onClick={() => setShow(true)}
+              onClick={() => {
+                navigate(`/projects/${projectId}/backlog/${task.id}/edit`);
+                setShowEditTask(true);
+              }}
             >
               {task.title}
             </Button>

@@ -23,6 +23,7 @@ const Toolbar = ({ menuItem, setShowBacklog, setShowEpics, title }) => {
     localStorage.removeItem('userDetails');
     localStorage.removeItem('projectId');
     localStorage.removeItem('projectName');
+    localStorage.removeItem('sidebarCollapsed');
     console.log(updateUserDetails);
     updateUserDetails(false, false, false);
     updateProjectDetails('', '', '', '', '');
