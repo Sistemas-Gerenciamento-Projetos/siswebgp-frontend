@@ -1,13 +1,25 @@
-import { Checkbox, Empty, Spin } from 'antd';
+import { Checkbox, Empty } from 'antd';
 import Search from 'antd/es/input/Search';
 import React, { useEffect, useState } from 'react';
+import { styled } from 'styled-components';
 import { Button, Table } from 'react-bootstrap';
 import { patchTask } from '../../../../services/tasks/patchTask';
 import { getTasksWithoutEpic } from '../../../../services/tasks/getTasksWithoutEpic';
+import { toast } from 'react-toastify';
 import { useUserDetails } from '../../../../context/usercontext';
 import { useProjectDetails } from '../../../../context/projectContext';
-import { showErrorToast, showSuccessToast } from '../../../../utils/Toasts';
-import { EmptyDiv, SpinDiv, TableHeader } from './bindTask.styles';
+
+const EmptyDiv = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+`;
+
+const TableHeader = styled.p`
+  font-weight: 600;
+`;
 
 export default function BindTask({ epicId }) {
   let tasksSelected = [];
@@ -17,20 +29,15 @@ export default function BindTask({ epicId }) {
   const [tasks, setTasks] = useState([]);
   const [tasksFiltered, setTasksFiltered] = useState([]);
   const [update, setUpdate] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [loadingBindTask, setLoadingBindTask] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
     getTasksWithoutEpic(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         setTasks(data);
         setTasksFiltered(data);
-        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false);
       });
   }, [update]);
 
@@ -63,7 +70,6 @@ export default function BindTask({ epicId }) {
   }
 
   function handleBindTasks() {
-    setLoadingBindTask(true);
     console.log(tasksSelected);
     const patchPromises = [];
     tasksSelected.forEach((task) => {
@@ -81,13 +87,29 @@ export default function BindTask({ epicId }) {
     Promise.all(patchPromises)
       .then((data) => {
         setUpdate(!update);
-        showSuccessToast('Novas tarefas vinculadas');
-        setLoadingBindTask(false);
+        toast.success('Novas tarefas vinculadas', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       })
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao vincular as tarefas');
-        setLoadingBindTask(false);
+        toast.error('Erro ao vincular as tarefas', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   }
 
@@ -99,61 +121,47 @@ export default function BindTask({ epicId }) {
         enterButton
       />
 
-      {loading ? (
-        <SpinDiv>
-          <Spin />
-        </SpinDiv>
-      ) : (
+      {tasksFiltered.length !== 0 ? (
         <>
-          {tasksFiltered.length !== 0 ? (
-            <>
-              <Table>
-                <thead>
-                  <tr>
-                    <th>
-                      <TableHeader>Id</TableHeader>
-                    </th>
-                    <th>
-                      <TableHeader>Titulo</TableHeader>
-                    </th>
-                    <th>
-                      <TableHeader>Vincular</TableHeader>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tasksFiltered.map((task, index) => (
-                    <tr key={task.id}>
-                      <td>
-                        <span>{task.number}</span>
-                      </td>
-                      <td>
-                        <span>{task.title}</span>
-                      </td>
-                      <td>
-                        <Checkbox onChange={() => handleTaskSelected(task)} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+          <Table>
+            <thead>
+              <tr>
+                <th>
+                  <TableHeader>Id</TableHeader>
+                </th>
+                <th>
+                  <TableHeader>Titulo</TableHeader>
+                </th>
+                <th>
+                  <TableHeader>Vincular</TableHeader>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {tasksFiltered.map((task, index) => (
+                <tr key={task.id}>
+                  <td>
+                    <span>{task.number}</span>
+                  </td>
+                  <td>
+                    <span>{task.title}</span>
+                  </td>
+                  <td>
+                    <Checkbox onChange={() => handleTaskSelected(task)} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
 
-              {loadingBindTask ? (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Spin />
-                </div>
-              ) : (
-                <Button style={{ width: '100%' }} onClick={handleBindTasks}>
-                  Vincular Tarefas
-                </Button>
-              )}
-            </>
-          ) : (
-            <EmptyDiv>
-              <Empty description="Sem tarefas existentes" />
-            </EmptyDiv>
-          )}
+          <Button style={{ width: '100%' }} onClick={handleBindTasks}>
+            Vincular Tarefas
+          </Button>
         </>
+      ) : (
+        <EmptyDiv>
+          <Empty description="Sem tarefas existentes" />
+        </EmptyDiv>
       )}
     </>
   );

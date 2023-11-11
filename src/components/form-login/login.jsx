@@ -14,8 +14,6 @@ function Login() {
   const [password, setPassword] = useState('');
 
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors = {};
@@ -36,26 +34,21 @@ function Login() {
   };
 
   const submitHandler = async (e) => {
-    setLoading(true);
     e.preventDefault();
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
-      setLoading(false);
       setErrors(formErrors);
       return;
     }
 
     login(userDetails.accessToken, email, password)
       .then((data) => {
-        setLoading(false);
         setErrors('');
         localStorage.setItem('userDetails', JSON.stringify(data));
         updateUserDetails(data.access, data.refresh, data.user.id);
-        navigate('/projects');
       })
       .catch((error) => {
-        setLoading(false);
         console.log(error);
         showErrorToast('Credenciais inválidas');
       });
@@ -93,13 +86,9 @@ function Login() {
       </Form.Group>
 
       <div className="d-grid">
-        {loading ? (
-          <Spin />
-        ) : (
-          <Button type="submit" onClick={submitHandler} variant="primary">
-            Entrar
-          </Button>
-        )}
+        <Button type="submit" onClick={submitHandler} variant="primary">
+          Entrar
+        </Button>
       </div>
     </Form>
   );

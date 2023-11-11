@@ -4,8 +4,8 @@ import EditIcon from '../../../Assets/edit.svg';
 import { Modal, Button } from 'react-bootstrap';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
+import { toast } from 'react-toastify';
 import { deleteEpic } from '../../../services/epics/deleteEpics';
-import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 
 function ActionButtons({ setShowEdit, onRefreshEpics, epicId }) {
   const [show, setShow] = useState(false);
@@ -16,12 +16,30 @@ function ActionButtons({ setShowEdit, onRefreshEpics, epicId }) {
     deleteEpic(userDetails.accessToken, projectDetails.projectId, epicId)
       .then((data) => {
         onRefreshEpics();
-        showSuccessToast('Épico excluído');
+        toast.success('Épico excluído', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
         handleClose();
       })
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao excluir épico');
+        toast.error('Erro ao excluir épico', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   };
 

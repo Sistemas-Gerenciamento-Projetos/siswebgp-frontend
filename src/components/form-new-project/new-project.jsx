@@ -10,8 +10,7 @@ import {
 } from 'react-bootstrap';
 import './new-project.scss';
 import { postProject } from '../../services/projects/postProject';
-import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
-import { Spin } from 'antd';
+import { toast } from 'react-toastify';
 
 const NewProject = ({ onRefreshProjects, userDetails, show, setShow }) => {
   const [title, setTitle] = useState('');
@@ -20,23 +19,19 @@ const NewProject = ({ onRefreshProjects, userDetails, show, setShow }) => {
   const [endDate, setEndDate] = useState('');
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {
-    setLoading(true);
     event.preventDefault();
     event.stopPropagation();
     const formErrors = validateForm();
 
     if (Object.keys(formErrors).length > 0) {
-      setLoading(false);
       setErrors(formErrors);
       return;
     }
 
     const form = event.currentTarget;
     if (form.checkValidity() === false && title.trim() && description.trim()) {
-      setLoading(false);
       setValidated(true);
       return;
     }
@@ -51,14 +46,30 @@ const NewProject = ({ onRefreshProjects, userDetails, show, setShow }) => {
     )
       .then((data) => {
         onRefreshProjects();
-        showSuccessToast('Projeto criado');
-        setLoading(false);
+        toast.success('Projeto criado', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
         handleClose();
       })
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao criar projeto');
-        setLoading(false);
+        toast.error('Erro ao criar projeto', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   };
 
@@ -195,21 +206,9 @@ const NewProject = ({ onRefreshProjects, userDetails, show, setShow }) => {
               </Col>
             </Row>
 
-            {loading ? (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  paddingTop: '16px',
-                }}
-              >
-                <Spin />
-              </div>
-            ) : (
-              <div className="d-grid mt-4">
-                <Button type="submit">Cadastrar</Button>
-              </div>
-            )}
+            <div className="d-grid mt-4">
+              <Button type="submit">Cadastrar</Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

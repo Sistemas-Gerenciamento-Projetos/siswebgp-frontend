@@ -1,19 +1,17 @@
-import { Empty, Spin } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Empty, FloatButton } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import EpicItem from '../../components/epic-component/epic-item/epicItem.component';
-import { EmptyDiv, SpinDiv, TableHeader } from './epics.styles';
-import { Navigate, useParams } from 'react-router-dom';
+import { TableHeader } from './epics.styles';
+import { Navigate } from 'react-router-dom';
 import { useUserDetails } from '../../context/usercontext';
 import { getEpics } from '../../services/epics/getEpics';
 import { useProjectDetails } from '../../context/projectContext';
 import NewEpicForm from '../../components/epic-component/new-epic/newEpicForm.component';
-import PageNavigator from '../../components/pageNavigator/pageNavigator';
-import { showErrorToast } from '../../utils/Toasts';
-import SGPSidebar from '../../components/sidebar/sidebar.component';
-import Toolbar from '../../components/toolbar/toolbar.component';
 
+export default function Epics() {
 export default function Epics() {
   const [epics, setEpics] = useState([]);
   const [userDetails] = useUserDetails();
@@ -32,16 +30,23 @@ export default function Epics() {
   const numbers = [...Array(nPage + 1).keys()].slice(1);
 
   useEffect(() => {
-    setLoading(true);
-    getEpics(userDetails.accessToken, projectId)
+    getEpics(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
+        console.log(data);
         setEpics(data);
-        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao buscar os épicos');
-        setLoading(false);
+        toast.error('Erro ao buscar os épicos', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   }, [update]);
 
@@ -96,44 +101,50 @@ export default function Epics() {
                     </tr>
                   </thead>
 
-                  {epicsPage.map((epic, index) => (
-                    <EpicItem
-                      key={epic.id}
-                      epic={epic}
-                      index={index}
-                      update={update}
-                      setUpdate={setUpdate}
-                    />
-                  ))}
-                </Table>
-                <PageNavigator
-                  numbers={numbers}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                  nPage={nPage}
-                />
-              </>
-            ) : (
-              <EmptyDiv>
-                <Empty description="Sem épicos existentes" />
-              </EmptyDiv>
-            )}
-          </>
-        )}
+          {epics.map((epic, index) => (
+            <EpicItem
+              key={epic.id}
+              epic={epic}
+              index={index}
+              update={update}
+              setUpdate={setUpdate}
+            />
+          ))}
+        </Table>
+      )}
 
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover={false}
-          theme="colored"
-        />
-      </div>
-    </div>
+      {epics.length === 0 && (
+        <div
+          style={{
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Empty description="Sem épicos existentes" />
+        </div>
+      )}
+
+      <FloatButton
+        icon={<PlusOutlined />}
+        tooltip={<div>Novo épico</div>}
+        type={'primary'}
+        onClick={() => setShow(true)}
+      />
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+      />
+    </>
   );
 }

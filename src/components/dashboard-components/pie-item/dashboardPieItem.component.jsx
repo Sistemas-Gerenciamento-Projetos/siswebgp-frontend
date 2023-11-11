@@ -6,8 +6,8 @@ import { styled } from 'styled-components';
 const RootDiv = styled.div`
   display: flex;
   flex-direction: row;
-  padding-top: 32px;
   justify-content: space-between;
+  padding: 32px;
 `;
 
 const PieDiv = styled.div`

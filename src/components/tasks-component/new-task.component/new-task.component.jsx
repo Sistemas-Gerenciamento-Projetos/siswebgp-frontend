@@ -9,8 +9,7 @@ import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { postTask } from '../../../services/tasks/postTask';
 import { getUsersByProject } from '../../../services/users/getUsersByProject';
-import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
-import { Spin } from 'antd';
+import { toast } from 'react-toastify';
 
 function NewTaskBacklog({
   show,
@@ -31,7 +30,7 @@ function NewTaskBacklog({
   const [userName, setUserName] = useState('');
   const [idUser, setIdUser] = useState('');
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [setUpdate] = useState();
 
   const formRef = useRef(null);
   const [status] = useState('TODO');
@@ -51,7 +50,6 @@ function NewTaskBacklog({
   };
 
   const submitHandler = (e) => {
-    setLoading(true);
     e.preventDefault();
     const formErrors = validateForm();
 
@@ -59,7 +57,6 @@ function NewTaskBacklog({
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
-      setLoading(false);
       return;
     }
 
@@ -69,7 +66,6 @@ function NewTaskBacklog({
       createTask();
     }
 
-    setLoading(false);
     setShow(!show);
     handleReset();
   };
@@ -115,13 +111,29 @@ function NewTaskBacklog({
       .then((data) => {
         onRefreshTasks();
         setShow(!show);
-        showSuccessToast('Tarefa atualizada');
-        setLoading(false);
+        toast.success('Tarefa atualizada', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       })
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao atualizar tarefa');
-        setLoading(false);
+        toast.error('Erro ao atualizar tarefa', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   };
 
@@ -140,13 +152,29 @@ function NewTaskBacklog({
     )
       .then((data) => {
         onRefreshTasks();
-        showSuccessToast('Tarefa criada');
-        setLoading(false);
+        toast.success('Tarefa criada', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       })
       .catch((error) => {
         console.log(error);
-        showErrorToast('Erro ao criar tarefa');
-        setLoading(false);
+        toast.error('Erro ao criar tarefa', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
       });
   };
 
@@ -159,7 +187,16 @@ function NewTaskBacklog({
         .catch((error) => {
           console.log(error);
 
-          showErrorToast('Erro ao recuperar os usuários do projeto');
+          toast.error('Erro ao recuperar os usuários do projeto', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
         });
       if (titleAction === 'Editar tarefa') {
         setTitle(task.title);
@@ -279,22 +316,11 @@ function NewTaskBacklog({
               </Form.Control.Feedback>
             </Form.Group>
 
-            {loading ? (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <Spin />
-              </div>
-            ) : (
-              <div className="d-grid mt-4">
-                <Button variant="primary" type="submit">
-                  {textButton}
-                </Button>
-              </div>
-            )}
+            <div className="d-grid mt-4">
+              <Button variant="primary" type="submit">
+                {textButton}
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>
