@@ -186,11 +186,10 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
             <Form.Group className="mb-3" controlId="users">
               <Form.Label className="label">Responsável:</Form.Label>
               <Form.Select
-                defaultValue={idUser}
+                value={idUser}
                 onChange={(e) => setIdUser(e.target.value)}
               >
                 {listUsers.map((user) => {
-                  // console.log(idUser);
                   return (
                     <option value={user.id} key={user.id}>
                       {user.name}
