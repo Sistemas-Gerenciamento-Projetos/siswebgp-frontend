@@ -4,18 +4,20 @@ import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
 import { getTasks } from '../../services/tasks/getTasks';
 import './roteiro.styles.css';
-
 import Gantt, {
   Tasks,
   Column,
   Editing,
-  Toolbar,
   Validation,
   Item,
   StripLine,
 } from 'devextreme-react/gantt';
 import { ToastContainer, toast } from 'react-toastify';
 import { patchTask } from '../../services/tasks/patchTask';
+import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
+import { Spin } from 'antd';
+import SGPSidebar from '../../components/sidebar/sidebar.component';
+import Toolbar from '../../components/toolbar/toolbar.component';
 
 const Roteiro = () => {
   const currentDate = new Date(Date.now());
@@ -25,15 +27,18 @@ const Roteiro = () => {
   const [striped, setStriped] = useState(false);
 
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   function handleData() {
     getTasks(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         setStriped(true);
         setTasks(data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   }
 
@@ -46,22 +51,10 @@ const Roteiro = () => {
   }
 
   function updateTask({ key, values }) {
-    console.log(key);
-    console.log(values);
-
     const tasksFiltered = tasks.filter((item) => item.id === key);
 
     if (tasksFiltered.length === 0) {
-      toast.error('Erro ao atualizar a tarefa', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-      });
+      showErrorToast('Erro ao atualizar a tarefa');
       return;
     }
 
@@ -87,28 +80,10 @@ const Roteiro = () => {
     )
       .then((data) => {
         handleData();
-        toast.success('Tarefa atualizada', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showSuccessToast('Tarefa atualizada');
       })
       .catch((error) => {
-        toast.error('Erro ao atualizar a tarefa', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao atualizar a tarefa');
       });
   }
 

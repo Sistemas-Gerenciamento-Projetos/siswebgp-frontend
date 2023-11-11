@@ -1,20 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 import {
   OrderedListOutlined,
   GroupOutlined,
   BarChartOutlined,
   TableOutlined,
-  CloseOutlined,
   TrophyOutlined,
   HomeOutlined,
 } from '@ant-design/icons';
-import styles from './sidebarStyles.component';
 import { useProjectDetails } from '../../context/projectContext';
-import { Container } from './styles';
+import { Sidebar, Menu, MenuItem, menuClasses } from 'react-pro-sidebar';
+import SGPSidebarHeader from './header/sgpSidebarHeader.component';
+import { MenuContent, MenuItemContent, Root, themes } from './sidebar.styles';
+import SGPSidebarFooter from './footer/sgpSidebarFooter.component';
+import { useNavigate } from 'react-router-dom';
 
-const Sidebar = ({ menuItem, setMenuItem, active }) => {
+const hexToRgba = (hex, alpha) => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+export default function SGPSidebar() {
   const [projectDetails] = useProjectDetails();
   const collapsedLocalStorage =
     localStorage.getItem('sidebarCollapsed') === null
@@ -67,38 +76,22 @@ const Sidebar = ({ menuItem, setMenuItem, active }) => {
   };
 
   return (
-    <Container sidebar={active}>
-      <CloseOutlined
-        onClick={closeSidebar}
-        style={{
-          marginTop: '20px',
-          marginLeft: '20px',
-          fontSize: '24px',
-        }}
-      />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+    <Root>
+      <Sidebar
+        collapsed={collapsed}
+        breakPoint="md"
+        backgroundColor={hexToRgba(themes[theme].sidebar.backgroundColor, 1)}
+        rootStyles={{
+          color: themes[theme].sidebar.color,
         }}
       >
-        <div style={{ marginTop: '20px', width: '100%' }}>
-          <div
-            to="/painel"
-            style={
-              menuItem === 0
-                ? styles.menuItemSelectedDiv
-                : styles.menuItemUnselectedDiv
-            }
-            onClick={() => setMenuItem(0)}
-          >
-            <div>
-              <GroupOutlined style={{ paddingLeft: '20px' }} />
-              <span
-                style={
-                  menuItem === 0 ? styles.textSelected : styles.textUnselected
-                }
+        <MenuContent>
+          <SGPSidebarHeader collapsed={collapsed} />
+          <MenuItemContent>
+            <Menu menuItemStyles={menuItemStyles}>
+              <MenuItem
+                icon={<GroupOutlined />}
+                onClick={() => navigate(`/projects`)}
               >
                 Projetos
               </MenuItem>

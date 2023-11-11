@@ -17,6 +17,8 @@ function ActionButtons({ onRefreshTasks, taskId, setShowEditTask, epicId }) {
   const [showCreateEpic, setShowCreateEpic] = useState(false);
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
+  const { projectId } = useParams();
+  const navigate = useNavigate();
 
   const handleDelete = () => {
     deleteTask(
@@ -28,38 +30,21 @@ function ActionButtons({ onRefreshTasks, taskId, setShowEditTask, epicId }) {
     )
       .then((data) => {
         onRefreshTasks();
-        toast.success('Tarefa excluída', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showSuccessToast('Tarefa excluída');
         handleClose();
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Erro ao excluir tarefa', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-        });
+        showErrorToast('Erro ao excluir tarefa');
       });
   };
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseDeleteTask = () => setShowDeleteTask(false);
+  const handleShowDeleteTask = () => setShowDeleteTask(true);
 
   const handleEdit = () => {
-    setShowEdit(true);
+    navigate(`/projects/${projectId}/backlog/${taskId}/edit`);
+    setShowEditTask(true);
   };
 
   function handleEpicClick() {
@@ -93,7 +78,7 @@ function ActionButtons({ onRefreshTasks, taskId, setShowEditTask, epicId }) {
         <DeleteOutlined />
       </Button>
       <>
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={showDeleteTask} onHide={handleCloseDeleteTask}>
           <Modal.Header closeButton>
             <Modal.Title>Confirme a operação</Modal.Title>
           </Modal.Header>
@@ -102,7 +87,7 @@ function ActionButtons({ onRefreshTasks, taskId, setShowEditTask, epicId }) {
             <Button variant="danger" onClick={handleDelete}>
               Excluir
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleCloseDeleteTask}>
               Cancelar
             </Button>
           </Modal.Footer>
