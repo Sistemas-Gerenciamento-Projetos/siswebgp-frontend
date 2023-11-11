@@ -31,7 +31,7 @@ export default function EditEpicForm({
   const [deadlineDate, setDeadlineDate] = useState(
     epic.deadline_date.substring(0, 10),
   );
-  const [idUser, setIdUser] = useState(userDetails.id);
+  const [idUser, setIdUser] = useState(epic.user);
   const [listUsers, setListUsers] = useState([]);
   const formRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -132,7 +132,7 @@ export default function EditEpicForm({
             <Form.Group className="mb-3" controlId="users">
               <Form.Label className="label">Responsável:</Form.Label>
               <Form.Select
-                defaultValue={idUser}
+                value={idUser}
                 onChange={(e) => setIdUser(e.target.value)}
               >
                 {listUsers.map((user) => (

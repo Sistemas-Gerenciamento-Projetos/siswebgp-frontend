@@ -115,6 +115,11 @@ const Roteiro = () => {
               scaleType="weeks"
               height={700}
               onTaskUpdated={updateTask}
+              onContentReady={(e) => {
+                const timelineDate = new Date();
+                timelineDate.setDate(timelineDate.getDate() - 2);
+                e.component.scrollToDate(timelineDate, { left: 0, top: 0 });
+              }}
             >
               {striped && (
                 <StripLine

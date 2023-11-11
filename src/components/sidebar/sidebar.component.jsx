@@ -25,9 +25,18 @@ const hexToRgba = (hex, alpha) => {
 
 export default function SGPSidebar() {
   const [projectDetails] = useProjectDetails();
-  const [collapsed, setCollapsed] = useState(true);
+  const collapsedLocalStorage =
+    localStorage.getItem('sidebarCollapsed') === null
+      ? true
+      : localStorage.getItem('sidebarCollapsed') === 'true';
+  const [collapsed, setCollapsed] = useState(collapsedLocalStorage);
   const theme = 'light';
   const navigate = useNavigate();
+
+  function handleClickCollapse() {
+    localStorage.setItem('sidebarCollapsed', !collapsed);
+    setCollapsed(!collapsed);
+  }
 
   const menuItemStyles = {
     root: {
@@ -133,7 +142,7 @@ export default function SGPSidebar() {
               </MenuItem>
             </Menu>
           </MenuItemContent>
-          <div onClick={() => setCollapsed(!collapsed)}>
+          <div onClick={handleClickCollapse}>
             <SGPSidebarFooter collapsed={collapsed} />
           </div>
         </MenuContent>
