@@ -40,25 +40,6 @@ export function patchTask(
       )
       .then((response) => {
         if (response.status === 200) {
-          if (process.env.NODE_ENV === 'production') {
-            emailjs
-              .send(
-                EMAIL_ID,
-                PATCH_TASK_TEMPLATE_ID,
-                {
-                  name: editedTask.title,
-                  email: managerEmail,
-                  message: `A tarefa ${editedTask.title} foi atualizada, acesse o projeto ${projectName} para conferir as alterações.`,
-                },
-                PUBLIC_ID_KEY,
-              )
-              .then((result) => {
-                console.log(result.text);
-              })
-              .catch((error) => {
-                console.log(error.text);
-              });
-          }
           resolve(response.data);
         }
       })
