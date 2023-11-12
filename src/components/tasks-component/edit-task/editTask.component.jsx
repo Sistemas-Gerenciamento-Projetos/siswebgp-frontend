@@ -12,6 +12,7 @@ import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 import { Spin } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getTask } from '../../../services/tasks/getTask';
+import { SpinDiv } from './editTask.styles';
 
 export default function EditTask({ show, setShow, onRefreshTasks }) {
   const [userDetails] = useUserDetails();
@@ -31,6 +32,7 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
   const [id, setId] = useState('');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [loadingTask, setLoadingTask] = useState(false);
 
   const formRef = useRef(null);
 
@@ -126,6 +128,7 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
 
   useEffect(() => {
     if (show) {
+      setLoadingTask(true);
       getTask(userDetails.accessToken, projectId, taskId)
         .then((data) => {
           if (data != null) {
@@ -138,12 +141,13 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
             setStatus(data.status);
             setEpic(data.epic);
             setId(data.id);
+            setLoadingTask(false);
           }
         })
         .catch((error) => {
           console.log(error);
-
           showErrorToast('Erro ao carregar os dados da tarefa');
+          setLoadingTask(false);
         });
 
       getUsersByProject(userDetails.accessToken, projectId)
@@ -167,122 +171,128 @@ export default function EditTask({ show, setShow, onRefreshTasks }) {
           <Modal.Title>{'Editar Tarefa'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form ref={formRef} onSubmit={submitHandler}>
-            <Form.Group className="mb-3" controlId="title">
-              <Form.Label className="label">Título:</Form.Label>
+          {loadingTask ? (
+            <SpinDiv>
+              <Spin />
+            </SpinDiv>
+          ) : (
+            <Form ref={formRef} onSubmit={submitHandler}>
+              <Form.Group className="mb-3" controlId="title">
+                <Form.Label className="label">Título:</Form.Label>
 
-              <Form.Control
-                type="text"
-                placeholder="Digite o título da tarefa"
-                isInvalid={!!errors.title}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.title}
-              </Form.Control.Feedback>
-            </Form.Group>
+                <Form.Control
+                  type="text"
+                  placeholder="Digite o título da tarefa"
+                  isInvalid={!!errors.title}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.title}
+                </Form.Control.Feedback>
+              </Form.Group>
 
-            <Form.Group className="mb-3" controlId="users">
-              <Form.Label className="label">Responsável:</Form.Label>
-              <Form.Select
-                value={idUser}
-                onChange={(e) => setIdUser(e.target.value)}
-              >
-                {listUsers.map((user) => {
-                  return (
-                    <option value={user.id} key={user.id}>
-                      {user.name}
-                    </option>
-                  );
-                })}
-              </Form.Select>
-            </Form.Group>
+              <Form.Group className="mb-3" controlId="users">
+                <Form.Label className="label">Responsável:</Form.Label>
+                <Form.Select
+                  value={idUser}
+                  onChange={(e) => setIdUser(e.target.value)}
+                >
+                  {listUsers.map((user) => {
+                    return (
+                      <option value={user.id} key={user.id}>
+                        {user.name}
+                      </option>
+                    );
+                  })}
+                </Form.Select>
+              </Form.Group>
 
-            <Row>
-              <Col>
-                <Form.Group controlId="starDate">
-                  <Form.Label className="label">Data de início:</Form.Label>
-                  <Form.Control
-                    type="date"
-                    isInvalid={!!errors.beginDate}
-                    value={beginDate}
-                    onChange={(e) => [setBeginDate(e.target.value)]}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.beginDate}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Col>
-
-              <Col>
-                <Form.Group controlId="endDate">
-                  <Form.Label className="label">Data de fim:</Form.Label>
-                  <InputGroup hasValidation>
+              <Row>
+                <Col>
+                  <Form.Group controlId="starDate">
+                    <Form.Label className="label">Data de início:</Form.Label>
                     <Form.Control
                       type="date"
-                      isInvalid={!!errors.deadlineDate}
-                      min={
-                        beginDate === ''
-                          ? new Date().toISOString().split('T')[0]
-                          : beginDate
-                      }
-                      disabled={beginDate === ''}
-                      value={deadlineDate}
-                      onChange={(e) => [setDeadlineDate(e.target.value)]}
+                      isInvalid={!!errors.beginDate}
+                      value={beginDate}
+                      onChange={(e) => [setBeginDate(e.target.value)]}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {errors.deadlineDate}
+                      {errors.beginDate}
                     </Form.Control.Feedback>
-                  </InputGroup>
-                </Form.Group>
-              </Col>
-            </Row>
+                  </Form.Group>
+                </Col>
 
-            <Form.Group
-              className="mb-3"
-              controlId="description"
-              style={{ marginTop: '1rem' }}
-            >
-              <Form.Label className="label">Descrição:</Form.Label>
-              <Form.Control
-                as="textarea"
-                maxLength={200}
-                type="text"
-                rows={3}
-                value={description}
-                isInvalid={!!errors.description}
-                onChange={(e) => [setDescription(e.target.value)]}
-              />
-              <Badge
-                className="form-item"
-                text="primary"
-                bg={`${description.length > 200 ? 'danger' : 'light'}`}
-              >
-                {description.length}/{200}
-              </Badge>
-              <Form.Control.Feedback type="invalid">
-                {errors.description}
-              </Form.Control.Feedback>
-            </Form.Group>
+                <Col>
+                  <Form.Group controlId="endDate">
+                    <Form.Label className="label">Data de fim:</Form.Label>
+                    <InputGroup hasValidation>
+                      <Form.Control
+                        type="date"
+                        isInvalid={!!errors.deadlineDate}
+                        min={
+                          beginDate === ''
+                            ? new Date().toISOString().split('T')[0]
+                            : beginDate
+                        }
+                        disabled={beginDate === ''}
+                        value={deadlineDate}
+                        onChange={(e) => [setDeadlineDate(e.target.value)]}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.deadlineDate}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </Form.Group>
+                </Col>
+              </Row>
 
-            {loading ? (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
+              <Form.Group
+                className="mb-3"
+                controlId="description"
+                style={{ marginTop: '1rem' }}
               >
-                <Spin />
-              </div>
-            ) : (
-              <div className="d-grid mt-4">
-                <Button variant="primary" type="submit">
-                  Salvar Alterações
-                </Button>
-              </div>
-            )}
-          </Form>
+                <Form.Label className="label">Descrição:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  maxLength={200}
+                  type="text"
+                  rows={3}
+                  value={description}
+                  isInvalid={!!errors.description}
+                  onChange={(e) => [setDescription(e.target.value)]}
+                />
+                <Badge
+                  className="form-item"
+                  text="primary"
+                  bg={`${description.length > 200 ? 'danger' : 'light'}`}
+                >
+                  {description.length}/{200}
+                </Badge>
+                <Form.Control.Feedback type="invalid">
+                  {errors.description}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              {loading ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Spin />
+                </div>
+              ) : (
+                <div className="d-grid mt-4">
+                  <Button variant="primary" type="submit">
+                    Salvar Alterações
+                  </Button>
+                </div>
+              )}
+            </Form>
+          )}
         </Modal.Body>
       </Modal>
     </div>

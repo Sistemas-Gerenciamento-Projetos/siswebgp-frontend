@@ -33,7 +33,7 @@ function ActionButtons({ setShowEdit, onRefreshEpics, epicId }) {
   };
 
   return (
-    <div>
+    <div onClick={(e) => e.stopPropagation()}>
       <Button
         variant="outline-light"
         style={{ border: 0 }}
@@ -55,16 +55,32 @@ function ActionButtons({ setShowEdit, onRefreshEpics, epicId }) {
         <img src={TrashIcon} />
       </Button>
       <>
-        <Modal show={show} onHide={handleClose}>
+        <Modal
+          onClick={(e) => e.stopPropagation()}
+          show={show}
+          onHide={handleClose}
+        >
           <Modal.Header closeButton>
             <Modal.Title>Confirme a operação</Modal.Title>
           </Modal.Header>
           <Modal.Body>Tem certeza que deseja excluir?</Modal.Body>
           <Modal.Footer>
-            <Button variant="danger" onClick={handleDelete}>
+            <Button
+              variant="danger"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete();
+              }}
+            >
               Excluir
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button
+              variant="primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClose();
+              }}
+            >
               Cancelar
             </Button>
           </Modal.Footer>
