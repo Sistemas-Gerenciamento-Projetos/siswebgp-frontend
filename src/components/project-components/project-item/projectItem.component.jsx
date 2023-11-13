@@ -5,16 +5,18 @@ import ManagerPhoto from '../../managerPhoto/managerPhoto';
 import { useProjectDetails } from '../../../context/projectContext';
 import { parseDateWithoutTimezone } from '../../../utils/dateParse';
 import Button from 'react-bootstrap/Button';
-import TrashIcon from '../../../Assets/trash.svg';
-import EditIcon from '../../../Assets/edit.svg';
-import AddIcon from '../../../Assets/person-add.svg';
 import { useUserDetails } from '../../../context/usercontext';
 import { deleteProject } from '../../../services/projects/deleteProject';
 import PropTypes from 'prop-types';
-import PDFIcon from '../../../Assets/pdf.svg';
 import pdfReport from '../../../utils/pdfReport';
 import getWorks from '../../../services/board/getWorks';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  FilePdfOutlined,
+  UserAddOutlined,
+} from '@ant-design/icons';
 
 export default function ProjectItem({
   project,
@@ -104,39 +106,39 @@ export default function ProjectItem({
         {project.manager === userDetails.id && (
           <>
             <Button
-              variant="outline-light"
+              variant="outline-dark"
               style={{ border: 0 }}
               onClick={() =>
                 pdfReport(projectDetails.projectName, epics, tasks)
               }
             >
-              <img src={PDFIcon} />
+              <FilePdfOutlined />
             </Button>
 
             <Button
-              variant="outline-light"
+              variant="outline-dark"
               style={{ border: 0 }}
               onClick={() => setShowInviteUsersToProject(true)}
             >
-              <img src={AddIcon} />
+              <UserAddOutlined />
             </Button>
 
             <Button
-              variant="outline-light"
+              variant="outline-dark"
               style={{ border: 0 }}
               onClick={() => setShowEditProject(true)}
             >
-              <img src={EditIcon} />
+              <EditOutlined />
             </Button>
 
             <Button
-              variant="outline-light"
+              variant="outline-dark"
               style={{ border: 0 }}
               onClick={() => {
                 handleDelete(project);
               }}
             >
-              <img src={TrashIcon} />
+              <DeleteOutlined />
             </Button>
           </>
         )}

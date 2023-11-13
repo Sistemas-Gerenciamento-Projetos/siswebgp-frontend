@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import TrashIcon from '../../../Assets/trash.svg';
-import EditIcon from '../../../Assets/edit.svg';
 import { Modal, Button } from 'react-bootstrap';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { deleteEpic } from '../../../services/epics/deleteEpics';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 function ActionButtons({ setShowEdit, onRefreshEpics, epicId }) {
   const [show, setShow] = useState(false);
@@ -35,24 +34,24 @@ function ActionButtons({ setShowEdit, onRefreshEpics, epicId }) {
   return (
     <div onClick={(e) => e.stopPropagation()}>
       <Button
-        variant="outline-light"
+        variant="outline-dark"
         style={{ border: 0 }}
         onClick={(e) => {
           e.stopPropagation();
           handleEdit();
         }}
       >
-        <img src={EditIcon} />
+        <EditOutlined />
       </Button>
       <Button
-        variant="outline-light"
+        variant="outline-dark"
         onClick={(e) => {
           e.stopPropagation();
           handleShow();
         }}
         style={{ border: 0 }}
       >
-        <img src={TrashIcon} />
+        <DeleteOutlined />
       </Button>
       <>
         <Modal
