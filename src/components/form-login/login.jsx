@@ -50,6 +50,7 @@ function Login() {
       .then((data) => {
         setLoading(false);
         setErrors('');
+        localStorage.clear();
         localStorage.setItem('userDetails', JSON.stringify(data));
         updateUserDetails(data.access, data.refresh, data.user.id);
         navigate('/projects');
