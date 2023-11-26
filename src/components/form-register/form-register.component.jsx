@@ -8,6 +8,7 @@ import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
 import { postAddUserInProject } from '../../services/projects/postAddUserInProject';
 import { useProjectDetails } from '../../context/projectContext';
 import { Spin } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 function Registration({ cameFromProjectPage }) {
   const [name, setName] = useState('');
@@ -20,6 +21,7 @@ function Registration({ cameFromProjectPage }) {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors = {};
@@ -96,6 +98,7 @@ function Registration({ cameFromProjectPage }) {
 
               localStorage.setItem('userDetails', JSON.stringify(data));
               updateUserDetails(data.access, data.refresh, data.user.id);
+              navigate('/projects');
             })
             .catch((error) => {
               setLoading(false);
