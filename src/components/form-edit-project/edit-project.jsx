@@ -24,10 +24,12 @@ const EditProject = ({
 
   useEffect(() => {
     console.log(project);
-    setTitle(project.project_name);
-    setDescription(project.description);
-    setBeginDate(project.start_date.split('T')[0]);
-    setEndDate(project.deadline_date.split('T')[0]);
+    if (project != undefined) {
+      setTitle(project.project_name);
+      setDescription(project.description);
+      setBeginDate(project.start_date.split('T')[0]);
+      setEndDate(project.deadline_date.split('T')[0]);
+    }
   }, []);
 
   const handleSubmit = (event) => {
