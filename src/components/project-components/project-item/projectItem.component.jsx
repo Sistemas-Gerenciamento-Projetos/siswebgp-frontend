@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ProgressBar from '../progressBar/progressBar';
 import DatePeriod from '../../datePeriod/datePeriod';
 import ManagerPhoto from '../../managerPhoto/managerPhoto';
@@ -9,7 +9,6 @@ import { useUserDetails } from '../../../context/usercontext';
 import { deleteProject } from '../../../services/projects/deleteProject';
 import PropTypes from 'prop-types';
 import pdfReport from '../../../utils/pdfReport';
-import getWorks from '../../../services/board/getWorks';
 import { showErrorToast, showSuccessToast } from '../../../utils/Toasts';
 import {
   DeleteOutlined,
@@ -30,20 +29,7 @@ export default function ProjectItem({
   const [userDetails] = useUserDetails();
   const parsedStartDate = parseDateWithoutTimezone(project.start_date);
   const parsedEndDate = parseDateWithoutTimezone(project.deadline_date);
-  let tasks;
-  let epics;
   let progress = 0;
-
-  useEffect(() => {
-    getWorks(userDetails.accessToken, project.id)
-      .then((data) => {
-        epics = data[0];
-        tasks = data[1];
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   const handleDelete = (project) => {
     if (
@@ -108,9 +94,13 @@ export default function ProjectItem({
             <Button
               variant="outline-dark"
               style={{ border: 0 }}
-              onClick={() =>
-                pdfReport(projectDetails.projectName, epics, tasks)
-              }
+              onClick={() => {
+                pdfReport(
+                  projectDetails.projectName,
+                  userDetails.accessToken,
+                  projectDetails.projectId,
+                );
+              }}
             >
               <FilePdfOutlined />
             </Button>

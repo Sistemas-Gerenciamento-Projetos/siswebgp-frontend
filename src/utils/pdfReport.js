@@ -2,8 +2,20 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import translateStatus from './translateStatus';
 import { parseDateWithoutTimezone } from './dateParse';
+import getWorks from '../services/board/getWorks';
 
-export default function pdfReport(projectName, epics, tasks) {
+export default async function pdfReport(projectName, accessToken, projectId) {
+  let tasks;
+  let epics;
+  await getWorks(accessToken, projectId)
+    .then((data) => {
+      epics = data[0];
+      tasks = data[1];
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   const options = {
     day: '2-digit',
     month: '2-digit',
