@@ -6,7 +6,7 @@ export const StyledSidebarHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #3e8eef;
+  background-color: #1890ff;
 
   > div {
     width: 100%;
