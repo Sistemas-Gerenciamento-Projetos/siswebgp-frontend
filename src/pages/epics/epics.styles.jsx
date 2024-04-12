@@ -9,11 +9,11 @@ export const SpinDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: calc(100vh - 80px);
 `;
 
 export const EmptyDiv = styled.div`
-  height: 100%;
+  height: calc(100vh - 80px);
   display: flex;
   align-items: center;
   justify-content: center;

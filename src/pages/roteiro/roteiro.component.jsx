@@ -100,7 +100,7 @@ const Roteiro = () => {
         {loading ? (
           <div
             style={{
-              height: '100%',
+              height: 'calc(100vh - 80px)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
