@@ -85,7 +85,7 @@ function Backlog() {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              height: '100%',
+              height: 'calc(100vh - 80px)',
               alignItems: 'center',
             }}
           >
@@ -141,7 +141,7 @@ function Backlog() {
             ) : (
               <div
                 style={{
-                  height: '100%',
+                  height: 'calc(100vh - 80px)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
