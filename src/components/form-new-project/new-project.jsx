@@ -12,8 +12,10 @@ import './new-project.scss';
 import { postProject } from '../../services/projects/postProject';
 import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
 import { Spin } from 'antd';
+import { useUserDetails } from '../../context/usercontext';
 
-const NewProject = ({ onRefreshProjects, userDetails, show, setShow }) => {
+const NewProject = ({ onRefreshProjects, show, setShow }) => {
+  const [userDetails, updateUserDetails] = useUserDetails();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [beginDate, setBeginDate] = useState('');

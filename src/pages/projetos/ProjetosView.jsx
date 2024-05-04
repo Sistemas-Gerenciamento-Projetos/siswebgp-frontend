@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import NovoProjeto from '../../components/form-new-project/new-project';
-import { useUserDetails } from '../../context/usercontext';
-import { Navigate } from 'react-router-dom';
-import { getProjects } from '../../services/projects/getProjects';
-import { useProjectDetails } from '../../context/projectContext';
 import OptionsProject from '../../components/options-project/home-options/home-options';
 import EditProject from '../../components/form-edit-project/edit-project';
 import { ToastContainer, toast } from 'react-toastify';
@@ -12,22 +8,24 @@ import { Empty, FloatButton, Spin } from 'antd';
 import { Table } from 'reactstrap';
 import { InfoCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import ProjectItem from '../../components/project-components/project-item/projectItem.component';
-import { showErrorToast, showInfoToast } from '../../utils/Toasts';
 import PageNavigator from '../../components/pageNavigator/pageNavigator';
 import SGPSidebar from '../../components/sidebar/sidebar.component';
 import Toolbar from '../../components/toolbar/toolbar.component';
 
-const Projetos = () => {
-  const [userDetails, updateUserDetails] = useUserDetails();
-  const [projectDetails, updateProjectDetails] = useProjectDetails();
+const ProjetosView = ({
+  projectDetails,
+  projects,
+  loading,
+  onRefreshProjects,
+  showProgressInfoAlert,
+  onClickProject,
+}) => {
   const [novoProjeto, setNovoProjeto] = useState(true);
 
-  const [projects, setProjects] = useState([]);
   const [showNewProject, setShowNewProject] = useState(false);
   const [showEditProject, setShowEditProject] = useState(false);
   const [showInviteUsersToProject, setShowInviteUsersToProject] =
     useState(false);
-  const [loading, setLoading] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 9;
@@ -38,59 +36,8 @@ const Projetos = () => {
   const numbers = [...Array(nPage + 1).keys()].slice(1);
 
   useEffect(() => {
-    setLoading(true);
     onRefreshProjects();
   }, [novoProjeto]);
-
-  if (!userDetails.accessToken) {
-    return navigateToLogin();
-  }
-
-  function onClickProject(
-    projectId,
-    projectName,
-    managerName,
-    managerId,
-    managerEmail,
-  ) {
-    updateProjectDetails(
-      projectId,
-      projectName,
-      managerName,
-      managerId,
-      managerEmail,
-    );
-  }
-
-  function onRefreshProjects() {
-    getProjects(userDetails.accessToken)
-      .then((data) => {
-        setProjects(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        let errorString = 'Erro ao buscar projetos';
-        console.log(error);
-
-        if (error.response.status === 401) {
-          errorString = 'Sessão expirada';
-          updateUserDetails(null);
-        }
-
-        showErrorToast(errorString);
-      });
-  }
-
-  function navigateToLogin() {
-    <Navigate replace to="auth/" />;
-  }
-
-  function showProgressInfoAlert() {
-    showInfoToast(
-      'O progresso do projeto é calculado através da soma de todos os épicos e tarefas criados e dividido pelo número de épicos e tarefas concluídos',
-    );
-  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
@@ -197,7 +144,6 @@ const Projetos = () => {
 
         <NovoProjeto
           onRefreshProjects={onRefreshProjects}
-          userDetails={userDetails}
           show={showNewProject}
           setShow={setShowNewProject}
         />
@@ -245,4 +191,4 @@ const Projetos = () => {
   );
 };
 
-export default Projetos;
+export default ProjetosView;
