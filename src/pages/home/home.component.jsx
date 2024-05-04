@@ -1,11 +1,11 @@
 import React from 'react';
-import Authentication from '../authentication/authentication';
+import AuthenticationController from '../authentication/AuthenticationController';
 import './home.styles.scss';
 
 const Home = () => {
   return (
     <div className="home">
-      <Authentication />
+      <AuthenticationController />
     </div>
   );
 };

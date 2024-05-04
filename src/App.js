@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Authentication from './pages/authentication/authentication';
+import AuthenticationController from './pages/authentication/AuthenticationController';
 import { UserDetailsProvider } from './context/usercontext';
 import Home from './pages/home/home.component';
 import { Navigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ const App = () => {
       <ProjectDetailsProvider>
         <Routes>
           <Route path="/" index element={<Home />}></Route>
-          <Route path="auth/" element={<Authentication />} />
+          <Route path="auth/" element={<AuthenticationController />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="projects" element={<Projetos />} />
           <Route path="projects/:projectId/dashboard" element={<Dashboard />} />
