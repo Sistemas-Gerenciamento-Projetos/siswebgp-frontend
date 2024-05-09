@@ -7,10 +7,10 @@ import { Navigate } from 'react-router-dom';
 import { ProjectDetailsProvider } from './context/projectContext';
 import ProjetosController from './pages/projetos/ProjetosController';
 import Dashboard from './pages/dashboard/dashboard.component';
-import Backlog from './pages/backlog/backlog.component';
 import Painel from './pages/painel/painel.component';
 import Roteiro from './pages/roteiro/roteiro.component';
 import Epics from './pages/epics/epics.component';
+import BacklogController from './pages/backlog/BacklogController';
 
 const App = () => {
   return (
@@ -22,10 +22,13 @@ const App = () => {
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="projects" element={<ProjetosController />} />
           <Route path="projects/:projectId/dashboard" element={<Dashboard />} />
-          <Route path="projects/:projectId/backlog" element={<Backlog />} />
+          <Route
+            path="projects/:projectId/backlog"
+            element={<BacklogController />}
+          />
           <Route
             path="projects/:projectId/backlog/:taskId/edit"
-            element={<Backlog />}
+            element={<BacklogController />}
           />
           <Route path="projects/:projectId/painel" element={<Painel />} />
           <Route path="projects/:projectId/roteiro" element={<Roteiro />} />

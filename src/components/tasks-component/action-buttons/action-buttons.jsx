@@ -31,7 +31,6 @@ function ActionButtons({ onRefreshTasks, taskId, setShowEditTask, epicId }) {
       .then((data) => {
         onRefreshTasks();
         showSuccessToast('Tarefa excluída');
-        handleClose();
       })
       .catch((error) => {
         console.log(error);
