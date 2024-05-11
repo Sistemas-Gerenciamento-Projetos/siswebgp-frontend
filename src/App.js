@@ -5,12 +5,12 @@ import { UserDetailsProvider } from './context/usercontext';
 import Home from './pages/home/home.component';
 import { Navigate } from 'react-router-dom';
 import { ProjectDetailsProvider } from './context/projectContext';
-import Projetos from './pages/projetos/projetos.component';
-import Dashboard from './pages/dashboard/dashboard.component';
-import Backlog from './pages/backlog/backlog.component';
-import Painel from './pages/painel/painel.component';
-import Roteiro from './pages/roteiro/roteiro.component';
-import Epics from './pages/epics/epics.component';
+import ProjetosController from './pages/projetos/ProjetosController';
+import BacklogController from './pages/backlog/BacklogController';
+import DashboardController from './pages/dashboard/DashboardController';
+import EpicsController from './pages/epics/EpicsController';
+import PainelController from './pages/painel/PainelController';
+import RoteiroController from './pages/roteiro/RoteiroController';
 
 const App = () => {
   return (
@@ -20,19 +20,34 @@ const App = () => {
           <Route path="/" index element={<Home />}></Route>
           <Route path="auth/" element={<AuthenticationController />} />
           <Route path="*" element={<Navigate to="/" />} />
-          <Route path="projects" element={<Projetos />} />
-          <Route path="projects/:projectId/dashboard" element={<Dashboard />} />
-          <Route path="projects/:projectId/backlog" element={<Backlog />} />
+          <Route path="projects" element={<ProjetosController />} />
+          <Route
+            path="projects/:projectId/dashboard"
+            element={<DashboardController />}
+          />
+          <Route
+            path="projects/:projectId/backlog"
+            element={<BacklogController />}
+          />
           <Route
             path="projects/:projectId/backlog/:taskId/edit"
-            element={<Backlog />}
+            element={<BacklogController />}
           />
-          <Route path="projects/:projectId/painel" element={<Painel />} />
-          <Route path="projects/:projectId/roteiro" element={<Roteiro />} />
-          <Route path="projects/:projectId/epics" element={<Epics />} />
+          <Route
+            path="projects/:projectId/painel"
+            element={<PainelController />}
+          />
+          <Route
+            path="projects/:projectId/roteiro"
+            element={<RoteiroController />}
+          />
+          <Route
+            path="projects/:projectId/epics"
+            element={<EpicsController />}
+          />
           <Route
             path="projects/:projectId/epics/:epicId/edit"
-            element={<Epics />}
+            element={<EpicsController />}
           />
         </Routes>
       </ProjectDetailsProvider>

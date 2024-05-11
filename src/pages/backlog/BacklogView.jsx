@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useUserDetails } from '../../context/usercontext';
-import { useProjectDetails } from '../../context/projectContext';
-import { Navigate, useParams } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
-import { getTasks } from '../../services/tasks/getTasks';
 import TaskItem from '../../components/tasks-component/taskitem/taskitem';
 import { Empty, Spin } from 'antd';
 import { ToastContainer } from 'react-toastify';
@@ -13,12 +9,14 @@ import SGPSidebar from '../../components/sidebar/sidebar.component';
 import Toolbar from '../../components/toolbar/toolbar.component';
 import EditTask from '../../components/tasks-component/edit-task/editTask.component';
 
-function Backlog() {
-  const [userDetails] = useUserDetails();
-  const [projectDetails] = useProjectDetails();
-  const { projectId, taskId } = useParams();
-
-  const [tasks, setTasks] = useState([]);
+export default function BacklogView({
+  projectDetails,
+  userDetails,
+  loading,
+  tasks,
+  taskId,
+  onRefreshTasks,
+}) {
   const [update, setUpdate] = useState(false);
   const [show, setShow] = useState(false);
   const [showEditTask, setShowEditTask] = useState(false);
@@ -30,7 +28,6 @@ function Backlog() {
   const tasksPage = tasks.slice(firstIndex, lastIndex);
   const nPage = Math.ceil(tasks.length / recordsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (taskId != null) {
@@ -38,23 +35,6 @@ function Backlog() {
     }
     onRefreshTasks();
   }, [update]);
-
-  if (!userDetails.accessToken) {
-    return <Navigate replace to="/" />;
-  }
-
-  function onRefreshTasks() {
-    setLoading(true);
-    getTasks(userDetails.accessToken, projectId)
-      .then((data) => {
-        setTasks(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
-  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
@@ -169,5 +149,3 @@ function Backlog() {
     </div>
   );
 }
-
-export default Backlog;
