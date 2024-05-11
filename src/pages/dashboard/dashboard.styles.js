@@ -17,3 +17,10 @@ export const CardsDiv = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
+
+export const LoadingDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 80px);
+  align-items: center;
+`;
