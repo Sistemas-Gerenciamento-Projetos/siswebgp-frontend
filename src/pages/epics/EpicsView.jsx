@@ -1,27 +1,22 @@
 import { Empty, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import EpicItem from '../../components/epic-component/epic-item/epicItem.component';
 import { EmptyDiv, SpinDiv, TableHeader } from './epics.styles';
-import { Navigate, useParams } from 'react-router-dom';
-import { useUserDetails } from '../../context/usercontext';
-import { getEpics } from '../../services/epics/getEpics';
-import { useProjectDetails } from '../../context/projectContext';
 import NewEpicForm from '../../components/epic-component/new-epic/newEpicForm.component';
 import PageNavigator from '../../components/pageNavigator/pageNavigator';
-import { showErrorToast } from '../../utils/Toasts';
 import SGPSidebar from '../../components/sidebar/sidebar.component';
 import Toolbar from '../../components/toolbar/toolbar.component';
 
-export default function Epics() {
-  const [epics, setEpics] = useState([]);
-  const [userDetails] = useUserDetails();
+export default function EpicsView({
+  projectDetails,
+  epics,
+  loading,
+  onGetEpics,
+}) {
   const [update, setUpdate] = useState(false);
-  const [projectDetails] = useProjectDetails();
-  const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
-  const { projectId } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 9;
@@ -32,22 +27,8 @@ export default function Epics() {
   const numbers = [...Array(nPage + 1).keys()].slice(1);
 
   useEffect(() => {
-    setLoading(true);
-    getEpics(userDetails.accessToken, projectId)
-      .then((data) => {
-        setEpics(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        showErrorToast('Erro ao buscar os épicos');
-        setLoading(false);
-      });
+    onGetEpics();
   }, [update]);
-
-  if (!userDetails.accessToken) {
-    return <Navigate replace to="/" />;
-  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>

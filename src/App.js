@@ -8,9 +8,10 @@ import { ProjectDetailsProvider } from './context/projectContext';
 import ProjetosController from './pages/projetos/ProjetosController';
 import Painel from './pages/painel/painel.component';
 import Roteiro from './pages/roteiro/roteiro.component';
-import Epics from './pages/epics/epics.component';
+import Epics from './pages/epics/EpicsView';
 import BacklogController from './pages/backlog/BacklogController';
 import DashboardController from './pages/dashboard/DashboardController';
+import EpicsController from './pages/epics/EpicsController';
 
 const App = () => {
   return (
@@ -35,7 +36,10 @@ const App = () => {
           />
           <Route path="projects/:projectId/painel" element={<Painel />} />
           <Route path="projects/:projectId/roteiro" element={<Roteiro />} />
-          <Route path="projects/:projectId/epics" element={<Epics />} />
+          <Route
+            path="projects/:projectId/epics"
+            element={<EpicsController />}
+          />
           <Route
             path="projects/:projectId/epics/:epicId/edit"
             element={<Epics />}
