@@ -6,12 +6,11 @@ import Home from './pages/home/home.component';
 import { Navigate } from 'react-router-dom';
 import { ProjectDetailsProvider } from './context/projectContext';
 import ProjetosController from './pages/projetos/ProjetosController';
-import Roteiro from './pages/roteiro/roteiro.component';
-import Epics from './pages/epics/EpicsView';
 import BacklogController from './pages/backlog/BacklogController';
 import DashboardController from './pages/dashboard/DashboardController';
 import EpicsController from './pages/epics/EpicsController';
 import PainelController from './pages/painel/PainelController';
+import RoteiroController from './pages/roteiro/RoteiroController';
 
 const App = () => {
   return (
@@ -38,14 +37,17 @@ const App = () => {
             path="projects/:projectId/painel"
             element={<PainelController />}
           />
-          <Route path="projects/:projectId/roteiro" element={<Roteiro />} />
+          <Route
+            path="projects/:projectId/roteiro"
+            element={<RoteiroController />}
+          />
           <Route
             path="projects/:projectId/epics"
             element={<EpicsController />}
           />
           <Route
             path="projects/:projectId/epics/:epicId/edit"
-            element={<Epics />}
+            element={<EpicsController />}
           />
         </Routes>
       </ProjectDetailsProvider>

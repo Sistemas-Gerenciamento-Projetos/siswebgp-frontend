@@ -1,8 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useUserDetails } from '../../context/usercontext';
-import { useProjectDetails } from '../../context/projectContext';
-import { getTasks } from '../../services/tasks/getTasks';
+import React, { useEffect } from 'react';
 import './roteiro.styles.css';
 import Gantt, {
   Tasks,
@@ -12,102 +8,39 @@ import Gantt, {
   Item,
   StripLine,
 } from 'devextreme-react/gantt';
-import { ToastContainer, toast } from 'react-toastify';
-import { patchTask } from '../../services/tasks/patchTask';
-import { showErrorToast, showSuccessToast } from '../../utils/Toasts';
+import { ToastContainer } from 'react-toastify';
 import { Spin } from 'antd';
 import SGPSidebar from '../../components/sidebar/sidebar.component';
 import Toolbar from '../../components/toolbar/toolbar.component';
+import { Root, SpinDiv, ToolbarDiv } from './RoteiroStyles';
 
-const Roteiro = () => {
-  const currentDate = new Date(Date.now());
-
-  const [userDetails] = useUserDetails();
-  const [projectDetails] = useProjectDetails();
-  const [striped, setStriped] = useState(false);
-
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  function handleData() {
-    getTasks(userDetails.accessToken, projectDetails.projectId)
-      .then((data) => {
-        setStriped(true);
-        setTasks(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }
-
+export default function RoteiroView({
+  projectName,
+  loading,
+  striped,
+  currentDate,
+  tasks,
+  handleData,
+  updateTask,
+}) {
   useEffect(() => {
     handleData();
   }, []);
 
-  if (!userDetails.accessToken) {
-    return <Navigate replace to="/" />;
-  }
-
-  function updateTask({ key, values }) {
-    const tasksFiltered = tasks.filter((item) => item.id === key);
-
-    if (tasksFiltered.length === 0) {
-      showErrorToast('Erro ao atualizar a tarefa');
-      return;
-    }
-
-    const task = tasksFiltered[0];
-    task.title = values.title !== undefined ? values.title : task.title;
-    task.start_date =
-      values.start_date !== undefined
-        ? values.start_date.toISOString()
-        : task.start_date;
-    task.deadline_date =
-      values.deadline_date !== undefined
-        ? values.deadline_date.toISOString()
-        : task.deadline_date;
-
-    console.log(task);
-
-    patchTask(
-      userDetails.accessToken,
-      projectDetails.projectId,
-      projectDetails.projectName,
-      projectDetails.managerEmail,
-      task,
-    )
-      .then((data) => {
-        handleData();
-        showSuccessToast('Tarefa atualizada');
-      })
-      .catch((error) => {
-        showErrorToast('Erro ao atualizar a tarefa');
-      });
-  }
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
+    <Root>
       <SGPSidebar />
-      <div style={{ width: '100%' }}>
+      <ToolbarDiv>
         <Toolbar
           menuItem={4}
           setShowBacklog={() => {}}
           setShowEpics={() => {}}
-          title={`${projectDetails.projectName} / Roteiro`}
+          title={`${projectName} / Roteiro`}
         />
         {loading ? (
-          <div
-            style={{
-              height: 'calc(100vh - 80px)',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
+          <SpinDiv>
             <Spin />
-          </div>
+          </SpinDiv>
         ) : (
           <>
             <Gantt
@@ -169,9 +102,7 @@ const Roteiro = () => {
             />
           </>
         )}
-      </div>
-    </div>
+      </ToolbarDiv>
+    </Root>
   );
-};
-
-export default Roteiro;
+}
