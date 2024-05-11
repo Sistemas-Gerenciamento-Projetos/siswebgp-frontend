@@ -1,31 +1,22 @@
 import React from 'react';
-import Board from '../../components/board/board.component';
-import { Navigate } from 'react-router-dom';
-import { useUserDetails } from '../../context/usercontext';
 import { ToastContainer } from 'react-toastify';
 import Toolbar from '../../components/toolbar/toolbar.component';
 import SGPSidebar from '../../components/sidebar/sidebar.component';
-import { useProjectDetails } from '../../context/projectContext';
+import { Root, ContentDiv } from './PainelStyles';
+import BoardController from '../../components/board/BoardController';
 
-const Painel = () => {
-  const [userDetails] = useUserDetails();
-  const [projectDetails] = useProjectDetails();
-
-  if (!userDetails.accessToken) {
-    return <Navigate replace to="/" />;
-  }
-
+const PainelView = ({ projectName }) => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
+    <Root>
       <SGPSidebar />
-      <div style={{ width: '100%' }}>
+      <ContentDiv>
         <Toolbar
           menuItem={3}
           setShowBacklog={() => {}}
           setShowEpics={() => {}}
-          title={`${projectDetails.projectName} / Painel`}
+          title={`${projectName} / Painel`}
         />
-        <Board />
+        <BoardController />
         <ToastContainer
           position="bottom-right"
           autoClose={5000}
@@ -38,9 +29,9 @@ const Painel = () => {
           pauseOnHover={false}
           theme="colored"
         />
-      </div>
-    </div>
+      </ContentDiv>
+    </Root>
   );
 };
 
-export default Painel;
+export default PainelView;
