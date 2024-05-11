@@ -6,11 +6,11 @@ import Home from './pages/home/home.component';
 import { Navigate } from 'react-router-dom';
 import { ProjectDetailsProvider } from './context/projectContext';
 import ProjetosController from './pages/projetos/ProjetosController';
-import Dashboard from './pages/dashboard/dashboard.component';
 import Painel from './pages/painel/painel.component';
 import Roteiro from './pages/roteiro/roteiro.component';
 import Epics from './pages/epics/epics.component';
 import BacklogController from './pages/backlog/BacklogController';
+import DashboardController from './pages/dashboard/DashboardController';
 
 const App = () => {
   return (
@@ -21,7 +21,10 @@ const App = () => {
           <Route path="auth/" element={<AuthenticationController />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="projects" element={<ProjetosController />} />
-          <Route path="projects/:projectId/dashboard" element={<Dashboard />} />
+          <Route
+            path="projects/:projectId/dashboard"
+            element={<DashboardController />}
+          />
           <Route
             path="projects/:projectId/backlog"
             element={<BacklogController />}
