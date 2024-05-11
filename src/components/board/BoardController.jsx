@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
+import React, { useState } from 'react';
+import BoardView from './BoardView';
+import { useUserDetails } from '../../context/usercontext';
+import { useProjectDetails } from '../../context/projectContext';
+import getWorks from '../../services/board/getWorks';
 import {
   STATUS_TODO,
   STATUS_INPROGRESS,
   STATUS_PAUSED,
   STATUS_DONE,
 } from '../../constants/taskStatus';
-import { useUserDetails } from '../../context/usercontext';
-import { useProjectDetails } from '../../context/projectContext';
-import CardsColumn from '../cards-components/card-column/CardsColumn.component';
 import { patchTask } from '../../services/tasks/patchTask';
-import getWorks from '../../services/board/getWorks';
 import { patchEpic } from '../../services/epics/patchEpic';
 import { showErrorToast } from '../../utils/Toasts';
-import { Spin } from 'antd';
 
-export default function Board() {
+export default function BoardController() {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [todo, setTodo] = useState([]);
@@ -25,7 +23,8 @@ export default function Board() {
   const [updateTasks, setUpdateTasks] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  function onGetWorks() {
+    console.log('chamou2');
     getWorks(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         console.log(data);
@@ -46,7 +45,7 @@ export default function Board() {
         showErrorToast('Erro ao recuperar os cards');
         setLoading(false);
       });
-  }, [updateTasks]);
+  }
 
   const handleDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -129,35 +128,15 @@ export default function Board() {
   }
 
   return (
-    <>
-      {loading ? (
-        <div
-          style={{
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Spin />
-        </div>
-      ) : (
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'row',
-            }}
-          >
-            <CardsColumn title={'A fazer'} cards={todo} id={'1'} />
-            <CardsColumn title={'Em andamento'} cards={inProgress} id={'2'} />
-            <CardsColumn title={'Concluído'} cards={done} id={'4'} />
-            <CardsColumn title={'Pausado'} cards={paused} id={'3'} />
-          </div>
-        </DragDropContext>
-      )}
-    </>
+    <BoardView
+      updateTasks={updateTasks}
+      loading={loading}
+      todo={todo}
+      inProgress={inProgress}
+      done={done}
+      paused={paused}
+      onGetWorks={onGetWorks}
+      handleDragEnd={handleDragEnd}
+    />
   );
 }
