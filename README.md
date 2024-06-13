@@ -55,7 +55,7 @@
 
 - [Casos de Uso](https://drive.google.com/file/d/1EQM6iBEzGzinDZgsaq2bSo73OLA7KdB0/view?usp=sharing)
 
-- [Desafios Enfrentados no Deploy](https://docs.google.com/document/d/1_kaW11xLvAsFif3P_T3iMmbupiP0dWB7lQpx5sAO_-M/edit?usp=sharing)
+- [Desafios Enfrentados na Implantação do Sistema](https://docs.google.com/document/d/1_kaW11xLvAsFif3P_T3iMmbupiP0dWB7lQpx5sAO_-M/edit?usp=sharing)
   
 # Prototipação das Telas
 
