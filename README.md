@@ -53,6 +53,8 @@
 
 - [Documento de Implantação](https://docs.google.com/document/d/1mMqNbaAKncGDh7Ph7fB37MhdozIYHW9NAJPQpM3kDDs/edit)
 
+- [Casos de Uso](https://drive.google.com/file/d/1EQM6iBEzGzinDZgsaq2bSo73OLA7KdB0/view?usp=sharing)
+
 # Prototipação das Telas
 
 - [Link para visualizar o protótipo.](https://www.figma.com/file/lsIKGoFR9LjBfZwmqI7M4Q/SGP_UFBA?node-id=1%3A26&t=Ek8wruQihwCGt6dm-1)
