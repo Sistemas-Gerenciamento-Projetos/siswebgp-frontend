@@ -16,6 +16,7 @@ import {
   FilePdfOutlined,
   UserAddOutlined,
 } from '@ant-design/icons';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default function ProjectItem({
   project,
@@ -58,6 +59,14 @@ export default function ProjectItem({
     progress = (project.num_completed_tasks / project.num_total_tasks) * 100;
   }
 
+  const pdfTooltip = <Tooltip id="tooltip">Baixar relatório</Tooltip>;
+
+  const manageUsersTooltip = <Tooltip id="tooltip">Gerenciar membros</Tooltip>;
+
+  const editTooltip = <Tooltip id="tooltip">Editar projeto</Tooltip>;
+
+  const deleteTooltip = <Tooltip id="tooltip">Deletar projeto</Tooltip>;
+
   return (
     <tr
       style={{
@@ -91,45 +100,53 @@ export default function ProjectItem({
       <td>
         {project.manager === userDetails.id && (
           <>
-            <Button
-              variant="outline-dark"
-              style={{ border: 0 }}
-              onClick={() => {
-                pdfReport(
-                  projectDetails.projectName,
-                  userDetails.accessToken,
-                  projectDetails.projectId,
-                );
-              }}
-            >
-              <FilePdfOutlined />
-            </Button>
+            <OverlayTrigger placement="bottom" overlay={pdfTooltip}>
+              <Button
+                variant="outline-dark"
+                style={{ border: 0 }}
+                onClick={() => {
+                  pdfReport(
+                    projectDetails.projectName,
+                    userDetails.accessToken,
+                    projectDetails.projectId,
+                  );
+                }}
+              >
+                <FilePdfOutlined />
+              </Button>
+            </OverlayTrigger>
 
-            <Button
-              variant="outline-dark"
-              style={{ border: 0 }}
-              onClick={() => setShowInviteUsersToProject(true)}
-            >
-              <UserAddOutlined />
-            </Button>
+            <OverlayTrigger placement="bottom" overlay={manageUsersTooltip}>
+              <Button
+                variant="outline-dark"
+                style={{ border: 0 }}
+                onClick={() => setShowInviteUsersToProject(true)}
+              >
+                <UserAddOutlined />
+              </Button>
+            </OverlayTrigger>
 
-            <Button
-              variant="outline-dark"
-              style={{ border: 0 }}
-              onClick={() => setShowEditProject(true)}
-            >
-              <EditOutlined />
-            </Button>
+            <OverlayTrigger placement="bottom" overlay={editTooltip}>
+              <Button
+                variant="outline-dark"
+                style={{ border: 0 }}
+                onClick={() => setShowEditProject(true)}
+              >
+                <EditOutlined />
+              </Button>
+            </OverlayTrigger>
 
-            <Button
-              variant="outline-dark"
-              style={{ border: 0 }}
-              onClick={() => {
-                handleDelete(project);
-              }}
-            >
-              <DeleteOutlined />
-            </Button>
+            <OverlayTrigger placement="bottom" overlay={deleteTooltip}>
+              <Button
+                variant="outline-dark"
+                style={{ border: 0 }}
+                onClick={() => {
+                  handleDelete(project);
+                }}
+              >
+                <DeleteOutlined />
+              </Button>
+            </OverlayTrigger>
           </>
         )}
       </td>
