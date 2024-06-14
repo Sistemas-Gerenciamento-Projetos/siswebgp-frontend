@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import TaskItem from '../../components/tasks-component/taskitem/taskitem';
-import { Empty, Spin } from 'antd';
+import { Empty, Spin, Input } from 'antd';
 import { ToastContainer } from 'react-toastify';
 import NewTaskBacklog from '../../components/tasks-component/new-task.component/new-task.component';
 import PageNavigator from '../../components/pageNavigator/pageNavigator';
 import SGPSidebar from '../../components/sidebar/sidebar.component';
 import Toolbar from '../../components/toolbar/toolbar.component';
 import EditTask from '../../components/tasks-component/edit-task/editTask.component';
+const { Search } = Input;
 
 export default function BacklogView({
   projectDetails,
   userDetails,
   loading,
-  tasks,
   taskId,
+  tasksFiltered,
   onRefreshTasks,
+  onSearch,
 }) {
   const [update, setUpdate] = useState(false);
   const [show, setShow] = useState(false);
@@ -25,8 +27,8 @@ export default function BacklogView({
   const recordsPerPage = 9;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const tasksPage = tasks.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(tasks.length / recordsPerPage);
+  const tasksPage = tasksFiltered.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(tasksFiltered.length / recordsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
 
   useEffect(() => {
@@ -60,6 +62,15 @@ export default function BacklogView({
           onRefreshTasks={onRefreshTasks}
         />
 
+        <Search
+          placeholder="Pesquise pelo nome da tarefa"
+          allowClear
+          enterButton="Pesquisar"
+          size="large"
+          onSearch={onSearch}
+          style={{ paddingLeft: 8, paddingRight: 8 }}
+        />
+
         {loading ? (
           <div
             style={{
@@ -73,7 +84,7 @@ export default function BacklogView({
           </div>
         ) : (
           <>
-            {tasks.length !== 0 ? (
+            {tasksFiltered.length !== 0 ? (
               <>
                 <Table className="mt-4">
                   <thead>
