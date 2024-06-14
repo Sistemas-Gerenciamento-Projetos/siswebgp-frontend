@@ -31,8 +31,8 @@ function ActionButtons({ setShowEdit, onRefreshEpics, epicId }) {
     setShowEdit(true);
   };
 
-  const editTooltip = <Tooltip id="tooltip">Editar tarefa</Tooltip>;
-  const deleteTooltip = <Tooltip id="tooltip">Deletar tarefa</Tooltip>;
+  const editTooltip = <Tooltip id="tooltip">Editar épico</Tooltip>;
+  const deleteTooltip = <Tooltip id="tooltip">Deletar épico</Tooltip>;
 
   return (
     <div onClick={(e) => e.stopPropagation()}>
