@@ -56,6 +56,8 @@
 - [Casos de Uso](https://drive.google.com/file/d/1EQM6iBEzGzinDZgsaq2bSo73OLA7KdB0/view?usp=sharing)
 
 - [Desafios Enfrentados na Implantação do Sistema](https://docs.google.com/document/d/1_kaW11xLvAsFif3P_T3iMmbupiP0dWB7lQpx5sAO_-M/edit?usp=sharing)
+
+- [Documentação do Sistema](https://docs.google.com/document/d/1wMrYfC-eTPkYI_0EcK9RokxT1goK8EdxB8I-sG3RfXU/edit?usp=sharing)
   
 # Prototipação das Telas
 
