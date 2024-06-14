@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { deleteEpic } from '../../../services/epics/deleteEpics';
@@ -31,28 +31,37 @@ function ActionButtons({ setShowEdit, onRefreshEpics, epicId }) {
     setShowEdit(true);
   };
 
+  const editTooltip = <Tooltip id="tooltip">Editar tarefa</Tooltip>;
+  const deleteTooltip = <Tooltip id="tooltip">Deletar tarefa</Tooltip>;
+
   return (
     <div onClick={(e) => e.stopPropagation()}>
-      <Button
-        variant="outline-dark"
-        style={{ border: 0 }}
-        onClick={(e) => {
-          e.stopPropagation();
-          handleEdit();
-        }}
-      >
-        <EditOutlined />
-      </Button>
-      <Button
-        variant="outline-dark"
-        onClick={(e) => {
-          e.stopPropagation();
-          handleShow();
-        }}
-        style={{ border: 0 }}
-      >
-        <DeleteOutlined />
-      </Button>
+      <OverlayTrigger placement="bottom" overlay={editTooltip}>
+        <Button
+          variant="outline-dark"
+          style={{ border: 0 }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleEdit();
+          }}
+        >
+          <EditOutlined />
+        </Button>
+      </OverlayTrigger>
+
+      <OverlayTrigger placement="bottom" overlay={deleteTooltip}>
+        <Button
+          variant="outline-dark"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleShow();
+          }}
+          style={{ border: 0 }}
+        >
+          <DeleteOutlined />
+        </Button>
+      </OverlayTrigger>
+
       <>
         <Modal
           onClick={(e) => e.stopPropagation()}
