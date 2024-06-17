@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useUserDetails } from '../../../context/usercontext';
 import { useProjectDetails } from '../../../context/projectContext';
 import { deleteTask } from '../../../services/tasks/deleteTask';
@@ -52,30 +52,46 @@ function ActionButtons({ onRefreshTasks, taskId, setShowEditTask, epicId }) {
     }
   }
 
+  const epicTooltip = <Tooltip id="tooltip">Associar a um épico</Tooltip>;
+  const editTooltip = <Tooltip id="tooltip">Editar tarefa</Tooltip>;
+  const deleteTooltip = <Tooltip id="tooltip">Deletar tarefa</Tooltip>;
+
   return (
     <div>
       {epicId === null ? (
-        <Button
-          variant="outline-dark"
-          style={{ border: 0 }}
-          onClick={handleEpicClick}
-        >
-          <TrophyOutlined />
-        </Button>
+        <OverlayTrigger placement="bottom" overlay={epicTooltip}>
+          <Button
+            variant="outline-dark"
+            style={{ border: 0 }}
+            onClick={handleEpicClick}
+          >
+            <TrophyOutlined />
+          </Button>
+        </OverlayTrigger>
       ) : (
         <></>
       )}
 
-      <Button variant="outline-dark" style={{ border: 0 }} onClick={handleEdit}>
-        <EditOutlined />
-      </Button>
-      <Button
-        variant="outline-dark"
-        onClick={handleShowDeleteTask}
-        style={{ border: 0 }}
-      >
-        <DeleteOutlined />
-      </Button>
+      <OverlayTrigger placement="bottom" overlay={editTooltip}>
+        <Button
+          variant="outline-dark"
+          style={{ border: 0 }}
+          onClick={handleEdit}
+        >
+          <EditOutlined />
+        </Button>
+      </OverlayTrigger>
+
+      <OverlayTrigger placement="bottom" overlay={deleteTooltip}>
+        <Button
+          variant="outline-dark"
+          onClick={handleShowDeleteTask}
+          style={{ border: 0 }}
+        >
+          <DeleteOutlined />
+        </Button>
+      </OverlayTrigger>
+
       <>
         <Modal show={showDeleteTask} onHide={handleCloseDeleteTask}>
           <Modal.Header closeButton>

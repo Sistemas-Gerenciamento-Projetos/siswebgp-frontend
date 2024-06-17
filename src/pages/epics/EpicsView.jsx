@@ -1,5 +1,5 @@
-import { Empty, Spin } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Empty, Spin, Input } from 'antd';
+import React, { useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 import EpicItem from '../../components/epic-component/epic-item/epicItem.component';
@@ -8,27 +8,25 @@ import NewEpicForm from '../../components/epic-component/new-epic/newEpicForm.co
 import PageNavigator from '../../components/pageNavigator/pageNavigator';
 import SGPSidebar from '../../components/sidebar/sidebar.component';
 import Toolbar from '../../components/toolbar/toolbar.component';
+const { Search } = Input;
 
 export default function EpicsView({
   projectDetails,
-  epics,
   loading,
-  onGetEpics,
+  epicsFiltered,
+  update,
+  onSearch,
+  setUpdate,
 }) {
-  const [update, setUpdate] = useState(false);
   const [show, setShow] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 9;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const epicsPage = epics.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(epics.length / recordsPerPage);
+  const epicsPage = epicsFiltered.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(epicsFiltered.length / recordsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
-
-  useEffect(() => {
-    onGetEpics();
-  }, [update]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -48,13 +46,23 @@ export default function EpicsView({
           taskId={null}
         />
 
+        <Search
+          placeholder="Pesquise pelo nome do épico"
+          allowClear
+          enterButton="Pesquisar"
+          size="large"
+          onSearch={onSearch}
+          style={{ paddingLeft: 8, paddingRight: 8, marginBottom: 24 }}
+          onChange={(e) => onSearch(e.target.value)}
+        />
+
         {loading ? (
           <SpinDiv>
             <Spin />
           </SpinDiv>
         ) : (
           <>
-            {epics.length !== 0 ? (
+            {epicsFiltered.length !== 0 ? (
               <>
                 <Table>
                   <thead>
