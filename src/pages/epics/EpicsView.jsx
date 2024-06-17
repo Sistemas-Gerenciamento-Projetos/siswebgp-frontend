@@ -1,5 +1,5 @@
 import { Empty, Spin, Input } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 import EpicItem from '../../components/epic-component/epic-item/epicItem.component';
@@ -14,10 +14,10 @@ export default function EpicsView({
   projectDetails,
   loading,
   epicsFiltered,
-  onGetEpics,
+  update,
   onSearch,
+  setUpdate,
 }) {
-  const [update, setUpdate] = useState(false);
   const [show, setShow] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,10 +27,6 @@ export default function EpicsView({
   const epicsPage = epicsFiltered.slice(firstIndex, lastIndex);
   const nPage = Math.ceil(epicsFiltered.length / recordsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
-
-  useEffect(() => {
-    onGetEpics();
-  }, [update]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>

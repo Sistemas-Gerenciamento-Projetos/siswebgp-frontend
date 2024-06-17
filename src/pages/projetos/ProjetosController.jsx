@@ -18,6 +18,7 @@ export default function ProjetosController() {
     getProjects(userDetails.accessToken)
       .then((data) => {
         setProjects(data);
+        localStorage.setItem('projects', JSON.stringify(data));
         setLoading(false);
       })
       .catch((error) => {

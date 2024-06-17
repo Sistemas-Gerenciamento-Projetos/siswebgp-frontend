@@ -5,19 +5,13 @@ import { Spin } from 'antd';
 import { BoardDiv, SpinDiv } from './BoardStyles';
 
 export default function BoardView({
-  updateTasks,
   loading,
   todo,
   inProgress,
   done,
   paused,
-  onGetWorks,
   handleDragEnd,
 }) {
-  useEffect(() => {
-    onGetWorks();
-  }, [updateTasks]);
-
   return (
     <>
       {loading ? (

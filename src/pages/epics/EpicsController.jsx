@@ -14,6 +14,7 @@ export default function EpicsController() {
   const { projectId } = useParams();
   const [filter, setFilter] = useState('');
   const [epicsFiltered, setEpicsFiltered] = useState([]);
+  const [update, setUpdate] = useState(false);
 
   if (!userDetails.accessToken) {
     return <Navigate replace to="/" />;
@@ -22,6 +23,10 @@ export default function EpicsController() {
   useEffect(() => {
     filterEpics();
   }, [filter]);
+
+  useEffect(() => {
+    onGetEpics();
+  }, [projectId, update]);
 
   function onSearch(value) {
     setFilter(value.trim());
@@ -76,8 +81,9 @@ export default function EpicsController() {
       projectDetails={projectDetails}
       loading={loading}
       epicsFiltered={epicsFiltered}
-      onGetEpics={onGetEpics}
+      update={update}
       onSearch={onSearch}
+      setUpdate={setUpdate}
     />
   );
 }

@@ -18,6 +18,10 @@ export default function BacklogController() {
     filterTasks();
   }, [filter]);
 
+  useEffect(() => {
+    onRefreshTasks();
+  }, [projectId]);
+
   function onSearch(value) {
     setFilter(value.trim());
   }

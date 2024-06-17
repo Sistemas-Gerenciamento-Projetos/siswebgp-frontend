@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import TaskItem from '../../components/tasks-component/taskitem/taskitem';
 import { Empty, Spin, Input } from 'antd';
 import { ToastContainer } from 'react-toastify';
@@ -47,6 +48,7 @@ export default function BacklogView({
           setShowBacklog={setShow}
           setShowEpics={() => {}}
           title={`${projectDetails.projectName} / Backlog`}
+          refreshPage={onRefreshTasks}
         />
         <NewTaskBacklog
           show={show}

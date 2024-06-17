@@ -20,13 +20,8 @@ export default function RoteiroView({
   striped,
   currentDate,
   tasks,
-  handleData,
   updateTask,
 }) {
-  useEffect(() => {
-    handleData();
-  }, []);
-
   return (
     <Root>
       <SGPSidebar />
