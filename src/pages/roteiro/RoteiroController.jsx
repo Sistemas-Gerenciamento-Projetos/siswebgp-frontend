@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RoteiroView from './RoteiroView';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
 import { getTasks } from '../../services/tasks/getTasks';
@@ -13,7 +13,7 @@ export default function RoteiroController() {
   const [userDetails] = useUserDetails();
   const [projectDetails] = useProjectDetails();
   const [striped, setStriped] = useState(false);
-
+  const { projectId } = useParams();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,8 +21,13 @@ export default function RoteiroController() {
     return <Navigate replace to="/" />;
   }
 
+  useEffect(() => {
+    handleData();
+  }, [projectId]);
+
   function handleData() {
-    getTasks(userDetails.accessToken, projectDetails.projectId)
+    setLoading(true);
+    getTasks(userDetails.accessToken, projectId)
       .then((data) => {
         setStriped(true);
         setTasks(data);
@@ -78,7 +83,6 @@ export default function RoteiroController() {
       striped={striped}
       currentDate={currentDate}
       tasks={tasks}
-      handleData={handleData}
       updateTask={updateTask}
     />
   );

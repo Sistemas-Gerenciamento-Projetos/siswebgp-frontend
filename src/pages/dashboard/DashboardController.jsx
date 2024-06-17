@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardView from './DashboardView';
+import { useParams } from 'react-router-dom';
 import { getAnalytics } from '../../services/analytics/getAnalytics';
 import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
@@ -10,10 +11,15 @@ export default function DashboardController() {
   const [cards, setCards] = useState([]);
   const [pies, setPies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { projectId } = useParams();
+
+  useEffect(() => {
+    onGetAnalytics();
+  }, [projectId]);
 
   function onGetAnalytics() {
     setLoading(true);
-    getAnalytics(userDetails.accessToken, projectDetails.projectId)
+    getAnalytics(userDetails.accessToken, projectId)
       .then((data) => {
         const cardsJson = [];
         const piesJson = [];
@@ -42,7 +48,6 @@ export default function DashboardController() {
       cards={cards}
       pies={pies}
       loading={loading}
-      onGetAnalytics={onGetAnalytics}
     />
   );
 }

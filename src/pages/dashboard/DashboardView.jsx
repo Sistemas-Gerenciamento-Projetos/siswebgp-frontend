@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import DashboardCardItem from '../../components/dashboard-components/card-item/dashboardCardItem.component';
 import DashboardPieItem from '../../components/dashboard-components/pie-item/dashboardPieItem.component';
 import { CardsDiv, ContentDiv, LoadingDiv, Root } from './dashboard.styles';
@@ -11,12 +11,7 @@ export default function DashboardView({
   cards,
   pies,
   loading,
-  onGetAnalytics,
 }) {
-  useEffect(() => {
-    onGetAnalytics();
-  }, []);
-
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
       <SGPSidebar />

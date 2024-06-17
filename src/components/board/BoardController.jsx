@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BoardView from './BoardView';
 import { useUserDetails } from '../../context/usercontext';
 import { useProjectDetails } from '../../context/projectContext';
@@ -12,6 +12,7 @@ import {
 import { patchTask } from '../../services/tasks/patchTask';
 import { patchEpic } from '../../services/epics/patchEpic';
 import { showErrorToast } from '../../utils/Toasts';
+import { useParams } from 'react-router-dom';
 
 export default function BoardController() {
   const [userDetails] = useUserDetails();
@@ -22,9 +23,14 @@ export default function BoardController() {
   const [done, setDone] = useState([]);
   const [updateTasks, setUpdateTasks] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { projectId } = useParams();
+
+  useEffect(() => {
+    onGetWorks();
+  }, [projectId, updateTasks]);
 
   function onGetWorks() {
-    console.log('chamou2');
+    setLoading(true);
     getWorks(userDetails.accessToken, projectDetails.projectId)
       .then((data) => {
         console.log(data);
@@ -129,13 +135,11 @@ export default function BoardController() {
 
   return (
     <BoardView
-      updateTasks={updateTasks}
       loading={loading}
       todo={todo}
       inProgress={inProgress}
       done={done}
       paused={paused}
-      onGetWorks={onGetWorks}
       handleDragEnd={handleDragEnd}
     />
   );
