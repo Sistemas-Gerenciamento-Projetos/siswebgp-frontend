@@ -69,6 +69,7 @@ export default function BacklogView({
           size="large"
           onSearch={onSearch}
           style={{ paddingLeft: 8, paddingRight: 8 }}
+          onChange={(e) => onSearch(e.target.value)}
         />
 
         {loading ? (
